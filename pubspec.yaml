@@ -1,0 +1,102 @@
+name: shart
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localization: ^0.2.0
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.7
+  flutter_bloc: ^8.1.3
+  flutter_screenutil: ^5.9.0
+  device_preview: ^1.1.0
+#  easy_localization: ^3.0.3
+  bloc: ^8.1.1
+  dio: ^5.3.3
+  shared_preferences: ^2.2.2
+  awesome_dialog: ^3.1.0
+  dartz: ^0.10.1
+  flutter_otp_text_field: ^1.1.1
+  fluttertoast: ^8.2.4
+  conditional_builder_null_safety:
+  get_it: ^7.6.4
+  equatable: ^2.0.5
+  carousel_slider: ^4.2.1
+  introduction_screen: ^3.1.12
+  flutter_launcher_icons: ^0.13.1
+  lottie: ^2.6.0
+  syncfusion_flutter_datagrid: ^23.1.44
+  image_picker: ^1.0.4
+  dropdown_button2: ^2.3.9
+
+dev_dependencies:
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.png"
+
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/svg/
+    - assets/icons/
+    - assets/translations/
+    - assets/json/
+  fonts:
+    - family: Lateef
+      fonts:
+        - asset: assets/fonts/Lateef-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Lateef-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Lateef-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Lateef-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Lateef-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Lateef-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Lateef-ExtraBold.ttf
+          weight: 800
+
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Tajawal-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Tajawal-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Tajawal-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Tajawal-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Tajawal-ExtraBold.ttf
+          weight: 800
+
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Cairo-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Cairo-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Cairo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
+          weight: 800
