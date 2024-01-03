@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/widgets/custom_text_field.dart';
-
 import '../../../../../core/routing/routes.dart';
 
 class ProductsScreen extends StatefulWidget {

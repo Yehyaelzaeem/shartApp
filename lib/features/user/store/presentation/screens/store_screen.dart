@@ -4,18 +4,11 @@ import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/routing/routes.dart';
 
-class StoreScreen extends StatefulWidget {
+class StoreScreen extends StatelessWidget {
   const StoreScreen({Key? key}) : super(key: key);
-
-  @override
-  State<StoreScreen> createState() => _StoreScreenState();
-}
-
-class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

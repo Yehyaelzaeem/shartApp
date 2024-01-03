@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/core/routing/routes.dart';
+import 'package:shart/core/shared_preference/shared_preference.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
@@ -33,14 +34,15 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
   @override
   Future<ProviderGetProfileModel?> getProviderProfile(String token, BuildContext context) async{
-    Response<dynamic> res = await DioHelper.getData(url: AppApis.getProviderProfileUser, token: token);
+    dynamic t = await CacheHelper.getDate(key: 'token');
+    Response<dynamic> res = await DioHelper.getData(url: AppApis.getProviderProfileUser,
+        token: token.isNotEmpty?token:t);
 
     if (ProviderGetProfileModel.fromJson(res.data).success == false) {
       showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (res.statusCode == 200) {
-        // showToast(text: '${UserProfileModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         return ProviderGetProfileModel.fromJson(res.data);
       }
       else {
@@ -58,9 +60,11 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
     ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
     FormData data = FormData.fromMap({
-      'image': <MultipartFile>[
-        await MultipartFile.fromFile('${cubit.profileImageProviderFile!.path}', filename: 'upload')
-      ],
+      'image':cubit.profileImageProviderFile !=null?
+              <MultipartFile>[
+                await MultipartFile.fromFile('${cubit.profileImageProviderFile!.path}', filename: 'upload')
+              ]
+          :null,
       'name':providerGetProfileModel.data!.name,
       'email':providerGetProfileModel.data!.email,
       'phone':providerGetProfileModel.data!.phone,
@@ -77,11 +81,15 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
     );
 
     if (ProviderGetProfileModel.fromJson(res.data).success == false) {
+      print('action');
+
       cubit.changeUpdateLoading(false);
       showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (res.statusCode == 200) {
+        print('don');
+
         cubit.changeUpdateLoading(false);
         cubit.getProviderProfile('${AuthProviderCubit.get(context).token}', context);
         cubit.changeUpdateLoading(false);
@@ -89,6 +97,8 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
         return ProviderGetProfileModel.fromJson(res.data);
       }
       else {
+        print('e=nd');
+
         cubit.changeUpdateLoading(false);
         showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
         throw 'Error';
@@ -111,9 +121,9 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
         showToast(text: '${DeleteAccountProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
          NavigationManager.pushReplacement(Routes.providerLogin);
-        cubit.nameController.text='';
-        cubit.emailController.text='';
-        cubit.phoneController.text='';
+        cubit.nameControllerProvider.text='';
+        cubit.emailControllerProvider.text='';
+        cubit.phoneControllerProvider.text='';
         return DeleteAccountProviderModel.fromJson(res.data);
       }
       else {

@@ -23,105 +23,107 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(title: 'قطع غيار',hasBackButton: true),
       ),
-      body: Column(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () => NavigationManager.push(Routes.sparePartsDetails),
-            child: Container(
-              margin: EdgeInsets.all(16.w),
-              width: double.infinity,
-              height: 103.h,
-              decoration: BoxDecoration(
-                color: tireColor1,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    ImagesManager.tire2,
-                    width: 95.w,
-                    height: 75.h,
-                  ),
-                  SizedBox(width: 15.w),
-                  Text(
-                    'قطع الغيار',
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeightManager.light,
-                      fontFamily: FontConstants.lateefFont,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            GestureDetector(
+              onTap: () => NavigationManager.push(Routes.sparePartsDetails),
+              child: Container(
+                margin: EdgeInsets.all(16.w),
+                width: double.infinity,
+                height: 103.h,
+                decoration: BoxDecoration(
+                  color: tireColor1,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      ImagesManager.tire2,
+                      width: 95.w,
+                      height: 75.h,
                     ),
-                  ),
-                  SizedBox(width: 15.w),
-                ],
+                    SizedBox(width: 15.w),
+                    Text(
+                      'قطع الغيار',
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeightManager.light,
+                        fontFamily: FontConstants.lateefFont,
+                      ),
+                    ),
+                    SizedBox(width: 15.w),
+                  ],
+                ),
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: () => NavigationManager.push(Routes.tiresTypes),
-            child: Container(
-              margin: EdgeInsets.all(16.w),
-              width: double.infinity,
-              height: 103.h,
-              decoration: BoxDecoration(
-                color: tireColor2.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    ImagesManager.tire1,
-                    width: 95.w,
-                    height: 75.h,
-                  ),
-                  SizedBox(width: 15.w),
-                  Text(
-                    'الإطارات',
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeightManager.light,
-                      fontFamily: FontConstants.lateefFont,
+            GestureDetector(
+              onTap: () => NavigationManager.push(Routes.tiresTypes),
+              child: Container(
+                margin: EdgeInsets.all(16.w),
+                width: double.infinity,
+                height: 103.h,
+                decoration: BoxDecoration(
+                  color: tireColor2.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      ImagesManager.tire1,
+                      width: 95.w,
+                      height: 75.h,
                     ),
-                  ),
-                  SizedBox(width: 15.w),
-                ],
+                    SizedBox(width: 15.w),
+                    Text(
+                      'الإطارات',
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeightManager.light,
+                        fontFamily: FontConstants.lateefFont,
+                      ),
+                    ),
+                    SizedBox(width: 15.w),
+                  ],
+                ),
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: () => NavigationManager.push(Routes.carSupplies),
-            child: Container(
-              margin: EdgeInsets.all(16.w),
-              width: double.infinity,
-              height: 103.h,
-              decoration: BoxDecoration(
-                color: tireColor3,
-                borderRadius: BorderRadius.circular(10.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    ImagesManager.oil2,
-                    width: 95.w,
-                    height: 75.h,
-                  ),
-                  SizedBox(width: 15.w),
-                  Text(
-                    'مستلزمات',
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeightManager.light,
-                      fontFamily: FontConstants.lateefFont,
+            GestureDetector(
+              onTap: () => NavigationManager.push(Routes.carSupplies),
+              child: Container(
+                margin: EdgeInsets.all(16.w),
+                width: double.infinity,
+                height: 103.h,
+                decoration: BoxDecoration(
+                  color: tireColor3,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      ImagesManager.oil2,
+                      width: 95.w,
+                      height: 75.h,
                     ),
-                  ),
-                  SizedBox(width: 15.w),
-                ],
+                    SizedBox(width: 15.w),
+                    Text(
+                      'مستلزمات',
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeightManager.light,
+                        fontFamily: FontConstants.lateefFont,
+                      ),
+                    ),
+                    SizedBox(width: 15.w),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

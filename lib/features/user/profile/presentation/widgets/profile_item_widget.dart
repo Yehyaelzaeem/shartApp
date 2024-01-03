@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/core/resources/color.dart';
-
 import '../../../../../core/resources/font_manager.dart';
 import '../../../auth/logic/auth_cubit.dart';
 
@@ -48,11 +46,13 @@ Widget buildProfileItemWidget(
                        border: Border.all(color:AuthCubit.get(context).localeLanguage==Locale('en')? Color(0xff100E0D):Colors.transparent),
                        borderRadius: BorderRadius.all(Radius.circular(10.sp))
                    ),
-                   child: Center(child: Text('AR',
-                     style: TextStyle(
-                         fontFamily: FontConstants.lateefFont,
-                         fontWeight: FontWeight.w500,
-                         fontSize: 20.sp
+                   child: Center(child: FittedBox(
+                     child: Text('AR',
+                       style: TextStyle(
+                           fontFamily: FontConstants.lateefFont,
+                           fontWeight: FontWeight.w500,
+                           fontSize: 20.sp
+                       ),
                      ),
                    )),
 
@@ -66,11 +66,13 @@ Widget buildProfileItemWidget(
                        border: Border.all(color:AuthCubit.get(context).localeLanguage==Locale('ar')? Color(0xff100E0D):Colors.transparent),
                        borderRadius: BorderRadius.all(Radius.circular(10.sp))
                    ),
-                   child: Center(child: Text('En',
-                     style: TextStyle(
-                         fontFamily: FontConstants.lateefFont,
-                         fontWeight: FontWeight.w500,
-                         fontSize: 20.sp
+                   child: Center(child: FittedBox(
+                     child: Text('En',
+                       style: TextStyle(
+                           fontFamily: FontConstants.lateefFont,
+                           fontWeight: FontWeight.w500,
+                           fontSize: 20.sp
+                       ),
                      ),
                    )),
 

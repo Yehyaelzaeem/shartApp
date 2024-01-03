@@ -4,9 +4,11 @@ part of 'provider_profile_cubit.dart';
 abstract class ProviderProfileState {}
 
 class ProviderProfileInitial extends ProviderProfileState {}
-class UserProfileInitial extends ProviderProfileState {}
 class EditingAddressState extends ProviderProfileState {}
-class GetUserProfileState extends ProviderProfileState {}
+class GetProviderProfileState extends ProviderProfileState {
+  final ProviderGetProfileModel providerGetProfileModel;
+  GetProviderProfileState(this.providerGetProfileModel);
+}
 class GetAddressListState extends ProviderProfileState {}
 class AddAddressState extends ProviderProfileState {}
 class EditAddressState extends ProviderProfileState {}

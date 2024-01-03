@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Padding(
-        padding: EdgeInsets.only(top: 25.h),
+        padding: EdgeInsets.only(top: 0.h),
         child: Text(title),
       ),
       titleTextStyle: TextStyle(

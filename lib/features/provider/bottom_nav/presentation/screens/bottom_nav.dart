@@ -10,6 +10,7 @@ import 'package:shart/features/provider/myorders/presentation/screens/my_orders_
 
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
+import '../../../../user/menu/logic/menu_cubit.dart';
 import '../../../auth/logic/auth_provider_cubit.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/logic/provider_profile_cubit.dart';
@@ -34,6 +35,7 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
   @override
   void initState() {
     AuthProviderCubit.get(context).getToken(context);
+    MenuCubit.get(context).getBanners('provider',context);
     ProviderProfileCubit.get(context).getAboutCompanyProvider(context);
     ProviderProfileCubit.get(context).getPrivacyProvider(context);
     ProviderProfileCubit.get(context).getTermsAndConditionsProvider(context);

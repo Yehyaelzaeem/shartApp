@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shart/core/resources/color.dart';
@@ -10,7 +9,6 @@ import 'package:shart/features/user/menu/logic/menu_cubit.dart';
 import 'package:shart/features/user/messages/presentation/screens/messages_screen.dart';
 import 'package:shart/features/user/more/presentation/screens/more_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/myorders_screen.dart';
-
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../menu/presentation/menu/menu_screen.dart';
@@ -39,6 +37,7 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
   void initState() {
    AuthCubit.get(context).getToken(context);
    MenuCubit.get(context).getPackageCheck(context);
+   MenuCubit.get(context).getBanners('user',context);
    BookPackageCubit.get(context).getBrands(context);
    BookPackageCubit.get(context).getBrandModel(context);
    BookPackageCubit.get(context).getBrandColors(context);

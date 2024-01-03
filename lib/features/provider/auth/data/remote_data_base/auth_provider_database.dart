@@ -48,8 +48,8 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         // cubit.getToken();
         NavigationManager.pushNamedAndRemoveUntil(
             Routes.providerNavBar);
-        cubit.phoneController.text='';
-        cubit.passwordController.text='';
+        cubit.phoneControllerProvider.text='';
+        cubit.passwordControllerProvider.text='';
         return LoginProviderModel.fromJson(res.data);
       }
       else {
@@ -87,11 +87,11 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
         cubit.loginRegLoadingStates(false);
         cubit.otpCode= RegisterProviderModel.fromJson(res.data).providerRegisterData!.otp!.trim().toString();
-        cubit.registerNameController.text='';
-        cubit.registerEmailController.text='';
-        cubit.registerPhoneController.text='';
-        cubit.registerPasswordController.text='';
-        cubit.registerConfirmPasswordController.text='';
+        cubit.registerNameControllerProvider.text='';
+        cubit.registerEmailControllerProvider.text='';
+        cubit.registerPhoneControllerProvider.text='';
+        cubit.registerPasswordControllerProvider.text='';
+        cubit.registerConfirmPasswordControllerProvider.text='';
         return RegisterProviderModel.fromJson(res.data);
       }
       else {

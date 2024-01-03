@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
 import '../../../../widgets/show_toast_widget.dart';
 import '../data/model/about_compay_model.dart';
@@ -18,9 +20,11 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   ProviderProfileRemoteDataSource providerProfileRemoteDataSource =ProviderProfileRemoteDataSource();
   List<ProviderGetProfileModel> userProfileModelList=<ProviderGetProfileModel>[];
   ProviderGetProfileModel? providerProfileModel;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> formKeyEditProvider = GlobalKey<FormState>();
+
+  TextEditingController nameControllerProvider = TextEditingController();
+  TextEditingController emailControllerProvider = TextEditingController();
+  TextEditingController phoneControllerProvider = TextEditingController();
   TextEditingController addressNameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController addressPhoneController = TextEditingController();
@@ -39,27 +43,25 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
         providerProfileModel=value;
         userProfileModelList.add(value!);
-        print('name : ${providerProfileModel!.data!.name}');
-        print('email : ${providerProfileModel!.data!.email}');
-        print('phone : ${providerProfileModel!.data!.phone}');
+        emit(GetProviderProfileState(value));
+
       });
     }else{
       print('token is empty getProviderProfile');
     }
-    emit(GetUserProfileState());
     return null;
   }
   Future<ProviderGetProfileModel?> updateProviderProfile
       ( ProviderGetProfileModel oldUserProfile ,String token ,BuildContext context)async{
     if(token.isNotEmpty){
-      if(nameController.text.isEmpty&&emailController.text.isEmpty&&phoneController.text.isEmpty&&profileImageProviderFile==null){
+      if(nameControllerProvider.text.isEmpty&&emailControllerProvider.text.isEmpty&&phoneControllerProvider.text.isEmpty&&profileImageProviderFile==null){
         showToast(text: 'please enter your data to need update', state: ToastStates.warning, context: context);
       }else{
         ProviderGetProfileModel userProfileModel = ProviderGetProfileModel(
             data: ProviderGetProfileModelData(
-              name: nameController.text.isNotEmpty?nameController.text:oldUserProfile.data!.name,
-              email:emailController.text.isNotEmpty?emailController.text:oldUserProfile.data!.email,
-              phone: phoneController.text.isNotEmpty?phoneController.text:oldUserProfile.data!.phone,
+              name: nameControllerProvider.text.isNotEmpty?nameControllerProvider.text:oldUserProfile.data!.name,
+              email:emailControllerProvider.text.isNotEmpty?emailControllerProvider.text:oldUserProfile.data!.email,
+              phone: phoneControllerProvider.text.isNotEmpty?phoneControllerProvider.text:oldUserProfile.data!.phone,
               phoneCountry: PhoneCountry(
                   id: 3
               ),
@@ -175,6 +177,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   }
 
   void afterChangeLanguage(BuildContext context){
+    getProviderProfile(AuthProviderCubit.get(context).token, context);
     getAboutCompanyProvider(context);
     getPrivacyProvider(context);
     getTermsAndConditionsProvider(context);
@@ -205,7 +208,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   }
   void changeUpdateLoading(bool x){
     isUpdateLoading =x;
-    emit(GetUserProfileState());
+    emit(EditingAddressState());
   }
   void changeAddressEditing(bool x){
     isAddressEditing =x;

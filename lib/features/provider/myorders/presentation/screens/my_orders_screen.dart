@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
-import '../../../../../core/resources/assets_menager.dart';
-import '../../../../../core/resources/color.dart';
-import '../../../../../core/resources/font_manager.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../../widgets/custom_product_widget.dart';
 
 class ProviderOrdersScreen extends StatefulWidget {
   const ProviderOrdersScreen({Key? key}) : super(key: key);
@@ -37,7 +34,7 @@ class _ProviderOrdersScreenState extends State<ProviderOrdersScreen>
             )),
 
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          // physics: NeverScrollableScrollPhysics(),
           child: Column(
             children: <Widget>[
               SizedBox(height: 10.h),
@@ -77,118 +74,12 @@ class _ProviderOrdersScreenState extends State<ProviderOrdersScreen>
                       onTap: () {
                         NavigationManager.push(Routes.orderDetails);
                       },
-                      child: Container(
-                        height: 115.h,
-                        margin:
-                        EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: greyColor),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r)),
-                              child: Container(
-                                padding: const EdgeInsets.all(8.0),
-                                width: 134.w,
-                                height: 115.h,
-                                decoration: BoxDecoration(color: packagesColor),
-                                child: Image.asset(
-                                  ImagesManager.fixCar1,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 11.w),
-                            FittedBox(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'أسم الماركة',
-                                    style: TextStyle(
-                                      fontWeight: FontWeightManager.light,
-                                      fontSize: 12.sp,
-                                      color: greyColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    'أسم المنتج',
-                                    style: TextStyle(
-                                      fontWeight: FontWeightManager.bold,
-                                      fontSize: 16.sp,
-                                    ),
-                                  ),
-                                  Text(
-                                    'أسم المتجر',
-                                    style: TextStyle(
-                                      fontWeight: FontWeightManager.regular,
-                                      fontSize: 16.sp,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    'ر.س 300',
-                                    style: TextStyle(
-                                      fontWeight: FontWeightManager.regular,
-                                      fontSize: 16.sp,
-                                      color: Color(0xffDB3022),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 15.h, left: 10.w),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SizedBox(height: 16.h),
-                                  // if (index == 2)
-                                  //   InkWell(
-                                  //     onTap: () {
-                                  //       NavigationManager.push(Routes.invoice);
-                                  //     },
-                                  //     child: Text('مشاهدة الفاتورة',
-                                  //         style: TextStyle(fontSize: 12)),
-                                  //   ),
-                                  // if (index == 2)
-                                  //   Container(
-                                  //       width: 80.w,
-                                  //       height: 1,
-                                  //       color: Colors.black,
-                                  //       margin: EdgeInsets.only(top: 2)),
-                                  Spacer(),
-                                  Card(
-                                    margin: EdgeInsets.zero,
-                                    color: Color(0xff136B79),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(50.r)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        'تم الاستلام',
-                                        style: TextStyle(
-                                          color: whiteColor,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeightManager.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      child:
+                      Padding(padding:
+                      EdgeInsets.only(left: 16.w, right: 16.w,), child:
+                      CustomProductWidget(isOrder: false, isSparesParts: true, isCarCheck: false,),
+                       ),
+
                     );
                   },
                   itemCount: 3,
@@ -202,136 +93,9 @@ class _ProviderOrdersScreenState extends State<ProviderOrdersScreen>
                       onTap: () {
                         NavigationManager.push(Routes.productDetails);
                       },
-                      child: Container(
-                        height: 115.h,
-                        margin:
-                        EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: greyColor),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r)),
-                              child: Container(
-                                padding: const EdgeInsets.all(8.0),
-                                width: 120.w,
-                                height: 115.h,
-                                decoration: BoxDecoration(color: packagesColor),
-                                child: Image.asset(
-                                  ImagesManager.fixCar1,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 5.w),
-                            FittedBox(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(height: 15.h),
-                                  Text(
-                                    'فحص شرط',
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 15.h),
-                                  Text(
-                                    'ر.س 1000',
-                                    style: TextStyle(
-                                      fontWeight: FontWeightManager.regular,
-                                      fontSize: 14.sp,
-                                      color: Color(0xffDB3022),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Spacer(),
-                            Padding(
-                              padding:
-                              EdgeInsets.only(bottom: 15.h, left: 10.w),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  // SizedBox(height: 16.h),
-                                  // if (index == 2)
-                                  //   InkWell(
-                                  //     onTap: () {
-                                  //       NavigationManager.push(Routes.report);
-                                  //     },
-                                  //     child: Row(
-                                  //       children: [
-                                  //         Icon(Icons.info_outline,
-                                  //             color: Colors.grey.shade400,
-                                  //             size: 15),
-                                  //         SizedBox(width: 2),
-                                  //         Text('مشاهدة تقرير الفحص',
-                                  //             style:
-                                  //             TextStyle(fontSize: 10.sp)),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // if (index == 2)
-                                  //   Container(
-                                  //       width: 100.w,
-                                  //       height: 1,
-                                  //       color: Colors.black,
-                                  //       margin: EdgeInsets.only(top: 3)),
-                                  // if (index == 2) SizedBox(height: 10),
-                                  // if (index == 2)
-                                  //   InkWell(
-                                  //     onTap: () {
-                                  //       NavigationManager.push(Routes.invoice);
-                                  //     },
-                                  //     child: Row(
-                                  //       children: [
-                                  //         Icon(Icons.visibility,
-                                  //             color: Colors.grey.shade400,
-                                  //             size: 17),
-                                  //         SizedBox(width: 5),
-                                  //         Text('مشاهدة الفاتورة',
-                                  //             style:
-                                  //             TextStyle(fontSize: 10.sp)),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // if (index == 2)
-                                  //   Container(
-                                  //       width: 92.w,
-                                  //       height: 1,
-                                  //       color: Colors.black,
-                                  //       margin: EdgeInsets.only(top: 2)),
-                                  Spacer(),
-                                  Card(
-                                    margin: EdgeInsets.zero,
-                                    color:Colors.red,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(50.r)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        'طلب ملغي',
-                                        style: TextStyle(
-                                          color: whiteColor,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeightManager.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                      child:
+                      Padding(padding:
+                      EdgeInsets.only(left: 16.w, right: 16.w,), child: CustomProductWidget(isOrder: false, isSparesParts: false, isCarCheck: true,),
                       ),
                     );
                   },

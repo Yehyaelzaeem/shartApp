@@ -9,5 +9,4 @@ Future<void> init() async {
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerLazySingleton(() => sharedPreferences);
   getIt.registerLazySingleton(() => Dio());
-
 }

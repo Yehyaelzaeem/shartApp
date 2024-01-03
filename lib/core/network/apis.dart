@@ -33,7 +33,7 @@ class AppApis{
   static const String addAddressProvider='${baseUrl}provider/addresses/add';
   static  String editAddressProvider (int id)=>'${baseUrl}provider/addresses/edit/$id';
   static  String deleteAddressProvider (int id)=>'${baseUrl}provider/addresses/delete/$id';
-//Pages
+  //Pages
   static const String termsAndConditionProvider='${baseUrl}provider/pages/terms_and_conditions_provider_app';
   static const String privacyAndPolicyProvider='${baseUrl}provider/pages/privacy_policy_provider_app';
   static const String aboutCompany='${baseUrl}pages/about';
@@ -43,6 +43,11 @@ class AppApis{
   static const String checkCars='${baseUrl}packages';
   static const String brands='${baseUrl}brands';
   static String brandModel(int id)=> '${baseUrl}modals/$id';
+  static String banners(String type)=> '${baseUrl}banners/$type';
   static const String brandColors='${baseUrl}colors';
+
+//Send Contact us message
+  static const String complaintMessage='${baseUrl}send-contact-message';
+
 
 }

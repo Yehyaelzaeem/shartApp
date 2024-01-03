@@ -7,7 +7,6 @@ import 'package:shart/widgets/custom_alert_dialog.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/input_decoration.dart';
-
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 import '../../../../../widgets/custom_text_field.dart';

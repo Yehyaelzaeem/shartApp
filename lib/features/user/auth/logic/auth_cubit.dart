@@ -71,16 +71,19 @@ class AuthCubit extends Cubit<AuthState> {
 
 
   Locale localeLanguage=Locale(CacheHelper.sharedPreference!.getString('lang')??'ar');
-  void changeLanguageApp(dynamic codeLang,context){
+  void changeLanguageApp(dynamic codeLang,BuildContext context,bool isUser){
     localeLanguage =Locale(codeLang);
     CacheHelper.sharedPreference!.setString('lang', codeLang);
-    MenuCubit.get(context).getPackageCheck(context);
-    BookPackageCubit.get(context).getBrands(context);
-    BookPackageCubit.get(context).getBrandModel(context);
-    BookPackageCubit.get(context).getBrandColors(context);
-    UserProfileCubit.get(context).getAboutCompanyUser(context);
-    UserProfileCubit.get(context).getTermsAndConditionsUser(context);
-    UserProfileCubit.get(context).getPrivacyUser(context);
+   if(isUser ==true){
+     MenuCubit.get(context).getPackageCheck(context);
+     BookPackageCubit.get(context).getBrands(context);
+     BookPackageCubit.get(context).getBrandModel(context);
+     BookPackageCubit.get(context).getBrandColors(context);
+     UserProfileCubit.get(context).getUserProfile('${AuthCubit.get(context).token}',context,);
+     UserProfileCubit.get(context).getAboutCompanyUser(context);
+     UserProfileCubit.get(context).getTermsAndConditionsUser(context);
+     UserProfileCubit.get(context).getPrivacyUser(context);
+   }
     emit(ChangeLanguage());
   }
 
@@ -105,6 +108,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ChangeVisibilityIconState());
   }
   void getToken(BuildContext context)async{
+    print('start');
     token = await CacheHelper.getDate(key: 'token');
     UserProfileCubit.get(context).getUserProfile(token, context);
     emit(GetTokenState());

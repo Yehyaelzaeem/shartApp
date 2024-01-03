@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/assets_menager.dart';
 

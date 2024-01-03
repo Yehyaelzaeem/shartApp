@@ -4,11 +4,13 @@ part of 'user_profile_cubit.dart';
 abstract class UserProfileState {}
 
 class UserProfileInitial extends UserProfileState {}
-class GetUserProfileState extends UserProfileState {}
-class GetUserProfileTestState extends UserProfileState {
+
+class GetUserProfileState extends UserProfileState {
   final UserProfileModel userProfileModel;
-  GetUserProfileTestState(this.userProfileModel);
+  GetUserProfileState(this.userProfileModel);
 }
+
+class LoadingState extends UserProfileState {}
 class UploadImage extends UserProfileState {}
 class DeleteAccountState extends UserProfileState {}
 class UpdateUserProfile extends UserProfileState {}
