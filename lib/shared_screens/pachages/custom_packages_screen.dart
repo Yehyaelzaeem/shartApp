@@ -16,7 +16,11 @@ class CustomPackagesScreen extends StatelessWidget {
     return  Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'سجل الباقات',hasBackButton: true),
+        child: CustomAppBar(title: 'سجل الباقات',hasBackButton: true,
+        onTap: (){
+          Navigator.pop(context);
+        },
+        ),
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {

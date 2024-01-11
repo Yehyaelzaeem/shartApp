@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
+import '../../data/model/get_products_list_model.dart';
 
-class ProviderProductDetailsScreen extends StatefulWidget {
-  const ProviderProductDetailsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProviderProductDetailsScreen> createState() =>
-      _ProviderProductDetailsScreenState();
-}
-
-class _ProviderProductDetailsScreenState
-    extends State<ProviderProductDetailsScreen> {
+class ProviderProductDetailsScreen extends StatelessWidget {
+  const ProviderProductDetailsScreen({Key? key, required this.getProductsModelData}) : super(key: key);
+  final GetProductsModelData getProductsModelData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +36,7 @@ class _ProviderProductDetailsScreenState
             ),
             TextField(
                 decoration:
-                    InputDecoration(hintText: 'إطارات و جنوط', enabled: false)),
+                    InputDecoration(hintText: '${getProductsModelData.type}', enabled: false)),
             SizedBox(height: 25.h),
             Text(
               'اسم المنتج',
@@ -53,7 +46,7 @@ class _ProviderProductDetailsScreenState
                   fontWeight: FontWeight.w500),
             ),
             TextField(
-                decoration: InputDecoration(hintText: 'إطار', enabled: false)),
+                decoration: InputDecoration(hintText: '${getProductsModelData.title}', enabled: false)),
             SizedBox(height: 25.h),
             Text(
               'الماركة',
@@ -65,36 +58,42 @@ class _ProviderProductDetailsScreenState
             TextField(
                 decoration: InputDecoration(hintText: 'CEAT', enabled: false)),
             SizedBox(height: 25.h),
-            Text(
-              'العرض',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontFamily: 'Lateef',
-                  fontWeight: FontWeight.w500),
-            ),
-            TextField(
-                decoration: InputDecoration(hintText: '5', enabled: false)),
-            SizedBox(height: 25.h),
-            Text(
-              'الإرتفاع',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontFamily: 'Lateef',
-                  fontWeight: FontWeight.w500),
-            ),
-            TextField(
-                decoration: InputDecoration(hintText: '16', enabled: false)),
-            SizedBox(height: 25.h),
-            Text(
-              'المقاس',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontFamily: 'Lateef',
-                  fontWeight: FontWeight.w500),
-            ),
-            TextField(
-                decoration:
-                    InputDecoration(hintText: 'R14 655/165', enabled: false)),
+            getProductsModelData.type!='spare_parts'?
+           Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               Text(
+                 'العرض',
+                 style: TextStyle(
+                     fontSize: 14.sp,
+                     fontFamily: 'Lateef',
+                     fontWeight: FontWeight.w500),
+               ),
+               TextField(
+                   decoration: InputDecoration(hintText: '${getProductsModelData.width}', enabled: false)),
+               SizedBox(height: 25.h),
+               Text(
+                 'الإرتفاع',
+                 style: TextStyle(
+                     fontSize: 14.sp,
+                     fontFamily: 'Lateef',
+                     fontWeight: FontWeight.w500),
+               ),
+               TextField(
+                   decoration: InputDecoration(hintText: '${getProductsModelData.height}', enabled: false)),
+               SizedBox(height: 25.h),
+               Text(
+                 'المقاس',
+                 style: TextStyle(
+                     fontSize: 14.sp,
+                     fontFamily: 'Lateef',
+                     fontWeight: FontWeight.w500),
+               ),
+               TextField(
+                   decoration:
+                   InputDecoration(hintText: '${getProductsModelData.size}', enabled: false)),
+             ],
+           ):SizedBox.shrink(),
             SizedBox(height: 25.h),
             Text(
               'الحالة',
@@ -105,7 +104,7 @@ class _ProviderProductDetailsScreenState
             ),
             TextField(
                 decoration:
-                    InputDecoration(hintText: 'مستعمل', enabled: false)),
+                    InputDecoration(hintText: '${getProductsModelData.productStatus}', enabled: false)),
             Padding(
               padding: EdgeInsets.only(top: 25.h, bottom: 10.h),
               child: Text(
@@ -117,9 +116,7 @@ class _ProviderProductDetailsScreenState
               ),
             ),
             Text(
-              'هناك حقيقة مثبتة'
-              ' منذ زمن طويل وهي أن المحتوى'
-              ' المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص .',
+             '${getProductsModelData.description}',
               style: TextStyle(
                 color: Color(0xff4B4B4B),
                 fontSize: 16.sp,
@@ -137,7 +134,7 @@ class _ProviderProductDetailsScreenState
               padding: const EdgeInsets.only(top: 10),
               child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
-                  itemCount: 8,
+                  itemCount: getProductsModelData.images!.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
@@ -152,7 +149,7 @@ class _ProviderProductDetailsScreenState
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: Colors.grey),
                       ),
-                      child: Image.asset(ImagesManager.car2),
+                      child: Image.network('${getProductsModelData.images![index].image}'),
                     );
                   }),
             ),
@@ -167,7 +164,7 @@ class _ProviderProductDetailsScreenState
               ),
             ),
             Text(
-              '400 ر.س',
+              '${getProductsModelData.price}  ر.س',
               style: TextStyle(fontSize: 16.sp),
             ),
             SizedBox(height: 50,)

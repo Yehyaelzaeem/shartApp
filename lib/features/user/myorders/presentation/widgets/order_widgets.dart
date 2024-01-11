@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/extensions/context_extension.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
 import '../../../../../core/resources/assets_menager.dart';
@@ -49,7 +50,7 @@ InkWell buildCurrentOrder(BuildContext context) {
                     style: TextStyle(
                       fontWeight: FontWeightManager.light,
                       fontSize: 12.sp,
-                      color: greyColor,
+                      color: Colors.grey.shade700,
                     ),
                   ),
                   Text(
@@ -77,51 +78,35 @@ InkWell buildCurrentOrder(BuildContext context) {
                   )
                 ],
               ),
-              Spacer(),
-            ],
-          ),
-          Positioned(
-
-            child: Container(
-              margin: EdgeInsets.only(
-
-                  left:AuthCubit.get(context).localeLanguage== Locale('en')?16.w: 10.w,
-                  // left:16.w,
-                  // right: context.isCurrentEnglish?10.w: 16.w,
-                  top: 16.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Card(
-                    margin: EdgeInsets.zero,
-                    color: primaryColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        '    ${'حالي'}    ',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeightManager.bold,
-                        ),
-                      ),
+              SizedBox(width: 11.w),
+              Card(
+                margin: EdgeInsets.zero,
+                color: primaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                  child: Text(
+                    ' ${getLang(context, 'current')}',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeightManager.bold,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-            left: 0,
-            bottom: 15,
-          )
+
+            ],
+          ),
+
         ],
       ),
     ),
   );
 }
 
-InkWell buildOrderWithInvoice() {
+InkWell buildOrderWithInvoice(context) {
   return InkWell(
     onTap: () {
       NavigationManager.push(Routes.orderDetails);
@@ -161,7 +146,7 @@ InkWell buildOrderWithInvoice() {
                     style: TextStyle(
                       fontWeight: FontWeightManager.light,
                       fontSize: 12.sp,
-                      color: greyColor,
+                      color: Colors.grey.shade700,
                     ),
                   ),
                   Text(
@@ -189,19 +174,14 @@ InkWell buildOrderWithInvoice() {
                   )
                 ],
               ),
-              Spacer(),
-            ],
-          ),
-          Positioned(
-            child: Container(
-              margin: EdgeInsets.only(left: 10.w, right: 16.w, top: 50.h),
-              child: Column(
+              SizedBox(width: 11.w),
+              Column(
                 children: <Widget>[
                   InkWell(
                     onTap: () {
                       NavigationManager.push(Routes.invoice);
                     },
-                    child: Text('مشاهدة الفاتورة',
+                    child: Text('${getLang(context, 'view_invoice')}',
                         style: TextStyle(fontSize: 12)),
                   ),
                   Container(
@@ -216,30 +196,72 @@ InkWell buildOrderWithInvoice() {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.r)),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8,right: 8),
-                      child: Text(
-                        'تم التوصيل',
-                        style: TextStyle(
-                          color: whiteColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeightManager.bold,
+                      padding: const EdgeInsets.only(left: 8,right: 8,top: 5),
+                      child: Center(
+                        child: Text(
+                          '${getLang(context, 'delivered')}',
+                          style: TextStyle(
+                            color: whiteColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeightManager.bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            left: 0,
-            bottom: 15,
-          )
+            ],
+          ),
+          // Positioned(
+          //   child: Container(
+          //     margin: EdgeInsets.only(left: 10.w, right: 16.w, top: 50.h),
+          //     child:
+          //     Column(
+          //       children: <Widget>[
+          //         InkWell(
+          //           onTap: () {
+          //             NavigationManager.push(Routes.invoice);
+          //           },
+          //           child: Text('مشاهدة الفاتورة',
+          //               style: TextStyle(fontSize: 12)),
+          //         ),
+          //         Container(
+          //             width: 80.w,
+          //             height: 1,
+          //             color: Colors.black,
+          //             margin: EdgeInsets.only(top: 5, bottom: 30)),
+          //         Card(
+          //           margin: EdgeInsets.zero,
+          //           color: Color(0xff136B79),
+          //           elevation: 0,
+          //           shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(50.r)),
+          //           child: Padding(
+          //             padding: const EdgeInsets.only(left: 8,right: 8),
+          //             child: Text(
+          //               'تم التوصيل',
+          //               style: TextStyle(
+          //                 color: whiteColor,
+          //                 fontSize: 12.sp,
+          //                 fontWeight: FontWeightManager.bold,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          //   left: 0,
+          //   bottom: 15,
+          // )
         ],
       ),
     ),
   );
 }
 
-InkWell buildCancelledOrder() {
+InkWell buildCancelledOrder(context) {
   return InkWell(
     onTap: () {
       NavigationManager.push(Routes.orderDetails);
@@ -279,7 +301,7 @@ InkWell buildCancelledOrder() {
                     style: TextStyle(
                       fontWeight: FontWeightManager.light,
                       fontSize: 12.sp,
-                      color: greyColor,
+                      color: Colors.grey.shade700,
                     ),
                   ),
                   Text(
@@ -307,39 +329,27 @@ InkWell buildCancelledOrder() {
                   )
                 ],
               ),
-              Spacer(),
-            ],
-          ),
-          Positioned(
-            child: Container(
-              margin: EdgeInsets.only(left: 10.w, right: 16.w, top: 16.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Card(
-                    margin: EdgeInsets.zero,
-                    color: Color(0xffFF0000),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        '    ${'ملغي'}    ',
-                        style: TextStyle(
-                          color: whiteColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeightManager.bold,
-                        ),
-                      ),
+              SizedBox(width: 11.w),
+              Card(
+                margin: EdgeInsets.zero,
+                color: Color(0xffFF0000),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                  child: Text(
+                    '${getLang(context, 'canceled')}',
+                    style: TextStyle(
+                      color: whiteColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeightManager.bold,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-            left: 0,
-            bottom: 15,
-          )
+            ],
+          ),
         ],
       ),
     ),

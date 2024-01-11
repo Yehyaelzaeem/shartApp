@@ -33,11 +33,23 @@ class AppApis{
   static const String addAddressProvider='${baseUrl}provider/addresses/add';
   static  String editAddressProvider (int id)=>'${baseUrl}provider/addresses/edit/$id';
   static  String deleteAddressProvider (int id)=>'${baseUrl}provider/addresses/delete/$id';
+  //Complete Profile
+  static const String completeProfile='${baseUrl}provider/complete-profile';
+
   //Pages
   static const String termsAndConditionProvider='${baseUrl}provider/pages/terms_and_conditions_provider_app';
   static const String privacyAndPolicyProvider='${baseUrl}provider/pages/privacy_policy_provider_app';
   static const String aboutCompany='${baseUrl}pages/about';
-
+  //Products
+  static const String getProducts='${baseUrl}provider/products';
+  static const String addProduct='${baseUrl}provider/products/add';
+  static  String editProduct(int id)=>'${baseUrl}provider/products/edit/$id';
+  static  String deleteProduct(int id)=>'${baseUrl}provider/products/delete/$id';
+  // Works
+  static const String getAllWorks='${baseUrl}provider/works';
+  static const String addWorks='${baseUrl}provider/works/add';
+  static  String editWorks(int id)=>'${baseUrl}provider/works/edit/$id';
+  static  String deleteWorks(int id)=>'${baseUrl}provider/works/delete/$id';
 
 //Package Check
   static const String checkCars='${baseUrl}packages';

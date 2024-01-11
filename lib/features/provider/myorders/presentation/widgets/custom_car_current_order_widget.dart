@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
@@ -78,7 +79,7 @@ class CustomCarCurrentOrderWidget extends StatelessWidget {
               child: Center(
                 child: FittedBox(
                   child: Text(
-                    '    ${'حالي'}    ',
+                    '${getLang(context, 'current')}',
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeightManager.bold,

@@ -10,7 +10,10 @@ import '../../../core/shared_preference/shared_preference.dart';
 import '../../../features/provider/auth/logic/auth_provider_cubit.dart';
 import '../../../features/provider/profile/data/model/user_profile_model.dart';
 import '../../../features/provider/profile/logic/provider_profile_cubit.dart';
+import '../../../features/provider/work_and_products/logic/work_products_cubit.dart';
 import '../../../features/user/auth/logic/auth_cubit.dart';
+import '../../../features/user/book_package_service/logic/book_package_cubit.dart';
+import '../../../features/user/menu/logic/menu_cubit.dart';
 import '../../../features/user/profile/presentation/about_company/about_company_screen.dart';
 import '../../../features/user/profile/presentation/complains/complains_screen.dart';
 import '../../../features/user/profile/presentation/conditions_terms/conditions_screen.dart';
@@ -33,22 +36,39 @@ class CustomBodyMore extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 25.h),
         type=='user'?
-        CircleAvatar(
-          radius: 65,
-          backgroundColor: Colors.white,
-          child: CircleAvatar(
-              radius:60,
-              backgroundImage:
-              NetworkImage('${userProfileModel!.data!.image}')
-          ),):
-        CircleAvatar(
-          radius: 65,
-          backgroundColor: Colors.white,
-          child: CircleAvatar(
-              radius:60,
-              backgroundImage:
-              NetworkImage('${providerGetProfileModel!.data!.image}')
-          ),),
+        Container(
+          height: 100,
+          width: 100,
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              child: Image.network('${userProfileModel!.data!.image}',
+                fit: BoxFit.cover,
+                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                return Image.asset('assets/images/person.jpg');
+                },
+              )),
+        ):
+        Container(
+          height: 100,
+          width: 100,
+          child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              child: Image.network('${providerGetProfileModel!.data!.image}',
+                fit: BoxFit.cover,
+                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                  return Image.asset('assets/images/person.jpg');
+                },
+              )),
+        ),
+        // CircleAvatar(
+        //   radius: 55,
+        //   backgroundColor: Colors.white,
+        //   child: CircleAvatar(
+        //       backgroundColor: Colors.white,
+        //       radius:50,
+        //       backgroundImage:
+        //       NetworkImage('${providerGetProfileModel!.data!.image}')
+        //   ),),
         type=='user'?
         Text(
           '${userProfileModel!.data!.name}',
@@ -91,6 +111,8 @@ class CustomBodyMore extends StatelessWidget {
         buildProfileItemWidget(
           iconPath: IconsManager.myWork,
           function: () {
+            WorkProductsCubit.get(context).getWorks(context);
+            WorkProductsCubit.get(context).getAllProducts(context);
             NavigationManager.push(Routes.providerWorkScreen);
           },
           text: getLang(context,'business_products'),
@@ -100,7 +122,7 @@ class CustomBodyMore extends StatelessWidget {
             iconPath: IconsManager.package,
             function: () {
               type=='user'?
-              NavigationManager.push(Routes.packagesHistory):
+              NavigationManager.push(Routes.checkingPackages):
               NavigationManager.push(Routes.providerPackages);
             },
             text:  getLang(context,'packages')),

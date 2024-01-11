@@ -13,7 +13,11 @@ class ConditionsScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(
-          title: getLang(context,'terms_conditions'),hasBackButton: true
+          title: getLang(context,'terms_conditions'),hasBackButton: true,
+          onTap: (){
+            Navigator.pop(context);
+
+          },
         ),
       ),
       body: Padding(

@@ -10,6 +10,7 @@ import '../../../../../core/network/dio.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../logic/auth_cubit.dart';
+import '../../ui/screens/verify_account_screen.dart';
 import '../models/login_model.dart';
 import '../models/register_model.dart';
 import '../models/send_otp_model.dart';
@@ -90,13 +91,7 @@ class AuthDataSource implements BaseAuthDataSource {
         sendOTP(registerData.phone!.trim(), '${registerData.phoneCountryRegisterModel!.id ?? '3'}', context);
         // showToast(text: '${RegisterModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
-        cubit.loginRegLoadingStates(false);
         cubit.otpCode= RegisterModel.fromJson(res.data).registerData!.otp!.trim().toString();
-        cubit.registerNameController.text='';
-        cubit.registerEmailController.text='';
-        cubit.registerPhoneController.text='';
-        cubit.registerPasswordController.text='';
-        cubit.registerConfirmPasswordController.text='';
         return RegisterModel.fromJson(res.data);
       }
       else {
@@ -125,6 +120,8 @@ class AuthDataSource implements BaseAuthDataSource {
     else {
       if (res.statusCode == 200) {
         NavigationManager.pushReplacement(Routes.otpScreen);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>VerifyAccountScreen(otpCode:'${SendOTPModel.fromJson(res.data).data!.otp}' ,)));
+        AuthCubit.get(context).loginRegLoadingStates(false);
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('OTP Code is  : ${SendOTPModel.fromJson(res.data).data!.otp}'),
               duration: Duration(seconds: 15),
@@ -152,6 +149,7 @@ class AuthDataSource implements BaseAuthDataSource {
   @override
   Future<VerifyAccountModel?> verifyAccount(String code, BuildContext context) async{
     AuthCubit.get(context).changeOtpCompleted(true);
+    AuthCubit cubit =AuthCubit.get(context);
     Response<dynamic> res = await DioHelper.postData(
       url: AppApis.verifyAccountUser, data: <String, dynamic>{
       'otp': code,
@@ -162,8 +160,14 @@ class AuthDataSource implements BaseAuthDataSource {
     else {
       if (res.statusCode == 200) {
         showToast(text: '${VerifyAccountModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        userLogin(cubit.registerPhoneController.text, '3', cubit.registerConfirmPasswordController.text, context);
         AuthCubit.get(context).changeOtpCompleted(false);
-        NavigationManager.pushReplacement(Routes.login);
+        // NavigationManager.pushReplacement(Routes.home);
+        cubit.registerNameController.text='';
+        cubit.registerEmailController.text='';
+        cubit.registerPhoneController.text='';
+        cubit.registerPasswordController.text='';
+        cubit.registerConfirmPasswordController.text='';
         AuthCubit.get(context).otpCode='';
         return VerifyAccountModel.fromJson(res.data);
       }

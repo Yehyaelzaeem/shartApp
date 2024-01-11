@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import '../../core/resources/assets_menager.dart';
 import '../../core/resources/color.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -14,7 +15,7 @@ class CustomMessagesScreen extends StatelessWidget {
         backgroundColor: Color(0xffF5F3F3),
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 80.h),
-          child: CustomAppBar(title: 'الرسائل'),
+          child: CustomAppBar(title: '${getLang(context, 'messages')}'),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -94,7 +95,7 @@ class CustomMessagesScreen extends StatelessWidget {
               SizedBox(width: 20.w),
               Expanded(
                 child: CustomTextField(
-                  hintText: 'أكتب رسالة ...',
+                  hintText: '${getLang(context, 'write_message')}',
                   controller: TextEditingController(),
                   borderRadius: 30,
                   borderColor: primaryColor,
@@ -105,7 +106,7 @@ class CustomMessagesScreen extends StatelessWidget {
               SizedBox(width: 16.w),
               ElevatedButton(
                 onPressed: () {},
-                child: Text('إرسال',
+                child: Text('${getLang(context, 'send')}',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: Colors.black

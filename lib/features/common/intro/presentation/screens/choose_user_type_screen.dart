@@ -7,15 +7,27 @@ import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/core/routing/navigation_services.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_button.dart';
 
 import '../../../../../core/routing/routes.dart';
 import '../../../../../core/shared_preference/shared_preference.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
+import '../../../../user/bottom_nav/presentation/screens/bottom_nav_screen.dart';
 
-class ChooseUserTypeScreen extends StatelessWidget {
+class ChooseUserTypeScreen extends StatefulWidget {
   const ChooseUserTypeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ChooseUserTypeScreen> createState() => _ChooseUserTypeScreenState();
+}
+
+class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
+  @override
+  void initState() {
+    AuthCubit.get(context).getPermission();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -49,7 +61,7 @@ class ChooseUserTypeScreen extends StatelessWidget {
             //     left: 20,
             //     child: Card(child: Text('اللغة'),)),
             Positioned.fill(
-                bottom: 60.h,
+                bottom: 30.h,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
@@ -84,13 +96,13 @@ class ChooseUserTypeScreen extends StatelessWidget {
                         padding: EdgeInsets.only(top: 16.h),
                         child: InkWell(
                           onTap: () {
-                            NavigationManager.pushNamedAndRemoveUntil(Routes.home);
-
+                            AuthCubit.get(context).token='';
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(isVisitor: true,)));
                           },
                           child: Text(
                             'زائر',
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeightManager.regular,
                               fontFamily: FontConstants.lateefFont,
                             ),
@@ -112,3 +124,4 @@ class ChooseUserTypeScreen extends StatelessWidget {
 
   }
 }
+

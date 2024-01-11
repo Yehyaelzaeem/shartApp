@@ -27,6 +27,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
   bool isLoading =false;
   bool isRegLoading =false;
   bool isOtpCompleted =false;
+  TextEditingController controllerOtpTest =TextEditingController();
   TextEditingController phoneControllerProvider =TextEditingController();
   TextEditingController passwordControllerProvider =TextEditingController();
   TextEditingController registerNameControllerProvider = TextEditingController();

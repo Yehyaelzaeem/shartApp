@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
@@ -77,7 +78,7 @@ class CustomCarCancelledOrderWidget extends StatelessWidget {
               child: Center(
                 child: FittedBox(
                   child: Text(
-                    '    ${"ملغي"}    ',
+                    '${getLang(context, 'canceled')}',
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: whiteColor,

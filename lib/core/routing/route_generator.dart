@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shart/core/routing/routes.dart';
 import 'package:shart/features/provider/bottom_nav/presentation/screens/bottom_nav.dart';
-import 'package:shart/features/provider/complete_renter_data/presentation/screens/complete_renter_data_screen.dart';
+import 'package:shart/features/provider/profile/presentation/complete_profile/complete_renter_data_screen.dart';
 import 'package:shart/features/provider/favorite/presentation/screens/favorite_screen.dart';
 import 'package:shart/features/provider/home/presentation/screens/home_screen.dart';
 import 'package:shart/features/provider/messages/presentation/screens/messages_screen.dart';
@@ -79,9 +79,10 @@ class RouteGenerator {
     }
     if (settings.name == Routes.register) {
       return platformPageRoute(const RegisterScreen());
-    }  if (settings.name == Routes.otpScreen) {
-      return platformPageRoute(const VerifyAccountScreen());
     }
+    // if (settings.name == Routes.otpScreen) {
+    //   return platformPageRoute(const VerifyAccountScreen());
+    // }
     if (settings.name == Routes.forgotPassword) {
       return platformPageRoute(const ForgotPasswordScreen());
     }
@@ -201,9 +202,9 @@ class RouteGenerator {
     if (settings.name == Routes.providerRegister) {
       return platformPageRoute(const ProviderRegisterScreen());
     }
-    if (settings.name == Routes.providerOtpScreen) {
-      return platformPageRoute(const OtpProviderScreen());
-    }
+    // if (settings.name == Routes.providerOtpScreen) {
+    //   return platformPageRoute(const OtpProviderScreen());
+    // }
     if (settings.name == Routes.providerFavorite) {
       return platformPageRoute(const ProviderFavoriteScreen());
     }
@@ -213,9 +214,9 @@ class RouteGenerator {
     if (settings.name == Routes.providerAddNewProduct) {
       return platformPageRoute(const ProviderAddNewProduct());
     }
-    if (settings.name == Routes.providerProductDetails) {
-      return platformPageRoute(const ProviderProductDetailsScreen());
-    }
+    // if (settings.name == Routes.providerProductDetails) {
+    //   return platformPageRoute(const ProviderProductDetailsScreen());
+    // }
     if (settings.name == Routes.providerAddAddress) {
       return platformPageRoute(const ProviderAddAddressScreen());
     }

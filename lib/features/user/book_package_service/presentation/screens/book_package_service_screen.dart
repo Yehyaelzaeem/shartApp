@@ -24,6 +24,7 @@ class UserBookPackageServiceScreen extends StatefulWidget {
 class _UserBookPackageServiceScreenState
     extends State<UserBookPackageServiceScreen> {
   var brandSelectedValue ='';
+  var yearSelectedValue ='';
   var brandModelSelectedValue ='';
   var brandColorSelectedValue ='';
   @override
@@ -86,7 +87,8 @@ class _UserBookPackageServiceScreenState
                       isExpanded: true,
                       underline: const SizedBox.shrink(),
                       hint: Text('${brandSelectedValue}', style: TextStyle(fontSize: 14, color: Colors.black),),
-                      items: cubit.brands.map((BrandsData? e) =>
+                      items:
+                      cubit.brands.map((BrandsData? e) =>
                       DropdownMenuItem<String>(
                         value: e!.name,
                         child: Text(
@@ -109,10 +111,10 @@ class _UserBookPackageServiceScreenState
                       isExpanded: true,
                       underline: const SizedBox.shrink(),
                       hint: Text(
-                        '',
+                        '${yearSelectedValue}',
                         style: TextStyle(fontSize: 14, color: Colors.black),
                       ),
-                      items: <String>['test', 'test', 'test']
+                      items: <String>['2019', '2022', '2023','2024']
                           .map((String item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
@@ -123,7 +125,7 @@ class _UserBookPackageServiceScreenState
                           .toList(),
                       onChanged: (String? value) {
                         setState(() {
-                          // selectedValue = value;
+                          yearSelectedValue = value!;
                         });
                       },
                       buttonStyleData: ButtonStyleData(

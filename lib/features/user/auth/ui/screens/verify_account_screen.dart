@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../widgets/custom_button.dart';
 
 class VerifyAccountScreen extends StatelessWidget {
-  const VerifyAccountScreen({super.key});
+  final String otpCode;
+  const VerifyAccountScreen({super.key, required this.otpCode});
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 3)).then((value){
+      var x = otpCode;
+      List resList=[];
+      var res;
+      for(int i=0;i<=x.length-1;i++){
+        resList.add(x[i]);
+      }
+      res= '${resList[3]}${resList[2]}${resList[1]}${resList[0]}';
+      AuthCubit.get(context).controllerOtpTest.text =res;
+    });
+
     return BlocConsumer<AuthCubit,AuthState>(
         builder: (BuildContext context,Object? state){
       return   Scaffold(
@@ -46,31 +58,36 @@ class VerifyAccountScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 80.h,),
-                        OtpTextField(
-                          numberOfFields: 4,
-                          borderColor: Color(0xFF512DA8),
-                          showFieldAsBox: true,
-                          onCodeChanged: (String code) {
-                          },
-                          onSubmit: (String verificationCode){
-                            if(verificationCode.length ==4){
-                              AuthCubit.get(context).textFieldOtp=verificationCode;
-                            }
-                          }, // end onSubmit
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width*0.6,
+                            child: PinCodeTextField(
+                                autoDisposeControllers: false,
+                                controller: AuthCubit.get(context).controllerOtpTest,
+                                appContext: context,
+                                length: 4,
+                                onChanged: (val){
+
+                                }),
+                          ),
                         ),
+
                         SizedBox(height: 40.h,),
                         Padding(
                           padding: EdgeInsets.only(bottom: 20.h, top: 64.h),
                           child: CustomElevatedButton(
                               onTap: () {
 
-                                if(AuthCubit.get(context).textFieldOtp.length ==4){
-                                  String res='';
-                                  for(int i=AuthCubit.get(context).textFieldOtp.length-1;i>=0;i--){
-                                    res +=AuthCubit.get(context).textFieldOtp[i];
-                                  }
-                                  AuthCubit.get(context).verifyAccount(res,context);
+                                if(AuthCubit.get(context).controllerOtpTest.text.length ==4){
+                                  AuthCubit.get(context).verifyAccount(otpCode,context);
                                 }
+                                // if(AuthCubit.get(context).textFieldOtp.length ==4){
+                                //   String res='';
+                                //   for(int i=AuthCubit.get(context).textFieldOtp.length-1;i>=0;i--){
+                                //     res +=AuthCubit.get(context).textFieldOtp[i];
+                                //   }
+                                //   AuthCubit.get(context).verifyAccount(res,context);
+                                // }
                               },
                               buttonText: 'استمرار'),
                         ),

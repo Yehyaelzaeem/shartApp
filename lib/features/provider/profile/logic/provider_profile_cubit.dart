@@ -1,14 +1,17 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
+import '../../../../shared_screens/google_map/address_location_model.dart';
 import '../../../../widgets/show_toast_widget.dart';
 import '../data/model/about_compay_model.dart';
 import '../data/model/address_list_model.dart';
 import '../data/model/address_model.dart';
+import '../data/model/complete_model.dart';
 import '../data/model/delete_account_model.dart';
 import '../data/model/user_profile_model.dart';
 import '../data/remote_data_base/provider_profile_data_base.dart';
@@ -31,10 +34,16 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   TextEditingController addressAddNameController = TextEditingController();
   TextEditingController addressAddController = TextEditingController();
   TextEditingController addressAddPhoneController = TextEditingController();
+  TextEditingController titleCompleteProfileController = TextEditingController();
+  TextEditingController numberCommercialCompleteProfileController = TextEditingController();
+  TextEditingController addressCompleteProfileController = TextEditingController();
+  TextEditingController iPanCompleteProfileController = TextEditingController();
+  TextEditingController dateCompleteProfileController = TextEditingController();
+
   AddressListModel? addressList;
   int addressType = 0;
 
-
+  AddressLocationModel? addressLocationModel;
   bool isAddressEditing =false;
   bool isUpdateLoading =false;
 
@@ -192,10 +201,55 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
 
   }
 
-
+  void sendCompleteProfile(BuildContext context){
+    if(titleCompleteProfileController.text.isNotEmpty&&numberCommercialCompleteProfileController.text.isNotEmpty
+        &&iPanCompleteProfileController.text.isNotEmpty &&addressCompleteProfileController.text.isNotEmpty
+        &&dateCompleteProfileController.text.isNotEmpty&&logoCompleteFile!=null&&idCompleteFile!=null&&pdfCompleteFile!=null){
+      CompleteProfileModel completeProfileModel =CompleteProfileModel(
+        storeName: titleCompleteProfileController.text.trim(),
+        commercialRegistrationNo: numberCommercialCompleteProfileController.text.trim(),
+        iPan: iPanCompleteProfileController.text.trim(),
+        commercialEndDate: dateCompleteProfileController.text.trim(),
+        mainAddress: addressCompleteProfileController.text.trim(),
+      );
+      providerProfileRemoteDataSource.sendCompleteProfile(AuthProviderCubit.get(context).token, completeProfileModel, context);
+    }else{
+      showToast(text: 'please complete required data', state: ToastStates.error, context: context);
+    }
+   }
 
 
   File? profileImageProviderFile;
+  File? logoCompleteFile;
+  File? idCompleteFile;
+  File? pdfCompleteFile;
+  Future<void> pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      logoCompleteFile =File(image.path);
+    }
+    emit(UploadImage());
+  }Future<void> pickImage2() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      idCompleteFile =File(image.path);
+    }
+    emit(UploadImage());
+  }
+
+  Future<void> pickPDF() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['pdf'],
+    );
+    if (result != null) {
+      String path = result.files.single.path!;
+      pdfCompleteFile =File(path);
+    }
+    emit(UploadPDF());
+  }
 
   Future<dynamic> uploadImage()async{
     var picker =ImagePicker();

@@ -9,9 +9,12 @@ import 'core/routing/navigation_services.dart';
 import 'core/routing/route_generator.dart';
 import 'core/routing/routes.dart';
 import 'core/shared_preference/shared_preference.dart';
+import 'features/common/intro/presentation/screens/onboarding_screen.dart';
 import 'features/common/splash/presentation/screens/splash_screen.dart';
 import 'features/provider/auth/logic/auth_provider_cubit.dart';
+import 'features/provider/auth/presentation/screens/otp_provider_screen.dart';
 import 'features/provider/profile/logic/provider_profile_cubit.dart';
+import 'features/provider/work_and_products/logic/work_products_cubit.dart';
 import 'features/user/auth/logic/auth_cubit.dart';
 import 'features/user/book_package_service/logic/book_package_cubit.dart';
 import 'features/user/menu/logic/menu_cubit.dart';
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthProviderCubit>(create: (BuildContext context) => AuthProviderCubit()),
         BlocProvider<ProviderProfileCubit>(create: (BuildContext context) => ProviderProfileCubit()),
         BlocProvider<MenuCubit>(create: (BuildContext context) => MenuCubit()),
+        BlocProvider<WorkProductsCubit>(create: (BuildContext context) => WorkProductsCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(context)),
        ],
       child: ScreenUtilInit(

@@ -23,10 +23,10 @@ class MenuCubit extends Cubit<MenuState> {
   List<String> listBanners =[];
   List<BannersModelData?>? bannersModel;
   Future getBanners(String type,BuildContext context)async{
+    listBanners.clear();
     menuRemoteDataSource.getBanners(type,context).then((BannersModel? value) {
       bannersModel=value!.data!;
       for(var a in value.data!){
-        print('iddd :${a.id}');
         listBanners.add(a.image!??'');
       }
       emit(GetBannersState(value));

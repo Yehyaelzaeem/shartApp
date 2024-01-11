@@ -30,7 +30,8 @@ class CustomTopRowLogo extends StatelessWidget {
             //     width: 30.sp, height: 30.sp),
           ),
         ),
-        SizedBox(width: 16.w,),
+        SizedBox(width: 10.w,),
+
       ],
     );
   }

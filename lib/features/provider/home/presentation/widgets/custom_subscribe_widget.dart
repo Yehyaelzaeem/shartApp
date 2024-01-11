@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../../../core/resources/color.dart';
 
@@ -18,23 +19,31 @@ class CustomSubscribeWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           color: Color(0xff136B79)),
       child:
-      FittedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 20.h,),
-            Text(
-              'الأن تستطيع الإشتراك\n فى إحدى باقات شرط',
-              style: TextStyle(
-                  color: whiteColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp,
-                  fontFamily: 'Cairo'),
-              textAlign: TextAlign.center,
+      Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(height: 40.h,),
+          Container(
+            height: 40.h,
+            width: MediaQuery.of(context).size.width*0.4,
+            child: FittedBox(
+              child: Text(
+                '${getLang(context, 'subscription_message')}',
+                style: TextStyle(
+                    color: whiteColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                    fontFamily: 'Cairo'),
+                textAlign: TextAlign.center,
+              ),
             ),
-            SizedBox(height: 40.h,),
-            ElevatedButton(
+          ),
+          SizedBox(height: 20.h,),
+          Container(
+            height: 25.h,
+            width: MediaQuery.of(context).size.width*0.3,
+            child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
@@ -45,16 +54,17 @@ class CustomSubscribeWidget extends StatelessWidget {
                 ),
                 onPressed: () {},
                 child: Text(
-                  'إشترك الأن',
+                  '${getLang(context, 'subscription_now')}',
                   style: TextStyle(
                       fontSize: 16.sp,
                       color: Colors.black,
                       fontFamily: 'Lateef',
                       fontWeight: FontWeight.bold),
                 )),
+          ),
+          SizedBox(height: 20.h,),
 
-          ],
-        ),
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import '../core/resources/assets_menager.dart';
 import '../core/resources/color.dart';
 import '../core/resources/font_manager.dart';
@@ -71,7 +72,7 @@ class CustomProductWidget extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeightManager.light,
                     fontSize: 12.sp,
-                    color: greyColor,
+                    color: Colors.grey.shade700,
                   ),
                 ),
                 Text(
@@ -132,7 +133,7 @@ class CustomProductWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'تم الاستلام',
+                    '${getLang(context, 'received')}',
                     style: TextStyle(
                       color: whiteColor,
                       fontSize: 12.sp,

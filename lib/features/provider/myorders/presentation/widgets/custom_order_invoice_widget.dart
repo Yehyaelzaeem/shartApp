@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
@@ -43,102 +44,100 @@ class CustomOrderWithInvoiceAndReportWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 8.w),
-            Padding(
-              padding:   EdgeInsets.symmetric(horizontal: 8.w),
-              child: FittedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
+            Container(
+              width: 80.w ,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FittedBox(
+                    child: Text(
                       'فحص شرط',
                       style: TextStyle(
                         fontWeight: FontWeightManager.bold,
                         fontSize: 16.sp,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                  ),
+                  SizedBox(height: 10),
+                  FittedBox(
+                    child: Text(
                       '${'rs'} 1000',
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,
                         color: Color(0xffDB3022),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
-            SizedBox(width: 9.w),
+            SizedBox(width: 4.w),
             Container(
-              margin: EdgeInsets.only(top: 16.h),
-              child: FittedBox(
-                child: Column(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        NavigationManager.push(Routes.report);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.info_outline,
-                              size: 15, color: Colors.grey.shade400),
-                          SizedBox(width: 2),
-                          FittedBox(
-                            child: Text('مشاهدة تقرير \nالفحص',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 10)),
-                          ),
-                        ],
-                      ),
+              margin: EdgeInsets.only(top: 10.h),
+              child: Column(
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      NavigationManager.push(Routes.report);
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.info_outline,
+                            size: 15, color: Colors.grey.shade400),
+                        SizedBox(width: 2),
+                        FittedBox(
+                          child: Text('${getLang(context, 'view_inspection')}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 10)),
+                        ),
+                      ],
                     ),
+                  ),
+                  Container(
+                      width: 80.w,
+                      height: 1,
+                      color: Colors.black,
+                      margin: EdgeInsets.only(top: 0, bottom: 5)),
 
-                    Container(
-                        width: 80.w,
-                        height: 1,
-                        color: Colors.black,
-                        margin: EdgeInsets.only(top: 5, bottom: 15)),
-
-                    InkWell(
-                      onTap: () {
-                        NavigationManager.push(Routes.invoice);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.remove_red_eye_rounded,
-                              size: 15, color: Colors.grey.shade400),
-                          SizedBox(width: 1),
-                          Text('مشاهدة الفاتورة', style: TextStyle(fontSize: 9)),
-                        ],
-                      ),
-                    ),                  Container(
-                        width: 80.w,
-                        height: 1,
-                        color: Colors.black,
-                        margin: EdgeInsets.only(top: 5, bottom: 15)),
-                    Container(
-                      height:24.h ,
-                      width:87.w ,
-                      margin: EdgeInsets.zero,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.r),
-                        color: Color(0xff136B79),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'تم الفحص',
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeightManager.bold,
-                          ),
+                  InkWell(
+                    onTap: () {
+                      NavigationManager.push(Routes.invoice);
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.remove_red_eye_rounded,
+                            size: 15, color: Colors.grey.shade400),
+                        SizedBox(width: 1),
+                        Text('${getLang(context, 'view_invoice')}', style: TextStyle(fontSize: 9)),
+                      ],
+                    ),
+                  ),                  Container(
+                      width: 80.w,
+                      height: 1,
+                      color: Colors.black,
+                      margin: EdgeInsets.only(top: 0, bottom: 15)),
+                  Container(
+                    height:24.h ,
+                    width:87.w ,
+                    margin: EdgeInsets.zero,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.r),
+                      color: Color(0xff136B79),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${getLang(context, 'checked')}',
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeightManager.bold,
                         ),
                       ),
                     ),
-                    SizedBox(height: 15.h,)
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 

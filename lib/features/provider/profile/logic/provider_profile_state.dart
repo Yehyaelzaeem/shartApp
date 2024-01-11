@@ -14,6 +14,7 @@ class AddAddressState extends ProviderProfileState {}
 class EditAddressState extends ProviderProfileState {}
 class DeleteAddressState extends ProviderProfileState {}
 class UploadImage extends ProviderProfileState {}
+class UploadPDF extends ProviderProfileState {}
 class ChangeRadio extends ProviderProfileState {}
 class DeleteAccountState extends ProviderProfileState {}
 class UpdateUserProfile extends ProviderProfileState {}
