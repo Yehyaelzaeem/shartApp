@@ -3,18 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/features/user/spare_parts/presentation/widgets/spare_part_item.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/routing/routes.dart';
-
-class StoreProductsScreen extends StatefulWidget {
+class StoreProductsScreen extends StatelessWidget {
   const StoreProductsScreen({Key? key}) : super(key: key);
 
-  @override
-  State<StoreProductsScreen> createState() => _StoreProductsScreenState();
-}
-
-class _StoreProductsScreenState extends State<StoreProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

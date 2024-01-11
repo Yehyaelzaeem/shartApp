@@ -4,14 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 
-class NotificationScreen extends StatefulWidget {
+class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
 
-  @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
-}
-
-class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

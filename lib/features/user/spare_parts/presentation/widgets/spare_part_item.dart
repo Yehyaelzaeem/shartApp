@@ -21,6 +21,7 @@ class SparePartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 281.h,
+      // width: MediaQuery.of(context).size.width*0.4,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
           color: whiteColor,
@@ -30,67 +31,76 @@ class SparePartItemWidget extends StatelessWidget {
                 blurRadius: 1,
                 spreadRadius: 1)
           ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: 167.w,
-            height: 131.h,
-            decoration: BoxDecoration(
-              color: greyColor.withOpacity(0.4),
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10.r),
-                  topLeft: Radius.circular(10.r)),
+      child: FittedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 167.w,
+              height: 131.h,
+              decoration: BoxDecoration(
+                color: greyColor.withOpacity(0.4),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10.r),
+                    topLeft: Radius.circular(10.r)),
+              ),
+              child: Image.asset(image,),
             ),
-            child: Image.asset(image,),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: 16.sp, right: 16.sp, top: 16.sp, bottom: 5.sp),
-            child: Text(
-              brandName,
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeightManager.regular,
-                color: highGreyColor,
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 16.sp, right: 16.sp, top: 16.sp, bottom: 5.sp),
+              child: Text(
+                brandName,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeightManager.regular,
+                  color: highGreyColor,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 5.h),
-            child: Text(
-              productName,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeightManager.bold,
+            Padding(
+              padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 5.h),
+              child: Text(
+                productName,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeightManager.bold,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              '${price} ر.س',
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: redColor,
-                fontWeight: FontWeightManager.medium,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Text(
+                '${price} ر.س',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: redColor,
+                  fontWeight: FontWeightManager.medium,
+                ),
               ),
             ),
-          ),
 
-          InkWell(onTap: (){},child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 9.w,vertical: 5),
-            height: 48.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.black),
-            ),
-            child: Center(child: Text('أضف إلي السلة',style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),)),
+            InkWell(onTap: (){},child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 9.w,vertical: 5),
+              height: 48.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                child: Center(
+                  child: Expanded(
+                    child: Text('أضف إلي السلة',style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                ),
+              ),
 
-          ),),
-        ],
+            ),),
+          ],
+        ),
       ),
     );
   }

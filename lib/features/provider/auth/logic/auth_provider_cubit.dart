@@ -15,6 +15,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
   static AuthProviderCubit get(BuildContext context)=>BlocProvider.of(context);
   AuthProviderDataSource authProviderDataSource =AuthProviderDataSource();
   final GlobalKey<FormState> formKeyProvider = GlobalKey<FormState>();
+
   final GlobalKey<FormState> registerFormKeyProvider = GlobalKey<FormState>();
   bool visibility = true;
   bool regVisibility = true;
@@ -26,13 +27,14 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
   bool isLoading =false;
   bool isRegLoading =false;
   bool isOtpCompleted =false;
-  TextEditingController phoneController =TextEditingController();
-  TextEditingController passwordController =TextEditingController();
-  TextEditingController registerNameController = TextEditingController();
-  TextEditingController registerEmailController = TextEditingController();
-  TextEditingController registerPhoneController = TextEditingController();
-  TextEditingController registerPasswordController = TextEditingController();
-  TextEditingController registerConfirmPasswordController = TextEditingController();
+  TextEditingController controllerOtpTest =TextEditingController();
+  TextEditingController phoneControllerProvider =TextEditingController();
+  TextEditingController passwordControllerProvider =TextEditingController();
+  TextEditingController registerNameControllerProvider = TextEditingController();
+  TextEditingController registerEmailControllerProvider = TextEditingController();
+  TextEditingController registerPhoneControllerProvider = TextEditingController();
+  TextEditingController registerPasswordControllerProvider = TextEditingController();
+  TextEditingController registerConfirmPasswordControllerProvider = TextEditingController();
  String otpCode='';
  String textFieldOtp='';
 
@@ -48,7 +50,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
 
   void providerLogin (BuildContext context){
     if(formKeyProvider.currentState!.validate()){
-      authProviderDataSource.providerLogin(phoneController.text.trim(), '3', passwordController.text.trim(), context);
+      authProviderDataSource.providerLogin(phoneControllerProvider.text.trim(), '3', passwordControllerProvider.text.trim(), context);
     }
     emit(ProviderLoginState());
   }
@@ -56,18 +58,18 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
 
   void providerRegister (BuildContext context){
     if(registerFormKeyProvider.currentState!.validate() ){
-      if(registerPasswordController.text !=registerConfirmPasswordController.text){
+      if(registerPasswordControllerProvider.text !=registerConfirmPasswordControllerProvider.text){
         showToast(text: 'كلمة المرور والتاكد من كلمة المرور ليس متطابقان', state: ToastStates.warning, context: context);
       }
       else
       {
         ProviderRegisterData registerData =ProviderRegisterData(
-          name: registerNameController.text,
-          email: registerEmailController.text.trim(),
-          phone: registerPhoneController.text.trim(),
+          name: registerNameControllerProvider.text,
+          email: registerEmailControllerProvider.text.trim(),
+          phone: registerPhoneControllerProvider.text.trim(),
           phoneCountry: PhoneCountry(id: 3),
         );
-        authProviderDataSource.providerRegister(registerData, registerConfirmPasswordController.text.trim(), context);
+        authProviderDataSource.providerRegister(registerData, registerConfirmPasswordControllerProvider.text.trim(), context);
       }
 
     }

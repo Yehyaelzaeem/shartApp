@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/functions/general_functions.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
-
+import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/assets_menager.dart';
+import '../../logic/user_profile_cubit.dart';
 
-class ComplainsScreen extends StatefulWidget {
-  const ComplainsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ComplainsScreen> createState() => _ComplainsScreenState();
-}
-
-class _ComplainsScreenState extends State<ComplainsScreen> {
-  TextEditingController complainController = TextEditingController();
-
+class ComplainsScreen extends StatelessWidget {
+  const ComplainsScreen({Key? key,  required this.type}) : super(key: key);
+  final String type;
   @override
   Widget build(BuildContext context) {
+    UserProfileCubit cubit =UserProfileCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'الشكاوي والاقتراحات',hasBackButton: true),
+        child: CustomAppBar(title: getLang(context,'complaints_suggestions'),hasBackButton: true,
+        onTap: (){
+          Navigator.pop(context);
+        },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
@@ -36,19 +37,28 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                   GeneralFunctions.hideKeyboard();
                 },
                 onChanged: (String v) =>
-                    GeneralFunctions.unFocusCursorRTL(complainController),
+                    GeneralFunctions.unFocusCursorRTL(cubit.complainController),
                 maxLines: 4,
                 decoration: InputDecoration(
-                  hintText: 'برجاء كتابة الشكوي',
+                  hintText: getLang(context,'please_write'),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
-                controller: complainController,
+                controller: cubit.complainController,
                 textInputAction: TextInputAction.done,
               ),
             ),
-            CustomElevatedButton(onTap: () {}, buttonText: 'إرسال')
+            BlocConsumer<UserProfileCubit,UserProfileState>(builder:
+            (BuildContext context,UserProfileState state){
+              return
+                UserProfileCubit.get(context).isUpdateLoading==false?
+                CustomElevatedButton(onTap: () {
+                cubit.sendComplaintMessage(type!, context);
+              }, buttonText: getLang(context,'send')):
+                    Center(child: CircularProgressIndicator(),);
+            },
+                listener: (BuildContext context,UserProfileState state){})
           ],
         ),
       ),

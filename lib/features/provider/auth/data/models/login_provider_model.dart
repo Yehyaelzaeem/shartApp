@@ -2,7 +2,7 @@ class LoginProviderModel {
   bool? success;
   int? code;
   String? message;
-  Data? data;
+  LoginProviderModelData? data;
 
   LoginProviderModel({this.success, this.code, this.message, this.data});
 
@@ -10,7 +10,7 @@ class LoginProviderModel {
     success = json['success'];
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new LoginProviderModelData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -25,30 +25,21 @@ class LoginProviderModel {
   }
 }
 
-class Data {
+class LoginProviderModelData {
   int? id;
   String? name;
   String? email;
   String? phone;
   PhoneCountry? phoneCountry;
   String? image;
-  String? degree;
-  String? experienceYears;
-  String? gender;
-  String? nationality;
-  String? department;
-  String? category;
-  String? subCategory;
-  String? foundation;
-  String? foundationName;
-  String? birthDate;
-  int? age;
-  String? scientificCertificate;
-  String? nationalIdFront;
-  String? nationalIdBack;
-  String? passport;
-  String? residence;
-  String? signedContract;
+  String? storeName;
+  String? commercialRegistrationNo;
+  String? ipan;
+  String? commercialEndDate;
+  String? mainAddress;
+  String? commercialRegistrationFile;
+  String? logo;
+  String? nationalIdImage;
   String? status;
   String? suspensionReason;
   bool? profileCompleted;
@@ -56,38 +47,24 @@ class Data {
   String? otp;
   String? passwordOtp;
   String? type;
-  String? languages;
-  String? description;
-  int? isRecommended;
-  List<String>? providerDays;
-  int? overNight;
   int? rate;
   String? accessToken;
 
-  Data(
+  LoginProviderModelData(
       {this.id,
         this.name,
         this.email,
         this.phone,
         this.phoneCountry,
         this.image,
-        this.degree,
-        this.experienceYears,
-        this.gender,
-        this.nationality,
-        this.department,
-        this.category,
-        this.subCategory,
-        this.foundation,
-        this.foundationName,
-        this.birthDate,
-        this.age,
-        this.scientificCertificate,
-        this.nationalIdFront,
-        this.nationalIdBack,
-        this.passport,
-        this.residence,
-        this.signedContract,
+        this.storeName,
+        this.commercialRegistrationNo,
+        this.ipan,
+        this.commercialEndDate,
+        this.mainAddress,
+        this.commercialRegistrationFile,
+        this.logo,
+        this.nationalIdImage,
         this.status,
         this.suspensionReason,
         this.profileCompleted,
@@ -95,15 +72,10 @@ class Data {
         this.otp,
         this.passwordOtp,
         this.type,
-        this.languages,
-        this.description,
-        this.isRecommended,
-        this.providerDays,
-        this.overNight,
         this.rate,
         this.accessToken});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  LoginProviderModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
@@ -112,23 +84,14 @@ class Data {
         ? new PhoneCountry.fromJson(json['phone_country'])
         : null;
     image = json['image'];
-    degree = json['degree'];
-    experienceYears = json['experience_years'];
-    gender = json['gender'];
-    nationality = json['nationality'];
-    department = json['department'];
-    category = json['category'];
-    subCategory = json['sub_category'];
-    foundation = json['foundation'];
-    foundationName = json['foundation_name'];
-    birthDate = json['birth_date'];
-    age = json['age'];
-    scientificCertificate = json['scientific_certificate'];
-    nationalIdFront = json['national_id_front'];
-    nationalIdBack = json['national_id_back'];
-    passport = json['passport'];
-    residence = json['residence'];
-    signedContract = json['signed_contract'];
+    storeName = json['store_name'];
+    commercialRegistrationNo = json['commercial_registration_no'];
+    ipan = json['ipan'];
+    commercialEndDate = json['commercial_end_date'];
+    mainAddress = json['main_address'];
+    commercialRegistrationFile = json['commercial_registration_file'];
+    logo = json['logo'];
+    nationalIdImage = json['national_id_image'];
     status = json['status'];
     suspensionReason = json['suspension_reason'];
     profileCompleted = json['profile_completed'];
@@ -136,11 +99,6 @@ class Data {
     otp = json['otp'];
     passwordOtp = json['password_otp'];
     type = json['type'];
-    languages = json['languages'];
-    description = json['description'];
-    isRecommended = json['is_recommended'];
-    providerDays = json['provider_days'].cast<String>();
-    overNight = json['over_night'];
     rate = json['rate'];
     accessToken = json['access_token'];
   }
@@ -155,23 +113,14 @@ class Data {
       data['phone_country'] = this.phoneCountry!.toJson();
     }
     data['image'] = this.image;
-    data['degree'] = this.degree;
-    data['experience_years'] = this.experienceYears;
-    data['gender'] = this.gender;
-    data['nationality'] = this.nationality;
-    data['department'] = this.department;
-    data['category'] = this.category;
-    data['sub_category'] = this.subCategory;
-    data['foundation'] = this.foundation;
-    data['foundation_name'] = this.foundationName;
-    data['birth_date'] = this.birthDate;
-    data['age'] = this.age;
-    data['scientific_certificate'] = this.scientificCertificate;
-    data['national_id_front'] = this.nationalIdFront;
-    data['national_id_back'] = this.nationalIdBack;
-    data['passport'] = this.passport;
-    data['residence'] = this.residence;
-    data['signed_contract'] = this.signedContract;
+    data['store_name'] = this.storeName;
+    data['commercial_registration_no'] = this.commercialRegistrationNo;
+    data['ipan'] = this.ipan;
+    data['commercial_end_date'] = this.commercialEndDate;
+    data['main_address'] = this.mainAddress;
+    data['commercial_registration_file'] = this.commercialRegistrationFile;
+    data['logo'] = this.logo;
+    data['national_id_image'] = this.nationalIdImage;
     data['status'] = this.status;
     data['suspension_reason'] = this.suspensionReason;
     data['profile_completed'] = this.profileCompleted;
@@ -179,11 +128,6 @@ class Data {
     data['otp'] = this.otp;
     data['password_otp'] = this.passwordOtp;
     data['type'] = this.type;
-    data['languages'] = this.languages;
-    data['description'] = this.description;
-    data['is_recommended'] = this.isRecommended;
-    data['provider_days'] = this.providerDays;
-    data['over_night'] = this.overNight;
     data['rate'] = this.rate;
     data['access_token'] = this.accessToken;
     return data;

@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/resources/color.dart';
-import 'package:shart/widgets/custom_app_bar.dart';
+import '../../core/resources/assets_menager.dart';
+import '../../core/resources/color.dart';
+import '../../core/resources/font_manager.dart';
+import '../../widgets/custom_app_bar.dart';
 
-import '../../../../../core/resources/assets_menager.dart';
-import '../../../../../core/resources/font_manager.dart';
+class CustomPackageDetailsScreen extends StatelessWidget {
+  const CustomPackageDetailsScreen({super.key});
 
-class ProviderPackageDetailsScreen extends StatefulWidget {
-  const ProviderPackageDetailsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProviderPackageDetailsScreen> createState() =>
-      _ProviderPackageDetailsScreenState();
-}
-
-class _ProviderPackageDetailsScreenState extends State<ProviderPackageDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

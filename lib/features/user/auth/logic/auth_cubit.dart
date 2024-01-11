@@ -8,6 +8,8 @@ import '../../book_package_service/logic/book_package_cubit.dart';
 import '../../menu/logic/menu_cubit.dart';
 import '../../profile/logic/user_profile_cubit.dart';
 import '../data/remote_data_base/auth_database.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -27,6 +29,7 @@ class AuthCubit extends Cubit<AuthState> {
   bool isLoading =false;
   bool isRegLoading =false;
   bool isOtpCompleted =false;
+  TextEditingController controllerOtpTest =TextEditingController();
   TextEditingController phoneController =TextEditingController();
   TextEditingController passwordController =TextEditingController();
   TextEditingController registerNameController = TextEditingController();
@@ -37,7 +40,25 @@ class AuthCubit extends Cubit<AuthState> {
  String otpCode='';
  String textFieldOtp='';
 
-
+  Future getPermission()async{
+    bool service;
+    LocationPermission permission;
+    service =await Geolocator.isLocationServiceEnabled();
+    if(service ==false){
+    }
+    permission =await Geolocator.checkPermission();
+    if(permission ==LocationPermission.denied){
+      permission =await Geolocator.requestPermission();
+    }
+    Position p ;
+    p=await Geolocator.getCurrentPosition().then((value) => value);
+    List<Placemark> place= await placemarkFromCoordinates( p.latitude,p.longitude);
+    CacheHelper.saveDate(key: 'lat', value:  p.latitude.toString());
+    CacheHelper.saveDate(key: 'long', value:  p.longitude.toString());
+    CacheHelper.saveDate(key: 'city', value:  place[0].administrativeArea);
+    emit(GetPermissionStates());
+    return permission;
+  }
   void userLogin (BuildContext context){
     if(formKey.currentState!.validate()){
       authDataSource.userLogin(phoneController.text.trim(), '3', passwordController.text.trim(), context);
@@ -71,16 +92,19 @@ class AuthCubit extends Cubit<AuthState> {
 
 
   Locale localeLanguage=Locale(CacheHelper.sharedPreference!.getString('lang')??'ar');
-  void changeLanguageApp(dynamic codeLang,context){
+  void changeLanguageApp(dynamic codeLang,BuildContext context,bool isUser){
     localeLanguage =Locale(codeLang);
     CacheHelper.sharedPreference!.setString('lang', codeLang);
-    MenuCubit.get(context).getPackageCheck(context);
-    BookPackageCubit.get(context).getBrands(context);
-    BookPackageCubit.get(context).getBrandModel(context);
-    BookPackageCubit.get(context).getBrandColors(context);
-    UserProfileCubit.get(context).getAboutCompanyUser(context);
-    UserProfileCubit.get(context).getTermsAndConditionsUser(context);
-    UserProfileCubit.get(context).getPrivacyUser(context);
+   if(isUser ==true){
+     MenuCubit.get(context).getPackageCheck(context);
+     BookPackageCubit.get(context).getBrands(context);
+     BookPackageCubit.get(context).getBrandModel(context);
+     BookPackageCubit.get(context).getBrandColors(context);
+     UserProfileCubit.get(context).getUserProfile('${AuthCubit.get(context).token}',context,);
+     UserProfileCubit.get(context).getAboutCompanyUser(context);
+     UserProfileCubit.get(context).getTermsAndConditionsUser(context);
+     UserProfileCubit.get(context).getPrivacyUser(context);
+   }
     emit(ChangeLanguage());
   }
 
@@ -105,6 +129,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ChangeVisibilityIconState());
   }
   void getToken(BuildContext context)async{
+    print('start');
     token = await CacheHelper.getDate(key: 'token');
     UserProfileCubit.get(context).getUserProfile(token, context);
     emit(GetTokenState());

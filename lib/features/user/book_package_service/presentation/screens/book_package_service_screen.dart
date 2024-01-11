@@ -24,14 +24,11 @@ class UserBookPackageServiceScreen extends StatefulWidget {
 class _UserBookPackageServiceScreenState
     extends State<UserBookPackageServiceScreen> {
   var brandSelectedValue ='';
+  var yearSelectedValue ='';
   var brandModelSelectedValue ='';
   var brandColorSelectedValue ='';
   @override
   Widget build(BuildContext context) {
-
-    // var brandSelectedValue ='${getLang(context, 'brand')} *';
-    // var brandModelSelectedValue ='${getLang(context, 'car_model')} *';
-    // var brandColorSelectedValue ='${getLang(context, 'color')} *';
     BookPackageCubit cubit =BookPackageCubit.get(context);
     cubit.getBrands(context);
     return Scaffold(
@@ -90,7 +87,8 @@ class _UserBookPackageServiceScreenState
                       isExpanded: true,
                       underline: const SizedBox.shrink(),
                       hint: Text('${brandSelectedValue}', style: TextStyle(fontSize: 14, color: Colors.black),),
-                      items: cubit.brands.map((BrandsData? e) =>
+                      items:
+                      cubit.brands.map((BrandsData? e) =>
                       DropdownMenuItem<String>(
                         value: e!.name,
                         child: Text(
@@ -113,10 +111,10 @@ class _UserBookPackageServiceScreenState
                       isExpanded: true,
                       underline: const SizedBox.shrink(),
                       hint: Text(
-                        '',
+                        '${yearSelectedValue}',
                         style: TextStyle(fontSize: 14, color: Colors.black),
                       ),
-                      items: <String>['test', 'test', 'test']
+                      items: <String>['2019', '2022', '2023','2024']
                           .map((String item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
@@ -127,7 +125,7 @@ class _UserBookPackageServiceScreenState
                           .toList(),
                       onChanged: (String? value) {
                         setState(() {
-                          // selectedValue = value;
+                          yearSelectedValue = value!;
                         });
                       },
                       buttonStyleData: ButtonStyleData(
@@ -190,227 +188,3 @@ class _UserBookPackageServiceScreenState
     );
   }
 }
-/*
-  Row(
-                  children: <Widget>[
-                Flexible(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    underline: const SizedBox.shrink(),
-                    hint: Text(
-                      '${'carrier type'.tr()}',
-                      style: TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                    items: <String>['test', 'test', 'test']
-                        .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        // selectedValue = value;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.5)),
-                            borderRadius: BorderRadius.circular(8.r))),
-                  ),
-                    ),
-                    SizedBox(width: 20.w),
-                    Flexible(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    underline: const SizedBox.shrink(),
-                    hint: Text(
-                      '${'fuel type'.tr()}',
-                      style: TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                    items: <String>['test', 'test', 'test']
-                        .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        // selectedValue = value;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.5)),
-                            borderRadius: BorderRadius.circular(8.r))),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h),
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                underline: const SizedBox.shrink(),
-                hint: Text(
-                  '${'counter speed'.tr()}',
-                  style: TextStyle(fontSize: 14, color: Colors.black),
-                ),
-                items: <String>['test', 'test', 'test']
-                    .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    // selectedValue = value;
-                  });
-                },
-                buttonStyleData: ButtonStyleData(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                        borderRadius: BorderRadius.circular(8.r))),
-              ),
-            ),
-            DropdownButton2<String>(
-              isExpanded: true,
-              underline: const SizedBox.shrink(),
-              hint: Text(
-                '${'car body type'.tr()}',
-                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black
-                  ),
-              ),
-              items: <String>['test', 'test', 'test']
-                  .map((String item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ))
-                  .toList(),
-              onChanged: (String? value) {
-                setState(() {
-                  // selectedValue = value;
-                });
-              },
-              buttonStyleData: ButtonStyleData(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                      borderRadius: BorderRadius.circular(8.r))),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h),
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                underline: const SizedBox.shrink(),
-                hint: Text(
-                  '${'engine'.tr()}',
-                  style: TextStyle(fontSize: 14, color: Colors.black),
-                ),
-                items: <String>['test', 'test', 'test']
-                    .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    // selectedValue = value;
-                  });
-                },
-                buttonStyleData: ButtonStyleData(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                        borderRadius: BorderRadius.circular(8.r))),
-              ),
-            ),
-            DropdownButton2<String>(
-              isExpanded: true,
-              underline: const SizedBox.shrink(),
-              hint: Text(
-                '${'status'.tr()}',
-                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black
-                  ),
-              ),
-              items: <String>['test', 'test', 'test']
-                  .map((String item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ))
-                  .toList(),
-              onChanged: (String? value) {
-                setState(() {
-                  // selectedValue = value;
-                });
-              },
-              buttonStyleData: ButtonStyleData(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                      borderRadius: BorderRadius.circular(8.r))),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h),
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                underline: const SizedBox.shrink(),
-                hint: Text(
-                  'vehicle location (city*)'.tr(),
-                  style: TextStyle(fontSize: 14, color: Colors.black),
-                ),
-                items: <String>['test', 'test', 'test']
-                    .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    // selectedValue = value;
-                  });
-                },
-                buttonStyleData: ButtonStyleData(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                        borderRadius: BorderRadius.circular(8.r))),
-              ),
-            ),
-            CustomTextField(
-              hintText: 'عدد الحوادث'.tr(),
-              controller: TextEditingController(),
-              hintColor: Colors.black,
-              // fontSize: 14.sp,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h),
-              child: CustomTextField(
-                  hintText: 'رقم هاتف العميل*'.tr(),
-                  // fontSize: 14.sp,
-                  controller: TextEditingController(),
-                  hintColor: Colors.black),
-                ),
- */

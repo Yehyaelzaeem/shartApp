@@ -1,90 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/resources/color.dart';
-import 'package:shart/core/resources/font_manager.dart';
-import 'package:shart/widgets/custom_app_bar.dart';
+import '../../../../../shared_screens/favorite/custom_favorite_screen.dart';
+import '../../../../../shared_screens/visitor_screen/visitor_screen.dart';
+import '../../../auth/logic/auth_provider_cubit.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav.dart';
 
-import '../../../../../core/resources/assets_menager.dart';
-
-class ProviderFavoriteScreen extends StatefulWidget {
+class ProviderFavoriteScreen extends StatelessWidget {
   const ProviderFavoriteScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProviderFavoriteScreen> createState() => _ProviderFavoriteScreen();
-}
-
-class _ProviderFavoriteScreen extends State<ProviderFavoriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'المفضلة'),
-      ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 9.w,
-          mainAxisSpacing: 15.h,
-          mainAxisExtent: 210.h,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.r),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: greyColor.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Image.asset(
-                      ImagesManager.sawabImg,
-                      height: 147.h,
-                      fit: BoxFit.fill,
-                      width: double.infinity,
-                    ),
-                    Positioned(
-                      top: 8.h,
-                      right: 16.w,
-                      child: CircleAvatar(
-                        minRadius: 12.sp,
-                        backgroundColor: whiteColor,
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                          size: 15.sp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Text(
-                    'اسم المتجر',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeightManager.bold,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
+
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (_) async {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => ProviderBottomNavScreen(
+                checkPage: '0',
+              )));
         },
-        shrinkWrap: true,
-        itemCount: 6,
-        padding: EdgeInsets.all(16.w),
-      ),
-    );
+        child:
+        CustomFavoriteScreen(type: 'provider',));
   }
 }

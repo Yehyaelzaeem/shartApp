@@ -1,12 +1,17 @@
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
+import '../../../../shared_screens/google_map/address_location_model.dart';
 import '../../../../widgets/show_toast_widget.dart';
 import '../data/model/about_compay_model.dart';
 import '../data/model/address_list_model.dart';
 import '../data/model/address_model.dart';
+import '../data/model/complete_model.dart';
 import '../data/model/delete_account_model.dart';
 import '../data/model/user_profile_model.dart';
 import '../data/remote_data_base/provider_profile_data_base.dart';
@@ -18,19 +23,27 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   ProviderProfileRemoteDataSource providerProfileRemoteDataSource =ProviderProfileRemoteDataSource();
   List<ProviderGetProfileModel> userProfileModelList=<ProviderGetProfileModel>[];
   ProviderGetProfileModel? providerProfileModel;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> formKeyEditProvider = GlobalKey<FormState>();
+
+  TextEditingController nameControllerProvider = TextEditingController();
+  TextEditingController emailControllerProvider = TextEditingController();
+  TextEditingController phoneControllerProvider = TextEditingController();
   TextEditingController addressNameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController addressPhoneController = TextEditingController();
   TextEditingController addressAddNameController = TextEditingController();
   TextEditingController addressAddController = TextEditingController();
   TextEditingController addressAddPhoneController = TextEditingController();
+  TextEditingController titleCompleteProfileController = TextEditingController();
+  TextEditingController numberCommercialCompleteProfileController = TextEditingController();
+  TextEditingController addressCompleteProfileController = TextEditingController();
+  TextEditingController iPanCompleteProfileController = TextEditingController();
+  TextEditingController dateCompleteProfileController = TextEditingController();
+
   AddressListModel? addressList;
   int addressType = 0;
 
-
+  AddressLocationModel? addressLocationModel;
   bool isAddressEditing =false;
   bool isUpdateLoading =false;
 
@@ -39,27 +52,25 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
         providerProfileModel=value;
         userProfileModelList.add(value!);
-        print('name : ${providerProfileModel!.data!.name}');
-        print('email : ${providerProfileModel!.data!.email}');
-        print('phone : ${providerProfileModel!.data!.phone}');
+        emit(GetProviderProfileState(value));
+
       });
     }else{
       print('token is empty getProviderProfile');
     }
-    emit(GetUserProfileState());
     return null;
   }
   Future<ProviderGetProfileModel?> updateProviderProfile
       ( ProviderGetProfileModel oldUserProfile ,String token ,BuildContext context)async{
     if(token.isNotEmpty){
-      if(nameController.text.isEmpty&&emailController.text.isEmpty&&phoneController.text.isEmpty&&profileImageProviderFile==null){
+      if(nameControllerProvider.text.isEmpty&&emailControllerProvider.text.isEmpty&&phoneControllerProvider.text.isEmpty&&profileImageProviderFile==null){
         showToast(text: 'please enter your data to need update', state: ToastStates.warning, context: context);
       }else{
         ProviderGetProfileModel userProfileModel = ProviderGetProfileModel(
             data: ProviderGetProfileModelData(
-              name: nameController.text.isNotEmpty?nameController.text:oldUserProfile.data!.name,
-              email:emailController.text.isNotEmpty?emailController.text:oldUserProfile.data!.email,
-              phone: phoneController.text.isNotEmpty?phoneController.text:oldUserProfile.data!.phone,
+              name: nameControllerProvider.text.isNotEmpty?nameControllerProvider.text:oldUserProfile.data!.name,
+              email:emailControllerProvider.text.isNotEmpty?emailControllerProvider.text:oldUserProfile.data!.email,
+              phone: phoneControllerProvider.text.isNotEmpty?phoneControllerProvider.text:oldUserProfile.data!.phone,
               phoneCountry: PhoneCountry(
                   id: 3
               ),
@@ -175,6 +186,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   }
 
   void afterChangeLanguage(BuildContext context){
+    getProviderProfile(AuthProviderCubit.get(context).token, context);
     getAboutCompanyProvider(context);
     getPrivacyProvider(context);
     getTermsAndConditionsProvider(context);
@@ -189,10 +201,55 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
 
   }
 
-
+  void sendCompleteProfile(BuildContext context){
+    if(titleCompleteProfileController.text.isNotEmpty&&numberCommercialCompleteProfileController.text.isNotEmpty
+        &&iPanCompleteProfileController.text.isNotEmpty &&addressCompleteProfileController.text.isNotEmpty
+        &&dateCompleteProfileController.text.isNotEmpty&&logoCompleteFile!=null&&idCompleteFile!=null&&pdfCompleteFile!=null){
+      CompleteProfileModel completeProfileModel =CompleteProfileModel(
+        storeName: titleCompleteProfileController.text.trim(),
+        commercialRegistrationNo: numberCommercialCompleteProfileController.text.trim(),
+        iPan: iPanCompleteProfileController.text.trim(),
+        commercialEndDate: dateCompleteProfileController.text.trim(),
+        mainAddress: addressCompleteProfileController.text.trim(),
+      );
+      providerProfileRemoteDataSource.sendCompleteProfile(AuthProviderCubit.get(context).token, completeProfileModel, context);
+    }else{
+      showToast(text: 'please complete required data', state: ToastStates.error, context: context);
+    }
+   }
 
 
   File? profileImageProviderFile;
+  File? logoCompleteFile;
+  File? idCompleteFile;
+  File? pdfCompleteFile;
+  Future<void> pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      logoCompleteFile =File(image.path);
+    }
+    emit(UploadImage());
+  }Future<void> pickImage2() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      idCompleteFile =File(image.path);
+    }
+    emit(UploadImage());
+  }
+
+  Future<void> pickPDF() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['pdf'],
+    );
+    if (result != null) {
+      String path = result.files.single.path!;
+      pdfCompleteFile =File(path);
+    }
+    emit(UploadPDF());
+  }
 
   Future<dynamic> uploadImage()async{
     var picker =ImagePicker();
@@ -205,7 +262,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   }
   void changeUpdateLoading(bool x){
     isUpdateLoading =x;
-    emit(GetUserProfileState());
+    emit(EditingAddressState());
   }
   void changeAddressEditing(bool x){
     isAddressEditing =x;

@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/resources/color.dart';
-import 'package:shart/core/resources/font_manager.dart';
-import 'package:shart/widgets/custom_button.dart';
-import '../../../../../core/resources/assets_menager.dart';
-import '../../../../../core/routing/navigation_services.dart';
-import '../../../../../core/routing/routes.dart';
-import '../../../../../widgets/custom_text_field.dart';
-import '../../logic/auth_provider_cubit.dart';
-
+import '../../../../../shared_screens/register/custom_register_screen.dart';
 class ProviderRegisterScreen extends StatelessWidget {
   const ProviderRegisterScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    AuthProviderCubit cubit =AuthProviderCubit.get(context);
-    print('ProviderRegisterScreen building ===================');
-    return PopScope(
+    print("ProviderRegisterScreen");
+    return CustomRegisterScreen(type: 'provider',);
+  }
+}
+/*
+PopScope(
       canPop: false,
       onPopInvoked: (_) async {
         NavigationManager.pushReplacement(Routes.providerLogin);
@@ -197,5 +189,4 @@ class ProviderRegisterScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
+ */

@@ -30,6 +30,7 @@ Future<void> main() async {
   } else {
     widget = const SplashScreen();
   }
+  //action
   runApp(DevicePreview(
       enabled: false,
       builder:(BuildContext context)=>MyApp(widget: widget,),

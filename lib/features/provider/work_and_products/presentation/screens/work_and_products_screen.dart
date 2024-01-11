@@ -4,6 +4,8 @@ import 'package:shart/features/provider/work_and_products/presentation/screens/p
 import 'package:shart/features/provider/work_and_products/presentation/screens/work_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 
+import '../../../../../core/localization/appLocale.dart';
+
 class ProviderWorkAndProductsScreen extends StatefulWidget {
   const ProviderWorkAndProductsScreen({Key? key}) : super(key: key);
 
@@ -26,34 +28,48 @@ class _MyWorkScreenState extends State<ProviderWorkAndProductsScreen>
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'اعمالي', hasBackButton: true),
+        child: CustomAppBar(title: '${getLang(context,'add_photo_video')}', hasBackButton: true,
+        onTap: (){
+          Navigator.pop(context);
+        },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(top: 24.h),
         physics: NeverScrollableScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisSize: MainAxisSize.min,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            TabBar(
-              onTap: (value) {
-                setState(() {
-                  controller.index = value;
-                });
-              },
-              controller: controller,
-              tabs: [
-                Tab(text: 'أعمالي'),
-                Tab(text: 'منتجاتي'),
-              ],
-              unselectedLabelColor: Colors.black,
-              labelColor: Color(0xff136B79),
-              padding: EdgeInsets.only(left: 180.w),
-              indicatorColor: Color(0xff136B79),
-              indicatorPadding: EdgeInsets.symmetric(horizontal: 30),
-              labelStyle: TextStyle(
-                fontFamily: 'Lateef',
-                fontSize: 16.sp,
-                color: Color(0xff136B79),
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                alignment: Alignment.topRight,
+                width: MediaQuery.of(context).size.width*0.5,
+                child: TabBar(
+                  onTap: (value) {
+                    setState(() {
+                      controller.index = value;
+                    });
+                  },
+                  controller: controller,
+                  tabs: <Widget>[
+                    Tab(text: '${getLang(context, 'my_business')}'),
+                    Tab(text: '${getLang(context, 'my_products')}'),
+                  ],
+                  unselectedLabelColor: Colors.black,
+                  labelColor: Color(0xff136B79),
+                  // padding: EdgeInsets.only(left: 0.w),
+                  indicatorColor: Color(0xff136B79),
+                  // indicatorPadding: EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                  labelStyle: TextStyle(
+                    fontFamily: 'Lateef',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
+                    color: Color(0xff136B79),
+                  ),
+                ),
               ),
             ),
             Container(

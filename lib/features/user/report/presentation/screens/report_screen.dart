@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 
-class ReportScreen extends StatefulWidget {
+class ReportScreen extends StatelessWidget {
   const ReportScreen({Key? key}) : super(key: key);
 
-  @override
-  State<ReportScreen> createState() => _ReportScreenState();
-}
-
-class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

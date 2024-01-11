@@ -10,13 +10,15 @@ import 'package:shart/features/provider/myorders/presentation/screens/my_orders_
 
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
+import '../../../../user/book_package_service/logic/book_package_cubit.dart';
+import '../../../../user/menu/logic/menu_cubit.dart';
 import '../../../auth/logic/auth_provider_cubit.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/logic/provider_profile_cubit.dart';
 
 class ProviderBottomNavScreen extends StatefulWidget {
-  const ProviderBottomNavScreen({Key? key}) : super(key: key);
-
+  const ProviderBottomNavScreen({Key? key, this.checkPage}) : super(key: key);
+  final String? checkPage;
   @override
   State<ProviderBottomNavScreen> createState() =>
       _ProviderBottomNavScreenState();
@@ -34,6 +36,16 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
   @override
   void initState() {
     AuthProviderCubit.get(context).getToken(context);
+    MenuCubit.get(context).getBanners('provider',context);
+    if (widget.checkPage != null) {
+      currentPage = int.parse(widget.checkPage.toString()).toInt();
+    } else {
+      currentPage = 0;
+    }
+    BookPackageCubit.get(context).getBrands(context);
+    BookPackageCubit.get(context).getBrandModel(context);
+    BookPackageCubit.get(context).getBrandColors(context);
+    MenuCubit.get(context).getPackageCheck(context);
     ProviderProfileCubit.get(context).getAboutCompanyProvider(context);
     ProviderProfileCubit.get(context).getPrivacyProvider(context);
     ProviderProfileCubit.get(context).getTermsAndConditionsProvider(context);
@@ -46,51 +58,33 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (_) async {
-        CustomDialogs.showAlertDialog(
-          type: DialogType.warning,
-          btnOkOnPress: () {
-            exit(0);
-          },
-          ctx: context,
-          btnCancelOnPress: () {},
-          title: 'الخروج',
-          desc: 'هل أنت متأكد من أنك تريد  الخروج ؟',
-          btnOkText: 'نعم',
-          btnCancelText: 'لا',
-        );
-        // NavigationManager.pushReplacement(Routes.login);
-      },
-      child: Scaffold(
-        backgroundColor: whiteColor,
-        body: pages[currentPage],
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.black,
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor: Colors.black,
-          selectedLabelStyle: TextStyle(color: Colors.black),
-          unselectedLabelStyle: TextStyle(color: Colors.black),
-          selectedIconTheme: IconThemeData(color: primaryColor),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: getLang(context,'the_menu')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border), label: getLang(context,'favorite')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart_outlined), label: getLang(context,'my_orders')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.message_outlined), label:  getLang(context,'messages')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings_outlined), label:getLang(context,'the_more')),
-          ],
-          currentIndex: currentPage,
-          onTap: (int val) {
-            currentPage = val;
-            setState(() {});
-          },
-        ),
+    return Scaffold(
+      backgroundColor: whiteColor,
+      body: pages[currentPage],
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.black,
+        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: Colors.black,
+        selectedLabelStyle: TextStyle(color: Colors.black),
+        unselectedLabelStyle: TextStyle(color: Colors.black),
+        selectedIconTheme: IconThemeData(color: primaryColor),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: getLang(context,'the_menu')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border), label: getLang(context,'favorite')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart_outlined), label: getLang(context,'my_orders')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.message_outlined), label:  getLang(context,'messages')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label:getLang(context,'the_more')),
+        ],
+        currentIndex: currentPage,
+        onTap: (int val) {
+          currentPage = val;
+          setState(() {});
+        },
       ),
     );
   }

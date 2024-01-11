@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../logic/auth_provider_cubit.dart';
 
 class OtpProviderScreen extends StatelessWidget {
-  const OtpProviderScreen({super.key});
+  final String otpCode;
+  const OtpProviderScreen({super.key, required this.otpCode});
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 3)).then((value){
+      var x = otpCode;
+      List resList=[];
+      var res;
+      for(int i=0;i<=x.length-1;i++){
+        resList.add(x[i]);
+      }
+      res= '${resList[3]}${resList[2]}${resList[1]}${resList[0]}';
+      AuthProviderCubit.get(context).controllerOtpTest.text =res;
+    });
     AuthProviderCubit cubit =AuthProviderCubit.get(context);
     return BlocConsumer<AuthProviderCubit,AuthProviderState>(
         builder: (BuildContext context,AuthProviderState state){
@@ -38,7 +49,7 @@ class OtpProviderScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold
                           ),
                         ) ,
-                        Text('لقد أرسلنا كلمة مرور لمرة واحدة إلى بريدك الإلكتروني، يرجى كتابة الرمز هنا',
+                        Text('لقد أرسلنا كلمة مرور لمرة واحدة إلى بريدك الإلكتروني، يرجى كتابة الرمز هنا\n من اليمين الى اليسار ',
                           style: TextStyle(
                               fontSize: 15,
                               color: Colors.black.withOpacity(0.20),
@@ -47,29 +58,44 @@ class OtpProviderScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 80.h,),
-                        OtpTextField(
-                          numberOfFields: 4,
-                          borderColor: Color(0xFF512DA8),
-                          showFieldAsBox: true,
-                          onCodeChanged: (String code) {
-                          },
-                          onSubmit: (String verificationCode){
-                            if(verificationCode.length ==4){
-                              cubit.textFieldOtp=verificationCode;
-                            }
-                          }, // end onSubmit
+                        // OtpTextField(
+                        //   numberOfFields: 4,
+                        //   borderColor: Color(0xFF512DA8),
+                        //   showFieldAsBox: true,
+                        //   onCodeChanged: (String code) {
+                        //
+                        //   },
+                        //   onSubmit: (String verificationCode){
+                        //     if(verificationCode.length ==4){
+                        //       cubit.textFieldOtp=verificationCode;
+                        //     }
+                        //   }, // end onSubmit
+                        // ),
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width*0.6,
+                            child: PinCodeTextField(
+                                autoDisposeControllers: false,
+                                controller: AuthProviderCubit.get(context).controllerOtpTest,
+                                appContext: context,
+                                length: 4,
+                                onChanged: (val){
+
+                                }),
+                          ),
                         ),
                         SizedBox(height: 40.h,),
                         Padding(
                           padding: EdgeInsets.only(bottom: 20.h, top: 64.h),
                           child: CustomElevatedButton(
                               onTap: () {
-                                if(cubit.textFieldOtp.length ==4){
-                                  String res='';
-                                  for(int i=cubit.textFieldOtp.length-1;i>=0;i--){
-                                    res +=cubit.textFieldOtp[i];
-                                  }
-                                  cubit.providerVerifyAccount(res,context);
+                                if(AuthProviderCubit.get(context).controllerOtpTest.text.length ==4){
+                                  // String res='';
+                                  // for(int i=cubit.textFieldOtp.length-1;i>=0;i--){
+                                  //   res +=cubit.textFieldOtp[i];
+                                  // }
+                                  print(otpCode);
+                                     cubit.providerVerifyAccount(otpCode,context);
                                 }
                               },
                               buttonText: 'استمرار'),

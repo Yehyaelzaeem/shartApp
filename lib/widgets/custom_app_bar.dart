@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Padding(
-        padding: EdgeInsets.only(top: 25.h),
+        padding: EdgeInsets.only(top: 0.h),
         child: Text(title),
       ),
       titleTextStyle: TextStyle(
@@ -29,7 +29,9 @@ class CustomAppBar extends StatelessWidget {
           ? Padding(
               padding: EdgeInsets.only(top: 25.h, right: 16.w, left: 16.w),
               child: InkWell(
-                  onTap: onTap,
+                  onTap: onTap??(){
+                    Navigator.pop(context);
+                  },
                   //     () {
                   //   UserProfileCubit.get(context).getUserProfile('${AuthCubit.get(context).token2}', context);
                   //   Navigator.pop(context);
