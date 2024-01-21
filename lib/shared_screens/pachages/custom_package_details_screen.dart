@@ -7,7 +7,6 @@ import '../../widgets/custom_app_bar.dart';
 
 class CustomPackageDetailsScreen extends StatelessWidget {
   const CustomPackageDetailsScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

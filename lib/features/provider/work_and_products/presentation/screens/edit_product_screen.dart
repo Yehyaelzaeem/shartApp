@@ -7,7 +7,6 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../../../../widgets/custom_text_field.dart';
-import '../../../../../widgets/multi_image/multi_image_picker_view.dart';
 import '../../../../user/book_package_service/data/model/brand_model.dart';
 import '../../../../user/book_package_service/data/model/brands.dart';
 import '../../../../user/book_package_service/logic/book_package_cubit.dart';
@@ -195,9 +194,8 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                           ),
                         ),
                         items: cubit.brands.map((BrandsData? e) {
-                          controllerCubit.brandSelectedId=e!.id.toString();
                           return DropdownMenuItem<String>(
-                            value: e.name,
+                            value: e!.name,
                             child: Text(
                               e.name!,
                               style: const TextStyle(fontSize: 14),
@@ -207,7 +205,12 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                         onChanged: (String? value) {
                           setState(() {
                             controllerCubit.brandSelectedValue = value!;
-                            print('brand id : ${controllerCubit.brandSelectedId}');
+                            for(var a in cubit.brands ){
+                              if(controllerCubit.brandSelectedValue==a!.name){
+                                controllerCubit.brandSelectedId=a.id!.toString();
+                                break;
+                              }
+                            }
                             // brandSelectedValue = e;
                           });
                         },
@@ -237,9 +240,8 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                         ),
                         items:
                         cubit.brandModelList.map((BrandModelData? e){
-                          controllerCubit.brandModelSelectedId=e!.id.toString();
                           return DropdownMenuItem<String>(
-                            value: e.name,
+                            value: e!.name,
                             child: Text(
                               e.name!,
                               style: const TextStyle(fontSize: 14),
@@ -249,8 +251,12 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                         onChanged: (String? value) {
                           setState(() {
                             controllerCubit.brandModelSelectedValue = value!;
-                            print('model id : ${controllerCubit.brandModelSelectedId}');
-                          });
+                            for(var a in cubit.brandModelList ){
+                              if(controllerCubit.brandModelSelectedValue==a!.name){
+                                controllerCubit.brandModelSelectedId=a.id!.toString();
+                                break;
+                              }
+                            }                          });
                         },
                         buttonStyleData: ButtonStyleData(
 
@@ -260,7 +266,8 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                                 borderRadius: BorderRadius.circular(8.r))),
                       ),
                     ),
-                    controllerCubit.isParts==true? Column(
+                    controllerCubit.isParts==true?
+                    Column(
                       children: [
                         Padding(
                           padding: EdgeInsets.only(top: 25.h),
@@ -380,7 +387,8 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                           ),
                         ),
                       ],
-                    ):SizedBox.shrink(),
+                    ):
+                    SizedBox.shrink(),
                     Padding(
                       padding: EdgeInsets.only(top: 25.h),
                       child: DropdownButton2<String>(

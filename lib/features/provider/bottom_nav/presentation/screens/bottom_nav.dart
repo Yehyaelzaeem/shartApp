@@ -27,7 +27,7 @@ class ProviderBottomNavScreen extends StatefulWidget {
 class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
   List<Widget> pages = <Widget>[
     const ProviderHomeScreen(),
-    const ProviderFavoriteScreen(),
+    // const ProviderFavoriteScreen(),
     const ProviderOrdersScreen(),
     const ProviderMessagesScreen(),
     const ProviderMoreScreen(),
@@ -71,8 +71,7 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: getLang(context,'the_menu')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border), label: getLang(context,'favorite')),
+          // BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: getLang(context,'favorite')),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart_outlined), label: getLang(context,'my_orders')),
           BottomNavigationBarItem(

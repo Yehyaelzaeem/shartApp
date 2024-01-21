@@ -22,3 +22,6 @@ const Color tireColor1 =Color.fromRGBO(71, 159, 144, 0.70);
 const Color tireColor2 =Color.fromRGBO(159, 107, 78, 0.70);
 const Color tireColor3 =Color.fromRGBO(178, 171, 153, 0.70);
 const Color redColor =Color(0xffDB3022);
+const Color geryTextColor =Color(0xff6E6D71);
+const Color blackTextColor =Color(0xff100E0D);
+const Color dividerColor =Color(0xffD0D5DD);

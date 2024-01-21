@@ -7,18 +7,13 @@ import 'package:shart/features/provider/home/presentation/screens/home_screen.da
 import 'package:shart/features/provider/messages/presentation/screens/messages_screen.dart';
 import 'package:shart/features/provider/more/presentation/screens/more_screen.dart';
 import 'package:shart/features/provider/myorders/presentation/screens/my_orders_screen.dart';
-import 'package:shart/features/provider/packages/presentation/screens/packages_screen.dart';
+import 'package:shart/features/provider/home/presentation/screens/packages/packages_screen.dart';
 import 'package:shart/features/user/auth/ui/screens/verify_account_screen.dart';
 import 'package:shart/features/user/invoice/presentation/screens/invoice_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/order_details.dart';
 import 'package:shart/features/user/notifications/presentation/screens/notification_screen.dart';
 import 'package:shart/features/user/products/presentation/screens/product_details_screen.dart';
 import 'package:shart/features/user/report/presentation/screens/report_screen.dart';
-import 'package:shart/features/user/spare_parts/presentation/screens/rims_screen.dart';
-import 'package:shart/features/user/spare_parts/presentation/screens/spare_parts_details_screen.dart';
-import 'package:shart/features/user/spare_parts/presentation/screens/spare_parts_screen.dart';
-import 'package:shart/features/user/spare_parts/presentation/screens/tires_screen.dart';
-import 'package:shart/features/user/spare_parts/presentation/screens/tires_types.dart';
 import 'package:shart/features/user/store/presentation/screens/store_products.dart';
 import 'package:shart/features/user/store/presentation/screens/store_screen.dart';
 
@@ -41,21 +36,20 @@ import '../../features/user/auth/ui/screens/register_screen.dart';
 import '../../features/user/book_package_service/presentation/screens/book_package_service_screen.dart';
 import '../../features/user/bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../features/user/favorite/presentation/screens/favorite_screen.dart';
-import '../../features/user/filter/presentation/screens/filter_spare_parts_screen.dart';
-import '../../features/user/filter/presentation/screens/filter_tires_and_rims_screen.dart';
 import '../../features/user/menu/presentation/menu/menu_screen.dart';
+import '../../features/user/menu/presentation/packages/packages_details/package_details_screen.dart';
 import '../../features/user/menu/presentation/packages/packages_screen.dart';
-import '../../features/user/menu/presentation/packages_details/package_details_screen.dart';
+import '../../features/user/menu/presentation/spare_parts/filter/screens/widget/filter_tires_and_rims_screen.dart';
+import '../../features/user/menu/presentation/spare_parts/screens/spare_parts_screen.dart';
+import '../../features/user/menu/presentation/spare_parts/screens/tires_types.dart';
 import '../../features/user/messages/presentation/screens/messages_screen.dart';
 import '../../features/user/profile/presentation/about_company/about_company_screen.dart';
-import '../../features/user/profile/presentation/complains/complains_screen.dart';
 import '../../features/user/profile/presentation/conditions_terms/conditions_screen.dart';
 import '../../features/user/more/presentation/screens/more_screen.dart';
 import '../../features/user/myorders/presentation/screens/item_details.dart';
 import '../../features/user/myorders/presentation/screens/myorders_screen.dart';
 import '../../features/user/packages/presentation/screens/packages_screen.dart';
 import '../../features/user/profile/presentation/edit_profile/screens/edit_profile_screen.dart';
-import '../../features/user/spare_parts/presentation/screens/car_supplies_screen.dart';
 import 'platform_page_route.dart';
 import 'undefined_route_screen.dart';
 
@@ -92,21 +86,21 @@ class RouteGenerator {
     if (settings.name == Routes.home) {
       return platformPageRoute(UserBottomNavScreen());
     }
-    if (settings.name == Routes.packagesHistory) {
-      return platformPageRoute(const UserPackagesScreen());
-    }
+    // if (settings.name == Routes.packagesHistory) {
+    //   return platformPageRoute(const UserPackagesScreen());
+    // }
     if (settings.name == Routes.filterTiresAndRims) {
       return platformPageRoute(const FilterTireAndRimsScreen());
     }
     if (settings.name == Routes.aboutCompany) {
       return platformPageRoute(const AboutCompanyScreen());
     }
-    if (settings.name == Routes.sparePartsFilter) {
-      return platformPageRoute(const SparePartsFilterScreen());
-    }
-    if (settings.name == Routes.productDetails) {
-      return platformPageRoute(const ProductDetailsScreen());
-    }
+    // if (settings.name == Routes.sparePartsFilter) {
+    //   return platformPageRoute(const SparePartsFilterScreen());
+    // }
+    // if (settings.name == Routes.productDetails) {
+    //   return platformPageRoute(const ProductDetailsScreen());
+    // }
     if (settings.name == Routes.storeProducts) {
       return platformPageRoute(const StoreProductsScreen());
     }
@@ -116,9 +110,9 @@ class RouteGenerator {
     // if (settings.name == Routes.complains) {
     //   return platformPageRoute(const ComplainsScreen());
     // }
-    if (settings.name == Routes.orderDetails) {
-      return platformPageRoute(const OrderDetailsScreen());
-    }
+    // if (settings.name == Routes.orderDetails) {
+    //   return platformPageRoute(const OrderDetailsScreen());
+    // }
     if (settings.name == Routes.conditions) {
       return platformPageRoute( ConditionsScreen(text: 'waiting...',));
     }
@@ -152,18 +146,18 @@ class RouteGenerator {
     // if (settings.name == Routes.packageDetails) {
     //   return platformPageRoute(const UserPackageDetailsScreen());
     // }
-    if (settings.name == Routes.carSupplies) {
-      return platformPageRoute(const CarSuppliesScreen());
-    }
-    if (settings.name == Routes.tires) {
-      return platformPageRoute(const TiresScreen());
-    }
+    // if (settings.name == Routes.carSupplies) {
+    //   return platformPageRoute(const CarSuppliesScreen());
+    // }
+    // if (settings.name == Routes.tires) {
+    //   return platformPageRoute(const TiresScreen());
+    // }
     if (settings.name == Routes.report) {
       return platformPageRoute(const ReportScreen());
     }
-    if (settings.name == Routes.sparePartsDetails) {
-      return platformPageRoute(const SparePartsDetailsScreen());
-    }
+    // if (settings.name == Routes.sparePartsDetails) {
+    //   return platformPageRoute(const SparePartsDetailsScreen());
+    // }
     if (settings.name == Routes.providerCompleteRenterData) {
       return platformPageRoute(const CompleteRenterDataScreen());
     }
@@ -176,9 +170,9 @@ class RouteGenerator {
     if (settings.name == Routes.invoice) {
       return platformPageRoute(const InvoiceScreen());
     }
-    if (settings.name == Routes.rims) {
-      return platformPageRoute(const RimsScreen());
-    }
+    // if (settings.name == Routes.rims) {
+    //   return platformPageRoute(const RimsScreen());
+    // }
     if (settings.name == Routes.notifications) {
       return platformPageRoute(const NotificationScreen());
     }

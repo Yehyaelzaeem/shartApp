@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import '../../core/resources/assets_menager.dart';
 import '../../core/resources/color.dart';
 import '../../core/resources/font_manager.dart';
@@ -16,10 +17,7 @@ class CustomPackagesScreen extends StatelessWidget {
     return  Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'سجل الباقات',hasBackButton: true,
-        onTap: (){
-          Navigator.pop(context);
-        },
+        child: CustomAppBar(title: getLang(context, 'register_packages'),hasBackButton: true,
         ),
       ),
       body: ListView.builder(

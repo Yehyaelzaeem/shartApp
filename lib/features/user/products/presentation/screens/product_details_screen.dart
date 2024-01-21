@@ -1,48 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
-import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
-}
-
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+class ProductDetailsScreen extends StatelessWidget {
+  const ProductDetailsScreen({Key? key, this.image, this.title, this.price, this.brandName, this.width, this.height, this.size, this.productStatus, this.description,}) : super(key: key);
+ // final ProductModelData productModelData;
+ final String? image;
+ final String? title;
+ final String? price;
+ final String? brandName;
+ final String? width;
+ final String? height;
+ final String? size;
+ final String? productStatus;
+ final String? description;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: 'تفاصيل المنتج',hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'product_details'),hasBackButton: true),
         preferredSize: Size(double.infinity, 80.h),
       ),
-      body: Padding(
+      body:
+      Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
+        child:
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Align(
                 alignment: Alignment.center,
-                child: Image.asset(ImagesManager.car1,
-                    width: 150.sp, height: 150.sp)),
+                child: Container(
+                  height: 230.h,
+                  width: double.infinity,
+                  child: Image.network(image!,
+                      // fit: BoxFit.fill,
+                      errorBuilder: (BuildContext context ,Object error,StackTrace? errorBuilder){
+                       return Text('Error to load image');
+                      },
+                     ),
+                )),
+            SizedBox(height: 25.h,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  getLang(context, 'اسم المنتج'),
-                  style: TextStyle(fontWeight: FontWeightManager.bold),
+                Container(
+                  width: 85.w,
+                  child: Text(
+                    getLang(context, 'product_name'),
+                    style: TextStyle(
+                        color: Color(0xff100E0D),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeightManager.bold),
+                  ),
+                ),
+                Container(
+                  width: 70.w,
+                  child: Text(
+                    title!,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeightManager.medium),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 SizedBox(
-                  width: 110.w,
-                  child: Text(
-                    '${getLang(context, 'السعر')} : 300 ر.س',
-                    style: TextStyle(color: redColor),
-                  ),
+                  width: 120.w,
+                    child: FittedBox(
+                      child: Text(
+                        '${getLang(context, 'price')} : ${price!} ${getLang(context, 'rs')}',
+                        style:
+                        TextStyle(
+                            color: redColor,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeightManager.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                 )
               ],
             ),
@@ -51,50 +91,130 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    getLang(context, 'اسم الماركة'),
-                    style: TextStyle(fontWeight: FontWeightManager.bold),
+                  Container(
+                    width: 100.w,
+                    child: Text(
+                      getLang(context, 'brand_name'),
+                      style: TextStyle(
+                          color:geryTextColor ,
+                          fontWeight: FontWeightManager.regular),
+                    ),
+                  ),
+                  Container(
+                    width: 90.w,
+
+                    child: Text(
+                      brandName!,
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeightManager.medium),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   SizedBox(
-                    width: 110.w,
+                    width: 60.w,
                     child: Text(
-                      getLang(context, 'العرض'),
+                      getLang(context, 'width'),
                       style: TextStyle(color: greyColor),
                     ),
-                  )
+
+                  ),
+                  Container(
+                    width: 45.w,
+                    child: Text(
+                      '${width!}',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeightManager.medium),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  getLang(context, 'المقاس'),
-                  style: TextStyle(fontWeight: FontWeightManager.bold),
-                ),
-                SizedBox(
-                  width: 110.w,
+                Container(
+                  width: 100.w,
+
                   child: Text(
-                    getLang(context, 'الارتفاع'),
+                    getLang(context, 'size'),
+                    style:TextStyle(
+                        color:geryTextColor ,
+                        fontWeight: FontWeightManager.regular),
+                  ),
+                ), 
+                Container(
+                  width: 90.w,
+
+                  child: Text(
+                    size!,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeightManager.medium),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+               size!=null?SizedBox(width: 20.w,):SizedBox.shrink(),
+                SizedBox(
+                  width: 75.w,
+                  child: Text(
+                    getLang(context, 'height'),
                     style: TextStyle(color: greyColor),
                   ),
-                )
+                ),
+                Container(
+                  width: 45.w,
+                  child: Text(
+                    '${height}',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeightManager.medium),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
             Padding(
               padding:   EdgeInsets.symmetric(vertical: 5.h),
-              child: Text(
-                  getLang(context, 'الحالة'),
+              child: Row(
+                children: [
+                  Text(
+                      getLang(context, 'status'),
+                    style: TextStyle(
+                        color:blackTextColor ,
+                        fontWeight: FontWeightManager.regular),
+                  ),
+                  SizedBox(width: 90.w,),
+                  Text(
+                    productStatus!,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeightManager.medium),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.h, bottom: 5.h),
               child: Text(
-                  getLang(context, 'الوصف :'),
+                  getLang(context, 'des'),
+                style: TextStyle(fontWeight: FontWeightManager.bold),
               ),
             ),
-            Text(
-                'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص .'),
+            Text(description!)
           ],
         ),
       ),

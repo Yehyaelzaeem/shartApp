@@ -7,28 +7,25 @@ import 'package:shart/core/resources/themes/app_theme.dart';
 import 'core/localization/appLocale.dart';
 import 'core/routing/navigation_services.dart';
 import 'core/routing/route_generator.dart';
-import 'core/routing/routes.dart';
 import 'core/shared_preference/shared_preference.dart';
-import 'features/common/intro/presentation/screens/onboarding_screen.dart';
-import 'features/common/splash/presentation/screens/splash_screen.dart';
 import 'features/provider/auth/logic/auth_provider_cubit.dart';
-import 'features/provider/auth/presentation/screens/otp_provider_screen.dart';
+import 'features/provider/home/logic/provider_home_cubit.dart';
 import 'features/provider/profile/logic/provider_profile_cubit.dart';
 import 'features/provider/work_and_products/logic/work_products_cubit.dart';
 import 'features/user/auth/logic/auth_cubit.dart';
 import 'features/user/book_package_service/logic/book_package_cubit.dart';
+import 'features/user/cart/logic/cart_cubit.dart';
+import 'features/user/favorite/logic/favorite_cubit.dart';
 import 'features/user/menu/logic/menu_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'features/user/myorders/logic/my_orders_cubit.dart';
 import 'features/user/profile/logic/user_profile_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key, required this.widget}) : super(key: key);
   final Widget widget;
-
   @override
   Widget build(BuildContext context) {
-    print('${CacheHelper.sharedPreference!.getString('lang').toString()}');
     return
       MultiBlocProvider(
         providers: <SingleChildWidget>[
@@ -38,6 +35,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProviderProfileCubit>(create: (BuildContext context) => ProviderProfileCubit()),
         BlocProvider<MenuCubit>(create: (BuildContext context) => MenuCubit()),
         BlocProvider<WorkProductsCubit>(create: (BuildContext context) => WorkProductsCubit()),
+        BlocProvider<FavoriteCubit>(create: (BuildContext context) => FavoriteCubit()),
+        BlocProvider<ProviderHomeCubit>(create: (BuildContext context) => ProviderHomeCubit()),
+        BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
+        BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(context)),
        ],
       child: ScreenUtilInit(
@@ -72,7 +73,6 @@ class MyApp extends StatelessWidget {
                 );
               },
               listener: (BuildContext context ,AuthState state){},);
-
         },
       )
       );

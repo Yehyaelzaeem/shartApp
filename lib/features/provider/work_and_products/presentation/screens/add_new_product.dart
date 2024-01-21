@@ -94,9 +94,8 @@ class ProviderAddNewProduct extends StatelessWidget {
                       return  CustomDropdownWidget(
                         text: '${controllerCubit.brandSelectedValue}',
                         items:  cubit.brands.map((BrandsData? e) {
-                          controllerCubit.brandSelectedId=e!.id.toString();
                           return DropdownMenuItem<String>(
-                            value: e.name,
+                            value: e!.name,
                             child: Text(
                               e.name!,
                               style: const TextStyle(fontSize: 14),
@@ -106,6 +105,12 @@ class ProviderAddNewProduct extends StatelessWidget {
                         onChanged: (String? val){
                           setState((){
                             controllerCubit.brandSelectedValue = val!;
+                            for(var a in cubit.brands ){
+                              if(controllerCubit.brandSelectedValue==a!.name){
+                                controllerCubit.brandSelectedId=a.id!.toString();
+                                break;
+                              }
+                            }
                           });
 
                         },);
@@ -114,9 +119,8 @@ class ProviderAddNewProduct extends StatelessWidget {
                       return  CustomDropdownWidget(
                         text: '${controllerCubit.brandModelSelectedValue}',
                         items: cubit.brandModelList.map((BrandModelData? e){
-                          controllerCubit.brandModelSelectedId=e!.id.toString();
                           return DropdownMenuItem<String>(
-                            value: e.name,
+                            value: e!.name,
                             child: Text(
                               e.name!,
                               style: const TextStyle(fontSize: 14),
@@ -126,6 +130,12 @@ class ProviderAddNewProduct extends StatelessWidget {
                         onChanged: (String? val){
                           setState((){
                             controllerCubit.brandModelSelectedValue = val!;
+                            for(var a in cubit.brandModelList ){
+                              if(controllerCubit.brandModelSelectedValue==a!.name){
+                                controllerCubit.brandModelSelectedId=a.id!.toString();
+                                break;
+                              }
+                            }
                           });
                         },);
                     }),

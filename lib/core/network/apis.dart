@@ -10,9 +10,23 @@ class AppApis{
   static const String getProfileUser='${baseUrl}user/profile';
   static const String updateProfileUser='${baseUrl}user/update-profile';
   static const String deleteAccount='${baseUrl}user/delete-account';
+  //Address
+  static const String getAddressUser='${baseUrl}user/addresses';
+  static const String addAddressUser='${baseUrl}user/addresses/add';
+  static  String editAddressUser (int id)=>'${baseUrl}user/addresses/edit/$id';
+  static  String deleteAddressUser (int id)=>'${baseUrl}user/addresses/delete/$id';
   //Company
   static const String termsAndConditionUser='${baseUrl}pages/terms_and_conditions';
   static const String privacyAndPolicyUser='${baseUrl}pages/privacy_policy';
+  //Spare_parts
+  static const String getProductUser='${baseUrl}user/get-products';
+  //Favorite
+  static const String getFavoriteUser='${baseUrl}user/fav-products';
+  static const String addFavoriteUser='${baseUrl}user/add-remove-product-to-favorite';
+  //Cart
+  static const String sendOrder='${baseUrl}user/make-order';
+  static const String getMyOrder='${baseUrl}user/get-my-orders';
+  static  String getSingleOrder(int id)=>'${baseUrl}user/get-my-orders/$id';
 
 
 
@@ -60,6 +74,10 @@ class AppApis{
 
 //Send Contact us message
   static const String complaintMessage='${baseUrl}send-contact-message';
+ //Get Packages
+  static const String getPackages='${baseUrl}provider/subscriptions';
+  static const String subscribePackages='${baseUrl}provider/update-subscription';
+  static const String historyPackages='${baseUrl}provider/get-subscription-history';
 
 
 }

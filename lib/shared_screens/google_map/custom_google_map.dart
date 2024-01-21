@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shart/features/user/cart/logic/cart_cubit.dart';
+import 'package:shart/features/user/cart/presentation/screen/complete_order.dart';
 import 'package:shart/widgets/custom_button.dart';
 
 import '../../core/resources/font_manager.dart';
 import '../../core/routing/navigation_services.dart';
 import '../../core/routing/routes.dart';
 import '../../features/provider/profile/logic/provider_profile_cubit.dart';
+import '../../features/user/cart/presentation/widgets/custom_address-user_widget.dart';
+import '../../features/user/profile/logic/user_profile_cubit.dart';
+import '../../features/user/profile/presentation/address/screens/user_add_address.dart';
 import 'address_location_model.dart';
 
 class CustomGoogleMapScreen extends StatefulWidget {
   final double lat;
   final double long;
-  const CustomGoogleMapScreen({super.key, required this.lat, required this.long});
+  final String type;
+  const CustomGoogleMapScreen({super.key, required this.lat, required this.long, required this.type});
 
   @override
   State<CustomGoogleMapScreen> createState() => _MapScreenState();
@@ -118,19 +124,21 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
                   street: getStreet.isEmpty?'':getStreet,
                   locality: getLocality.isEmpty?'':getLocality,
                 );
-
                 if(getCountry.isNotEmpty){
-                  ProviderProfileCubit.get(context).addressLocationModel =addressModel;
-                  NavigationManager.pushReplacement(Routes.providerAddAddress);
-                }
-                // print('lat : ${addressModel.lat}');
-                // print('long : ${addressModel.long}');
-                // print('country : ${addressModel.country}');
-                // print('bigCity : ${addressModel.bigCity}');
-                // print('city : ${addressModel.city}');
-                // print('locality : ${addressModel.locality}');
-                // print('street : ${addressModel.street}');
+                  if(widget.type=='user'){
+                    // UserProfileCubit.get(context).addressLocationModel =addressModel;
+                    CartCubit.get(context).addressLocationModel =addressModel;
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CompleteOrder()));
+                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserAddAddressScreen()));
 
+
+                }else{
+                    ProviderProfileCubit.get(context).addressLocationModel =addressModel;
+                   NavigationManager.pushReplacement(Routes.providerAddAddress);
+
+                }
+
+                }
               },
               fontSize: 25,
               buttonText: 'Save'),

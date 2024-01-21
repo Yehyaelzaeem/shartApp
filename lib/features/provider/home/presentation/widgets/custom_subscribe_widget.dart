@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../../../core/resources/color.dart';
+import '../../../../../shared_screens/pachages/custom_packages_screen.dart';
+import '../../logic/provider_home_cubit.dart';
+import '../screens/packages/packages_screen.dart';
 
 class CustomSubscribeWidget extends StatelessWidget {
   const CustomSubscribeWidget({super.key});
@@ -52,7 +55,13 @@ class CustomSubscribeWidget extends StatelessWidget {
                   elevation: 0,
                   minimumSize: Size(134.w, 36.h),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  ProviderHomeCubit.get(context).getPackages(context);
+                  Navigator.push(context, MaterialPageRoute(builder:
+                      (BuildContext context)=>ProviderPackagesScreen(
+                        isHistory: false,
+                      )));
+                },
                 child: Text(
                   '${getLang(context, 'subscription_now')}',
                   style: TextStyle(
@@ -63,7 +72,6 @@ class CustomSubscribeWidget extends StatelessWidget {
                 )),
           ),
           SizedBox(height: 20.h,),
-
         ],
       ),
     );

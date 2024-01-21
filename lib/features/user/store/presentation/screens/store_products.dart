@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/routing/navigation_services.dart';
-import 'package:shart/features/user/spare_parts/presentation/widgets/spare_part_item.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../menu/presentation/spare_parts/widgets/spare_part_item.dart';
 class StoreProductsScreen extends StatelessWidget {
   const StoreProductsScreen({Key? key}) : super(key: key);
 
@@ -31,8 +31,9 @@ class StoreProductsScreen extends StatelessWidget {
             child: SparePartItemWidget(
               brandName: 'اسم الماركة',
               productName: 'اسم المنتج',
-              price: 300,
+              price: 300.toString(),
               image: ImagesManager.tire1,
+              id: '', providerName: '',
             ),
           );
         },

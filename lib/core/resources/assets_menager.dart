@@ -22,6 +22,7 @@ class ImagesManager {
   static String tire2 = '$_imagesPath/tire2.png';
   static String rim = '$_imagesPath/rim.png';
   static String aetar = '$_imagesPath/aetar.png';
+  static String cart33 = '$_imagesPath/cart33.png';
   static String testLogo = 'https://firebasestorage.googleapis.com/v0/b/superjet-52b56.appspot.com/o/intro2.png?alt=media&token=8d3d7c10-7948-439f-87ad-a74ba2e4e5bd';
 
 }

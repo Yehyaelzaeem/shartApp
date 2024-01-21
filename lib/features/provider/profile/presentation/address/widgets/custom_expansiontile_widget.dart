@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../../../../widgets/custom_button.dart';
 import '../../../../auth/logic/auth_provider_cubit.dart';
@@ -12,7 +14,10 @@ class CustomExpansionTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
-    return    ExpansionTile(
+    return    BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
+  listener: (BuildContext context,ProviderProfileState state) {},
+  builder: (BuildContext context,ProviderProfileState state) {
+    return ExpansionTile(
         childrenPadding: EdgeInsets.symmetric(vertical: 10),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         textColor: Colors.black,
@@ -22,9 +27,9 @@ class CustomExpansionTileWidget extends StatelessWidget {
                 fontFamily: 'Lateef',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold)),
-        children: [
+        children: <Widget>[
           Text(
-            'أسم الفرع',
+            getLang(context, 'branch_name'),
             style: TextStyle(
                 fontSize: 14.sp,
                 fontFamily: 'Lateef',
@@ -41,7 +46,7 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       color: Color(0xff4B4B4B)))),
           SizedBox(height: 25.h),
           Text(
-            'العنوان',
+            getLang(context, 'the_address'),
             style: TextStyle(
                 fontSize: 14.sp,
                 fontFamily: 'Lateef',
@@ -59,17 +64,16 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       color: Color(0xff4B4B4B)))),
           SizedBox(height: 25.h),
           Text(
-            'الموقع',
+            getLang(context, 'the_location'),
             style: TextStyle(
                 fontSize: 14.sp,
                 fontFamily: 'Lateef',
                 fontWeight: FontWeight.w500),
           ),
           TextField(
-
             decoration: InputDecoration(
                 hintText:
-                'Talha ST, 8498، 4965 8498  حي النسيم الشرقى 23338 8498, Saudi Arabia',
+                'lat : ${cubit.addressList!.data![index].lat} / long : ${cubit.addressList!.data![index].lng}',
                 hintStyle: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 14.sp,
@@ -78,7 +82,7 @@ class CustomExpansionTileWidget extends StatelessWidget {
           ),
           SizedBox(height: 25.h),
           Text(
-            'رقم التليفون',
+            getLang(context, 'phone_nu'),
             style: TextStyle(
                 fontSize: 14.sp,
                 fontFamily: 'Lateef',
@@ -94,21 +98,29 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       fontFamily: 'Lateef',
                       color: Color(0xff4B4B4B)))),
           SizedBox(height: 25.h),
-          Padding(
+          cubit.isUpdateLoading?Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: Center(child: CircularProgressIndicator(),),
+          ):Padding(
             padding: EdgeInsets.only(bottom: 15.h, top: 15.h),
             child: CustomElevatedButton(
                 onTap: () {
                   cubit.editAddressProvider(cubit.addressList!.data![index],int.parse('${cubit.addressList!.data![index].id}'), AuthProviderCubit.get(context).token, context).then((value) {
                   });
-                }, buttonText: 'حفظ التعديل'),
+                }, buttonText: getLang(context, 'update_data')),
           ),
-          CustomElevatedButton(
+          cubit.isAddLoading?Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: Center(child: CircularProgressIndicator(),),
+          ):CustomElevatedButton(
               onTap: () {
                 cubit.deleteAddressProvider(int.parse('${cubit.addressList!.data![index].id}'), AuthProviderCubit.get(context).token, context);
               },
-              buttonText: 'مسح العنوان',
+              buttonText: getLang(context, 'delete_address'),
               backgroundColor: Colors.white,
               borderColor: Colors.black),
         ]);
+  },
+);
   }
 }

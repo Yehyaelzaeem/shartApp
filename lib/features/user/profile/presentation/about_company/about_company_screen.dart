@@ -14,10 +14,6 @@ class AboutCompanyScreen extends StatelessWidget {
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(
           title: getLang(context,'about_company'),hasBackButton: true,
-          onTap: (){
-            Navigator.pop(context);
-
-          },
         ),
       ),
       body: Padding(

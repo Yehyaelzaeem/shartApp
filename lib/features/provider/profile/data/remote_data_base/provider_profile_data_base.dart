@@ -139,58 +139,73 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
   @override
   Future<AddressModel?> addAddressProvider(AddressModelData addressModelData, String token, BuildContext context) async{
+    ProviderProfileCubit cubit =   ProviderProfileCubit.get(context);
+    cubit.changeAddLoading(true);
     Response<dynamic> res = await DioHelper.postData(url: AppApis.addAddressProvider, token: token,
     data: <String,dynamic>{
       'name':'${addressModelData.name}',
       'address':'${addressModelData.address}',
-      'lat':'123456',
-      'lng':'123',
+      'lat':'${addressModelData.lat}',
+      'lng':'${addressModelData.lng}',
       'phone':'${addressModelData.phone}',
       'note':'',
     }
     );
     if (AddressModel.fromJson(res.data).success == false) {
-       showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+      cubit.changeAddLoading(false);
+      showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (res.statusCode == 200) {
-        Navigator.pop(context);
-        Navigator.pop(context);
-        getAddressListProvider(token, context);
+        cubit.getAddressListProvider(token, context);
+        cubit.changeAddLoading(false);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         return AddressModel.fromJson(res.data);
       }
       else {
+        cubit.changeAddLoading(false);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
         throw 'Error';
       }
     }
+    cubit.changeAddLoading(false);
+
     return null;
   }
 
   @override
   Future<AddressListModel?> deleteAddressProvider(int id, String token, BuildContext context)async {
+    ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
+    cubit.changeAddLoading(true);
     Response<dynamic> res = await DioHelper.postData(url: AppApis.deleteAddressProvider(id), token: token,);
     if (AddressListModel.fromJson(res.data).success == false) {
       showToast(text: '${AddressListModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+      cubit.changeAddLoading(false);
 
     }
     else{
       if (res.statusCode == 200) {
+        cubit.getAddressListProvider(token, context);
+        cubit.changeAddLoading(false);
         showToast(text: '${AddressListModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-        Navigator.pop(context);
+        // Navigator.pop(context);
         return AddressListModel.fromJson(res.data);
       }
       else {
+        cubit.changeAddLoading(false);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
         throw 'Error';
       }
     }
+    cubit.changeAddLoading(false);
+
     return null;
   }
 
   @override
   Future<AddressModel?> editAddressProvider(AddressModelData addressModelData, String token, BuildContext context) async{
+    ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
+    cubit.changeUpdateLoading(true);
     Response<dynamic> res = await DioHelper.postData(url: AppApis.editAddressProvider(addressModelData.id!), token: token,
         data: <String,dynamic>{
           'name':'${addressModelData.name}',
@@ -202,19 +217,26 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
         }
     );
     if (AddressModel.fromJson(res.data).success == false) {
+      cubit.changeUpdateLoading(false);
+
       showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (res.statusCode == 200) {
-        Navigator.pop(context);
+        cubit.changeUpdateLoading(false);
+        cubit.getAddressListProvider(token, context);
+        // Navigator.pop(context);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         return AddressModel.fromJson(res.data);
       }
       else {
+        cubit.changeUpdateLoading(false);
+
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
         throw 'Error';
       }
     }
+    cubit.changeUpdateLoading(false);
     return null;
   }
 

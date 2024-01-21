@@ -2,60 +2,27 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
+import 'package:shart/shared_screens/google_map/address_location_model.dart';
 import 'package:shart/shared_screens/google_map/custom_google_map.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
 import '../../../logic/provider_profile_cubit.dart';
 import '../widgets/custom_radio_widget.dart';
-class ProviderAddAddressScreen extends StatefulWidget{
+class ProviderAddAddressScreen extends StatelessWidget{
   const ProviderAddAddressScreen({super.key});
 
   @override
-  State<ProviderAddAddressScreen> createState() => _ProviderAddAddressScreenState();
-}
-
-class _ProviderAddAddressScreenState extends State<ProviderAddAddressScreen> {
-  var selectValue='العنوان الرئيسي';
-  // static final CameraPosition kGoogle= CameraPosition(
-  //     target: LatLng(21.422390,39.7822));
-  late GoogleMapController mapController;
-  double? lat;
-  double? long;
- @override
-  void initState() {
-
-   getloc();
-    // TODO: implement initState
-    super.initState();
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  Position? p ;
-  Future<void> getloc()async{
-    p =await Geolocator.getCurrentPosition().then((value) {
-      lat=value.latitude;
-      long=value.longitude;
-      print('lat : => $lat');
-      print('long : => $long');
-    });
-  }
-  final LatLng _center =  LatLng(251354,15);
-
-  @override
   Widget build(BuildContext context) {
+    print("building......");
+    ProviderProfileCubit.get(context).getLocation(context);
     ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(
-          title: 'أضف عنوان',
+          title: getLang(context,'adding_address'),
           hasBackButton: true,
         ),
         preferredSize: Size(double.infinity, 80.h),
@@ -74,53 +41,55 @@ class _ProviderAddAddressScreenState extends State<ProviderAddAddressScreen> {
             child:
             BlocConsumer<ProviderProfileCubit ,ProviderProfileState>(
               builder: (BuildContext context ,ProviderProfileState state){
-                var x =ProviderProfileCubit.get(context).addressLocationModel;
+                AddressLocationModel? x =ProviderProfileCubit.get(context).addressLocationModel;
                 return     Column(
                   children: <Widget>[
                     CustomRadioAddAddressWidget(),
                     if (cubit.addressType == 1)
-                      Padding(
-                        padding: EdgeInsets.only(top: 25.h),
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          underline: const SizedBox.shrink(),
-                          hint: Text(
-                           '${selectValue}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
+                      StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                        return Padding(
+                          padding: EdgeInsets.only(top: 25.h),
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            underline: const SizedBox.shrink(),
+                            hint: Text(
+                              '${cubit.selectValue}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
                             ),
+                            items: <String>['عنوان1', 'عنوان2', 'عنوان3']
+                                .map((String item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ))
+                                .toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                cubit.selectValue = value!;
+                              });
+                            },
+                            buttonStyleData: ButtonStyleData(
+                                decoration: BoxDecoration(
+                                    border:
+                                    Border.all(color: Colors.grey.withOpacity(0.5)),
+                                    borderRadius: BorderRadius.circular(8.r))),
                           ),
-                          items: <String>['عنوان1', 'عنوان2', 'عنوان3']
-                              .map((String item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ))
-                              .toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              selectValue = value!;
-                            });
-                          },
-                          buttonStyleData: ButtonStyleData(
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: Colors.grey.withOpacity(0.5)),
-                                  borderRadius: BorderRadius.circular(8.r))),
-                        ),
-                      ),
+                        );
+                      }),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child: CustomTextField(
-                          hintText: 'اسم الفرع',
+                          hintText: getLang(context, 'branch_name'),
                           hintColor: Colors.black,
                           controller: cubit.addressAddNameController),
                     ),
                     CustomTextField(
-                        hintText: 'العنوان',
+                        hintText: getLang(context, 'the_address'),
                         hintColor: Colors.black,
                         controller: cubit.addressAddController),
                     SizedBox(height: 24.h,),
@@ -132,9 +101,9 @@ class _ProviderAddAddressScreenState extends State<ProviderAddAddressScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
                       onPressed: ()async{
-                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomGoogleMapScreen(
-                         lat: lat!,
-                         long: long!,
+                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CustomGoogleMapScreen(
+                         lat: cubit.lat!,
+                         long: cubit.long!, type: 'provider',
                        )));
                       }, child: Row(
                         children: [
@@ -156,7 +125,7 @@ class _ProviderAddAddressScreenState extends State<ProviderAddAddressScreen> {
                           ):
                           Container(
                             width: MediaQuery.of(context).size.width*0.7,
-                            child: Text('الموقع',
+                            child: Text( getLang(context, 'the_location'),
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.black.withOpacity(0.60)
@@ -181,16 +150,19 @@ class _ProviderAddAddressScreenState extends State<ProviderAddAddressScreen> {
                     // ),
                     SizedBox(height: 24.h,),
                     CustomTextField(
-                        hintText: 'رقم التليفون',
+                        hintText:  getLang(context, 'phone_nu'),
                         hintColor: Colors.black,
                         textInputType: TextInputType.phone,
                         controller: cubit.addressAddPhoneController),
-                    Padding(
+                    cubit.isAddLoading?Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24.h),
+                      child: Center(child: CircularProgressIndicator(),),
+                    ):Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child:
                       CustomElevatedButton(onTap: () {
                         cubit.addAddressProvider(AuthProviderCubit.get(context).token, context);
-                      }, buttonText: 'حفظ'),
+                      }, buttonText:  getLang(context, 'my_business_save'),),
                     ),
                   ],
                 );

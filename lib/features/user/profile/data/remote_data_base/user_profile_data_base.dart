@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shart/core/routing/navigation_services.dart';
@@ -7,6 +9,7 @@ import '../../../../../core/network/dio.dart';
 import '../../../../../core/shared_preference/shared_preference.dart';
 import '../../../../../widgets/show_toast_widget.dart';
 import '../../../../provider/profile/data/model/about_compay_model.dart';
+import '../../../../provider/profile/data/model/address_list_model.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../../logic/user_profile_cubit.dart';
 import '../model/compaints_message_model.dart';
@@ -23,10 +26,112 @@ abstract class BaseUserProfileRemoteDataSource{
   Future<AboutCompanyModel?> getTermsAndConditionsUser(BuildContext context);
   Future<AboutCompanyModel?> getPrivacyUser(BuildContext context);
   Future<ComplaintMessageModel?> sendComplaintMessage(MessageModel messageModel ,BuildContext context);
-
+  Future<dynamic> addAddressUser(AddressModelData addressModelData, String token, BuildContext context);
+  Future<dynamic> deleteAddressUser(int id, String token, BuildContext context);
+  Future<dynamic> editAddressUser(AddressModelData addressModelData, String token, BuildContext context);
+  Future<AddressListModel?> getAddressListUser(String token, BuildContext context);
 }
 
 class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
+  @override
+  Future<dynamic> addAddressUser(AddressModelData addressModelData, String token, BuildContext context) async{
+    UserProfileCubit cubit =   UserProfileCubit.get(context);
+    cubit.changeAddLoading(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.addAddressUser, token: token,
+        data: <String,dynamic>{
+          'name':'${addressModelData.name}',
+          'address':'${addressModelData.address}',
+          'lat':'${addressModelData.lat}',
+          'lng':'${addressModelData.lng}',
+          'phone':'${addressModelData.phone}',
+          'note':'',
+        }
+    );
+    if (response.statusCode == 200) {
+
+
+      cubit.changeAddLoading(false);
+      cubit.addressAddNameController.text='';
+      cubit.addressAddController.text='';
+      cubit.addressAddPhoneController.text='';
+      cubit.long =0.0;
+      cubit.lat =0.0;
+      cubit.addressLocationModel=null;
+      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
+       cubit.getAddressListUser(token, context);
+    }
+    else {
+      cubit.changeAddLoading(false);
+      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+    }
+    cubit.changeAddLoading(false);
+    return null;
+  }
+
+  @override
+  Future<dynamic> deleteAddressUser(int id, String token, BuildContext context)async {
+    UserProfileCubit cubit =UserProfileCubit.get(context);
+    cubit.changeAddLoading(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.deleteAddressUser(id), token: token,);
+    if (response.statusCode == 200) {
+      cubit.changeAddLoading(false);
+      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
+      cubit.getAddressListUser(token, context);
+    }
+    else {
+      cubit.changeAddLoading(false);
+      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+    }
+    cubit.changeAddLoading(false);
+    return null;
+  }
+
+  @override
+  Future<dynamic> editAddressUser(AddressModelData addressModelData, String token, BuildContext context) async{
+    UserProfileCubit cubit =UserProfileCubit.get(context);
+    cubit.changeUpdateLoading(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.editAddressUser(addressModelData.id!), token: token,
+        data: <String,dynamic>{
+          'name':'${addressModelData.name}',
+          'address':'${addressModelData.address}',
+          'lat':'${addressModelData.lat}',
+          'lng':'${addressModelData.lng}',
+          'phone':'${addressModelData.phone}',
+          'note':'',
+        }
+    );
+    if (response.statusCode == 200) {
+      cubit.changeUpdateLoading(false);
+      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
+      cubit.getAddressListUser(token, context);
+    }
+    else {
+      cubit.changeUpdateLoading(false);
+      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+    }
+    cubit.changeUpdateLoading(false);
+    return null;
+  }
+
+  @override
+  Future<AddressListModel?> getAddressListUser(String token, BuildContext context) async{
+    Response<dynamic> res = await DioHelper.getData(url: AppApis.getAddressUser, token: token);
+    if (AddressListModel.fromJson(res.data).success == false) {
+       showToast(text: '${AddressListModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+    }
+    else{
+      if (res.statusCode == 200) {
+        // showToast(text: '${AddressListModel.fromJson(res.data).data}', state: ToastStates.success, context: context);
+
+        return AddressListModel.fromJson(res.data);
+      }
+      else {
+        throw 'Error';
+      }
+    }
+    return null;
+  }
+
 
 
   @override

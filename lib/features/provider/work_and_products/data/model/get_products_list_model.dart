@@ -45,7 +45,7 @@ class GetProductsModelData {
   List<Images>? images;
   Brand? brand;
   int? brandId;
-  String? modal;
+  Model? modal;
   int? modalId;
 
   GetProductsModelData(
@@ -88,7 +88,7 @@ class GetProductsModelData {
     }
     brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
     brandId = json['brand_id'];
-    modal = json['modal'];
+    modal = json['modal'] != null ? new Model.fromJson(json['modal']) : null;
     modalId = json['modal_id'];
   }
 
@@ -113,8 +113,10 @@ class GetProductsModelData {
     if (this.brand != null) {
       data['brand'] = this.brand!.toJson();
     }
+    if (this.modal != null) {
+      data['modal'] = this.modal!.toJson();
+    }
     data['brand_id'] = this.brandId;
-    data['modal'] = this.modal;
     data['modal_id'] = this.modalId;
     return data;
   }
@@ -301,6 +303,24 @@ class Brand {
     data['id'] = this.id;
     data['name'] = this.name;
     data['image'] = this.image;
+    return data;
+  }
+}
+class Model {
+  int? id;
+  String? name;
+
+  Model({this.id, this.name});
+
+  Model.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }

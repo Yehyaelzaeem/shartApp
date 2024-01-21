@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../core/localization/appLocale.dart';
 
 class ConditionsScreen extends StatelessWidget {
@@ -14,10 +13,6 @@ class ConditionsScreen extends StatelessWidget {
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(
           title: getLang(context,'terms_conditions'),hasBackButton: true,
-          onTap: (){
-            Navigator.pop(context);
-
-          },
         ),
       ),
       body: Padding(

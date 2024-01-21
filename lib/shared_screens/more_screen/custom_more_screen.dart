@@ -15,25 +15,22 @@ class CustomMoreScreen extends StatelessWidget {
  final String type;
   @override
   Widget build(BuildContext context) {
+
     return  Scaffold(
         appBar: PreferredSize(
-          child: CustomAppBar(title: getLang(context,'the_more'),),
+          child: CustomAppBar(title: getLang(context,'the_more'),hasNotCartButton: true,),
           preferredSize: Size(double.infinity, 80.h),
         ),
         body:
         type=='user'?
         BlocBuilder<UserProfileCubit,UserProfileState>(
           builder: (BuildContext context, UserProfileState state) {
-            if(state is UserProfileInitial){
-              return Center(child: Text('No Data Now ,please wait'),);
-            }
-            else if(state is GetUserProfileState)
+             if(UserProfileCubit.get(context).userProfileModel!=null)
             {
-              final UserProfileModel userProfileModel = state.userProfileModel;
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: SingleChildScrollView(
-                  child: CustomBodyMore(userProfileModel: userProfileModel, type: 'user',),
+                  child: CustomBodyMore(userProfileModel: UserProfileCubit.get(context).userProfileModel, type: 'user',),
                 ),
               );
             }else{
@@ -41,17 +38,14 @@ class CustomMoreScreen extends StatelessWidget {
             }
           },
         ):
-        BlocBuilder<ProviderProfileCubit,ProviderProfileState>(builder: (BuildContext context, ProviderProfileState state1) {
-      if(state1 is ProviderProfileInitial){
-        return Center(child: Text('No Data Now ,please wait'),);
-      }
-      else if(state1 is GetProviderProfileState)
+        BlocBuilder<ProviderProfileCubit,ProviderProfileState>(
+          builder: (BuildContext context, ProviderProfileState state1) {
+            if(ProviderProfileCubit.get(context).providerProfileModel !=null)
       {
-        ProviderGetProfileModel providerGetProfileModel = state1.providerGetProfileModel;
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: SingleChildScrollView(
-            child: CustomBodyMore( providerGetProfileModel: providerGetProfileModel, type: 'provider',),
+            child: CustomBodyMore( providerGetProfileModel: ProviderProfileCubit.get(context).providerProfileModel, type: 'provider',),
           ),
         );
       }else{

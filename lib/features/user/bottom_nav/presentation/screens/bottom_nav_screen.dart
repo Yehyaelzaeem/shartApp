@@ -11,7 +11,9 @@ import 'package:shart/features/user/more/presentation/screens/more_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/myorders_screen.dart';
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
+import '../../../favorite/logic/favorite_cubit.dart';
 import '../../../menu/presentation/menu/menu_screen.dart';
+import '../../../myorders/logic/my_orders_cubit.dart';
 import '../../../profile/logic/user_profile_cubit.dart';
 
 class UserBottomNavScreen extends StatefulWidget {
@@ -43,6 +45,7 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
     BookPackageCubit.get(context).getBrandModel(context);
     BookPackageCubit.get(context).getBrandColors(context);
   }else{
+
     AuthCubit.get(context).getToken(context);
     MenuCubit.get(context).getPackageCheck(context);
     MenuCubit.get(context).getBanners('user',context);
