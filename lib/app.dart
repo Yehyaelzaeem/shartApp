@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProviderHomeCubit>(create: (BuildContext context) => ProviderHomeCubit()),
         BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
-        BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(context)),
+        BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),
        ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),

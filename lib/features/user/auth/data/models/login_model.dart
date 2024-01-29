@@ -44,7 +44,7 @@ class Data {
   String? healthState;
   String? healthReport;
   String? accessToken;
-  String? car;
+  Car? car;
 
   Data(
       {this.id,
@@ -90,7 +90,9 @@ class Data {
     healthState = json['health_state'];
     healthReport = json['health_report'];
     accessToken = json['access_token'];
-    car = json['car'];
+    car =json['car'] != null
+        ? new Car.fromJson(json['car'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -119,7 +121,84 @@ class Data {
     data['health_state'] = this.healthState;
     data['health_report'] = this.healthReport;
     data['access_token'] = this.accessToken;
-    data['car'] = this.car;
+    if (this.car != null) {
+      data['car'] = this.car!.toJson();
+    }
+    return data;
+  }
+}
+class Modal {
+  int? id;
+  String? name;
+
+  Modal({this.id, this.name});
+
+  Modal.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+class ColorModel {
+  int? id;
+  String? name;
+  String? color;
+
+  ColorModel({this.id, this.name, this.color});
+
+  ColorModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    color = json['color'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['color'] = this.color;
+    return data;
+  }
+}
+class Car {
+  int? id;
+  Brand? brand;
+  Modal? modal;
+  ColorModel? color;
+  String? chassisNo;
+  String? year;
+
+  Car({this.id, this.brand, this.modal, this.color, this.chassisNo, this.year});
+
+  Car.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
+    modal = json['modal'] != null ? new Modal.fromJson(json['modal']) : null;
+    color = json['color'] != null ? new ColorModel.fromJson(json['color']) : null;
+    chassisNo = json['chassis_no'];
+    year = json['year'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    if (this.brand != null) {
+      data['brand'] = this.brand!.toJson();
+    }
+    if (this.modal != null) {
+      data['modal'] = this.modal!.toJson();
+    }
+    if (this.color != null) {
+      data['color'] = this.color!.toJson();
+    }
+    data['chassis_no'] = this.chassisNo;
+    data['year'] = this.year;
     return data;
   }
 }
@@ -145,6 +224,30 @@ class PhoneCountry {
     data['name'] = this.name;
     data['phone_code'] = this.phoneCode;
     data['image'] = this.image;
+    return data;
+  }
+}
+class Brand {
+  int? id;
+  String? name;
+  String? image;
+  String? type;
+
+  Brand({this.id, this.name, this.image, this.type});
+
+  Brand.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['type'] = this.type;
     return data;
   }
 }

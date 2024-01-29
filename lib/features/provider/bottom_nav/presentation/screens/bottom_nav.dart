@@ -15,6 +15,7 @@ import '../../../../user/menu/logic/menu_cubit.dart';
 import '../../../auth/logic/auth_provider_cubit.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/logic/provider_profile_cubit.dart';
+import '../../../work_and_products/logic/work_products_cubit.dart';
 
 class ProviderBottomNavScreen extends StatefulWidget {
   const ProviderBottomNavScreen({Key? key, this.checkPage}) : super(key: key);
@@ -29,20 +30,24 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
     const ProviderHomeScreen(),
     // const ProviderFavoriteScreen(),
     const ProviderOrdersScreen(),
-    const ProviderMessagesScreen(),
+    // const ProviderMessagesScreen(),
     const ProviderMoreScreen(),
   ];
 
   @override
   void initState() {
     AuthProviderCubit.get(context).getToken(context);
+    WorkProductsCubit workProductsCubit = WorkProductsCubit.get(context);
+    workProductsCubit.getSize(context);
+    workProductsCubit.getWidth(context);
+    workProductsCubit.getHeight(context);
     MenuCubit.get(context).getBanners('provider',context);
     if (widget.checkPage != null) {
       currentPage = int.parse(widget.checkPage.toString()).toInt();
     } else {
       currentPage = 0;
     }
-    BookPackageCubit.get(context).getBrands(context);
+    BookPackageCubit.get(context).getBrands(type: 'spare_parts', context: context,);
     BookPackageCubit.get(context).getBrandModel(context);
     BookPackageCubit.get(context).getBrandColors(context);
     MenuCubit.get(context).getPackageCheck(context);
@@ -74,8 +79,8 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
           // BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: getLang(context,'favorite')),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart_outlined), label: getLang(context,'my_orders')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.message_outlined), label:  getLang(context,'messages')),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.message_outlined), label:  getLang(context,'messages')),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined), label:getLang(context,'the_more')),
         ],

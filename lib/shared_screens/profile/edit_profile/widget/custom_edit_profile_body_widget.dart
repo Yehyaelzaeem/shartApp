@@ -95,9 +95,10 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
                   ),
                   CustomTextField(
       prefixIcon: Icon(Icons.person),
-      hintText: '${
-          type=='user'?
-          userCubit.userProfileModel!.data!.name:providerCubit.providerProfileModel!.data!.name}',
+      hintText: '${getLang(context, 'name')}',
+      // '${
+      //     type=='user'?
+      //     userCubit.userProfileModel!.data!.name:providerCubit.providerProfileModel!.data!.name}',
       controller:
       type=='user'?
       userCubit.nameController:providerCubit.nameControllerProvider,
@@ -106,9 +107,11 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
                   Padding(
       padding: EdgeInsets.symmetric(vertical: 24.h),
       child: CustomTextField(
-        hintText: '${
-            type=='user'?
-            userCubit.userProfileModel!.data!.email:providerCubit.providerProfileModel!.data!.email}',
+        hintText:
+        '${getLang(context, 'email')}',
+        // '${
+        //     type=='user'?
+        //     userCubit.userProfileModel!.data!.email:providerCubit.providerProfileModel!.data!.email}',
         prefixIcon: Icon(Icons.email),
         controller:
         type=='user'?
@@ -116,9 +119,11 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
       ),
                   ),
                   CustomTextField(
-      hintText: '${
-          type=='user'?
-          userCubit.userProfileModel!.data!.phone:providerCubit.providerProfileModel!.data!.phone}',
+      hintText:
+      '${getLang(context, 'phone')}',
+      // '${
+      //     type=='user'?
+      //     userCubit.userProfileModel!.data!.phone:providerCubit.providerProfileModel!.data!.phone}',
       controller:
       type=='user'?
       userCubit.phoneController:providerCubit.phoneControllerProvider,

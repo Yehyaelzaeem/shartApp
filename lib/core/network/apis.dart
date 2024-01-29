@@ -27,6 +27,9 @@ class AppApis{
   static const String sendOrder='${baseUrl}user/make-order';
   static const String getMyOrder='${baseUrl}user/get-my-orders';
   static  String getSingleOrder(int id)=>'${baseUrl}user/get-my-orders/$id';
+  //CheckCar
+  static const String sendCheckCars='${baseUrl}user/check-car';
+  static const String getCheckCars='${baseUrl}user/get-checks';
 
 
 
@@ -67,7 +70,8 @@ class AppApis{
 
 //Package Check
   static const String checkCars='${baseUrl}packages';
-  static const String brands='${baseUrl}brands';
+  static  String brandsAll='${baseUrl}brands';
+  static  String brands(String type)=>'${baseUrl}brands/$type';
   static String brandModel(int id)=> '${baseUrl}modals/$id';
   static String banners(String type)=> '${baseUrl}banners/$type';
   static const String brandColors='${baseUrl}colors';
@@ -79,5 +83,9 @@ class AppApis{
   static const String subscribePackages='${baseUrl}provider/update-subscription';
   static const String historyPackages='${baseUrl}provider/get-subscription-history';
 
+// Shared
+  static const String getSize='${baseUrl}sizes';
+  static const String getHeight='${baseUrl}heights';
+  static const String getWidth='${baseUrl}widths';
 
 }

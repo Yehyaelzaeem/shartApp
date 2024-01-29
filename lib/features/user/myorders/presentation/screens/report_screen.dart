@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shart/core/localization/appLocale.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
+import '../../data/model/check_car_model.dart';
 
 class ReportScreen extends StatelessWidget {
-  const ReportScreen({Key? key}) : super(key: key);
-
+  final GetCheckCarsModelData getCheckCarsModelData;
+  const ReportScreen({Key? key, required this.getCheckCarsModelData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    AuthCubit cubit= AuthCubit.get(context);
+    bool x =cubit.localeLanguage==Locale('en');
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: 'تفاصيل الباقة', hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'package_details'), hasBackButton: true),
         preferredSize: Size(double.infinity, 80.h),
       ),
       body: Padding(
@@ -21,7 +26,7 @@ class ReportScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'التفاصيل',
+              getLang(context, 'details'),
               style: TextStyle(fontSize: 16.sp, color: Colors.black),
             ),
             Container(
@@ -35,18 +40,25 @@ class ReportScreen extends StatelessWidget {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10.r),
-                        bottomRight: Radius.circular(10.r)),
+                        topRight: Radius.circular( x?0:10.r),
+                        bottomRight: Radius.circular(x?0:10.r),
+                        topLeft: Radius.circular( x?10:0.r),
+                        bottomLeft: Radius.circular(x?10:0.r),
+                    ),
                     child: Container(
-                      padding: const EdgeInsets.all(8.0),
+                      // padding: const EdgeInsets.all(8.0),
                       width: 134.w,
                       height: 85.h,
                       decoration: BoxDecoration(color: packagesColor),
-                      child: Image.asset(
-                        'assets/images/reportcar.png',
+                      child: Image.network(
+                        getCheckCarsModelData.package!.image!,
                         height: 50.h,
                         width: 80.w,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context,Object error,StackTrace? r){
+                          return Center(child: Text('waiting....'));
+
+                        },
                       ),
                     ),
                   ),
@@ -56,7 +68,7 @@ class ReportScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'فحص شرط',
+                        getCheckCarsModelData.package!.title!,
                         style: TextStyle(
                           fontWeight: FontWeightManager.bold,
                           fontSize: 16.sp,
@@ -64,7 +76,7 @@ class ReportScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'ر.س 1000',
+                        '${getCheckCarsModelData.package!.price!} ${getLang(context, 'rs')}',
                         style: TextStyle(
                           fontWeight: FontWeightManager.regular,
                           fontSize: 16.sp,
@@ -77,12 +89,12 @@ class ReportScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: 28.w),
+              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'مدة الباقة',
+                    getLang(context, 'package_duration'),
                     style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
                   ),
                   Text('ابتداءا من 27 سبتمبر إلى 27 أكتوبر',
@@ -91,11 +103,11 @@ class ReportScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: 28.w),
+              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'عنوان الفحص',
+                    getLang(context, 'checked_address'),
                     style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
                   ),
                   SizedBox(width: 20.w),
@@ -104,11 +116,11 @@ class ReportScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: 28.w),
+              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'طريقة الدفع',
+                    getLang(context, 'payment_method'),
                     style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
                   ),
                   SizedBox(width: 20.w),
@@ -121,15 +133,15 @@ class ReportScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: 28.w),
+              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'قيمة الطلب',
+                    getLang(context, 'order_value'),
                     style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
                   ),
                   SizedBox(width: 28.w),
-                  Text('300 ر.س', style: TextStyle(fontSize: 14.sp))
+                  Text('${getCheckCarsModelData.package!.price!} ${getLang(context, 'rs')}', style: TextStyle(fontSize: 14.sp))
                 ],
               ),
             ),
@@ -141,12 +153,12 @@ class ReportScreen extends StatelessWidget {
             SizedBox(height: 16.h),
             Row(
               children: <Widget>[
-                Text('إجمالى المطلوب',
+                Text(getLang(context, 'total_required'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 14.sp)),
                 SizedBox(width: 27.w),
                 Text(
-                  '300 ر.س',
+                  '${getCheckCarsModelData.package!.price!} ${getLang(context, 'rs')}',
                   style: TextStyle(fontSize: 14.sp, color: Color(0xffDB3022)),
                 )
               ],

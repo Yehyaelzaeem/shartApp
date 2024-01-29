@@ -26,8 +26,10 @@ class ProviderPackagesScreen extends StatelessWidget {
           builder: (BuildContext context, ProviderHomeState state) {
             print("historyPackages => ${isHistory} ");
             if(cubit.historyPackages!=null){
-              return
-                ListView.builder(
+              if(cubit.historyPackages!.data!.length==0)
+                return Center(child: Text(getLang(context, 'There_data_currently')),);
+              else
+              return ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   HistoryPackagesData data =cubit.historyPackages!.data![index];
                   return CustomBodyPackages(

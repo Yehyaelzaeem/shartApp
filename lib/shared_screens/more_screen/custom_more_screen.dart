@@ -18,7 +18,7 @@ class CustomMoreScreen extends StatelessWidget {
 
     return  Scaffold(
         appBar: PreferredSize(
-          child: CustomAppBar(title: getLang(context,'the_more'),hasNotCartButton: true,),
+          child: CustomAppBar(title: getLang(context,'the_more'),),
           preferredSize: Size(double.infinity, 80.h),
         ),
         body:

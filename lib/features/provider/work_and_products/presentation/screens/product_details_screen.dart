@@ -48,16 +48,22 @@ class ProviderProductDetailsScreen extends StatelessWidget {
             TextField(
                 decoration: InputDecoration(hintText: '${getProductsModelData.title}', enabled: false)),
             SizedBox(height: 25.h),
-            Text(
-              'الماركة',
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontFamily: 'Lateef',
-                  fontWeight: FontWeight.w500),
-            ),
-            TextField(
-                decoration: InputDecoration(hintText: 'CEAT', enabled: false)),
-            SizedBox(height: 25.h),
+            getProductsModelData.brand!=null?
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'الماركة',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: 'Lateef',
+                      fontWeight: FontWeight.w500),
+                ),
+                TextField(
+                    decoration: InputDecoration(hintText: '${getProductsModelData.brand!=null?getProductsModelData.brand!.name!:""}', enabled: false)),
+                SizedBox(height: 25.h),
+              ],
+            ):SizedBox.shrink(),
             getProductsModelData.type!='spare_parts'?
            Column(
              crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +76,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                      fontWeight: FontWeight.w500),
                ),
                TextField(
-                   decoration: InputDecoration(hintText: '${getProductsModelData.width}', enabled: false)),
+                   decoration: InputDecoration(hintText: '${getProductsModelData.width!.name}', enabled: false)),
                SizedBox(height: 25.h),
                Text(
                  'الإرتفاع',
@@ -80,7 +86,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                      fontWeight: FontWeight.w500),
                ),
                TextField(
-                   decoration: InputDecoration(hintText: '${getProductsModelData.height}', enabled: false)),
+                   decoration: InputDecoration(hintText: '${getProductsModelData.height!.name}', enabled: false)),
                SizedBox(height: 25.h),
                Text(
                  'المقاس',
@@ -91,7 +97,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                ),
                TextField(
                    decoration:
-                   InputDecoration(hintText: '${getProductsModelData.size}', enabled: false)),
+                   InputDecoration(hintText: '${getProductsModelData.size!.name}', enabled: false)),
              ],
            ):SizedBox.shrink(),
             SizedBox(height: 25.h),

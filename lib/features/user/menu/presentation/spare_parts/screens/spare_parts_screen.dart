@@ -9,6 +9,7 @@ import '../../../../../../../core/resources/color.dart';
 import '../../../../../../../core/resources/font_manager.dart';
 import '../../../../../../../core/routing/routes.dart';
 import '../../../../../../core/localization/appLocale.dart';
+import '../../../../book_package_service/logic/book_package_cubit.dart';
 import '../../../logic/menu_cubit.dart';
 
 
@@ -19,15 +20,19 @@ class SparePartsScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: getLang(context, 'spare_parts'),hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'spare_parts'),hasBackButton: true,hasCartButton: true,),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                MenuCubit.get(context).restartData();
-                MenuCubit.get(context).getProducts(type:'spare_parts',context:context);
+                MenuCubit c =MenuCubit.get(context);
+                c.searchController.text='';
+                c.changeLoadingSearch(false);
+                c.restartData();
+                BookPackageCubit.get(context).getBrands(type:'spare_parts',context: context);
+                c.getProducts(type:'spare_parts',context:context);
                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
                    SparePartsDetailsScreen(type: 'spare_parts',)));
                 // NavigationManager.push(Routes.sparePartsDetails);
@@ -96,38 +101,38 @@ class SparePartsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () => NavigationManager.push(Routes.carSupplies),
-              child: Container(
-                margin: EdgeInsets.all(16.w),
-                width: double.infinity,
-                height: 103.h,
-                decoration: BoxDecoration(
-                  color: tireColor3,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      ImagesManager.oil2,
-                      width: 95.w,
-                      height: 75.h,
-                    ),
-                    SizedBox(width: 15.w),
-                    Text(
-                      getLang(context, 'accessories'),
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeightManager.light,
-                        fontFamily: FontConstants.lateefFont,
-                      ),
-                    ),
-                    SizedBox(width: 15.w),
-                  ],
-                ),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () => NavigationManager.push(Routes.carSupplies),
+            //   child: Container(
+            //     margin: EdgeInsets.all(16.w),
+            //     width: double.infinity,
+            //     height: 103.h,
+            //     decoration: BoxDecoration(
+            //       color: tireColor3,
+            //       borderRadius: BorderRadius.circular(10.r),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: <Widget>[
+            //         Image.asset(
+            //           ImagesManager.oil2,
+            //           width: 95.w,
+            //           height: 75.h,
+            //         ),
+            //         SizedBox(width: 15.w),
+            //         Text(
+            //           getLang(context, 'accessories'),
+            //           style: TextStyle(
+            //             fontSize: 24.sp,
+            //             fontWeight: FontWeightManager.light,
+            //             fontFamily: FontConstants.lateefFont,
+            //           ),
+            //         ),
+            //         SizedBox(width: 15.w),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

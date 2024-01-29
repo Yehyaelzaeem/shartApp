@@ -177,12 +177,12 @@ class CustomStep2BodyWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 90.h,),
+            SizedBox(height: 40.h,),
             CustomElevatedButton(onTap: (){
               cubit.changeStep(2);
             },
                 buttonText: getLang(context, 'pay')),
-            SizedBox(height: 90.h,),
+            SizedBox(height: 15.h,),
           ],
         )
       ],

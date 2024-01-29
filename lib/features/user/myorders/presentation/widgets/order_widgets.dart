@@ -12,7 +12,7 @@ import '../../../../../core/routing/routes.dart';
 import '../../data/model/myorder_model.dart';
 import '../screens/order_details.dart';
 
-InkWell buildCurrentOrder(Items item,MyOrdersModelData myOrdersModelData ,String status,BuildContext context) {
+InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,String status,BuildContext context) {
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(
@@ -34,45 +34,70 @@ InkWell buildCurrentOrder(Items item,MyOrdersModelData myOrdersModelData ,String
                     topRight: Radius.circular(10.r),
                     bottomRight: Radius.circular(10.r)),
                 child: Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(0.0),
                   width: 134.w,
                   height: 115.h,
                   decoration: BoxDecoration(color: packagesColor),
-                  child: Image.asset(
-                    ImagesManager.fixCar1,
-                    fit: BoxFit.fill,
-                  ),
+                  child:
+                  item[0].providerProduct!=null?
+                  Image.network(
+                    item[0].providerProduct!.images![0].image!.toString(),
+                    fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context,Object error ,StackTrace? v){
+                      return Center(child: CircularProgressIndicator(),);
+                    },
+                  ):SizedBox(),
                 ),
               ),
-              SizedBox(width: 5.w),
+              SizedBox(width: 10.w),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.providerProduct!.brand!=null?item.providerProduct!.brand!.name!:'',
+                      myOrdersModelData.id!.toString(),
                       style: TextStyle(
-                        fontWeight: FontWeightManager.light,
-                        fontSize: 12.sp,
-                        color: Colors.grey.shade700,
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      // item[0].providerProduct!.brand!=null?item[0].providerProduct!.brand!.name!:'',
+                      // style: TextStyle(
+                      //   fontWeight: FontWeightManager.light,
+                      //   fontSize: 12.sp,
+                      //   color: Colors.grey.shade700,
+                      // ),
+                      // maxLines: 1,
+                      // overflow: TextOverflow.ellipsis,
                     ),
-                    FittedBox(
-                      child: Text(
-                        item.providerProduct!.title!,
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.bold,
-                          fontSize: 16.sp,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                    // Text(
+                    //   myOrdersModelData.user!.name!,
+                    //
+                    //   // myOrdersModelData.id!.toString(),
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeightManager.light,
+                    //     fontSize: 12.sp,
+                    //     color: Colors.grey.shade700,
+                    //   ),
+                    //   maxLines: 1,
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
+                    // FittedBox(
+                    //   child: Text(
+                    //     item[0].providerProduct!.title!,
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeightManager.bold,
+                    //       fontSize: 16.sp,
+                    //     ),
+                    //     maxLines: 2,
+                    //     overflow: TextOverflow.ellipsis,
+                    //   ),
+                    // ),
                     Text(
-                      item.provider!.name!,
+                       // myOrdersModelData.id!.toString(),
+                      item[0].provider!.name!,
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,
@@ -82,7 +107,8 @@ InkWell buildCurrentOrder(Items item,MyOrdersModelData myOrdersModelData ,String
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '${item.providerProduct!.price!} ${getLang(context, 'rs')}',
+                      '${myOrdersModelData.totalPrice!.toString()} ${getLang(context, 'rs')}',
+                      // '${item[0].providerProduct!.price!} ${getLang(context, 'rs')}',
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,
@@ -124,7 +150,7 @@ InkWell buildCurrentOrder(Items item,MyOrdersModelData myOrdersModelData ,String
   );
 }
 
-InkWell buildOrderWithInvoice(Items item,MyOrdersModelData myOrdersModelData,String status,context) {
+InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelData,String status,context) {
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(
@@ -163,7 +189,7 @@ InkWell buildOrderWithInvoice(Items item,MyOrdersModelData myOrdersModelData,Str
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.providerProduct!.brand!=null?item.providerProduct!.brand!.name!:'',
+                      item[0].providerProduct!.brand!=null?item[0].providerProduct!.brand!.name!:'',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -173,7 +199,7 @@ InkWell buildOrderWithInvoice(Items item,MyOrdersModelData myOrdersModelData,Str
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      item.providerProduct!.title!,
+                      item[0].providerProduct!.title!,
                       style: TextStyle(
                         fontWeight: FontWeightManager.bold,
                         fontSize: 16.sp,
@@ -182,7 +208,7 @@ InkWell buildOrderWithInvoice(Items item,MyOrdersModelData myOrdersModelData,Str
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      item.provider!.name!,
+                      item[0].provider!.name!,
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,
@@ -192,7 +218,7 @@ InkWell buildOrderWithInvoice(Items item,MyOrdersModelData myOrdersModelData,Str
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '${item.providerProduct!.price!} ${getLang(context, 'rs')}',
+                      '${item[0].providerProduct!.price!} ${getLang(context, 'rs')}',
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,
@@ -291,7 +317,7 @@ InkWell buildOrderWithInvoice(Items item,MyOrdersModelData myOrdersModelData,Str
   );
 }
 
-InkWell buildCancelledOrder(Items item,MyOrdersModelData myOrdersModelData,String status,context) {
+InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData,String status,context) {
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(
@@ -330,7 +356,7 @@ InkWell buildCancelledOrder(Items item,MyOrdersModelData myOrdersModelData,Strin
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.providerProduct!.brand!=null?item.providerProduct!.brand!.name!:'',
+                      item[0].providerProduct!.brand!=null?item[0].providerProduct!.brand!.name!:'',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -338,14 +364,14 @@ InkWell buildCancelledOrder(Items item,MyOrdersModelData myOrdersModelData,Strin
                       ),
                     ),
                     Text(
-                      item.providerProduct!.title!,
+                      item[0].providerProduct!.title!,
                       style: TextStyle(
                         fontWeight: FontWeightManager.bold,
                         fontSize: 16.sp,
                       ),
                     ),
                     Text(
-                      item.provider!.name!,
+                      item[0].provider!.name!,
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,
@@ -353,7 +379,7 @@ InkWell buildCancelledOrder(Items item,MyOrdersModelData myOrdersModelData,Strin
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '${item.providerProduct!.price!} ${getLang(context, 'rs')}',
+                      '${item[0].providerProduct!.price!} ${getLang(context, 'rs')}',
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,

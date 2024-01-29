@@ -30,7 +30,7 @@ class CompleteOrder extends StatelessWidget {
                  preferredSize: Size(double.infinity, 80.h),
                  child:
                  cubit.currentStep!=2?
-                 CustomAppBar(title: '${getLang(context, 'confirmation')}',hasBackButton: true,hasNotCartButton: true,
+                 CustomAppBar(title: '${getLang(context, 'confirmation')}',hasBackButton: true,
                    onTap: (){
                      // if(CartCubit.get(context).isAddingAddress==true){
                      //   cubit.changeAddingAddress(false);
@@ -39,7 +39,7 @@ class CompleteOrder extends StatelessWidget {
                      // }
                    },
                  ):
-                 CustomAppBar(title: '${getLang(context, 'payment_method')}',hasBackButton: true,hasNotCartButton: true,),
+                 CustomAppBar(title: '${getLang(context, 'payment_method')}',hasBackButton: true,),
                ),
                body: Theme(
                    data: ThemeData(

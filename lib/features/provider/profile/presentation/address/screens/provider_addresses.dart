@@ -37,6 +37,11 @@ class ProviderAddressesScreen extends StatelessWidget {
                 Column(
                 children: <Widget>[
                   CustomAddAddressButton(),
+                  cubit.addressList!.data!.length==0?
+                      Padding(
+                        padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.35),
+                        child: Center(child: Text(getLang(context, 'There_addresses_currently')),),
+                      ):
                   ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
@@ -47,7 +52,8 @@ class ProviderAddressesScreen extends StatelessWidget {
                     shrinkWrap: true,
                   ),
                 ],
-              ) :Center(child: CircularProgressIndicator(),);
+              ) :
+                Center(child: CircularProgressIndicator(),);
             },
             listener: (BuildContext context ,ProviderProfileState state){},
           )

@@ -8,8 +8,8 @@ import '../../../../../shared_screens/pachages/custom_packages_screen.dart';
 import '../../logic/provider_home_cubit.dart';
 import '../screens/packages/packages_screen.dart';
 
-class CustomSubscribeWidget extends StatelessWidget {
-  const CustomSubscribeWidget({super.key, this.height, this.width});
+class CustomSubscribeWidgetRow extends StatelessWidget {
+  const CustomSubscribeWidgetRow({super.key, this.height, this.width});
    final double? height;
    final double? width;
   @override
@@ -17,13 +17,13 @@ class CustomSubscribeWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      width:width?? MediaQuery.of(context).size.width*0.4,
-      height:height?? 163.h,
+      width:width?? ScreenUtil().screenWidth - 50,
+      height:height?? 110.h,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color(0xff136B79)),
       child:
-      Column(
+      Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
@@ -45,7 +45,6 @@ class CustomSubscribeWidget extends StatelessWidget {
           ),
           SizedBox(height: 20.h,),
           Container(
-            height: 25.h,
             width: MediaQuery.of(context).size.width*0.3,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(

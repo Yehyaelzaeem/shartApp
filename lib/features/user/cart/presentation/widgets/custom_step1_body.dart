@@ -23,7 +23,6 @@ class CustomStepBody1Widget extends StatelessWidget {
             CustomCatItemsColumWidget(),
             SizedBox(height: 32.h,),
             CustomAddressUserWidget(),
-            SizedBox(height: 50.h,),
             CustomElevatedButton(
                 onTap: (){
                   if(cubit.addressController.text.isNotEmpty&& cubit.addressLocationModel!=null&&
@@ -35,7 +34,7 @@ class CustomStepBody1Widget extends StatelessWidget {
                   }
                 },
                 buttonText: getLang(context, 'next')),
-            SizedBox(height: 50.h,),
+            SizedBox(height: 20.h,),
 
           ],
         ),

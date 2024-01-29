@@ -66,7 +66,7 @@ class CustomTextField extends StatelessWidget {
         fontWeight: fontWeight,
         hintStyle:hintStyle ,
         hintText: hintText,
-        contentHorizontalPadding: contentHorizontalPadding,
+        contentHorizontalPadding: contentHorizontalPadding??15,
         contentVerticalPadding: contentVerticalPadding,
         borderRadius: borderRadius,
         borderColor: borderColor,

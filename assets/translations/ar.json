@@ -89,6 +89,7 @@
   "my_business_save": "حفظ",
   "my_business_showToast1": "اختر صورة",
   "my_business_showToast2": "تم بنجاح",
+  "my_business_showToast3": "تم الحذف  بنجاح",
   "my_products": "منتجاتي",
   "my_products1": "أدخل اسم المنتج",
   "my_products2": "أضف منتج جديد",
@@ -139,6 +140,7 @@
   "total_price": "الاجمالي",
   "delete": "حذف",
   "no_item_car": "لا يوجد شئ فى سلة التسوق الخاصة بك  حتى الأن !",
+  "no_item_favorite": "لا يوجد شئ فى قائمة المفضلة !",
   "cancel": "الغاء",
   "login": "تسجيل دخول",
   "package": "الباقة",
@@ -167,10 +169,29 @@
   "accepted": "قبلت",
   "cancelled": "ألغيت",
   "order_details": "تفاصيل الطلب",
-  "order_id": "رقم التعريف الخاص بالطلب",
+  "order_id": "رقم الطلب",
   "the_shop": "المتجر",
   "order_status": "حالة الطلب",
-  "total-price": "اجالي السعر"
+  "total-price": "اجمالي السعر",
+  "no_order_now": "لا يوجد طلبات حاليا",
+  "no_check_car_now": "لا يوجد طلبات فحص حاليا",
+  "no_product_found": "لم يتم العثور علي هذه المنتج",
+  "review": "مراجعة",
+  "no_store": "هذا متجر مختلف",
+  "details": "التفاصيل",
+  "package_duration": "مدة الباقة",
+  "checked_address": "عنوان الفحص",
+  "total_required": "إجمالى المطلوب",
+  "There_data_currently": "لا توجد باقات حاليا",
+  "There_addresses_currently": "لا توجد عناوين حاليا",
+  "There_jobs_currently": "لا توجد اعمال حاليا",
+  "There_products_currently": "لا توجد منتجات حاليا",
+  "name": "الاسم",
+  "email": "الايميل",
+  "phone": "رقم الهاتف",
+  "complete_address_data": "استكمال بيانات العنوان"
+
+
 
 
 

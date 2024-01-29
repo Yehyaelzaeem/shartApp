@@ -21,6 +21,8 @@ class CardItem extends StatelessWidget {
     AuthCubit authCubit =AuthCubit.get(context);
     return InkWell(
       onTap: (){
+        List<String> list = [product.image.toString()];
+
         Navigator.push(context, MaterialPageRoute(builder:
             (BuildContext context)=>ProductDetailsScreen(
           title: product.productName,
@@ -28,7 +30,7 @@ class CardItem extends StatelessWidget {
           brandName:product.productBrand!=null?product.productBrand!:'',
           width:'',
           height:'',
-          image: product.image,
+          images: list,
           size:'',
           productStatus: product.productState,
           description:product.description ,

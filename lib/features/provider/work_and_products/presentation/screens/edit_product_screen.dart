@@ -11,7 +11,9 @@ import '../../../../user/book_package_service/data/model/brand_model.dart';
 import '../../../../user/book_package_service/data/model/brands.dart';
 import '../../../../user/book_package_service/logic/book_package_cubit.dart';
 import '../../data/model/get_products_list_model.dart';
+import '../../data/model/size_model.dart';
 import '../../logic/work_products_cubit.dart';
+import '../widgets/custom_dropdown_widget.dart';
 
 class ProviderEditProductScreen extends StatefulWidget {
   final GetProductsModelData getProductsModelData;
@@ -25,34 +27,9 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
 
   @override
   void initState() {
+    // print('sadsad ${widget.getProductsModelData.type}');
     WorkProductsCubit controllerCubit =WorkProductsCubit.get(context);
-    if(widget.getProductsModelData.type=='spare_parts'){
-      controllerCubit.changeTypeAdd(false);
-      controllerCubit.typeSelectedValue=widget.getProductsModelData.type!??'';
-      controllerCubit.productNameSelectedValue=widget.getProductsModelData.title!??'';
-      controllerCubit.brandSelectedId=widget.getProductsModelData.brand!.id!.toString()??'';
-      controllerCubit.brandSelectedValue=widget.getProductsModelData.brand!.name!??'';
-      // controllerCubit.brandModelSelectedValue=widget.getProductsModelData.modal!??'';
-      controllerCubit.brandModelSelectedId=widget.getProductsModelData.modalId!.toString()??'';
-      controllerCubit.stateSelectedValue=widget.getProductsModelData.productStatus!??'';
-      controllerCubit.priceController.text=widget.getProductsModelData.price!.toString()??'';
-      controllerCubit.desController.text=widget.getProductsModelData.description!.toString()??'';
-
-    }else{
-      controllerCubit.changeTypeAdd(true);
-      controllerCubit.typeSelectedValue=widget.getProductsModelData.type!??'';
-      controllerCubit.productNameSelectedValue=widget.getProductsModelData.title!??'';
-      controllerCubit.stateSelectedValue=widget.getProductsModelData.productStatus!??'';
-      controllerCubit.widthSelectedValue=widget.getProductsModelData.width!.toString()??'';
-      controllerCubit.heightSelectedValue=widget.getProductsModelData.height!.toString()??'';
-      controllerCubit.sizeSelectedValue=widget.getProductsModelData.size!.toString()??'';
-      // controllerCubit.brandModelSelectedId=widget.getProductsModelData.modalId!.toString()??'';
-      // controllerCubit.brandSelectedId=widget.getProductsModelData.brandId!.toString()??'';
-      controllerCubit.priceController.text=widget.getProductsModelData.price!.toString()??'';
-      controllerCubit.desController.text=widget.getProductsModelData.description!.toString()??'';
-
-    }
-
+    controllerCubit.reStarting(widget.getProductsModelData);
     super.initState();
   }
   bool x=false;
@@ -142,43 +119,43 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                                 borderRadius: BorderRadius.circular(8.r))),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 25.h),
-                      child: DropdownButton2<String>(
-                        isExpanded: true,
-                        underline: const SizedBox.shrink(),
-                        hint: Text(
-                          '${controllerCubit.productNameSelectedValue}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme
-                                .of(context)
-                                .hintColor,
-                          ),
-                        ),
-                        items: <String>['name product ', 'name2 product', 'name3 product']
-                            .map((String item) =>
-                            DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ))
-                            .toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            controllerCubit.productNameSelectedValue = value!;
-                          });
-                        },
-                        buttonStyleData: ButtonStyleData(
-
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.5)),
-                                borderRadius: BorderRadius.circular(8.r))),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 25.h),
+                    //   child: DropdownButton2<String>(
+                    //     isExpanded: true,
+                    //     underline: const SizedBox.shrink(),
+                    //     hint: Text(
+                    //       '${controllerCubit.productNameSelectedValue}',
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         color: Theme
+                    //             .of(context)
+                    //             .hintColor,
+                    //       ),
+                    //     ),
+                    //     items: <String>['name product ', 'name2 product', 'name3 product']
+                    //         .map((String item) =>
+                    //         DropdownMenuItem<String>(
+                    //           value: item,
+                    //           child: Text(
+                    //             item,
+                    //             style: const TextStyle(fontSize: 14),
+                    //           ),
+                    //         ))
+                    //         .toList(),
+                    //     onChanged: (String? value) {
+                    //       setState(() {
+                    //         controllerCubit.productNameSelectedValue.text = value!;
+                    //       });
+                    //     },
+                    //     buttonStyleData: ButtonStyleData(
+                    //
+                    //         decoration: BoxDecoration(
+                    //             border: Border.all(
+                    //                 color: Colors.grey.withOpacity(0.5)),
+                    //             borderRadius: BorderRadius.circular(8.r))),
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(top: 25.h),
                       child: DropdownButton2<String>(
@@ -268,124 +245,74 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                     ),
                     controllerCubit.isParts==true?
                     Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 25.h),
-                          child: DropdownButton2<String>(
-
-                            isExpanded: true,
-
-                            underline: const SizedBox.shrink(),
-                            hint: Text(
-                              '${controllerCubit.widthSelectedValue}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme
-                                    .of(context)
-                                    .hintColor,
-                              ),
-                            ),
-                            items: <String>['16', '20', '27','65','75','88','5','11']
-                                .map((String item) =>
+                      children: <Widget>[
+                        StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                          return  CustomDropdownWidget(text: '${controllerCubit.widthSelectedValue}',
+                            items: controllerCubit.listWidth!.data!.map(( SizeModelData item) =>
                                 DropdownMenuItem<String>(
-                                  value: item,
+                                  value: item.name,
                                   child: Text(
-                                    item,
+                                    item.name.toString(),
                                     style: const TextStyle(fontSize: 14),
                                   ),
-                                ))
-                                .toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                controllerCubit.widthSelectedValue = value!;
+                                )).toList(),
+                            onChanged: (String? val){
+                              setState((){
+
+                                controllerCubit.widthSelectedValue = val!;
+                                for(SizeModelData a in controllerCubit.listWidth!.data! ){
+                                  if(controllerCubit.widthSelectedValue==a.name){
+                                    controllerCubit.widthSelectedId=a.id!.toString();
+                                    break;
+                                  }
+                                }
                               });
-                            },
-                            buttonStyleData: ButtonStyleData(
-
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.5)),
-                                    borderRadius: BorderRadius.circular(8.r))),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 25.h),
-                          child: DropdownButton2<String>(
-
-                            isExpanded: true,
-
-                            underline: const SizedBox.shrink(),
-                            hint: Text(
-                              '${controllerCubit.heightSelectedValue}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme
-                                    .of(context)
-                                    .hintColor,
-                              ),
-                            ),
-                            items: <String>['16', '20', '27','75','88','5','11']
-                                .map((String item) =>
+                            },);
+                        }),
+                        StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                          return  CustomDropdownWidget(text: '${controllerCubit.heightSelectedValue}',
+                            items:controllerCubit.listHeight!.data!.map(( SizeModelData item) =>
                                 DropdownMenuItem<String>(
-                                  value: item,
+                                  value: item.name,
                                   child: Text(
-                                    item,
+                                    item.name.toString(),
                                     style: const TextStyle(fontSize: 14),
                                   ),
-                                ))
-                                .toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                controllerCubit.heightSelectedValue = value!;
+                                )).toList(),
+                            onChanged: (String? val){
+                              setState((){
+                                controllerCubit.heightSelectedValue = val!;
+                                for(SizeModelData a in controllerCubit.listHeight!.data! ){
+                                  if(controllerCubit.heightSelectedValue==a.name){
+                                    controllerCubit.heightSelectedId=a.id!.toString();
+                                    break;
+                                  }
+                                }
                               });
-                            },
-                            buttonStyleData: ButtonStyleData(
-
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.5)),
-                                    borderRadius: BorderRadius.circular(8.r))),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 25.h),
-                          child: DropdownButton2<String>(
-
-                            isExpanded: true,
-
-                            underline: const SizedBox.shrink(),
-                            hint: Text(
-                              '${controllerCubit.sizeSelectedValue}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme
-                                    .of(context)
-                                    .hintColor,
-                              ),
-                            ),
-                            items: <String>['R14 655/165', 'G15 714/85', 'R7 217/180','L15 257/89','P16 852/49','K95 1002/520',]
-                                .map((String item) =>
+                            },);
+                        }),
+                        StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                          return  CustomDropdownWidget(text: '${controllerCubit.sizeSelectedValue}',
+                            items:controllerCubit.listSize!.data!.map(( SizeModelData item) =>
                                 DropdownMenuItem<String>(
-                                  value: item,
+                                  value: item.name,
                                   child: Text(
-                                    item,
+                                    item.name.toString(),
                                     style: const TextStyle(fontSize: 14),
                                   ),
-                                ))
-                                .toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                controllerCubit.sizeSelectedValue = value!;
+                                )).toList(),
+                            onChanged: (String? val){
+                              setState((){
+                                controllerCubit.sizeSelectedValue = val!;
+                                for(SizeModelData a in controllerCubit.listSize!.data! ){
+                                  if(controllerCubit.sizeSelectedValue==a.name){
+                                    controllerCubit.sizeSelectedId=a.id!.toString();
+                                    break;
+                                  }
+                                }
                               });
-                            },
-                            buttonStyleData: ButtonStyleData(
-
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey.withOpacity(0.5)),
-                                    borderRadius: BorderRadius.circular(8.r))),
-                          ),
-                        ),
+                            },);
+                        }),
                       ],
                     ):
                     SizedBox.shrink(),
@@ -426,6 +353,13 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                                 borderRadius: BorderRadius.circular(8.r))),
                       ),
                     ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(vertical: 25.h),
+                        child: CustomTextField(
+                            maxLines: 1,
+                            hintText: '${getLang(context, 'product_name')}',
+                            controller: controllerCubit.productNameSelectedValue,
+                            hintColor: Colors.black)),
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 25.h),
                         child: CustomTextField(

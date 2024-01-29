@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
+import 'package:shart/features/provider/profile/logic/provider_profile_cubit.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
@@ -13,6 +15,7 @@ import '../../../../../widgets/custom_product_widget.dart';
 import '../../../../../widgets/custom_slider_widget.dart';
 import '../../../../../widgets/custom_welcome_message.dart';
 import '../widgets/custom_complete_paper_widget.dart';
+import '../widgets/custom_subscribe_is_row_widget.dart';
 import '../widgets/custom_subscribe_widget.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
@@ -62,13 +65,26 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
                 CustomTopRowLogo(type: 'provider',),
                 CustomWelcomeMessage(),
                 CustomSliderWidget(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    CustomCompletePaperWidget(),
-                    CustomSubscribeWidget(),
-                  ],
-                ),
+                BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
+                      listener: (BuildContext context,ProviderProfileState state) {},
+                      builder: (BuildContext context,ProviderProfileState state) {
+                        if(ProviderProfileCubit.get(context).providerProfileModel!=null){
+                          return
+                            ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false?
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              CustomCompletePaperWidget(),
+                              CustomSubscribeWidget(),
+                            ],
+                          ):
+                          Center(child: CustomSubscribeWidgetRow());
+                        }else{
+                          return  SizedBox();
+                        }
+
+                      },
+                    ),
                 TabBar(
                   controller: controller,
                   onTap: (int val) {},

@@ -4,9 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/core/resources/font_manager.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_button.dart';
+import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../widgets/custom_app_bar.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../menu/presentation/spare_parts/screens/spare_parts_screen.dart';
 import '../../logic/cart_cubit.dart';
 import '../widgets/cart_item_widget.dart';
@@ -24,12 +27,15 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: '${getLang(context, 'cart')}',hasBackButton: true,hasNotCartButton: true,
+        child: CustomAppBar(title: '${getLang(context, 'cart')}',hasBackButton: true,
         onTap: (){
           if(CartCubit.get(context).isAddingAddress==true){
             cubit.changeAddingAddress(false);
           }else{
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (BuildContext context) => UserBottomNavScreen(
+                  checkPage: '0',
+                )));
           }
         },
         ),
@@ -105,9 +111,6 @@ class CartScreen extends StatelessWidget {
                        ),
                      ),
                    ),
-
-
-
                     if(cubit.products.isNotEmpty)
                       Positioned(
                       right: 16.w,
@@ -121,14 +124,17 @@ class CartScreen extends StatelessWidget {
                       ):
                       CustomElevatedButton(
                           onTap: (){
-                            CartCubit.get(context).changeStep(0);
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (BuildContext context)=>CompleteOrder()));
+                            if(AuthCubit.get(context).token.isNotEmpty){
+                              CartCubit.get(context).changeStep(0);
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext context)=>CompleteOrder()));
+                            }else{
+                              showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
+                            }
 
                           },
                           buttonText: getLang(context, 'confirmation'))
                     ),
-
                     if(cubit.products.isEmpty)
                       Padding(
                         padding: const EdgeInsets.all(40.0),
@@ -139,7 +145,7 @@ class CartScreen extends StatelessWidget {
                             Center(child: Image.asset(ImagesManager.cart33)),
                             SizedBox(height: 16.h,),
                             Text(
-                              getLang(context, 'no_item_car'),
+                              getLang(context, 'no_order_now'),
                               style: TextStyle(
                                   fontSize: 20.0,
                                   color: blackTextColor,

@@ -35,7 +35,7 @@ class _ProviderOrdersScreenState extends State<ProviderOrdersScreen>
             )));
       },
       child: DefaultTabController(
-        length: 2,
+        length: 1,
         child: Scaffold(
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, 80.h),
@@ -59,7 +59,7 @@ class _ProviderOrdersScreenState extends State<ProviderOrdersScreen>
                     },
                     tabs: <Widget>[
                       Tab(text: '${getLang(context, 'spare_parts')}'),
-                      Tab(text: '${getLang(context, 'check_cars')}'),
+                      // Tab(text: '${getLang(context, 'check_cars')}'),
                     ],
                     padding: EdgeInsets.only(left: 170.w),
                     labelStyle: TextStyle(

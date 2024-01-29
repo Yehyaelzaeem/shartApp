@@ -169,6 +169,29 @@
   "order_id": "Order Id",
   "the_shop": "The Shop",
   "order_status": "Order status",
-  "total-price": "Total price"
+  "total-price": "Total price",
+  "no_order_now": "There are no requests currently",
+  "no_item_favorite": "There is nothing in the favorites list!",
+  "no_product_found": "These products were not found",
+  "no_check_car_now": "There are no checking requests currently",
+  "review": "Review",
+  "no_store": "This is a different store",
+  "details": "Details",
+  "package_duration": "Package duration",
+  "checked_address": "Examination address",
+  "total_required": "Total",
+  "my_business_showToast3": "Deleted successfully",
+  "There_data_currently": "There are no packages currently available",
+  "There_addresses_currently": "There are no addresses currently",
+  "There_jobs_currently": "There are no works currently",
+  "There_products_currently": "There are no products currently",
+  "name": "name",
+  "email": "email",
+  "phone": "phone",
+  "complete_address_data": "Complete address data"
+
+
+
+
 
 }

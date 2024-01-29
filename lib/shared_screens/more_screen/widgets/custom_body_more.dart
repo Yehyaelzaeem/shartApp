@@ -225,10 +225,12 @@ class CustomBodyMore extends StatelessWidget {
                 btnOkOnPress: () {
                   if(type=='user'){
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     NavigationManager.pushReplacement(Routes.chooseUserScreen);
                   }
                   else{
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     NavigationManager.pushReplacement(Routes.chooseUserScreen);
                     cubit.nameController.text='';
                     cubit.emailController.text='';
@@ -255,9 +257,11 @@ class CustomBodyMore extends StatelessWidget {
                   // print(AuthCubit.get(context).token2);
                   if(type=='user'){
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     cubit.deleteAccount(AuthCubit.get(context).token, context);
                   }else{
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     ProviderProfileCubit.get(context).deleteAccountProvider(AuthProviderCubit.get(context).token2, context);
                   }
 

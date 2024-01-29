@@ -32,38 +32,38 @@ class CustomStep3BodyWidget extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
           SizedBox(height: 16.h,),
-          Row(
-            children: [
-              Text(
-                getLang(context, 'order_number'),
-                style:
-                TextStyle(
-                    fontFamily: FontConstants.Tajawal,
-                    fontSize: 14,
-                    color: geryTextColor,
-                    fontWeight: FontWeight.w400
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(width: 50.w,),
-              Text(
-                '156',
-                style:
-                TextStyle(
-                    fontFamily: FontConstants.Tajawal,
-                    fontSize: 14,
-                    color: blackTextColor,
-                    fontWeight: FontWeight.w400
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-              ),
-            ],
-          ),
-          SizedBox(height: 5.h,),
+          // Row(
+          //   children: [
+          //     Text(
+          //       getLang(context, 'order_number'),
+          //       style:
+          //       TextStyle(
+          //           fontFamily: FontConstants.Tajawal,
+          //           fontSize: 14,
+          //           color: geryTextColor,
+          //           fontWeight: FontWeight.w400
+          //       ),
+          //       maxLines: 1,
+          //       overflow: TextOverflow.ellipsis,
+          //       textAlign: TextAlign.start,
+          //     ),
+          //     SizedBox(width: 50.w,),
+          //     Text(
+          //       '156',
+          //       style:
+          //       TextStyle(
+          //           fontFamily: FontConstants.Tajawal,
+          //           fontSize: 14,
+          //           color: blackTextColor,
+          //           fontWeight: FontWeight.w400
+          //       ),
+          //       maxLines: 1,
+          //       overflow: TextOverflow.ellipsis,
+          //       textAlign: TextAlign.start,
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(height: 5.h,),
           Row(
             children: [
               Text(
@@ -181,7 +181,7 @@ class CustomStep3BodyWidget extends StatelessWidget {
               ),
               SizedBox(width: 50.w,),
               Text(
-                '51saf;kvs;v48',
+                '${cubit.addressController.text}/${cubit.addressStreetController.text}\n${cubit.addressNuHouseController.text}/${cubit.addressMarkController.text}',
                 style:
                 TextStyle(
                     fontFamily: FontConstants.Tajawal,
@@ -189,7 +189,7 @@ class CustomStep3BodyWidget extends StatelessWidget {
                     color: blackTextColor,
                     fontWeight: FontWeight.w400
                 ),
-                maxLines: 1,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.start,
               ),

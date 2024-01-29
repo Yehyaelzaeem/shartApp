@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/user/profile/logic/user_profile_cubit.dart';
+import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../core/localization/appLocale.dart';
 import '../../../../core/resources/color.dart';
 import '../../../../core/resources/font_manager.dart';
@@ -61,8 +62,9 @@ class CartCubit extends Cubit<CartState> {
     radioValue =i;
     emit(ChangeStepState());
   }
-  Future<dynamic> sendOrder(int userAddressId ,BuildContext context) async {
+  Future<dynamic> sendOrder(int? userAddressId ,BuildContext context) async {
     print('cuibt id : $userAddressId');
+
     items.clear();
     for(Cart a in products){
       print(a.providerId);
@@ -73,12 +75,13 @@ class CartCubit extends Cubit<CartState> {
       ));
     }
     CartItems cartItems=CartItems(
-        items:items ,
-        userAddressId:userAddressId,
-        note:'note',
+      items:items ,
+      userAddressId:userAddressId,
+      note:'note',
     );
     cartRemoteDataSource.sendOrder(cartItems, context);
     emit(SendOrderState());
+
   }
   void reStartAddressFields(){
     addressController.text='';
@@ -131,18 +134,23 @@ class CartCubit extends Cubit<CartState> {
   }
   int addressId=0;
   Future<dynamic> addAddressUser(String token ,BuildContext context)async{
-    AddressModelData addressModelData= AddressModelData(
-      name: 'location / ${addressLocationModel!.country}/${addressLocationModel!.bigCity}/${addressLocationModel!.city}/${addressLocationModel!.locality}/${addressLocationModel!.street}',
-      address: 'address : ${addressController.text} / street: ${addressStreetController.text} / number_house : ${addressNuHouseController.text} / mark : ${addressMarkController.text}',
-      phone: UserProfileCubit.get(context).userProfileModel!=null?UserProfileCubit.get(context).userProfileModel!.data!.phone:'123456789',
-      lng: long!.toString(),
-      lat: lat!.toString(),
-    );
-    if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
-      cartRemoteDataSource.addAddressUser(addressModelData ,token, context);
-      emit(ChangeLoadingState());
+    if(addressLocationModel !=null){
+      AddressModelData addressModelData= AddressModelData(
+        name: 'location / ${addressLocationModel!.country}/${addressLocationModel!.bigCity}/${addressLocationModel!.city}/${addressLocationModel!.locality}/${addressLocationModel!.street}',
+        address: 'address : ${addressController.text} / street: ${addressStreetController.text} / number_house : ${addressNuHouseController.text} / mark : ${addressMarkController.text}',
+        phone: UserProfileCubit.get(context).userProfileModel!=null?UserProfileCubit.get(context).userProfileModel!.data!.phone:'123456789',
+        lng: long!.toString(),
+        lat: lat!.toString(),
+      );
+      if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
+        cartRemoteDataSource.addAddressUser(addressModelData ,token, context);
+        emit(ChangeLoadingState());
+      }
+    }else{
+      showToast(text: getLang(context, 'complete_address_data'), state: ToastStates.error, context: context);
+
     }
-    return null;
+
   }
 
   void changeAddingAddress(bool x){

@@ -141,7 +141,7 @@ class SparePartItemWidget extends StatelessWidget {
               cubit.addProduct(cartProduct!);
 
             }else{
-              showToast(text: 'هذا متجر مختلف عن متجر اول منتج', state: ToastStates.error, context: context);
+              showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
             }
           },
             child: Container(

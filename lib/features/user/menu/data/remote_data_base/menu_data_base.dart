@@ -73,6 +73,9 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
       String? providerId,
       String? brandId,
       String? modelId,
+      String? heightId,
+      String? widthId,
+      String? sizeId,
       String? productStatus,
       String? name,
      required BuildContext context}) async{
@@ -96,6 +99,13 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
     if (name != null && name.isNotEmpty) {
       data['name'] = name;
     }
+    if (heightId != null && heightId.isNotEmpty) {
+      data['height_id'] = heightId;
+    }if (widthId != null && widthId.isNotEmpty) {
+      data['width_id'] = widthId;
+    }if (sizeId != null && sizeId.isNotEmpty) {
+      data['size_id'] = sizeId;
+    }
    print(data.toString());
     AuthCubit cubit =AuthCubit.get(context);
     if(cubit.token.isNotEmpty){
@@ -111,7 +121,13 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
         if (res.statusCode == 200) {
           cubitController.changeLoading(false);
 
-          if(providerId!=null ||brandId!=null|| modelId!=null||productStatus!=null){
+          if((providerId!=null && providerId!='') ||brandId!=null|| modelId!=null||productStatus!=null){
+            // print('dddd222d');
+            // print('1  : $providerId');
+            // print('2  : $brandId');
+            // print('3  : $modelId');
+            // print('4  : $productStatus');
+            // print('ddddd');
             Navigator.of(context).pop();
           }
           return UserProductModel.fromJson(res.data);
@@ -121,7 +137,8 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
           throw 'Error';
         }
       }
-    }else{
+    }
+    else{
       Response<dynamic> res = await DioHelper.postData(url: AppApis.getProductUser,
           language: cubit.localeLanguage==Locale('en')?'en':'ar',
           data: data

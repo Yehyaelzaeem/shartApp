@@ -49,6 +49,7 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 30.h,),
                 CustomTopRowLogo(type: 'user',),
@@ -74,17 +75,14 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
                   ),
                 ),
                 CustomSliderWidget(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                    child: Text(
-                      getLang(context, 'our_services'),
-                      style: TextStyle(
-                        fontSize: 30.sp,
-                        fontWeight: FontWeightManager.medium,
-                        fontFamily: FontConstants.lateefFont,
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                  child: Text(
+                    getLang(context, 'our_services'),
+                    style: TextStyle(
+                      fontSize: 30.sp,
+                      fontWeight: FontWeightManager.medium,
+                      fontFamily: FontConstants.lateefFont,
                     ),
                   ),
                 ),

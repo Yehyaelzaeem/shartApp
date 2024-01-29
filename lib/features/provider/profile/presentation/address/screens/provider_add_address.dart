@@ -114,7 +114,7 @@ class ProviderAddAddressScreen extends StatelessWidget{
                           Container(
                             width: MediaQuery.of(context).size.width*0.7,
                             child: Text(
-                            '${x!.country},${x.bigCity},${x.city},${x.locality},${x.street}',
+                              x!=null?'${x.country},${x.bigCity},${x.city},${x.locality},${x.street}':'',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.black.withOpacity(0.60)
@@ -138,16 +138,6 @@ class ProviderAddAddressScreen extends StatelessWidget{
                       ),
                     
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 24.h),
-                    //   child: CustomTextField(
-                    //     hintText: 'الموقع',
-                    //     controller: TextEditingController(),
-                    //     prefixIcon: Icon(Icons.location_on_rounded,
-                    //         color: Colors.grey.shade400),
-                    //     hintColor: Colors.black,
-                    //   ),
-                    // ),
                     SizedBox(height: 24.h,),
                     CustomTextField(
                         hintText:  getLang(context, 'phone_nu'),

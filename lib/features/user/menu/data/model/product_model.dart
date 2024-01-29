@@ -30,12 +30,67 @@ class UserProductModel {
   }
 }
 
+class WidthModel {
+  int? id;
+  String? name;
+
+  WidthModel({this.id, this.name});
+
+  WidthModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+class HeightModel {
+  int? id;
+  String? name;
+
+  HeightModel({this.id, this.name});
+
+  HeightModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+class SizeModelProduct {
+  int? id;
+  String? name;
+
+  SizeModelProduct({this.id, this.name});
+
+  SizeModelProduct.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+
 class ProductModelData {
   int? id;
   String? title;
   String? productStatus;
   String? description;
-  int? price;
+  dynamic price;
   String? type;
   Brand? brand;
   int? brandId;
@@ -44,9 +99,9 @@ class ProductModelData {
   ProductModelProvider? provider;
   String? providerId;
   List<Images>? images;
-  int? width;
-  int? height;
-  String? size;
+  WidthModel? width;
+  HeightModel? height;
+  SizeModelProduct? size;
   bool? isFav;
   bool? isFavTest=false;
 
@@ -91,9 +146,15 @@ class ProductModelData {
         images!.add(new Images.fromJson(v));
       });
     }
-    width = json['width'];
-    height = json['height'];
-    size = json['size'];
+    width = json['width'] != null
+        ? new WidthModel.fromJson(json['width'])
+        : null;
+    height = json['height'] != null
+        ? new HeightModel.fromJson(json['height'])
+        : null;
+    size =json['size'] != null
+        ? new SizeModelProduct.fromJson(json['size'])
+        : null;
     isFav = json['is_fav'];
   }
 
@@ -120,9 +181,15 @@ class ProductModelData {
     if (this.images != null) {
       data['images'] = this.images!.map((v) => v.toJson()).toList();
     }
-    data['width'] = this.width;
-    data['height'] = this.height;
-    data['size'] = this.size;
+    if (this.width != null) {
+      data['width'] = this.width!.toJson();
+    }
+    if (this.height != null) {
+      data['height'] = this.height!.toJson();
+    }
+    if (this.size != null) {
+      data['size'] = this.size!.toJson();
+    }
     data['is_fav'] = this.isFav;
     return data;
   }

@@ -22,124 +22,126 @@ class OrderDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16.0,right: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding:   EdgeInsets.only(top: 24.h,right: 16.w),
-              child: Text(
-                getLang(context, 'order_details'),
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding:   EdgeInsets.only(top: 24.h,right: 16.w),
+                child: Text(
+                  getLang(context, 'order_details'),
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding:   EdgeInsets.only(top: 0.h,right: 16.w),
-              child: Row(
-                children: [
-                  Text(
-                    '${getLang(context, 'order_id')} :',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: geryTextColor,
-                      fontWeight: FontWeight.w500,
+              Padding(
+                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
+                child: Row(
+                  children: [
+                    Text(
+                      '${getLang(context, 'order_id')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 25.w,),
-                  Text(
-                    '${myOrdersModelData.id.toString()}',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: blackTextColor,
-                      fontWeight: FontWeight.w700,
+                    SizedBox(width: 25.w,),
+                    Text(
+                      '${myOrdersModelData.id.toString()}',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding:   EdgeInsets.only(top: 0.h,right: 16.w),
-              child: Row(
-                children: [
-                  Text(
-                    '${getLang(context, 'the_shop')} :',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: geryTextColor,
-                      fontWeight: FontWeight.w500,
+              Padding(
+                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
+                child: Row(
+                  children: [
+                    Text(
+                      '${getLang(context, 'the_shop')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 25.w,),
-                  Text(
-                    myOrdersModelData.provider!.name!,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: blackTextColor,
-                      fontWeight: FontWeight.w700,
+                    SizedBox(width: 25.w,),
+                    Text(
+                      myOrdersModelData.provider!.name!,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding:   EdgeInsets.only(top: 0.h,right: 16.w),
-              child: Row(
-                children: [
-                  Text(
-                    '${getLang(context, 'order_status')} :',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: geryTextColor,
-                      fontWeight: FontWeight.w500,
+              Padding(
+                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
+                child: Row(
+                  children: [
+                    Text(
+                      '${getLang(context, 'order_status')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 25.w,),
-                  Text(
-                    '${getLang(context, '${myOrdersModelData.status}')}',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: blackTextColor,
-                      fontWeight: FontWeight.w700,
+                    SizedBox(width: 25.w,),
+                    Text(
+                      '${getLang(context, '${myOrdersModelData.status}')}',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding:   EdgeInsets.only(top: 0.h,right: 16.w),
-              child: Row(
-                children: [
-                  Text(
-                    '${getLang(context, 'total-price')} :',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: geryTextColor,
-                      fontWeight: FontWeight.w500,
+              Padding(
+                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
+                child: Row(
+                  children: [
+                    Text(
+                      '${getLang(context, 'total-price')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 25.w,),
-                  Text(
-                    myOrdersModelData.totalPrice!.toString(),
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: blackTextColor,
-                      fontWeight: FontWeight.w700,
+                    SizedBox(width: 25.w,),
+                    Text(
+                      myOrdersModelData.totalPrice!.toString(),
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return CustomProductWidgetOrder(items: myOrdersModelData!.items![index]!, status:myOrdersModelData.status!,);
-              },
-              itemCount: myOrdersModelData.items!.length,
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-            )
-          ],
+              ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return CustomProductWidgetOrder(items: myOrdersModelData.items![index], status:myOrdersModelData.status!,);
+                },
+                itemCount: myOrdersModelData.items!.length,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+              )
+            ],
+          ),
         ),
       ),
     );

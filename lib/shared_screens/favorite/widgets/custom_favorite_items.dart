@@ -18,13 +18,18 @@ class CustomFavoriteItem extends StatelessWidget {
     return  InkWell(
       onTap: (){
         final  FavoriteProductsUserData data =favoriteProductsUserData;
+       List<String> list= [];
+       for(var a in data.images!){
+         list.add(a.image.toString());
+       }
+
         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ProductDetailsScreen(
           title: data.title,
           price: data.price.toString() ,
           brandName:data.brand!=null?data.brand!.name:'',
           width:'${data.width!=null?data.width!:''}',
           height:'${data.height!=null?data.height!:''}',
-          image: data.images![0].image,
+          images: list,
           size:'${data.size!=null?data.size!:''}',
           productStatus: data.productStatus,
           description:data.description ,

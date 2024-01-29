@@ -77,22 +77,29 @@ class ProviderHomeRemoteDataSource implements BaseProviderHomeRemoteDataSource {
   Future<HistoryPackages?> getHistoryPackagesProvider(BuildContext context)async {
     AuthCubit cubit =AuthCubit.get(context);
     AuthProviderCubit authProviderCubit =AuthProviderCubit.get(context);
-    Response<dynamic> response = await DioHelper.getData(
-      url: AppApis.historyPackages,
-      token: authProviderCubit.token,
-      language: cubit.localeLanguage==Locale('en')?'en':'ar',
-    );
+   try{
+     Response<dynamic> response = await DioHelper.getData(
+       url: AppApis.historyPackages,
+       token: authProviderCubit.token,
+       language: cubit.localeLanguage==Locale('en')?'en':'ar',
+     );
 
-    if (HistoryPackages.fromJson(response.data).success == false) {
+     if (HistoryPackages.fromJson(response.data).success == false) {
+     }
+     else{
+       if (response.statusCode == 200) {
+         return HistoryPackages.fromJson(response.data);
+       }
+       else {
+         throw 'Error';
+       }
+     }
+   }
+   catch(e){
+     print(e.toString());
+
     }
-    else{
-      if (response.statusCode == 200) {
-        return HistoryPackages.fromJson(response.data);
-      }
-      else {
-        throw 'Error';
-      }
-    }
+
     return null;
   }
 

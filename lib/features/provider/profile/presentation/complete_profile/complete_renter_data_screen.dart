@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
-
 import '../../logic/provider_profile_cubit.dart';
 
 class CompleteRenterDataScreen extends StatelessWidget {
@@ -45,6 +42,7 @@ class CompleteRenterDataScreen extends StatelessWidget {
               CustomTextField(
                 hintText: '${getLang(context, 'commercial_no')}',
                 hintColor: Colors.black,
+                textInputType: TextInputType.number,
                 controller: cubit.numberCommercialCompleteProfileController,
               ),
               Padding(
@@ -58,6 +56,7 @@ class CompleteRenterDataScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 30.h, bottom: 30.h),
                 child: CustomTextField(
+                  textInputType: TextInputType.number,
                   hintText: '${getLang(context, 'bank_account_number')}',
                   hintColor: Colors.black,
                   controller: cubit.iPanCompleteProfileController,
@@ -156,7 +155,6 @@ class CompleteRenterDataScreen extends StatelessWidget {
                         cubit.sendCompleteProfile(context);
                         }, buttonText: '${getLang(context, 'done')}'): Center(child: CircularProgressIndicator()),
                       SizedBox(height: 40.h,),
-
                     ],
                   );
                 },

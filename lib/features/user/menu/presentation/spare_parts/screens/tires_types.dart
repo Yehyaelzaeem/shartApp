@@ -7,6 +7,7 @@ import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../../../core/resources/assets_menager.dart';
 import '../../../../../../../core/resources/font_manager.dart';
 import '../../../../../../../core/routing/routes.dart';
+import '../../../../book_package_service/logic/book_package_cubit.dart';
 import '../../../logic/menu_cubit.dart';
 
 class TiresTypesScreen extends StatefulWidget {
@@ -19,17 +20,22 @@ class TiresTypesScreen extends StatefulWidget {
 class _TiresTypesScreenState extends State<TiresTypesScreen> {
   @override
   Widget build(BuildContext context) {
+    MenuCubit c =MenuCubit.get(context);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'خدمات الإطارات  ',hasBackButton: true),
+        child: CustomAppBar(title: 'خدمات الإطارات  ',hasBackButton: true,hasCartButton: true,),
       ),
       body: Column(
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              MenuCubit.get(context).restartData();
-              MenuCubit.get(context).getProducts(type:'tires',context:context);
+              c.searchController.text='';
+              c.changeLoadingSearch(false);
+              c.restartData();
+              BookPackageCubit.get(context).getBrands(type:'tires',context: context);
+              c.getProducts(type:'tires',context:context);
               Navigator.push(context, MaterialPageRoute(builder: (context)=>SparePartsDetailsScreen(type: 'tires',)));
               // MenuCubit.get(context).getProducts(type:'tires',context:context);
               // NavigationManager.push(Routes.tires);
@@ -66,8 +72,11 @@ class _TiresTypesScreenState extends State<TiresTypesScreen> {
           ),
           GestureDetector(
             onTap: () {
-              MenuCubit.get(context).restartData();
-              MenuCubit.get(context).getProducts(type:'rims',context:context);
+              c.searchController.text='';
+              c.changeLoadingSearch(false);
+              c.restartData();
+              BookPackageCubit.get(context).getBrands(type:'rims',context: context);
+              c.getProducts(type:'rims',context:context);
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>SparePartsDetailsScreen(type: 'rims',)));
               // MenuCubit.get(context).getProducts(type:'rims',context:context);
               // NavigationManager.push(Routes.rims);

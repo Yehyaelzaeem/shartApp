@@ -8,12 +8,11 @@ class UserFavoriteScreen extends StatelessWidget {
   const UserFavoriteScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print('token  fav :${AuthCubit.get(context).token}');
     return PopScope(
         canPop: false,
         onPopInvoked: (_) async {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => UserBottomNavScreen(
+              builder: (BuildContext context) => UserBottomNavScreen(
                 checkPage: '0',
               )));
         },

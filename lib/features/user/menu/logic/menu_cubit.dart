@@ -10,7 +10,7 @@ class MenuCubit extends Cubit<MenuState> {
   MenuCubit() : super(MenuInitial());
   static MenuCubit get(BuildContext context)=>BlocProvider.of(context);
   MenuRemoteDataSource menuRemoteDataSource =MenuRemoteDataSource();
-
+  bool isSearching=false;
   String typeCarSelectedValue = '';
   String productNameSelectedValue = '';
   String brandSelectedValue = '';
@@ -20,34 +20,46 @@ class MenuCubit extends Cubit<MenuState> {
   String brandModelSelectedId = '';
   String statusSelectedValue = '';
   String providerId = '';
+  String width = '';
+  String widthId = '';
+  String height = '';
+  String heightId = '';
+  String sizeId = '';
+  String size = '';
+List<String> listWidth=<String>['25','400','35','365'];
+List<String> listHeight=<String>['359','886','1252','384'];
+List<String> listSize=<String>['35/585','68/24','185/365','36/35'];
+
+
+
   TextEditingController searchController = TextEditingController();
- List<ProductModelProvider> providerList=[];
- List<ProductModelProvider> providerListTest=[];
-  // PackageCheckModel? packageCheckModel;
-  Future getPackageCheck(BuildContext context)async{
+ List<ProductModelProvider> providerList=<ProductModelProvider>[];
+ List<ProductModelProvider> providerListTest=<ProductModelProvider>[];
+
+  Future<dynamic> getPackageCheck(BuildContext context)async{
     menuRemoteDataSource.getPackage(context).then((PackageCheckModel? value){
-      // packageCheckModel=value;
       emit(GetPackageCheckState(value!));
     });
   }
-  List<String> listBanners =[];
+  List<String> listBanners =<String>[];
   List<BannersModelData?>? bannersModel;
-  Future getBanners(String type,BuildContext context)async{
+  Future<dynamic> getBanners(String type,BuildContext context)async{
     listBanners.clear();
     menuRemoteDataSource.getBanners(type,context).then((BannersModel? value) {
       bannersModel=value!.data!;
-      for(var a in value.data!){
-        listBanners.add(a.image!??'');
+      for(BannersModelData a in value.data!){
+        listBanners.add(a.image!);
       }
       emit(GetBannersState(value));
     });
   }
   UserProductModel? productModel;
-  Future getProducts(
+  UserProductModel? searchProductModel;
+  Future<dynamic> getProducts(
       {String? type ,String? providerId, String? brandId, String? modelId, String? productStatus, String? name, required BuildContext context})async{
     menuRemoteDataSource.getProducts(type:type,providerId :providerId,brandId:brandId,modelId:modelId,productStatus:productStatus,name:name,context:context).then((UserProductModel? value) {
       productModel=value!;
-      for(var a in productModel!.data!){
+      for(ProductModelData a in productModel!.data!){
         providerList.add(a.provider!);
       }
       final ids = providerList.map((e) => e.id).toSet();
@@ -55,6 +67,23 @@ class MenuCubit extends Cubit<MenuState> {
       emit(GetProductsState());
     });
   }
+  Future<dynamic> searchProducts(
+      {String? type ,String? providerId, String? brandId, String? modelId, String? productStatus, String? name, required BuildContext context})async{
+    searchProductModel=null;
+    menuRemoteDataSource.getProducts(type:type,providerId :providerId,brandId:brandId,modelId:modelId,productStatus:productStatus,name:name,context:context).then((UserProductModel? value) {
+      searchProductModel=value!;
+      emit(GetProductsState());
+    });
+  }
+  Future<dynamic> searchProductsRimsAndTires (
+      {String? type ,String? heightId,String? widthId,String? sizeId, String? brandId, String? productStatus, String? name, required BuildContext context})async{
+    searchProductModel=null;
+    menuRemoteDataSource.getProducts(type:type,providerId :providerId,widthId: widthId,sizeId: sizeId,brandId:brandId,heightId:heightId,productStatus:productStatus,name:name,context:context).then((UserProductModel? value) {
+      searchProductModel=value!;
+      emit(GetProductsState());
+    });
+  }
+
   void restartData(){
     productModel=null;
   }
@@ -65,6 +94,12 @@ class MenuCubit extends Cubit<MenuState> {
     brandSelectedId='';
     brandModelSelectedId='';
     statusSelectedValue='';
+    height='';
+    heightId='';
+    width='';
+    widthId='';
+    size='';
+    sizeId='';
     productNameSelectedValue='';
     typeCarSelectedValue='';
     providerSelectedValue='';
@@ -79,6 +114,10 @@ class MenuCubit extends Cubit<MenuState> {
   bool isLoading=false;
   void changeLoading(bool x){
     isLoading=x;
+    emit(ChangeLoadingState());
+  }
+  void changeLoadingSearch(bool x){
+    isSearching=x;
     emit(ChangeLoadingState());
   }
 

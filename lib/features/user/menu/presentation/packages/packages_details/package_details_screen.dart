@@ -11,6 +11,7 @@ import '../../../../../../core/resources/color.dart';
 import '../../../../../../core/resources/font_manager.dart';
 import '../../../../../../core/routing/navigation_services.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../book_package_service/presentation/screens/book_package_service_screen.dart';
 import '../../../logic/menu_cubit.dart';
 
 
@@ -94,7 +95,8 @@ class CarCheckPackagesDetailsScreen extends StatelessWidget {
                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                            child: CustomElevatedButton(
                                onTap: () {
-                                 NavigationManager.push(Routes.bookPackageService);
+                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>UserBookPackageServiceScreen(packageId: data.data![index!].id.toString(),)));
+                                 // NavigationManager.push(Routes.bookPackageService);
                                },
                                buttonText: getLang(context, 'subscribe_now')),
                          ),

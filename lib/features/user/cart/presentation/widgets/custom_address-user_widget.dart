@@ -76,8 +76,9 @@ class CustomAddressUserWidget extends StatelessWidget {
           },
           child: CustomTextField(
             enabled: false,
+              maxLines: 2,
               prefixIcon: Icon(Icons.location_on_outlined),
-              hintText: cubit.addressLocationModel!=null?'lat : ${cubit.lat} / long : ${cubit.long}':'',
+              hintText: cubit.addressLocationModel!=null?'${cubit.addressLocationModel!.country}/${cubit.addressLocationModel!.bigCity}/${cubit.addressLocationModel!.locality}\n/${cubit.addressLocationModel!.city}/${cubit.addressLocationModel!.street}':'',
               hintColor: Colors.black,
               controller: TextEditingController()),
         ),
@@ -105,6 +106,7 @@ class CustomAddressUserWidget extends StatelessWidget {
           getLang(context, 'building_number'),
           style:
           TextStyle(
+
               fontFamily: FontConstants.lateefFont,
               fontSize: 14,
               color: blackTextColor,
@@ -116,6 +118,7 @@ class CustomAddressUserWidget extends StatelessWidget {
         ),
         SizedBox(height: 5.h,),
         CustomTextField(
+          textInputType: TextInputType.number,
             hintText: '',
             hintColor: Colors.black,
             controller:cubit.addressNuHouseController),
@@ -138,7 +141,7 @@ class CustomAddressUserWidget extends StatelessWidget {
             hintText: '',
             hintColor: Colors.black,
             controller: cubit.addressMarkController),
-        SizedBox(height: 75.h,),
+        SizedBox(height: 40.h,),
       ],
     );
   }

@@ -36,7 +36,7 @@ class MyOrdersModelData {
    Provider? provider;
    int? userId;
    User? user;
-  int? totalPrice;
+  dynamic totalPrice;
    String? status;
    String? userNote;
    String? adminNote;
@@ -252,7 +252,7 @@ class User {
   String? type;
   String? healthState;
   String? healthReport;
-  String? car;
+  Car? car;
 
   User(
       {this.id,
@@ -296,7 +296,9 @@ class User {
     type = json['type'];
     healthState = json['health_state'];
     healthReport = json['health_report'];
-    car = json['car'];
+    car =  json['car'] != null
+        ? new Car.fromJson(json['car'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -324,7 +326,93 @@ class User {
     data['type'] = this.type;
     data['health_state'] = this.healthState;
     data['health_report'] = this.healthReport;
-    data['car'] = this.car;
+    if (this.car != null) {
+      data['car'] = this.car!.toJson();
+    }
+    return data;
+  }
+}
+
+class Car {
+  int? id;
+  Brand? brand;
+  Modal? modal;
+  ColorModel? color;
+  String? chassisNo;
+  String? year;
+
+  Car({this.id, this.brand, this.modal, this.color, this.chassisNo, this.year});
+
+  Car.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
+    modal = json['modal'] != null ? new Modal.fromJson(json['modal']) : null;
+    color = json['color'] != null ? new ColorModel.fromJson(json['color']) : null;
+    chassisNo = json['chassis_no'];
+    year = json['year'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    if (this.brand != null) {
+      data['brand'] = this.brand!.toJson();
+    }
+    if (this.modal != null) {
+      data['modal'] = this.modal!.toJson();
+    }
+    if (this.color != null) {
+      data['color'] = this.color!.toJson();
+    }
+    data['chassis_no'] = this.chassisNo;
+    data['year'] = this.year;
+    return data;
+  }
+}
+
+
+
+class Modal {
+  int? id;
+  String? name;
+  int? isActive;
+
+  Modal({this.id, this.name, this.isActive});
+
+  Modal.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    isActive = json['is_active'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['is_active'] = this.isActive;
+    return data;
+  }
+}
+
+
+class ColorModel {
+  int? id;
+  String? name;
+  String? color;
+
+  ColorModel({this.id, this.name, this.color});
+
+  ColorModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    color = json['color'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['color'] = this.color;
     return data;
   }
 }
@@ -355,7 +443,7 @@ class Items {
   Provider? provider;
   int? providerProductId;
   ProviderProduct? providerProduct;
-  String? price;
+  dynamic price;
   int? qty;
 
   Items(
@@ -509,13 +597,67 @@ class Items {
 //     return data;
 //   }
 // }
+class WidthModel {
+  int? id;
+  String? name;
+
+  WidthModel({this.id, this.name});
+
+  WidthModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+class HeightModel {
+  int? id;
+  String? name;
+
+  HeightModel({this.id, this.name});
+
+  HeightModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
+class SizeModelProduct {
+  int? id;
+  String? name;
+
+  SizeModelProduct({this.id, this.name});
+
+  SizeModelProduct.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    return data;
+  }
+}
 
 class ProviderProduct {
   int? id;
   String? title;
   String? productStatus;
   String? description;
-  int? price;
+  dynamic price;
   String? type;
   Brand? brand;
   int? brandId;
@@ -525,9 +667,9 @@ class ProviderProduct {
   String? providerId;
   List<Images>? images;
   bool? isFav;
-  int? width;
-  int? height;
-  String? size;
+  WidthModel? width;
+  HeightModel? height;
+  SizeModelProduct? size;
 
   ProviderProduct(
       {this.id,
@@ -570,9 +712,9 @@ class ProviderProduct {
       });
     }
     isFav = json['is_fav'];
-    width = json['width'];
-    height = json['height'];
-    size = json['size'];
+    width =json['width'] != null ? new WidthModel.fromJson(json['width']) : null;
+    height = json['height'] != null ? new HeightModel.fromJson(json['height']) : null;
+    size = json['size'] != null ? new SizeModelProduct.fromJson(json['size']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -599,9 +741,13 @@ class ProviderProduct {
       data['images'] = this.images!.map((v) => v.toJson()).toList();
     }
     data['is_fav'] = this.isFav;
-    data['width'] = this.width;
-    data['height'] = this.height;
-    data['size'] = this.size;
+    if (this.width != null) {
+      data['width'] = this.width!.toJson();
+    } if (this.height != null) {
+      data['height'] = this.height!.toJson();
+    } if (this.size != null) {
+      data['size'] = this.size!.toJson();
+    }
     return data;
   }
 }

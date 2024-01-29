@@ -99,7 +99,7 @@ class AuthCubit extends Cubit<AuthState> {
     CacheHelper.sharedPreference!.setString('lang', codeLang);
    if(isUser ==true){
      MenuCubit.get(context).getPackageCheck(context);
-     BookPackageCubit.get(context).getBrands(context);
+     BookPackageCubit.get(context).getBrands( context: context);
      BookPackageCubit.get(context).getBrandModel(context);
      BookPackageCubit.get(context).getBrandColors(context);
      UserProfileCubit.get(context).getUserProfile('${AuthCubit.get(context).token}',context,);
@@ -131,11 +131,17 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ChangeVisibilityIconState());
   }
   void getToken(BuildContext context)async{
-    print('start');
-    token = await CacheHelper.getDate(key: 'token');
-    UserProfileCubit.get(context).getUserProfile(token, context);
-    FavoriteCubit.get(context).getFavoriteProducts(token, context);
-    MyOrdersCubit.get(context).getMyOrder(context);
+   try{
+     token = await CacheHelper.getDate(key: 'token');
+     print('token $token');
+
+     UserProfileCubit.get(context).getUserProfile(token, context);
+     FavoriteCubit.get(context).getFavoriteProducts(token, context);
+     MyOrdersCubit.get(context).getMyOrder(context);
+     MyOrdersCubit.get(context).getMyCheckCars(context);
+   }catch(e){
+     print('error token $e');
+   }
     emit(GetTokenState());
   }
 

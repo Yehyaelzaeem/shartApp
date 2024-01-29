@@ -1,30 +1,29 @@
-
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/shared_preference/shared_preference.dart';
+import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../../widgets/show_toast_widget.dart';
 import '../../logic/work_products_cubit.dart';
-import '../model/delete_model.dart';
-import '../model/edite_model.dart';
 import '../model/get_products_list_model.dart';
-import '../model/product_model.dart';
 import '../model/product_push_data_model.dart';
 import '../model/works_model.dart';
 
 abstract class BaseProviderProductsAndWorksRemoteDataSource{
-  Future addProduct(String token ,ProductPushDataModel productPushDataModel ,BuildContext context);
+  Future<dynamic> addProduct(String token ,ProductPushDataModel productPushDataModel ,BuildContext context);
   Future<GetProductsModel?> getAllProducts(String token ,BuildContext context);
-  Future delete(String token ,String id ,BuildContext context);
-  Future editProduct(String token ,ProductPushDataModel productPushDataModel ,String id,BuildContext context);
-  Future addWorks(String token,BuildContext context);
+  Future<dynamic> delete(String token ,String id ,BuildContext context);
+  Future<dynamic> editProduct(String token ,ProductPushDataModel productPushDataModel ,String id,BuildContext context);
+  Future<dynamic> addWorks(String token,BuildContext context);
   Future<WorksModel?> getWorks(String token,BuildContext context);
-  Future deleteWork(String token ,String id ,BuildContext context);
+  Future<dynamic> deleteWork(String token ,String id ,BuildContext context);
+  Future<SizeModel?> getSharedSize(BuildContext context);
+  Future<SizeModel?> getSharedHeight(BuildContext context);
+  Future<SizeModel?> getSharedWidth(BuildContext context);
 
 
 }
@@ -32,7 +31,7 @@ abstract class BaseProviderProductsAndWorksRemoteDataSource{
 class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAndWorksRemoteDataSource {
 
   @override
-  Future addProduct(String token, ProductPushDataModel productPushDataModel, BuildContext context)async {
+  Future<dynamic> addProduct(String token, ProductPushDataModel productPushDataModel, BuildContext context)async {
     dynamic t = await CacheHelper.getDate(key: 'token');
     WorkProductsCubit cubit =WorkProductsCubit.get(context);
     cubit.changeUpdateLoading(true);
@@ -50,10 +49,14 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
       'description':  '${productPushDataModel.description}',
       'price':  '${productPushDataModel.price}',
       'type':  '${productPushDataModel.type}',
-      'width':  '${productPushDataModel.width}',
-      'height':  '${productPushDataModel.height}',
-      'size':  '${productPushDataModel.size}',
+      'width_id':  '${productPushDataModel.width}',
+      'height_id':  '${productPushDataModel.height}',
+      'size_id':  '${productPushDataModel.size}',
     });
+    print("1 :${productPushDataModel.type}");
+    print("11 :${productPushDataModel.width}");
+    print("111 :${productPushDataModel.height}");
+    print("11111 :${productPushDataModel.size}");
     Response<dynamic> response = await DioHelper.postData(url: AppApis.addProduct,
         dataOption: data,
         token: token.isNotEmpty?token:t);
@@ -65,7 +68,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
 
             cubit.multiImagePickerController.clearImages();
             cubit.typeSelectedValue = '';
-            cubit.productNameSelectedValue = '';
+            cubit.productNameSelectedValue.text = '';
             cubit.brandSelectedValue = '';
             cubit.brandSelectedId='';
             cubit.brandModelSelectedValue = '';
@@ -112,7 +115,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   }
 
   @override
-  Future delete(String token, String id, BuildContext context)async {
+  Future<dynamic> delete(String token, String id, BuildContext context)async {
     WorkProductsCubit cubit= WorkProductsCubit.get(context);
     cubit.changeUpdateLoadingDelete(true);
     dynamic t = await CacheHelper.getDate(key: 'token');
@@ -120,7 +123,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
         token: token.isNotEmpty?token:t);
 
     if (response.statusCode == 200) {
-      showToast(text: '${getLang(context, 'my_business_showToast2')}', state: ToastStates.success, context: context);
+      showToast(text: '${getLang(context, 'my_business_showToast3')}', state: ToastStates.success, context: context);
       WorkProductsCubit.get(context).getAllProducts(context);
       cubit.changeUpdateLoadingDelete(false);
 
@@ -150,7 +153,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   }
 
   @override
-  Future editProduct(String token, ProductPushDataModel productPushDataModel, String id, BuildContext context)async {
+  Future<dynamic> editProduct(String token, ProductPushDataModel productPushDataModel, String id, BuildContext context)async {
     dynamic t = await CacheHelper.getDate(key: 'token');
     WorkProductsCubit cubit =WorkProductsCubit.get(context);
     cubit.changeUpdateLoading(true);
@@ -168,9 +171,9 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
       'description':  '${productPushDataModel.description}',
       'price':  '${productPushDataModel.price}',
       'type':  '${productPushDataModel.type}',
-      'width':  '${productPushDataModel.width}',
-      'height':  '${productPushDataModel.height}',
-      'size':  '${productPushDataModel.size}',
+      'width_id':  '${productPushDataModel.width}',
+      'height_id':  '${productPushDataModel.height}',
+      'size_id':  '${productPushDataModel.size}',
     });
     Response<dynamic> response = await DioHelper.postData(url: AppApis.editProduct(int.parse(id)),
         dataOption: data,
@@ -208,7 +211,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   }
 
   @override
-  Future addWorks(String token, BuildContext context)async {
+  Future<dynamic> addWorks(String token, BuildContext context)async {
     WorkProductsCubit cubit =WorkProductsCubit.get(context);
     cubit.changeUpdateLoading(true);
     dynamic t = await CacheHelper.getDate(key: 'token');
@@ -263,7 +266,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   }
 
   @override
-  Future deleteWork(String token, String id, BuildContext context) async{
+  Future<dynamic> deleteWork(String token, String id, BuildContext context) async{
     WorkProductsCubit cubit= WorkProductsCubit.get(context);
     cubit.changeUpdateLoadingDelete(true);
     dynamic t = await CacheHelper.getDate(key: 'token');
@@ -272,7 +275,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
 
 
     if (response.statusCode == 200) {
-      showToast(text: '${getLang(context, 'my_business_showToast2')}', state: ToastStates.success, context: context);
+      showToast(text: '${getLang(context, 'my_business_showToast3')}', state: ToastStates.success, context: context);
        WorkProductsCubit.get(context).getWorks(context);
        cubit.changeUpdateLoadingDelete(false);
     }
@@ -284,6 +287,58 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
     }
     cubit.changeUpdateLoadingDelete(false);
 
+  }
+
+  @override
+  Future<SizeModel?> getSharedHeight(BuildContext context)async {
+    WorkProductsCubit cubit =WorkProductsCubit.get(context);
+
+    Response<dynamic> res = await DioHelper.getData(url: AppApis.getHeight,);
+    if (SizeModel.fromJson(res.data).success == false) {
+    }
+    else{
+      if (res.statusCode == 200) {
+        return SizeModel.fromJson(res.data);
+      }
+      else {
+        throw 'Error';
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<SizeModel?> getSharedSize(BuildContext context) async{
+    Response<dynamic> res = await DioHelper.getData(url: AppApis.getSize,);
+
+    if (SizeModel.fromJson(res.data).success == false) {
+    }
+    else{
+      if (res.statusCode == 200) {
+        return SizeModel.fromJson(res.data);
+      }
+      else {
+        throw 'Error';
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<SizeModel?> getSharedWidth(BuildContext context)async {
+    Response<dynamic> res = await DioHelper.getData(url: AppApis.getWidth,);
+
+    if (SizeModel.fromJson(res.data).success == false) {
+    }
+    else{
+      if (res.statusCode == 200) {
+        return SizeModel.fromJson(res.data);
+      }
+      else {
+        throw 'Error';
+      }
+    }
+    return null;
   }
 
 

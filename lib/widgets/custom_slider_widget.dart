@@ -12,12 +12,12 @@ class CustomSliderWidget extends StatefulWidget {
 }
 
 class _CustomSliderWidgetState extends State<CustomSliderWidget> {
-  TextEditingController searchController = TextEditingController();
   CarouselController? carouselController = CarouselController();
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MenuCubit,MenuState>(builder:
+    return
+      BlocConsumer<MenuCubit,MenuState>(builder:
         (BuildContext context ,MenuState state){
       MenuCubit c =MenuCubit.get(context);
       if(MenuCubit.get(context).listBanners.isNotEmpty){

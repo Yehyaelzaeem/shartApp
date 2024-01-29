@@ -67,6 +67,9 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   Future<UserProfileModel?> getUserProfile (String token ,BuildContext context)async{
     userProfileRemoteDataSource.getUserProfile(token, context).then((UserProfileModel? value) {
       userProfileModel=value;
+      nameController.text=userProfileModel!.data!.name.toString();
+      emailController.text=userProfileModel!.data!.email.toString();
+      phoneController.text=userProfileModel!.data!.phone.toString();
       // userProfileModelList.add(value!);
       emit(GetUserProfileState(value!));
     });

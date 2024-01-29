@@ -5,3 +5,4 @@ abstract class BookPackageState {}
 
 class BookPackageInitial extends BookPackageState {}
 class GetBrandsState extends BookPackageState {}
+class LoadingState extends BookPackageState {}

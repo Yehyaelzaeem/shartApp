@@ -97,8 +97,12 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
         cubit.changeUpdateLoading(false);
         cubit.getProviderProfile('${AuthProviderCubit.get(context).token}', context);
+        Navigator.of(context).pop();
         cubit.changeUpdateLoading(false);
         showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        cubit.nameControllerProvider.text='';
+        cubit.emailControllerProvider.text='';
+        cubit.phoneControllerProvider.text='';
         return ProviderGetProfileModel.fromJson(res.data);
       }
       else {
@@ -160,6 +164,10 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
         cubit.getAddressListProvider(token, context);
         cubit.changeAddLoading(false);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        cubit.addressAddNameController.text='';
+        cubit.addressAddController.text='';
+        cubit.addressLocationModel=null;
+        cubit.addressAddPhoneController.text='';
         return AddressModel.fromJson(res.data);
       }
       else {
@@ -319,43 +327,48 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
   Future<dynamic> sendCompleteProfile(String token ,CompleteProfileModel completeProfileModel ,BuildContext context) async{
     ProviderProfileCubit cubitProvider =ProviderProfileCubit.get(context);
     cubitProvider.changeUpdateLoading(true);
-    FormData data = FormData.fromMap(<String,dynamic >{
-      'commercial_registration_file': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.pdfCompleteFile!.path, filename: 'upload'),],
-      'logo': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.logoCompleteFile!.path, filename: 'upload'),],
-      'national_id_image': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.idCompleteFile!.path, filename: 'upload'),],
-      'store_name': completeProfileModel.storeName,
+    var data = FormData.fromMap({
+         'commercial_registration_file': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.pdfCompleteFile!.path, filename: cubitProvider.pdfCompleteFile!.path),],
+         'logo':<MultipartFile>[await MultipartFile.fromFile(cubitProvider.logoCompleteFile!.path, filename: cubitProvider.logoCompleteFile!.path,),],
+         'national_id_image': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.idCompleteFile!.path, filename: cubitProvider.idCompleteFile!.path,),],
+         'store_name': completeProfileModel.storeName,
       'commercial_registration_no': completeProfileModel.commercialRegistrationNo,
       'ipan': completeProfileModel.iPan,
       'commercial_end_date': completeProfileModel.commercialEndDate,
       'main_address': completeProfileModel.mainAddress
     });
 
-    AuthCubit cubit =AuthCubit.get(context);
-    Response<dynamic> response = await DioHelper.postData(
-      token: token,
-      dataOption: data,
-      url: AppApis.completeProfile,
-      language:  cubit.localeLanguage==Locale('en')?'en':'ar',);
+   try{
+     AuthCubit cubit =AuthCubit.get(context);
+     Response<dynamic> response = await DioHelper.postData(
+       token: token,
+       dataOption: data,
+       url: AppApis.completeProfile,
+       language:  cubit.localeLanguage==Locale('en')?'en':'ar',);
 
-    if (response.statusCode == 200) {
-      showToast(text: 'Successfully', state: ToastStates.success, context: context);
-      Navigator.of(context).pop();
-      cubitProvider.titleCompleteProfileController.text='';
-      cubitProvider.numberCommercialCompleteProfileController.text='';
-      cubitProvider.addressCompleteProfileController.text='';
-      cubitProvider.iPanCompleteProfileController.text='';
-      cubitProvider.dateCompleteProfileController.text='';
-      cubitProvider.logoCompleteFile=null;
-      cubitProvider.idCompleteFile=null;
-      cubitProvider.pdfCompleteFile=null;
-      cubitProvider.changeUpdateLoading(false);
-      // print(json.encode(response.data));
-    }
-    else {
-      cubitProvider.changeUpdateLoading(false);
-      showToast(text: "sorry you can't complete profile now ,please call It", state: ToastStates.error, context: context);
-      // print(response.statusMessage);
-    }
+     if (response.statusCode == 200) {
+       ProviderProfileCubit.get(context).getProviderProfile(token, context);
+       showToast(text: 'successfully', state: ToastStates.success, context: context);
+       Navigator.of(context).pop();
+       cubitProvider.titleCompleteProfileController.text='';
+       cubitProvider.numberCommercialCompleteProfileController.text='';
+       cubitProvider.addressCompleteProfileController.text='';
+       cubitProvider.iPanCompleteProfileController.text='';
+       cubitProvider.dateCompleteProfileController.text='';
+       cubitProvider.logoCompleteFile=null;
+       cubitProvider.idCompleteFile=null;
+       cubitProvider.pdfCompleteFile=null;
+       cubitProvider.changeUpdateLoading(false);
+       print(json.encode(response.data));
+     }
+     else {
+       cubitProvider.changeUpdateLoading(false);
+       showToast(text: "sorry you can't complete profile now ,please call It", state: ToastStates.error, context: context);
+     }
+   }catch(e){
+     cubitProvider.changeUpdateLoading(false);
+     showToast(text: '$e', state: ToastStates.error, context: context);
+   }
 
   }
 

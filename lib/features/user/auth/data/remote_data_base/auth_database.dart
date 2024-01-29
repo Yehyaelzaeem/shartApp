@@ -122,17 +122,17 @@ class AuthDataSource implements BaseAuthDataSource {
         NavigationManager.pushReplacement(Routes.otpScreen);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>VerifyAccountScreen(otpCode:'${SendOTPModel.fromJson(res.data).data!.otp}' ,)));
         AuthCubit.get(context).loginRegLoadingStates(false);
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('OTP Code is  : ${SendOTPModel.fromJson(res.data).data!.otp}'),
-              duration: Duration(seconds: 15),
-              dismissDirection: DismissDirection.up,
-              behavior: SnackBarBehavior.floating,
-              margin: EdgeInsets.only(
-                bottom:MediaQuery.of(context).size.height-80.h,
-                left: 10.w,
-                right: 10.w,
-              ),
-            ));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(content: Text('OTP Code is  : ${SendOTPModel.fromJson(res.data).data!.otp}'),
+        //       duration: Duration(seconds: 15),
+        //       dismissDirection: DismissDirection.up,
+        //       behavior: SnackBarBehavior.floating,
+        //       margin: EdgeInsets.only(
+        //         bottom:MediaQuery.of(context).size.height-80.h,
+        //         left: 10.w,
+        //         right: 10.w,
+        //       ),
+        //     ));
 
         return SendOTPModel.fromJson(res.data);
       }

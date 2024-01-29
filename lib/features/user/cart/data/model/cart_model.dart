@@ -3,7 +3,7 @@ class Cart {
   final int? id;
   final String? productId;
   final String? productName;
-  final int? productPrice;
+  final dynamic productPrice;
   final String? description;
   final String? image;
   final String? type;
@@ -32,7 +32,7 @@ class Cart {
       id: int.parse(json['id']),
       productId: json['productId'],
       productName: json['productName'],
-      productPrice: int.parse(json['productPrice']),
+      productPrice: double.parse(json['productPrice']),
       description: json['description'],
       image: json['image'],
       type: json['type'],

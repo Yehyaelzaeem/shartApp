@@ -12,9 +12,9 @@ import 'package:badges/badges.dart' as badges;
 class CustomAppBar extends StatelessWidget {
   final String title;
   final bool? hasBackButton;
-  final bool? hasNotCartButton;
+  final bool? hasCartButton;
   void Function()? onTap;
-  CustomAppBar({super.key, required this.title, this.hasBackButton,this.onTap, this.hasNotCartButton});
+  CustomAppBar({super.key, required this.title, this.hasBackButton,this.onTap, this.hasCartButton});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class CustomAppBar extends StatelessWidget {
             )
           : null,
       actions: [
-        hasNotCartButton==null?
+        hasCartButton==true?
         AuthCubit.get(context).token.isNotEmpty?
         badges.Badge(
           badgeContent: BlocConsumer<CartCubit, CartState>(
@@ -82,7 +82,6 @@ class CustomAppBar extends StatelessWidget {
         const SizedBox(
           width: 20.0,
         ),
-
       ],
     );
   }

@@ -13,7 +13,7 @@ import 'package:shart/features/user/invoice/presentation/screens/invoice_screen.
 import 'package:shart/features/user/myorders/presentation/screens/order_details.dart';
 import 'package:shart/features/user/notifications/presentation/screens/notification_screen.dart';
 import 'package:shart/features/user/products/presentation/screens/product_details_screen.dart';
-import 'package:shart/features/user/report/presentation/screens/report_screen.dart';
+import 'package:shart/features/user/myorders/presentation/screens/report_screen.dart';
 import 'package:shart/features/user/store/presentation/screens/store_products.dart';
 import 'package:shart/features/user/store/presentation/screens/store_screen.dart';
 
@@ -89,9 +89,9 @@ class RouteGenerator {
     // if (settings.name == Routes.packagesHistory) {
     //   return platformPageRoute(const UserPackagesScreen());
     // }
-    if (settings.name == Routes.filterTiresAndRims) {
-      return platformPageRoute(const FilterTireAndRimsScreen());
-    }
+    // if (settings.name == Routes.filterTiresAndRims) {
+    //   return platformPageRoute(const FilterTireAndRimsScreen());
+    // }
     if (settings.name == Routes.aboutCompany) {
       return platformPageRoute(const AboutCompanyScreen());
     }
@@ -125,9 +125,9 @@ class RouteGenerator {
     if (settings.name == Routes.menu) {
       return platformPageRoute(const UserMenuScreen());
     }
-    if (settings.name == Routes.messages) {
-      return platformPageRoute(const UserMessagesScreen());
-    }
+    // if (settings.name == Routes.messages) {
+    //   return platformPageRoute(const UserMessagesScreen());
+    // }
     if (settings.name == Routes.more) {
       return platformPageRoute(const UserMoreScreen());
     }
@@ -140,9 +140,9 @@ class RouteGenerator {
     if (settings.name == Routes.spareParts) {
       return platformPageRoute(const SparePartsScreen());
     }
-    if (settings.name == Routes.bookPackageService) {
-      return platformPageRoute(const UserBookPackageServiceScreen());
-    }
+    // if (settings.name == Routes.bookPackageService) {
+    //   return platformPageRoute(const UserBookPackageServiceScreen());
+    // }
     // if (settings.name == Routes.packageDetails) {
     //   return platformPageRoute(const UserPackageDetailsScreen());
     // }
@@ -152,9 +152,9 @@ class RouteGenerator {
     // if (settings.name == Routes.tires) {
     //   return platformPageRoute(const TiresScreen());
     // }
-    if (settings.name == Routes.report) {
-      return platformPageRoute(const ReportScreen());
-    }
+    // if (settings.name == Routes.report) {
+    //   return platformPageRoute(const ReportScreen());
+    // }
     // if (settings.name == Routes.sparePartsDetails) {
     //   return platformPageRoute(const SparePartsDetailsScreen());
     // }
@@ -202,9 +202,9 @@ class RouteGenerator {
     if (settings.name == Routes.providerFavorite) {
       return platformPageRoute(const ProviderFavoriteScreen());
     }
-    if (settings.name == Routes.providerMessages) {
-      return platformPageRoute(const ProviderMessagesScreen());
-    }
+    // if (settings.name == Routes.providerMessages) {
+    //   return platformPageRoute(const ProviderMessagesScreen());
+    // }
     if (settings.name == Routes.providerAddNewProduct) {
       return platformPageRoute(const ProviderAddNewProduct());
     }
