@@ -4,17 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../../../core/resources/color.dart';
+import '../../../../../shared_screens/pachages/custom_packages_screen.dart';
+import '../../logic/provider_home_cubit.dart';
+import '../screens/packages/packages_screen.dart';
 
 class CustomSubscribeWidget extends StatelessWidget {
-  const CustomSubscribeWidget({super.key});
-
+  const CustomSubscribeWidget({super.key, this.height, this.width});
+   final double? height;
+   final double? width;
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      width: MediaQuery.of(context).size.width*0.4,
-      height: 163.h,
+      width:width?? MediaQuery.of(context).size.width*0.4,
+      height:height?? 163.h,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color(0xff136B79)),
@@ -52,7 +56,13 @@ class CustomSubscribeWidget extends StatelessWidget {
                   elevation: 0,
                   minimumSize: Size(134.w, 36.h),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  ProviderHomeCubit.get(context).getPackages(context);
+                  Navigator.push(context, MaterialPageRoute(builder:
+                      (BuildContext context)=>ProviderPackagesScreen(
+                        isHistory: false,
+                      )));
+                },
                 child: Text(
                   '${getLang(context, 'subscription_now')}',
                   style: TextStyle(
@@ -63,7 +73,6 @@ class CustomSubscribeWidget extends StatelessWidget {
                 )),
           ),
           SizedBox(height: 20.h,),
-
         ],
       ),
     );

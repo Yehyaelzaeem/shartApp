@@ -23,4 +23,19 @@ class ProductPushDataModel{
     this.description,
     this.price
 });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "type": this.type,
+      "title": this.title,
+      "brandId": this.brandId,
+      "modelId": this.modelId,
+      "width": this.width,
+      "height": this.height,
+      "size": this.size,
+      "state": this.state,
+      "description": this.description,
+      "price": this.price,
+    };
+  }
 }

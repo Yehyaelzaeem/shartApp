@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 import '../shared_preference/shared_preference.dart';
@@ -17,6 +19,7 @@ class DioHelper {
 
   static Future<Response<dynamic>> postData({required String url,FormData? dataOption,  Map<String, dynamic>? data, Map<String, dynamic>? query,String? token,String? language}) async
   {
+    print(dataOption.toString());
     dio.options.headers = <String,dynamic >{'Accept-Language': language??'en','x-api-key':'SIv5q09xLI689LNoALEh2D4Af/TsFkoypEMd/2XdtvGPfKHmU6HENZuuBgaBQKXM',
       'Authorization':
       'Bearer $token'

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class FontConstants {
   static const String fontFamily = 'Tajawal';
   static const String lateefFont = 'Lateef';
+  static const String Tajawal = 'Tajawal';
 }
 
 class FontWeightManager {

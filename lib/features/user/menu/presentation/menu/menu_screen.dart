@@ -7,6 +7,7 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/core/routing/navigation_services.dart';
+import 'package:shart/features/user/menu/presentation/search/search_screen.dart';
 import 'package:shart/widgets/custom_menu_top_log_widget.dart';
 import 'package:shart/features/user/menu/presentation/menu/widget/custom_services_type_widget.dart';
 import 'package:shart/widgets/custom_text_field.dart';
@@ -17,14 +18,8 @@ import '../../../../../widgets/custom_slider_widget.dart';
 import '../../../../../widgets/custom_welcome_message.dart';
 import '../../logic/menu_cubit.dart';
 
-class UserMenuScreen extends StatefulWidget {
+class UserMenuScreen extends StatelessWidget {
   const UserMenuScreen({Key? key}) : super(key: key);
-  @override
-  State<UserMenuScreen> createState() => _UserMenuScreenState();
-}
-class _UserMenuScreenState extends State<UserMenuScreen> {
-  TextEditingController searchController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -37,10 +32,10 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
           },
           ctx: context,
           btnCancelOnPress: () {},
-          title: 'الخروج',
-          desc: 'هل أنت متأكد من أنك تريد  الخروج ؟',
-          btnOkText: 'نعم',
-          btnCancelText: 'لا',
+          title: getLang(context,'exit'),
+          desc: getLang(context, 'sure_exit'),
+          btnOkText: getLang(context, 'yes'),
+          btnCancelText:getLang(context, 'no'),
         );
         // NavigationManager.pushReplacement(Routes.login);
       },
@@ -49,6 +44,7 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 30.h,),
                 CustomTopRowLogo(type: 'user',),
@@ -57,7 +53,11 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
                   padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
                   child: InkWell(
                     onTap: (){
-                      NavigationManager.push(Routes.store);
+                      MenuCubit c = MenuCubit.get(context);
+                      c.searchControllerHome.text='';
+                      c.changeSearchStart(false);
+                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>SearchScreen()));
+                      // NavigationManager.push(Routes.store);
                     },
                     child: CustomTextField(
                       hintStyle: TextStyle(
@@ -68,23 +68,20 @@ class _UserMenuScreenState extends State<UserMenuScreen> {
                       enabled: false,
                       hintColor: blackColor,
                       hintFontFamily: FontConstants.lateefFont,
-                      controller: searchController,
+                      controller: TextEditingController(),
                       prefixIcon: Icon(Icons.search_outlined, color: greyColor),
                     ),
                   ),
                 ),
                 CustomSliderWidget(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                    child: Text(
-                      getLang(context, 'our_services'),
-                      style: TextStyle(
-                        fontSize: 30.sp,
-                        fontWeight: FontWeightManager.medium,
-                        fontFamily: FontConstants.lateefFont,
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                  child: Text(
+                    getLang(context, 'our_services'),
+                    style: TextStyle(
+                      fontSize: 30.sp,
+                      fontWeight: FontWeightManager.medium,
+                      fontFamily: FontConstants.lateefFont,
                     ),
                   ),
                 ),

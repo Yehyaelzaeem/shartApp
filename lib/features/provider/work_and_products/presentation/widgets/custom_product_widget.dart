@@ -46,21 +46,21 @@ class CustomProductsDisplayWidget extends StatelessWidget {
               padding: EdgeInsets.all(10.w),
               child: Stack(
                 children: <Widget>[
-                  Positioned(
-                      child: InkWell(
-                        onTap:(){
-                          cubit.deleteProduct(getProductsModelData.id.toString(), context);
-                        },
-                        child: CircleAvatar(
-                            radius: 17,
-                            backgroundColor: Colors.white,
-                            child: Icon(
-                                Icons.restore_from_trash_outlined,
-                                size: 20,
-                                color: Color(0xffFF3535))),
-                      ),
-                      top: 0,
-                      left: 0),
+                  // Positioned(
+                  //     child: InkWell(
+                  //       onTap:(){
+                  //         cubit.deleteProduct(getProductsModelData.id.toString(), context);
+                  //       },
+                  //       child: CircleAvatar(
+                  //           radius: 17,
+                  //           backgroundColor: Colors.white,
+                  //           child: Icon(
+                  //               Icons.restore_from_trash_outlined,
+                  //               size: 20,
+                  //               color: Color(0xffFF3535))),
+                  //     ),
+                  //     top: 0,
+                  //     left: 0),
                   Positioned(
                       child: InkWell(
                         onTap: (){

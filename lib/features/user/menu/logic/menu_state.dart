@@ -13,3 +13,5 @@ class GetBannersState extends MenuState {
   GetBannersState(this.bannersModel);
 }
 class RemoveState extends MenuState {}
+class ChangeLoadingState extends MenuState {}
+class GetProductsState extends MenuState {}

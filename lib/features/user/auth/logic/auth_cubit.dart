@@ -5,7 +5,9 @@ import 'package:shart/features/user/auth/data/models/register_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../core/shared_preference/shared_preference.dart';
 import '../../book_package_service/logic/book_package_cubit.dart';
+import '../../favorite/logic/favorite_cubit.dart';
 import '../../menu/logic/menu_cubit.dart';
+import '../../myorders/logic/my_orders_cubit.dart';
 import '../../profile/logic/user_profile_cubit.dart';
 import '../data/remote_data_base/auth_database.dart';
 import 'package:geocoding/geocoding.dart';
@@ -97,7 +99,7 @@ class AuthCubit extends Cubit<AuthState> {
     CacheHelper.sharedPreference!.setString('lang', codeLang);
    if(isUser ==true){
      MenuCubit.get(context).getPackageCheck(context);
-     BookPackageCubit.get(context).getBrands(context);
+     BookPackageCubit.get(context).getBrands( context: context);
      BookPackageCubit.get(context).getBrandModel(context);
      BookPackageCubit.get(context).getBrandColors(context);
      UserProfileCubit.get(context).getUserProfile('${AuthCubit.get(context).token}',context,);
@@ -129,9 +131,17 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ChangeVisibilityIconState());
   }
   void getToken(BuildContext context)async{
-    print('start');
-    token = await CacheHelper.getDate(key: 'token');
-    UserProfileCubit.get(context).getUserProfile(token, context);
+   try{
+     token = await CacheHelper.getDate(key: 'token');
+     print('token $token');
+
+     UserProfileCubit.get(context).getUserProfile(token, context);
+     FavoriteCubit.get(context).getFavoriteProducts(token, context);
+     MyOrdersCubit.get(context).getMyOrder(context);
+     MyOrdersCubit.get(context).getMyCheckCars(context);
+   }catch(e){
+     print('error token $e');
+   }
     emit(GetTokenState());
   }
 

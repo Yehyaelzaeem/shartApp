@@ -26,6 +26,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final String? Function(String?)? validationFunc;
   void Function(String)? onFieldSubmitted;
+  void Function(String)? onChanged;
   TextStyle? hintStyle;
   CustomTextField({
     Key? key,
@@ -52,6 +53,7 @@ class CustomTextField extends StatelessWidget {
     this.hintColor,
     this.suffixIcon,
     this.onFieldSubmitted,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -66,7 +68,7 @@ class CustomTextField extends StatelessWidget {
         fontWeight: fontWeight,
         hintStyle:hintStyle ,
         hintText: hintText,
-        contentHorizontalPadding: contentHorizontalPadding,
+        contentHorizontalPadding: contentHorizontalPadding??15,
         contentVerticalPadding: contentVerticalPadding,
         borderRadius: borderRadius,
         borderColor: borderColor,
@@ -87,6 +89,7 @@ class CustomTextField extends StatelessWidget {
       onTapOutside: (_) => GeneralFunctions.hideKeyboard(),
       textInputAction: textInputAction ?? TextInputAction.next,
       keyboardType: textInputType ?? TextInputType.text,
+      onChanged:onChanged ,
     );
   }
 }

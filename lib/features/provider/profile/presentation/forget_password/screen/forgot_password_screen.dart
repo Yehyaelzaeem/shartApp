@@ -4,6 +4,8 @@ import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
 
+import '../../../../../../core/localization/appLocale.dart';
+
 class ProviderForgotPasswordScreen extends StatefulWidget {
   const ProviderForgotPasswordScreen({Key? key}) : super(key: key);
 
@@ -23,7 +25,7 @@ class _ProviderForgotPasswordScreenState extends State<ProviderForgotPasswordScr
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'تحديث كلمة المرور',hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'update_password'),hasBackButton: true),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -31,7 +33,7 @@ class _ProviderForgotPasswordScreenState extends State<ProviderForgotPasswordScr
         child: Column(
           children: <Widget>[
             CustomTextField(
-              hintText: 'كلمة المرور الجديدة',
+              hintText: getLang(context, 'new_password'),
               controller: passwordController,
               textInputType: TextInputType.visiblePassword,
               isPassword: passwordVisibility,
@@ -50,7 +52,7 @@ class _ProviderForgotPasswordScreenState extends State<ProviderForgotPasswordScr
             Padding(
               padding:   EdgeInsets.only(top: 20.h,bottom: 30.h),
               child: CustomTextField(
-                hintText: 'تأكيد كلمة المرور الجديدة',
+                hintText: getLang(context, 'sure_new_password'),
                 controller: passwordConfirmController,
                 textInputType: TextInputType.visiblePassword,
                 isPassword: passwordConfirmVisibility,
@@ -68,7 +70,7 @@ class _ProviderForgotPasswordScreenState extends State<ProviderForgotPasswordScr
             ),
             Padding(
               padding:   EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomElevatedButton(onTap: (){}, buttonText: 'تأكيد'),
+              child: CustomElevatedButton(onTap: (){}, buttonText: getLang(context, 'sure')),
             )
           ],
         ),

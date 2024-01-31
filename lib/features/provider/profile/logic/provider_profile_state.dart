@@ -20,3 +20,4 @@ class DeleteAccountState extends ProviderProfileState {}
 class UpdateUserProfile extends ProviderProfileState {}
 class AboutCompanyState extends ProviderProfileState {}
 class ChangeLanguageState extends ProviderProfileState {}
+class TestState extends ProviderProfileState {}

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../../../../core/routing/navigation_services.dart';
 import '../../../../../../core/routing/routes.dart';
@@ -20,7 +21,7 @@ class CustomAddAddressButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Icon(Icons.add, color: Color(0xff136B79)),
-            Text('أضف عنوان رئيسي أو فرعي',
+            Text(getLang(context, 'add_main_subtitle'),
                 style: TextStyle(
                     color: Color(0xff136B79),
                     fontFamily: 'Lateef',

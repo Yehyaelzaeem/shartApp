@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
@@ -23,7 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'تحديث كلمة المرور',hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'update_password'),hasBackButton: true),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -31,7 +32,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child: Column(
           children: <Widget>[
             CustomTextField(
-              hintText: 'كلمة المرور الجديدة',
+              hintText: getLang(context, 'new_password'),
               controller: passwordController,
               textInputType: TextInputType.visiblePassword,
               isPassword: passwordVisibility,
@@ -50,7 +51,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Padding(
               padding:   EdgeInsets.only(top: 20.h,bottom: 30.h),
               child: CustomTextField(
-                hintText: 'تأكيد كلمة المرور الجديدة',
+                hintText:getLang(context, 'sure_new_password'),
                 controller: passwordConfirmController,
                 textInputType: TextInputType.visiblePassword,
                 isPassword: passwordConfirmVisibility,
@@ -68,7 +69,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             Padding(
               padding:   EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomElevatedButton(onTap: (){}, buttonText: 'تأكيد'),
+              child: CustomElevatedButton(onTap: (){}, buttonText: getLang(context, 'sure')),
             )
           ],
         ),

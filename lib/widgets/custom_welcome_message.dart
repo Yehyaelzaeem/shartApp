@@ -9,18 +9,15 @@ class CustomWelcomeMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: EdgeInsets.only(
-            left: 16.w, right: 16.w, bottom: 4.h, top: 12.h),
-        child: Text(
-          getLang(context, 'welcome_message'),
-          style: TextStyle(
-            fontSize: 24.sp,
-            fontWeight: FontWeightManager.bold,
-            fontFamily: FontConstants.lateefFont,
-          ),
+    return Padding(
+      padding: EdgeInsets.only(
+          left: 16.w, right: 16.w, bottom: 4.h, top: 12.h),
+      child: Text(
+        getLang(context, 'welcome_message'),
+        style: TextStyle(
+          fontSize: 24.sp,
+          fontWeight: FontWeightManager.bold,
+          fontFamily: FontConstants.lateefFont,
         ),
       ),
     );

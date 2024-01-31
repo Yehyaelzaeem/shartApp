@@ -17,6 +17,7 @@ class ChangeTypeState extends WorkProductsState {}
 class AddWorksState extends WorkProductsState {}
 class DeleteWorksState extends WorkProductsState {}
 class IsLoadingState extends WorkProductsState {}
+class GetSizeState extends WorkProductsState {}
 class GetWorksState extends WorkProductsState {
   // final WorksModel worksModel;
   // GetWorksState(this.worksModel);

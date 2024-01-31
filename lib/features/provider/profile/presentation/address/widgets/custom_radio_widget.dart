@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../logic/provider_profile_cubit.dart';
 
@@ -26,7 +27,7 @@ class _CustomRadioAddAddressWidgetState extends State<CustomRadioAddAddressWidge
            });
           },
         ),
-        Text('عنوان رئيسي'),
+        Text(getLang(context, 'main_address2')),
         const Spacer(),
         Radio<int>(
           value: 1,
@@ -37,7 +38,7 @@ class _CustomRadioAddAddressWidgetState extends State<CustomRadioAddAddressWidge
             });
           },
         ),
-        Text('عنوان فرعي'),
+        Text(getLang(context, 'sub_address')),
       ],
     );
   }

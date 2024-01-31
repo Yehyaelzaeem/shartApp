@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import '../../../../core/resources/assets_menager.dart';
 import '../../../../core/resources/color.dart';
 import '../../../../core/routing/navigation_services.dart';
@@ -30,32 +31,52 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomRight,
         children: <Widget>[
+
           (type=='user'?userCubit.userProfileModel:providerCubit.providerProfileModel) !=null?
           CircleAvatar(
-            radius: 65,
+            radius: 55,
             backgroundColor: Colors.white,
             child:
             (type=='user'?userCubit.profileImageFile:providerCubit.profileImageProviderFile) !=null?
             CircleAvatar(
-                radius:60,
+                radius:50,
                 backgroundImage:
                 FileImage(
                     type=='user'?
                     userCubit.profileImageFile!:providerCubit.profileImageProviderFile!
                 )
             ):
-            CircleAvatar(
-                radius:60,
-                backgroundImage:
-                NetworkImage('${
-                    type=='user'?
-                    userCubit.userProfileModel!.data!.image:providerCubit.providerProfileModel!.data!.image}')
-            ),):
+            type=='user'?
+            Container(
+              height: 100,
+              width: 100,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  child: Image.network('${userCubit.userProfileModel!.data!.image}',
+                    fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                      return  Image.asset('assets/images/person.jpg');
+                    },
+                  )),
+            ):
+            Container(
+              height: 100,
+              width: 100,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  child: Image.network('${providerCubit.providerProfileModel!.data!.image}',
+                    fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                      return Image.asset('assets/images/person.jpg');
+                    },
+                  )),
+            ),
+          ):
           CircleAvatar(
-            radius: 65,
+            radius: 55,
             backgroundColor: Colors.white,
             child: CircleAvatar(
-                radius:60,
+                radius:50,
                 backgroundImage:
                 NetworkImage(ImagesManager.testLogo)
             ),),
@@ -74,9 +95,10 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
                   ),
                   CustomTextField(
       prefixIcon: Icon(Icons.person),
-      hintText: '${
-          type=='user'?
-          userCubit.userProfileModel!.data!.name:providerCubit.providerProfileModel!.data!.name}',
+      hintText: '${getLang(context, 'name')}',
+      // '${
+      //     type=='user'?
+      //     userCubit.userProfileModel!.data!.name:providerCubit.providerProfileModel!.data!.name}',
       controller:
       type=='user'?
       userCubit.nameController:providerCubit.nameControllerProvider,
@@ -85,9 +107,11 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
                   Padding(
       padding: EdgeInsets.symmetric(vertical: 24.h),
       child: CustomTextField(
-        hintText: '${
-            type=='user'?
-            userCubit.userProfileModel!.data!.email:providerCubit.providerProfileModel!.data!.email}',
+        hintText:
+        '${getLang(context, 'email')}',
+        // '${
+        //     type=='user'?
+        //     userCubit.userProfileModel!.data!.email:providerCubit.providerProfileModel!.data!.email}',
         prefixIcon: Icon(Icons.email),
         controller:
         type=='user'?
@@ -95,9 +119,11 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
       ),
                   ),
                   CustomTextField(
-      hintText: '${
-          type=='user'?
-          userCubit.userProfileModel!.data!.phone:providerCubit.providerProfileModel!.data!.phone}',
+      hintText:
+      '${getLang(context, 'phone')}',
+      // '${
+      //     type=='user'?
+      //     userCubit.userProfileModel!.data!.phone:providerCubit.providerProfileModel!.data!.phone}',
       controller:
       type=='user'?
       userCubit.phoneController:providerCubit.phoneControllerProvider,
@@ -114,7 +140,7 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
             type=='user'?
             userCubit.updateUserProfile(UserProfileCubit.get(context).userProfileModel!, AuthCubit.get(context).token, context) :
             ProviderProfileCubit.get(context).updateProviderProfile(ProviderProfileCubit.get(context).providerProfileModel!, AuthProviderCubit.get(context).token, context);
-          }, buttonText: 'تحديث البيانات'),
+          }, buttonText: getLang(context, 'update_data')),
                   ),
                   CustomElevatedButton(
       onTap: () {
@@ -122,12 +148,13 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
         NavigationManager.push(Routes.forgotPassword):
         NavigationManager.push(Routes.providerForgetPassword);
       },
-      buttonText: 'تحديث كلمة المرور',
+      buttonText:  getLang(context, 'update_password'),
       backgroundColor: whiteColor,
       borderColor: blackColor,
                   ),
                 ],
               ),
-    ):Center(child: CircularProgressIndicator(),);
+    ):
+      Center(child: CircularProgressIndicator(),);
   }
 }

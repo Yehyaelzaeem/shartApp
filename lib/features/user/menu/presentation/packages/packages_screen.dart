@@ -5,8 +5,8 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/features/user/menu/logic/menu_cubit.dart';
+import 'package:shart/features/user/menu/presentation/packages/packages_details/package_details_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-import '../packages_details/package_details_screen.dart';
 
 
 class CarPackagesCheckScreen extends StatelessWidget {

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
+import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../widgets/multi_image/multi_image_picker_view.dart';
 import '../data/data_base/data_base.dart';
@@ -35,16 +37,50 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
 
   ProviderProductsAndWorksRemoteDataSource productsAndWorksRemoteDataSource = ProviderProductsAndWorksRemoteDataSource();
   String typeSelectedValue = '';
-  String productNameSelectedValue = '';
+  TextEditingController productNameSelectedValue = TextEditingController();
   String brandSelectedValue = '';
   String brandSelectedId = '';
   String brandModelSelectedValue = '';
   String brandModelSelectedId = '';
   String stateSelectedValue = '';
   String widthSelectedValue = '';
+  String widthSelectedId = '';
   String heightSelectedValue = '';
+  String heightSelectedId = '';
   String sizeSelectedValue = '';
+  String sizeSelectedId = '';
+  void reStarting( GetProductsModelData getProductsModelData){
+    typeSelectedValue='${getProductsModelData.type}';
 
+    if(getProductsModelData.type=='spare_parts'){
+      changeTypeAdd(false);
+      // controllerCubit.typeSelectedValue=widget.getProductsModelData.type!;
+      productNameSelectedValue.text=getProductsModelData.title!;
+      brandSelectedId=getProductsModelData.brand!.id!.toString();
+      brandSelectedValue=getProductsModelData.brand!.name!;
+     brandModelSelectedId=getProductsModelData.modalId!.toString();
+     stateSelectedValue=getProductsModelData.productStatus!;
+      priceController.text=getProductsModelData.price!.toString();
+      desController.text=getProductsModelData.description!.toString();
+      brandModelSelectedValue=getProductsModelData.modal!.name.toString();
+
+    }else{
+      changeTypeAdd(true);
+      productNameSelectedValue.text=getProductsModelData.title!;
+      stateSelectedValue=getProductsModelData.productStatus!;
+      brandSelectedId=getProductsModelData.brand!.id!.toString();
+      brandSelectedValue=getProductsModelData.brand!.name!;
+      brandModelSelectedId=getProductsModelData.modalId!.toString();
+      brandModelSelectedValue=getProductsModelData.modal!.name.toString();
+      widthSelectedValue=getProductsModelData.width!=null?getProductsModelData.width!.name.toString():'';
+      heightSelectedValue=getProductsModelData.height!=null?getProductsModelData.height!.name.toString():'';
+      sizeSelectedValue=getProductsModelData.size!=null?getProductsModelData.size!.name.toString():'';
+      priceController.text=getProductsModelData.price!.toString();
+      desController.text=getProductsModelData.description!.toString();
+
+    }
+        emit(GetImageState());
+  }
   TextEditingController desController = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
@@ -63,6 +99,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   List<File> imagesFile = <File>[];
   List<File> imagesFileWorks = <File>[];
 
+
   void changeTypeAdd(bool a) {
     isParts = a;
     emit(ChangeTypeState());
@@ -72,7 +109,28 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     x = a;
     emit(ChangeTypeState());
   }
-
+  SizeModel? listSize;
+  SizeModel? listHeight;
+  SizeModel? listWidth;
+  void getSize(BuildContext context){
+    print('sdsadsadsad');
+    productsAndWorksRemoteDataSource.getSharedSize(context).then((SizeModel? value) {
+      listSize=value!;
+      emit(GetSizeState());
+    });
+  }
+  void getHeight(BuildContext context){
+    productsAndWorksRemoteDataSource.getSharedHeight(context).then((SizeModel? value) {
+      listHeight=value!;
+      emit(GetSizeState());
+    });
+  }
+  void getWidth(BuildContext context){
+    productsAndWorksRemoteDataSource.getSharedWidth(context).then((SizeModel? value) {
+      listWidth=value!;
+      emit(GetSizeState());
+    });
+  }
   void changeAddingState(bool a) {
     isAdding = a;
     emit(ChangeTypeState());
@@ -82,13 +140,13 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     images = multiImagePickerController.images;
     imagesFile.clear();
     if (images != null) {
-      for (var asset in images!) {
-        var path = asset.path;
-        final file = File('$path');
+      for (ImageFile asset in images!) {
+        String? path = asset.path;
+        final File file = File('$path');
         imagesFile.add(file);
       }
     }
-    var type;
+    String type;
     if (typeSelectedValue == 'قطع غيار' || typeSelectedValue == 'spare parts') {
       type = 'spare_parts';
     } else if (typeSelectedValue == 'إطارات'||typeSelectedValue == 'tires') {
@@ -97,16 +155,16 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
       type = 'rims';
     }
     ProductPushDataModel productPushDataModel = ProductPushDataModel(
-      title: productNameSelectedValue,
+      title: productNameSelectedValue.text,
       type: type,
       brandId: brandSelectedId,
       modelId: brandModelSelectedId,
       state: stateSelectedValue == '${getLang(context, 'new')}' ? 'new' : 'used',
       description: desController.text,
       price: priceController.text,
-      width: widthSelectedValue == '${getLang(context, 'width')}' ? '' : widthSelectedValue,
-      height: heightSelectedValue == '${getLang(context, 'height')}' ? '' : heightSelectedValue,
-      size: sizeSelectedValue == '${getLang(context, 'size')}' ? '' : sizeSelectedValue,
+      width: widthSelectedValue == '${getLang(context, 'width')}' ? '' : widthSelectedId,
+      height: heightSelectedValue == '${getLang(context, 'height')}' ? '' : heightSelectedId,
+      size: sizeSelectedValue == '${getLang(context, 'size')}' ? '' : sizeSelectedId,
     );
     if(type == 'spare_parts'){
 
@@ -121,13 +179,12 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
             .get(context)
             .token, productPushDataModel, context);
       } else {
-        showToast(text: 'check your complete dataasa',
+        showToast(text: 'check your complete data',
             state: ToastStates.error,
             context: context);
       }
       emit(AddProductState());
     }else{
-
       if (productPushDataModel.title!.isNotEmpty &&
           productPushDataModel.type!.isNotEmpty &&
           productPushDataModel.brandId!.isNotEmpty &&
@@ -142,7 +199,9 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
             .get(context)
             .token, productPushDataModel, context);
       } else {
-        showToast(text: 'check your complete data555',
+        print(json.encode(productPushDataModel.toJson()));
+
+        showToast(text: 'check your complete data',
             state: ToastStates.error,
             context: context);
       }
@@ -152,10 +211,9 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   }
   GetProductsModel? getProductsModel;
   void getAllProducts(BuildContext context) {
-    print('start cuibt');
     productsAndWorksRemoteDataSource.getAllProducts(AuthProviderCubit
         .get(context)
-        .token, context).then((value) {
+        .token, context).then((GetProductsModel? value) {
       getProductsModel=value!;
       emit(GetProductState());
     });
@@ -172,33 +230,44 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     images = multiImagePickerController.images;
     imagesFile.clear();
     if (images != null) {
-      for (var asset in images!) {
-        var path = asset.path;
-        final file = File('$path');
+      for (ImageFile asset in images!) {
+        String? path = asset.path;
+        final File file = File('$path');
         imagesFile.add(file);
       }
     }
-    var type;
-    if (typeSelectedValue == 'قطع غيار' || typeSelectedValue == 'spare parts') {
+    String type;
+    if (typeSelectedValue == 'قطع غيار') {
       type = 'spare_parts';
-    } else if (typeSelectedValue == 'إطارات'||typeSelectedValue == 'tires') {
-      type = 'tires';
-    } else {
-      type = 'rims';
     }
+    else if (typeSelectedValue == 'spare parts') {
+      type = 'spare_parts';
+    }
+    else if (typeSelectedValue == 'إطارات') {
+      type = 'tires';
+    } else if (typeSelectedValue == 'tires') {
+      type = 'tires';
+    }else if (typeSelectedValue == 'حافات') {
+      type = 'rims';
+    } else if(typeSelectedValue == 'rims') {
+      type = 'rims';
+    }     else{
+                   type = 'spare_parts';
+    }
+    print(type);
     ProductPushDataModel productPushDataModel = ProductPushDataModel(
-      title: productNameSelectedValue,
+      title: productNameSelectedValue.text,
       type: type,
       brandId: brandSelectedId,
       modelId: brandModelSelectedId,
       state: stateSelectedValue == 'جديد' ? 'new' : 'used',
       description: desController.text,
       price: priceController.text,
-      width: widthSelectedValue == 'العرض' ? '' : widthSelectedValue,
-      height: heightSelectedValue == 'الارتفاع' ? '' : heightSelectedValue,
-      size: sizeSelectedValue == 'حجم الجنط' ? '' : sizeSelectedValue,
+      width: widthSelectedValue == 'العرض' ? '' : widthSelectedId,
+      height: heightSelectedValue == 'الارتفاع' ? '' : heightSelectedId,
+      size: sizeSelectedValue == 'حجم الجنط' ? '' : sizeSelectedId,
     );
-    if (productNameSelectedValue.isNotEmpty && type != null &&
+    if (productNameSelectedValue.text.isNotEmpty && type.isNotEmpty &&
         brandSelectedId.isNotEmpty && brandModelSelectedId.isNotEmpty &&
         stateSelectedValue.isNotEmpty && desController.text.isNotEmpty &&
         priceController.text.isNotEmpty
@@ -215,9 +284,8 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   }
   void displayTitle(BuildContext context){
     typeSelectedValue = '${getLang(context, 'type')}';
-    productNameSelectedValue = '${getLang(context, 'product_name')}';
     brandSelectedValue = '${getLang(context, 'brand')}';
-    brandModelSelectedValue = '${getLang(context, 'model')}';
+    brandModelSelectedValue = '${getLang(context, 'car_model')}';
     stateSelectedValue = '${getLang(context, 'status')}';
     widthSelectedValue = '${getLang(context, 'width')}';
     heightSelectedValue = '${getLang(context, 'height')}';
@@ -240,7 +308,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
 
   WorksModel? worksModel;
   void getWorks(BuildContext context) {
-    productsAndWorksRemoteDataSource.getWorks(AuthProviderCubit.get(context).token, context).then((value) {
+    productsAndWorksRemoteDataSource.getWorks(AuthProviderCubit.get(context).token, context).then((WorksModel? value) {
       worksModel=value!;
       emit(GetWorksState());
     });

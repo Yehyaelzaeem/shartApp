@@ -48,6 +48,17 @@ class ProductsScreen extends StatelessWidget {
                 ),
               ),
               cubit.isLoadingDelete?LinearProgressIndicator():SizedBox.shrink(),
+              cubit.getProductsModel!.data!.length==0?
+              Padding(
+                padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.25),
+                child: Center(child: Text(getLang(context, 'There_products_currently'),style:
+                TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 25.sp,
+                  fontFamily: 'Lateef',
+                )
+                  ,),),
+              ):
               Flexible(
                 child: Padding(
                   padding: EdgeInsets.only(top: 16.h, bottom: 60.h),

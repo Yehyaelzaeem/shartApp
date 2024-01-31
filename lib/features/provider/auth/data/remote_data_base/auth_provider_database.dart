@@ -126,17 +126,17 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>OtpProviderScreen(otpCode:'${SendOTPProviderModel.fromJson(res.data).data!.otp}' ,)));
         AuthProviderCubit.get(context).loginRegLoadingStates(false);
         // NavigationManager.pushReplacement(Routes.providerOtpScreen);
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('OTP Code is  : ${SendOTPProviderModel.fromJson(res.data).data!.otp}'),
-              duration: Duration(seconds: 15),
-              dismissDirection: DismissDirection.up,
-              behavior: SnackBarBehavior.floating,
-              margin: EdgeInsets.only(
-                bottom:MediaQuery.of(context).size.height-80.h,
-                left: 10.w,
-                right: 10.w,
-              ),
-            ));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(content: Text('OTP Code is  : ${SendOTPProviderModel.fromJson(res.data).data!.otp}'),
+        //       duration: Duration(seconds: 15),
+        //       dismissDirection: DismissDirection.up,
+        //       behavior: SnackBarBehavior.floating,
+        //       margin: EdgeInsets.only(
+        //         bottom:MediaQuery.of(context).size.height-80.h,
+        //         left: 10.w,
+        //         right: 10.w,
+        //       ),
+        //     ));
         // providerLogin(phone,'3',pass,context);
         return SendOTPProviderModel.fromJson(res.data);
       }
@@ -158,9 +158,10 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
     },);
     if (response.statusCode == 200) {
       showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
-      cubit.changeOtpCompleted(false);
       providerLogin(cubit.registerPhoneControllerProvider.text,
-          '3', cubit.registerConfirmPasswordControllerProvider.text, context);
+          '3', cubit.registerConfirmPasswordControllerProvider.text, context).then((value) {
+        cubit.changeOtpCompleted(false);
+      });
       cubit.otpCode='';
       cubit.registerNameControllerProvider.text='';
       cubit.registerEmailControllerProvider.text='';

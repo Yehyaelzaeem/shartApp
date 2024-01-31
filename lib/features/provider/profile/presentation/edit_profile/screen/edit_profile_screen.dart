@@ -7,13 +7,6 @@ class ProviderEditProfileScreen extends StatelessWidget {
   const ProviderEditProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: (){
-        ProviderProfileCubit.get(context).getProviderProfile('${AuthProviderCubit.get(context).token}', context);
-        Navigator.pop(context);
-        return Future.value(false);
-      },
-      child: CustomEditProfileScreen(type: 'provider',)
-    );
+    return CustomEditProfileScreen(type: 'provider',);
   }
 }

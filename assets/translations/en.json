@@ -81,6 +81,7 @@
   "my_business3": "Add image",
   "my_business4": "A picture has been added",
   "my_business_save": "Save",
+  "rims": "Rims",
   "my_business_showToast1": "select image",
   "my_business_showToast2": "Successfully",
   "my_products": "My products",
@@ -104,40 +105,112 @@
   "height": "Height",
   "size": "Size",
   "edit_product": "Edit a product",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "carrier type": "Carrier type",
-  "fuel type": "Fuel type",
-  "counter speed": "Counter speed",
-  "car body type": "Car body type",
-  "engine": "Engine",
+  "sure_delete": "Are you sure you want to delete the account?",
+  "edit_profile": "Edit Profile",
+  "new_password": "New password",
+  "sure_new_password": "Confirm the new password",
+  "register_packages": "Register packages",
   "status": "Status",
-  "vehicle location (city*)": "Vehicle location (city*)",
-  "عن ماذا تبحث؟": "What is your search?"
+  "add_main_subtitle": "Add a main or subtitle",
+  "branch_name": "branch name",
+  "the_address": "the address",
+  "the_location": "the location",
+  "phone_nu": "phone number",
+  "save_modification": "Save the modification",
+  "delete_address": "Delete address",
+  "adding_address": "Add address",
+  "main_address2": "Main address",
+  "sub_address": "Sub-address",
+  "main_address3": "The main address",
+  "brand_name": "Brand name",
+  "price": "Price",
+  "tires": "Tires",
+  "accessories": "Accessories",
+  "add_cart": "add to cart",
+  "select_search": "Select your search",
+  "car_brand": "Car brand",
+  "car_status": "Car status",
+  "provider": "Provider",
+  "search": "Search",
+  "product_details": "Product details",
+  "pay": "Pay",
+  "number_products": "Number of products",
+  "total_price": "Total price",
+  "delete": "Delete",
+  "no_item_car": "There is nothing in your cart yet!",
+  "cancel": "Cancel",
+  "login": "Login",
+  "package": "Package",
+  "start_at": "Start At",
+  "end_at": "End At",
+  "no_items_cart": "No items in cart",
+  "cart": "Cart",
+  "confirmation": "Confirmation",
+  "go_shopping": "Go shopping",
+  "delivery_address": "Delivery Address",
+  "next": "Next",
+  "street_name": "Street name",
+  "building_number": "House number",
+  "payment_method": "Payment method",
+  "special_marque": "Special marque",
+  "order_summary": "Order summary",
+  "order_value": "Order value",
+  "delivery_value": "Delivery value",
+  "order_number": "Order number",
+  "confirm_payment": "Confirm payment",
+  "cash": "Cash",
+  "visa": "Visa",
+  "ok": "Ok",
+  "pending": "Pending",
+  "accepted": "Accepted",
+  "cancelled": "Cancelled",
+  "order_done": "Your order has been confirmed successfully!",
+  "order_details": "Order details",
+  "order_id": "Order Id",
+  "the_shop": "The Shop",
+  "order_status": "Order status",
+  "total-price": "Total price",
+  "no_order_now": "There are no requests currently",
+  "no_item_favorite": "There is nothing in the favorites list!",
+  "no_product_found": "These products were not found",
+  "no_check_car_now": "There are no checking requests currently",
+  "review": "Review",
+  "no_store": "This is a different store",
+  "details": "Details",
+  "package_duration": "Package duration",
+  "checked_address": "Examination address",
+  "total_required": "Total",
+  "my_business_showToast3": "Deleted successfully",
+  "There_data_currently": "There are no packages currently available",
+  "There_addresses_currently": "There are no addresses currently",
+  "There_jobs_currently": "There are no works currently",
+  "There_products_currently": "There are no products currently",
+  "name": "name",
+  "email": "email",
+  "phone": "phone",
+  "complete_address_data": "Complete address data",
+  "qty": "qty",
+  "search_no": "Enter the product name to search for",
+  "bill": "The bill",
+  "by": "by",
+  "to": "to",
+  "element": "Element",
+  "the_cost": "The cost",
+  "qty2": "Quantity",
+  "total": "Total",
+  "required": "required",
+  "tire_services": "Tire services"
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

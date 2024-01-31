@@ -1,6 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/features/provider/home/logic/provider_home_cubit.dart';
+import 'package:shart/features/user/profile/presentation/address/screens/user_addresses.dart';
 import '../../../core/localization/appLocale.dart';
 import '../../../core/resources/assets_menager.dart';
 import '../../../core/resources/font_manager.dart';
@@ -8,6 +10,7 @@ import '../../../core/routing/navigation_services.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/shared_preference/shared_preference.dart';
 import '../../../features/provider/auth/logic/auth_provider_cubit.dart';
+import '../../../features/provider/home/presentation/screens/packages/packages_screen.dart';
 import '../../../features/provider/profile/data/model/user_profile_model.dart';
 import '../../../features/provider/profile/logic/provider_profile_cubit.dart';
 import '../../../features/provider/work_and_products/logic/work_products_cubit.dart';
@@ -21,6 +24,7 @@ import '../../../features/user/profile/data/model/user_profile_model.dart';
 import '../../../features/user/profile/logic/user_profile_cubit.dart';
 import '../../../features/user/profile/presentation/widgets/profile_item_widget.dart';
 import '../../../widgets/custom_alert_dialog.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class CustomBodyMore extends StatelessWidget {
   const CustomBodyMore({super.key,  this.userProfileModel,  this.providerGetProfileModel, required this.type});
@@ -44,7 +48,7 @@ class CustomBodyMore extends StatelessWidget {
               child: Image.network('${userProfileModel!.data!.image}',
                 fit: BoxFit.cover,
                 errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                return Image.asset('assets/images/person.jpg');
+                return  Image.asset('assets/images/person.jpg');
                 },
               )),
         ):
@@ -98,12 +102,19 @@ class CustomBodyMore extends StatelessWidget {
           },
           text: getLang(context,'edite_profile'),),
 
-        type!='user'?
-        buildProfileItemWidget(
+
+        type!='user'?buildProfileItemWidget(
             iconPath: IconsManager.myAddress,
             function: () {
-              ProviderProfileCubit.get(context).getAddressListProvider(AuthProviderCubit.get(context).token, context);
-              NavigationManager.push(Routes.providerAddresses);
+              if( type=='user'){
+
+                // UserProfileCubit.get(context).getAddressListUser(AuthCubit.get(context).token, context);
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>UserAddressesScreen()));
+
+              }else{
+                ProviderProfileCubit.get(context).getAddressListProvider(AuthProviderCubit.get(context).token, context);
+                NavigationManager.push(Routes.providerAddresses);
+              }
             },
             text: getLang(context,'my_addresses')):SizedBox.shrink(),
 
@@ -121,9 +132,18 @@ class CustomBodyMore extends StatelessWidget {
         buildProfileItemWidget(
             iconPath: IconsManager.package,
             function: () {
-              type=='user'?
-              NavigationManager.push(Routes.checkingPackages):
-              NavigationManager.push(Routes.providerPackages);
+
+
+             if(type=='user'){
+               NavigationManager.push(Routes.checkingPackages);
+             }else{
+              ProviderHomeCubit.get(context).getHistoryPackages(context);
+              Navigator.push(context, MaterialPageRoute(builder:
+              (BuildContext context)=>ProviderPackagesScreen(
+              isHistory: true,
+              )));
+              }
+
             },
             text:  getLang(context,'packages')),
 
@@ -205,10 +225,12 @@ class CustomBodyMore extends StatelessWidget {
                 btnOkOnPress: () {
                   if(type=='user'){
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     NavigationManager.pushReplacement(Routes.chooseUserScreen);
                   }
                   else{
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     NavigationManager.pushReplacement(Routes.chooseUserScreen);
                     cubit.nameController.text='';
                     cubit.emailController.text='';
@@ -217,10 +239,10 @@ class CustomBodyMore extends StatelessWidget {
                 },
                 ctx: context,
                 btnCancelOnPress: () {},
-                title: getLang(context,'sign_out'),
-                desc: 'هل أنت متأكد من أنك تريد تسجيل الخروج ؟',
-                btnOkText: 'نعم',
-                btnCancelText: 'لا',
+                title: getLang(context,'exit'),
+                desc: getLang(context, 'sure_exit'),
+                btnOkText: getLang(context, 'yes'),
+                btnCancelText:getLang(context, 'no'),
               );
             },
             text: getLang(context,'sign_out'),
@@ -235,19 +257,20 @@ class CustomBodyMore extends StatelessWidget {
                   // print(AuthCubit.get(context).token2);
                   if(type=='user'){
                     CacheHelper.removeData(key: 'isLog');
+                    CacheHelper.removeData(key: 'token');
                     cubit.deleteAccount(AuthCubit.get(context).token, context);
                   }else{
                     CacheHelper.removeData(key: 'isLog');
-                    ProviderProfileCubit.get(context).deleteAccountProvider(AuthProviderCubit.get(context).token2, context);
+                    CacheHelper.removeData(key: 'token');
+                    ProviderProfileCubit.get(context).deleteAccountProvider(AuthProviderCubit.get(context).token, context);
                   }
-
                 },
                 btnCancelOnPress: () {
                 },
                 title: getLang(context,'delete_account'),
-                desc: 'هل أنت متأكد من أنك تريد حذف الحساب ؟',
-                btnOkText: 'نعم',
-                btnCancelText: 'لا',
+                desc: getLang(context, 'sure_delete'),
+                btnOkText: getLang(context, 'yes'),
+                btnCancelText: getLang(context, 'no'),
               );
             },
             text:getLang(context,'delete_account'),

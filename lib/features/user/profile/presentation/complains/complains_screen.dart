@@ -19,9 +19,6 @@ class ComplainsScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(title: getLang(context,'complaints_suggestions'),hasBackButton: true,
-        onTap: (){
-          Navigator.pop(context);
-        },
         ),
       ),
       body: SingleChildScrollView(

@@ -77,20 +77,17 @@ class WorkScreen extends StatelessWidget {
                 borderColor: Colors.grey,
                 controller: TextEditingController(),enabled: false,),
             )
-
                 :SizedBox.shrink(),
-            // cubit.isAdding == true?
-            // cubit.image !=null?
-            //   Container(
-            //   height: 100,
-            //   width: 100,
-            //   padding: EdgeInsets.all(5),
-            //   decoration: BoxDecoration(
-            //   borderRadius: BorderRadius.circular(10),
-            //   border: Border.all(color: Colors.grey),
-            //   ),
-            //   child: Image.file(File('${cubit.image!.path}',),fit: BoxFit.cover,),
-            //   ):SizedBox.shrink():SizedBox.shrink(),
+            cubit.worksModel!.data!.length==0?
+            Expanded(
+              child: Center(child: Text(getLang(context, 'There_jobs_currently'),
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 25.sp,
+                fontFamily: 'Lateef',
+              ),
+              ),),
+            ):
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 10.h, bottom: 20.h),

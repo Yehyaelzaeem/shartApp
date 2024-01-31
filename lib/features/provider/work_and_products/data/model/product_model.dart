@@ -2,7 +2,7 @@ class ProductModel {
   bool? success;
   int? code;
   String? message;
-  ProductModelData? data;
+  List<ProductModelData>? data;
 
   ProductModel({this.success, this.code, this.message, this.data});
 
@@ -10,7 +10,12 @@ class ProductModel {
     success = json['success'];
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new ProductModelData.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = <ProductModelData>[];
+      json['data'].forEach((v) {
+        data!.add(new ProductModelData.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -19,7 +24,7 @@ class ProductModel {
     data['code'] = this.code;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -30,15 +35,18 @@ class ProductModelData {
   String? title;
   String? productStatus;
   String? description;
-  String? price;
+  int? price;
   String? type;
-  ProductBrand? brand;
-  String? brandId;
-  String? modal;
-  String? modalId;
+  Brand? brand;
+  int? brandId;
+  Model? modal;
+  int? modalId;
   Provider? provider;
   String? providerId;
-  List<String>? images;
+  List<Images>? images;
+  int? width;
+  int? height;
+  String? size;
 
   ProductModelData(
       {this.id,
@@ -53,7 +61,10 @@ class ProductModelData {
         this.modalId,
         this.provider,
         this.providerId,
-        this.images});
+        this.images,
+        this.width,
+        this.height,
+        this.size});
 
   ProductModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,15 +73,23 @@ class ProductModelData {
     description = json['description'];
     price = json['price'];
     type = json['type'];
-    brand = json['brand'] != null ? new ProductBrand.fromJson(json['brand']) : null;
+    brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
     brandId = json['brand_id'];
-    modal = json['modal'];
+    modal = json['modal'] != null ? new Model.fromJson(json['modal']) : null;
     modalId = json['modal_id'];
     provider = json['provider'] != null
         ? new Provider.fromJson(json['provider'])
         : null;
     providerId = json['provider_id'];
-    images = json['images'].cast<String>();
+    if (json['images'] != null) {
+      images = <Images>[];
+      json['images'].forEach((v) {
+        images!.add(new Images.fromJson(v));
+      });
+    }
+    width = json['width'];
+    height = json['height'];
+    size = json['size'];
   }
 
   Map<String, dynamic> toJson() {
@@ -84,26 +103,33 @@ class ProductModelData {
     if (this.brand != null) {
       data['brand'] = this.brand!.toJson();
     }
+    if (this.modal != null) {
+      data['modal'] = this.modal!.toJson();
+    }
     data['brand_id'] = this.brandId;
-    data['modal'] = this.modal;
     data['modal_id'] = this.modalId;
     if (this.provider != null) {
       data['provider'] = this.provider!.toJson();
     }
     data['provider_id'] = this.providerId;
-    data['images'] = this.images;
+    if (this.images != null) {
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    }
+    data['width'] = this.width;
+    data['height'] = this.height;
+    data['size'] = this.size;
     return data;
   }
 }
 
-class ProductBrand {
+class Brand {
   int? id;
   String? name;
   String? image;
 
-  ProductBrand({this.id, this.name, this.image});
+  Brand({this.id, this.name, this.image});
 
-  ProductBrand.fromJson(Map<String, dynamic> json) {
+  Brand.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];
@@ -125,23 +151,14 @@ class Provider {
   String? phone;
   PhoneCountry? phoneCountry;
   String? image;
-  String? degree;
-  String? experienceYears;
-  String? gender;
-  String? nationality;
-  String? department;
-  String? category;
-  String? subCategory;
-  String? foundation;
-  String? foundationName;
-  String? birthDate;
-  String? age;
-  String? scientificCertificate;
-  String? nationalIdFront;
-  String? nationalIdBack;
-  String? passport;
-  String? residence;
-  String? signedContract;
+  String? storeName;
+  String? commercialRegistrationNo;
+  String? ipan;
+  String? commercialEndDate;
+  String? mainAddress;
+  String? commercialRegistrationFile;
+  String? logo;
+  String? nationalIdImage;
   String? status;
   String? suspensionReason;
   bool? profileCompleted;
@@ -149,11 +166,7 @@ class Provider {
   String? otp;
   String? passwordOtp;
   String? type;
-  String? languages;
-  String? description;
-  int? isRecommended;
-  List<String>? providerDays;
-  int? overNight;
+  String? currentSubscription;
   int? rate;
 
   Provider(
@@ -163,23 +176,14 @@ class Provider {
         this.phone,
         this.phoneCountry,
         this.image,
-        this.degree,
-        this.experienceYears,
-        this.gender,
-        this.nationality,
-        this.department,
-        this.category,
-        this.subCategory,
-        this.foundation,
-        this.foundationName,
-        this.birthDate,
-        this.age,
-        this.scientificCertificate,
-        this.nationalIdFront,
-        this.nationalIdBack,
-        this.passport,
-        this.residence,
-        this.signedContract,
+        this.storeName,
+        this.commercialRegistrationNo,
+        this.ipan,
+        this.commercialEndDate,
+        this.mainAddress,
+        this.commercialRegistrationFile,
+        this.logo,
+        this.nationalIdImage,
         this.status,
         this.suspensionReason,
         this.profileCompleted,
@@ -187,11 +191,7 @@ class Provider {
         this.otp,
         this.passwordOtp,
         this.type,
-        this.languages,
-        this.description,
-        this.isRecommended,
-        this.providerDays,
-        this.overNight,
+        this.currentSubscription,
         this.rate});
 
   Provider.fromJson(Map<String, dynamic> json) {
@@ -203,23 +203,14 @@ class Provider {
         ? new PhoneCountry.fromJson(json['phone_country'])
         : null;
     image = json['image'];
-    degree = json['degree'];
-    experienceYears = json['experience_years'];
-    gender = json['gender'];
-    nationality = json['nationality'];
-    department = json['department'];
-    category = json['category'];
-    subCategory = json['sub_category'];
-    foundation = json['foundation'];
-    foundationName = json['foundation_name'];
-    birthDate = json['birth_date'];
-    age = json['age'];
-    scientificCertificate = json['scientific_certificate'];
-    nationalIdFront = json['national_id_front'];
-    nationalIdBack = json['national_id_back'];
-    passport = json['passport'];
-    residence = json['residence'];
-    signedContract = json['signed_contract'];
+    storeName = json['store_name'];
+    commercialRegistrationNo = json['commercial_registration_no'];
+    ipan = json['ipan'];
+    commercialEndDate = json['commercial_end_date'];
+    mainAddress = json['main_address'];
+    commercialRegistrationFile = json['commercial_registration_file'];
+    logo = json['logo'];
+    nationalIdImage = json['national_id_image'];
     status = json['status'];
     suspensionReason = json['suspension_reason'];
     profileCompleted = json['profile_completed'];
@@ -227,11 +218,7 @@ class Provider {
     otp = json['otp'];
     passwordOtp = json['password_otp'];
     type = json['type'];
-    languages = json['languages'];
-    description = json['description'];
-    isRecommended = json['is_recommended'];
-    providerDays = json['provider_days'].cast<String>();
-    overNight = json['over_night'];
+    currentSubscription = json['current_subscription'];
     rate = json['rate'];
   }
 
@@ -245,23 +232,14 @@ class Provider {
       data['phone_country'] = this.phoneCountry!.toJson();
     }
     data['image'] = this.image;
-    data['degree'] = this.degree;
-    data['experience_years'] = this.experienceYears;
-    data['gender'] = this.gender;
-    data['nationality'] = this.nationality;
-    data['department'] = this.department;
-    data['category'] = this.category;
-    data['sub_category'] = this.subCategory;
-    data['foundation'] = this.foundation;
-    data['foundation_name'] = this.foundationName;
-    data['birth_date'] = this.birthDate;
-    data['age'] = this.age;
-    data['scientific_certificate'] = this.scientificCertificate;
-    data['national_id_front'] = this.nationalIdFront;
-    data['national_id_back'] = this.nationalIdBack;
-    data['passport'] = this.passport;
-    data['residence'] = this.residence;
-    data['signed_contract'] = this.signedContract;
+    data['store_name'] = this.storeName;
+    data['commercial_registration_no'] = this.commercialRegistrationNo;
+    data['ipan'] = this.ipan;
+    data['commercial_end_date'] = this.commercialEndDate;
+    data['main_address'] = this.mainAddress;
+    data['commercial_registration_file'] = this.commercialRegistrationFile;
+    data['logo'] = this.logo;
+    data['national_id_image'] = this.nationalIdImage;
     data['status'] = this.status;
     data['suspension_reason'] = this.suspensionReason;
     data['profile_completed'] = this.profileCompleted;
@@ -269,11 +247,7 @@ class Provider {
     data['otp'] = this.otp;
     data['password_otp'] = this.passwordOtp;
     data['type'] = this.type;
-    data['languages'] = this.languages;
-    data['description'] = this.description;
-    data['is_recommended'] = this.isRecommended;
-    data['provider_days'] = this.providerDays;
-    data['over_night'] = this.overNight;
+    data['current_subscription'] = this.currentSubscription;
     data['rate'] = this.rate;
     return data;
   }
@@ -300,6 +274,57 @@ class PhoneCountry {
     data['name'] = this.name;
     data['phone_code'] = this.phoneCode;
     data['image'] = this.image;
+    return data;
+  }
+}
+
+class Images {
+  int? id;
+  int? providerProductId;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+
+  Images(
+      {this.id,
+        this.providerProductId,
+        this.image,
+        this.createdAt,
+        this.updatedAt});
+
+  Images.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    providerProductId = json['provider_product_id'];
+    image = json['image'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['provider_product_id'] = this.providerProductId;
+    data['image'] = this.image;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+class Model {
+  int? id;
+  String? name;
+
+  Model({this.id, this.name});
+
+  Model.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }

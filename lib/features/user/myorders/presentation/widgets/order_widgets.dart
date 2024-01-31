@@ -9,11 +9,16 @@ import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../data/model/myorder_model.dart';
+import '../screens/invoice_screen.dart';
+import '../screens/order_details.dart';
 
-InkWell buildCurrentOrder(BuildContext context) {
+InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,String status,BuildContext context) {
   return InkWell(
     onTap: () {
-      NavigationManager.push(Routes.orderDetails);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
+      // NavigationManager.push(Routes.orderDetails);
     },
     child: Container(
       margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
@@ -30,72 +35,118 @@ InkWell buildCurrentOrder(BuildContext context) {
                     topRight: Radius.circular(10.r),
                     bottomRight: Radius.circular(10.r)),
                 child: Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(0.0),
                   width: 134.w,
                   height: 115.h,
                   decoration: BoxDecoration(color: packagesColor),
-                  child: Image.asset(
-                    ImagesManager.fixCar1,
-                    fit: BoxFit.fill,
+                  child:
+                  item[0].providerProduct!=null?
+                  Image.network(
+                    item[0].providerProduct!.images![0].image!.toString(),
+                    fit: BoxFit.cover,
+                    errorBuilder: (BuildContext context,Object error ,StackTrace? v){
+                      return Center(child: CircularProgressIndicator(),);
+                    },
+                  ):SizedBox(),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      myOrdersModelData.id!.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      // item[0].providerProduct!.brand!=null?item[0].providerProduct!.brand!.name!:'',
+                      // style: TextStyle(
+                      //   fontWeight: FontWeightManager.light,
+                      //   fontSize: 12.sp,
+                      //   color: Colors.grey.shade700,
+                      // ),
+                      // maxLines: 1,
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                    // Text(
+                    //   myOrdersModelData.user!.name!,
+                    //
+                    //   // myOrdersModelData.id!.toString(),
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeightManager.light,
+                    //     fontSize: 12.sp,
+                    //     color: Colors.grey.shade700,
+                    //   ),
+                    //   maxLines: 1,
+                    //   overflow: TextOverflow.ellipsis,
+                    // ),
+                    // FittedBox(
+                    //   child: Text(
+                    //     item[0].providerProduct!.title!,
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeightManager.bold,
+                    //       fontSize: 16.sp,
+                    //     ),
+                    //     maxLines: 2,
+                    //     overflow: TextOverflow.ellipsis,
+                    //   ),
+                    // ),
+                    Text(
+                       // myOrdersModelData.id!.toString(),
+                      item[0].provider!.name!,
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '${myOrdersModelData.totalPrice!.toString()} ${getLang(context, 'rs')}',
+                      // '${item[0].providerProduct!.price!} ${getLang(context, 'rs')}',
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                        color: Color(0xffDB3022),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(width: 5.w),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                  // NavigationManager.push(Routes.invoice);
+                },
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  color: primaryColor,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                    child: Text(
+                      '${getLang(context, '${status}')}',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeightManager.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              SizedBox(width: 11.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'أسم الماركة',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.light,
-                      fontSize: 12.sp,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                  Text(
-                    'أسم المنتج',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.bold,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  Text(
-                    'أسم المتجر',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    '${'rs'} 300',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
-                      color: Color(0xffDB3022),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(width: 11.w),
-              Card(
-                margin: EdgeInsets.zero,
-                color: primaryColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                  child: Text(
-                    ' ${getLang(context, 'current')}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeightManager.bold,
-                    ),
-                  ),
-                ),
-              ),
+              SizedBox(width: 15.w),
+
 
             ],
           ),
@@ -106,10 +157,12 @@ InkWell buildCurrentOrder(BuildContext context) {
   );
 }
 
-InkWell buildOrderWithInvoice(context) {
+InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelData,String status,context) {
   return InkWell(
     onTap: () {
-      NavigationManager.push(Routes.orderDetails);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
+      // NavigationManager.push(Routes.orderDetails);
     },
     child: Container(
       margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
@@ -136,45 +189,53 @@ InkWell buildOrderWithInvoice(context) {
                   ),
                 ),
               ),
-              SizedBox(width: 11.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'أسم الماركة',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.light,
-                      fontSize: 12.sp,
-                      color: Colors.grey.shade700,
+              SizedBox(width: 5.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      item[0].providerProduct!.brand!=null?item[0].providerProduct!.brand!.name!:'',
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.light,
+                        fontSize: 12.sp,
+                        color: Colors.grey.shade700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Text(
-                    'أسم المنتج',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.bold,
-                      fontSize: 16.sp,
+                    Text(
+                      item[0].providerProduct!.title!,
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.bold,
+                        fontSize: 16.sp,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Text(
-                    'أسم المتجر',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
+                    Text(
+                      item[0].provider!.name!,
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    '${'rs'} 300',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
-                      color: Color(0xffDB3022),
-                    ),
-                  )
-                ],
+                    SizedBox(height: 10),
+                    Text(
+                      '${item[0].providerProduct!.price!} ${getLang(context, 'rs')}',
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                        color: Color(0xffDB3022),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              SizedBox(width: 11.w),
+              SizedBox(width: 5.w),
               Column(
                 children: <Widget>[
                   InkWell(
@@ -199,7 +260,7 @@ InkWell buildOrderWithInvoice(context) {
                       padding: const EdgeInsets.only(left: 8,right: 8,top: 5),
                       child: Center(
                         child: Text(
-                          '${getLang(context, 'delivered')}',
+                          '${getLang(context, '${status}')}',
                           style: TextStyle(
                             color: whiteColor,
                             fontSize: 12.sp,
@@ -211,6 +272,8 @@ InkWell buildOrderWithInvoice(context) {
                   ),
                 ],
               ),
+              SizedBox(width: 15.w),
+
             ],
           ),
           // Positioned(
@@ -261,10 +324,12 @@ InkWell buildOrderWithInvoice(context) {
   );
 }
 
-InkWell buildCancelledOrder(context) {
+InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData,String status,context) {
   return InkWell(
     onTap: () {
-      NavigationManager.push(Routes.orderDetails);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
+      // NavigationManager.push(Routes.orderDetails);
     },
     child: Container(
       margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
@@ -291,45 +356,47 @@ InkWell buildCancelledOrder(context) {
                   ),
                 ),
               ),
-              SizedBox(width: 11.w),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'أسم الماركة',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.light,
-                      fontSize: 12.sp,
-                      color: Colors.grey.shade700,
+              SizedBox(width: 5.w),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      item[0].providerProduct!.brand!=null?item[0].providerProduct!.brand!.name!:'',
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.light,
+                        fontSize: 12.sp,
+                        color: Colors.grey.shade700,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'أسم المنتج',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.bold,
-                      fontSize: 16.sp,
+                    Text(
+                      item[0].providerProduct!.title!,
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.bold,
+                        fontSize: 16.sp,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'أسم المتجر',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
+                    Text(
+                      item[0].provider!.name!,
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    '${'rs'} 300',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
-                      color: Color(0xffDB3022),
-                    ),
-                  )
-                ],
+                    SizedBox(height: 10),
+                    Text(
+                      '${item[0].providerProduct!.price!} ${getLang(context, 'rs')}',
+                      style: TextStyle(
+                        fontWeight: FontWeightManager.regular,
+                        fontSize: 16.sp,
+                        color: Color(0xffDB3022),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              SizedBox(width: 11.w),
+              SizedBox(width: 5.w),
               Card(
                 margin: EdgeInsets.zero,
                 color: Color(0xffFF0000),
@@ -339,7 +406,7 @@ InkWell buildCancelledOrder(context) {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
                   child: Text(
-                    '${getLang(context, 'canceled')}',
+                    '${getLang(context, '${status}')}',
                     style: TextStyle(
                       color: whiteColor,
                       fontSize: 12.sp,
@@ -348,6 +415,8 @@ InkWell buildCancelledOrder(context) {
                   ),
                 ),
               ),
+              SizedBox(width: 11.w),
+
             ],
           ),
         ],

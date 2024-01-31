@@ -2,7 +2,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
@@ -21,7 +24,6 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   ProviderProfileCubit() : super(ProviderProfileInitial());
   static ProviderProfileCubit get(BuildContext context)=>BlocProvider.of(context);
   ProviderProfileRemoteDataSource providerProfileRemoteDataSource =ProviderProfileRemoteDataSource();
-  List<ProviderGetProfileModel> userProfileModelList=<ProviderGetProfileModel>[];
   ProviderGetProfileModel? providerProfileModel;
   final GlobalKey<FormState> formKeyEditProvider = GlobalKey<FormState>();
 
@@ -40,6 +42,27 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   TextEditingController iPanCompleteProfileController = TextEditingController();
   TextEditingController dateCompleteProfileController = TextEditingController();
 
+  String selectValue='';
+  GoogleMapController? mapController;
+  double? lat;
+  double? long;
+
+
+
+  Position? p ;
+  Future<void> getLocation(context)async{
+    selectValue=getLang(context, 'main_address3');
+    emit(TestState());
+
+    p =await Geolocator.getCurrentPosition().then((Position value) {
+      lat=value.latitude;
+      long=value.longitude;
+      print('lat : => $lat');
+      print('long : => $long');
+      emit(TestState());
+    });
+
+  }
   AddressListModel? addressList;
   int addressType = 0;
 
@@ -51,8 +74,10 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
         providerProfileModel=value;
-        userProfileModelList.add(value!);
-        emit(GetProviderProfileState(value));
+        nameControllerProvider.text=providerProfileModel!.data!.name!;
+        emailControllerProvider.text=providerProfileModel!.data!.email!;
+        phoneControllerProvider.text=providerProfileModel!.data!.phone!;
+        emit(GetProviderProfileState(value!));
 
       });
     }else{
@@ -99,12 +124,12 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getAddressListProvider(token, context).then((AddressListModel? value) {
         addressList= value;
+        emit(GetAddressListState());
       });
     }
     else{
       print('token is empty getProviderProfile');
     }
-    emit(GetAddressListState());
     return null;
   }
   Future<AddressModel?> addAddressProvider(String token ,BuildContext context)async{
@@ -112,18 +137,15 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       name: addressAddNameController.text,
       address: addressAddController.text,
       phone: addressAddPhoneController.text,
-      lng: '123',
-      lat: '123456',
+      lng: long!.toString(),
+      lat: lat!.toString(),
     );
 
-    if(token.isNotEmpty&&addressAddNameController.text.isNotEmpty&&addressAddController.text.isNotEmpty&&addressAddPhoneController.text.isNotEmpty){
+    if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
       providerProfileRemoteDataSource.addAddressProvider(addressModelData ,token, context);
-      getAddressListProvider(token,context);
+      // getAddressListProvider(token,context);
+      emit(AddAddressState());
     }
-    else{
-      print('token  or any data required is empty getProviderProfile');
-    }
-    emit(AddAddressState());
     return null;
   }
   Future<AddressModel?> editAddressProvider(AddressModelData addressData,int id,String token ,BuildContext context)async{
@@ -169,20 +191,23 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   void getAboutCompanyProvider(BuildContext context)async{
     providerProfileRemoteDataSource.getABoutCompanyProvider(context).then((AboutCompanyModel? value) {
       aboutCompanyModel =value;
+      emit(AboutCompanyState());
+
     });
-    emit(AboutCompanyState());
   }
   void getPrivacyProvider(BuildContext context)async{
     providerProfileRemoteDataSource.getPrivacyProvider(context).then((AboutCompanyModel? value) {
       privacyProvider =value;
+      emit(AboutCompanyState());
+
     });
-    emit(AboutCompanyState());
   }
   void getTermsAndConditionsProvider(BuildContext context)async{
     providerProfileRemoteDataSource.getTermsAndConditionsProvider(context).then((AboutCompanyModel? value) {
       termsAndConditionsProvider =value;
+      emit(AboutCompanyState());
+
     });
-    emit(AboutCompanyState());
   }
 
   void afterChangeLanguage(BuildContext context){
@@ -260,7 +285,12 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     emit(UploadImage());
 
   }
-  void changeUpdateLoading(bool x){
+
+  bool isAddLoading =false;
+  void changeAddLoading(bool x){
+    isAddLoading =x;
+    emit(EditingAddressState());
+  }void changeUpdateLoading(bool x){
     isUpdateLoading =x;
     emit(EditingAddressState());
   }

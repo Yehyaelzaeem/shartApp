@@ -1,3 +1,5 @@
+import 'package:shart/features/user/myorders/data/model/check_car_model.dart';
+
 class UserProfileModel {
   bool? success;
   int? code;
@@ -43,7 +45,7 @@ class Data {
   String? type;
   String? healthState;
   String? healthReport;
-  String? car;
+  Car? car;
 
   Data(
       {this.id,
@@ -87,7 +89,10 @@ class Data {
     type = json['type'];
     healthState = json['health_state'];
     healthReport = json['health_report'];
-    car = json['car'];
+    car = json['car'] != null
+        ? new Car.fromJson(json['car'])
+        : null;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -115,7 +120,9 @@ class Data {
     data['type'] = this.type;
     data['health_state'] = this.healthState;
     data['health_report'] = this.healthReport;
-    data['car'] = this.car;
+    if (this.car != null) {
+      data['car'] = this.car!.toJson();
+    }
     return data;
   }
 }
