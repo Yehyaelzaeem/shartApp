@@ -40,6 +40,7 @@ Future<void> main() async {
           // ),
     ),
   );
+  //done ios
   // runApp(
   //   EasyLocalization(
   //     supportedLocales: const <Locale>[Locale('ar'), Locale('en')],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import '../../../../../core/localization/appLocale.dart';
@@ -310,11 +311,18 @@ class CustomStep3BodyWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 70.h,),
-          CustomElevatedButton(onTap: (){
-           cubit.addAddressUser(AuthCubit.get(context).token, context);
-            // _showDialog(context);
-          },
-              buttonText: getLang(context, 'confirm_payment')),
+         BlocConsumer<CartCubit, CartState>(
+            listener: (BuildContext context,CartState state) {},
+            builder: (BuildContext context, CartState state) {
+              return
+                cubit.isAddOrderLoading?Center(child: CircularProgressIndicator(),) :
+                CustomElevatedButton(onTap: (){
+                     cubit.addAddressUser(AuthCubit.get(context).token, context);
+                      // _showDialog(context);
+                    },
+                        buttonText: getLang(context, 'confirm_payment'));
+            },
+          ),
           SizedBox(height: 90.h,)
         ],
       );

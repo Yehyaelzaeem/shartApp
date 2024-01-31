@@ -1,0 +1,12 @@
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>تطبيق شرط يحتاج الى معرفة موقعك لتحديد اقرب عنوان </string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string> تطبيق شرط يحتاج الى معرفة موقعك لتحديد اقرب عنوان</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string> تطبيق شرط يحتاج الى معرفة موقعك لتحديد اقرب عنوان</string>
+
+
+	<key>NSPhotoLibraryUsageDescription</key>
+        <array>
+            <string>يحتاج التطبيق الى اخذ الصور</string>
+        </array>

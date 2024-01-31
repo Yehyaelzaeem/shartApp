@@ -29,6 +29,8 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
 
   @override
   Future<dynamic> addAddressUser(AddressModelData addressModelData, String token, BuildContext context) async{
+    CartCubit cubit=CartCubit.get(context);
+    cubit.changeAddOrderLoading(true);
     Response<dynamic> response = await DioHelper.postData(url: AppApis.addAddressUser, token: token,
         data: <String,dynamic>{
           'name':'${addressModelData.name}',
@@ -46,8 +48,10 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
       // showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
     }
     else {
+
       showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
     }
+
     return null;
   }
 
@@ -56,7 +60,8 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
     print('order address is = ${cartItems.userAddressId}');
     AuthCubit cubit =AuthCubit.get(context);
      CartCubit cartCubit =CartCubit.get(context);
-     // cartCubit.changeLoading(true);
+
+    // cartCubit.changeLoading(true);
     Map<String, String> headers = <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -77,6 +82,8 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
 
     if (response.statusCode == 200) {
       MyOrdersCubit.get(context).getMyOrder(context);
+      cartCubit.changeAddOrderLoading(false);
+      cartCubit.addressLocationModel=null;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -134,9 +141,13 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
 
     }
     else {
-       // cartCubit.changeLoading(false);
+      cartCubit.changeAddOrderLoading(false);
+
+      // cartCubit.changeLoading(false);
       showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
     }
+    cartCubit.changeAddOrderLoading(false);
+
     // cartCubit.changeLoading(false);
   }
 
