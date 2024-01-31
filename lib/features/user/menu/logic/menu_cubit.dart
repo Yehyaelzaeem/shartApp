@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,11 +55,15 @@ class MenuCubit extends Cubit<MenuState> {
       {String? type ,String? providerId, String? brandId, String? modelId, String? productStatus, String? name, required BuildContext context})async{
     menuRemoteDataSource.getProducts(type:type,providerId :providerId,brandId:brandId,modelId:modelId,productStatus:productStatus,name:name,context:context).then((UserProductModel? value) {
       productModel=value!;
-      for(ProductModelData a in productModel!.data!){
-        providerList.add(a.provider!);
-      }
-      final ids = providerList.map((e) => e.id).toSet();
-      providerList.retainWhere((x) => ids.remove(x.id));
+     try{
+       for(ProductModelData a in productModel!.data!){
+         providerList.add(a.provider!);
+       }
+       final ids = providerList.map((e) => e.id).toSet();
+       providerList.retainWhere((x) => ids.remove(x.id));
+     }catch(e){
+       print('error when get provider ${e.toString()}');
+     }
       emit(GetProductsState());
     });
   }

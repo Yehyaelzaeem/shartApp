@@ -130,7 +130,7 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                           image: data2.images![0].image,
                                           type: data2.type,
                                           productState: data2.productStatus,
-                                          providerId: data2.provider!.id!.toString(),
+                                          providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                           count: 1,
                                           productBrand: data2.brand!=null?data2.brand!.name:''),
 
@@ -152,10 +152,10 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                     image: data2.images![0].image,
                                     type: data2.type,
                                     productState: data2.productStatus,
-                                    providerId: data2.provider!.id!.toString(),
+                                    providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                     count: 1,
                                     productBrand: data2.brand!=null?data2.brand!.name:''),
-                                providerName: data2.provider!.name!,
+                                    providerName: data2.provider!=null?data2.provider!.name!:'',
 
                               ),
                             ),
@@ -265,7 +265,7 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                             image: data2.images![0].image,
                                             type: data2.type,
                                             productState: data2.productStatus,
-                                            providerId: data2.provider!.id!.toString(),
+                                            providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                             count: 1,
                                             productBrand: data2.brand!=null?data2.brand!.name:''),
 
@@ -287,10 +287,10 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                       image: data2.images![0].image,
                                       type: data2.type,
                                       productState: data2.productStatus,
-                                      providerId: data2.provider!.id!.toString(),
+                                      providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                       count: 1,
                                       productBrand: data2.brand!=null?data2.brand!.name:''),
-                                  providerName: data2.provider!.name!,
+                                  providerName: data2.provider!=null?data2.provider!.name!:'',
 
                                 ),
                               ),

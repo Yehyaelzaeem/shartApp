@@ -135,29 +135,12 @@ class CustomBodyPackages extends StatelessWidget {
                         ),
                         isHistory==true?
                         Center(
-                          child: Row(
-                            children: <Widget>[
-                              SizedBox(width: 30.w,),
-                              Text('${getLang(context, 'start_at')}  :  ',
-                              style: TextStyle(
-                                  fontSize: 17.0,
-                                  color: Colors.black,
-                                  fontFamily: FontConstants.lateefFont,
-                                  letterSpacing: 0.004200000017881393,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              ),
-                              Text('${startDate}',
-                              style: TextStyle(
-                                  fontSize: 17.0,
-                                  color: Colors.black,
-                                  fontFamily: FontConstants.lateefFont,
-                                  letterSpacing: 0.004200000017881393,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              ),
-                              SizedBox(width: 30.w,),
-                              Text('${getLang(context,'end_at')} :  ',
+                          child: Container(
+                            width: MediaQuery.of(context).size.width*0.8,
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(width: 30.w,),
+                                Text('${getLang(context, 'start_at')}  :  ',
                                 style: TextStyle(
                                     fontSize: 17.0,
                                     color: Colors.black,
@@ -165,8 +148,8 @@ class CustomBodyPackages extends StatelessWidget {
                                     letterSpacing: 0.004200000017881393,
                                     fontWeight: FontWeight.bold
                                 ),
-                              ),
-                              Text('${endDate}',
+                                ),
+                                Text('${startDate}',
                                 style: TextStyle(
                                     fontSize: 17.0,
                                     color: Colors.black,
@@ -174,8 +157,33 @@ class CustomBodyPackages extends StatelessWidget {
                                     letterSpacing: 0.004200000017881393,
                                     fontWeight: FontWeight.bold
                                 ),
-                              ),
-                            ],
+                                  maxLines: 1,
+                                  overflow:TextOverflow.ellipsis,
+
+                                ),
+                                SizedBox(width: 30.w,),
+                                Text('${getLang(context,'end_at')} :  ',
+                                  style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.black,
+                                      fontFamily: FontConstants.lateefFont,
+                                      letterSpacing: 0.004200000017881393,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                Text('${endDate}',
+                                  style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.black,
+                                      fontFamily: FontConstants.lateefFont,
+                                      letterSpacing: 0.004200000017881393,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                  maxLines: 1,
+                                  overflow:TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                         ):SizedBox.shrink(),
 

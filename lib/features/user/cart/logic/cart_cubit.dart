@@ -127,12 +127,18 @@ class CartCubit extends Cubit<CartState> {
   }
 
   bool isLoading=false;
+  bool isAddOrderLoading=false;
   bool isAddingAddress=false;
   void changeLoading(bool x){
     isLoading=x;
     emit(ChangeLoadingState());
   }
+  void changeAddOrderLoading(bool x){
+    isAddOrderLoading=x;
+    emit(ChangeLoadingState());
+  }
   int addressId=0;
+
   Future<dynamic> addAddressUser(String token ,BuildContext context)async{
     if(addressLocationModel !=null){
       AddressModelData addressModelData= AddressModelData(
