@@ -24,7 +24,6 @@ class ProviderPackagesScreen extends StatelessWidget {
       BlocConsumer<ProviderHomeCubit, ProviderHomeState>(
           listener: (BuildContext context, ProviderHomeState state) {},
           builder: (BuildContext context, ProviderHomeState state) {
-            print("historyPackages => ${isHistory} ");
             if(cubit.historyPackages!=null){
               if(cubit.historyPackages!.data!.length==0)
                 return Center(child: Text(getLang(context, 'There_data_currently')),);

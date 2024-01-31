@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget {
       // backgroundColor: primaryColor,
       leading: hasBackButton == true
           ? Padding(
-              padding: EdgeInsets.only(top: 25.h, right: 16.w, left: 16.w),
+              padding: EdgeInsets.only(top: 20.h, right: 16.w, left: 16.w),
               child: InkWell(
                   onTap: onTap??(){
                     Navigator.pop(context);

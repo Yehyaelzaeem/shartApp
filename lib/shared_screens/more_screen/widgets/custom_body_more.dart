@@ -262,9 +262,8 @@ class CustomBodyMore extends StatelessWidget {
                   }else{
                     CacheHelper.removeData(key: 'isLog');
                     CacheHelper.removeData(key: 'token');
-                    ProviderProfileCubit.get(context).deleteAccountProvider(AuthProviderCubit.get(context).token2, context);
+                    ProviderProfileCubit.get(context).deleteAccountProvider(AuthProviderCubit.get(context).token, context);
                   }
-
                 },
                 btnCancelOnPress: () {
                 },

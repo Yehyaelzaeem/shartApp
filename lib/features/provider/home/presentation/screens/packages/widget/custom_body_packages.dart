@@ -94,20 +94,18 @@ class CustomBodyPackages extends StatelessWidget {
                                 ),
                               ),
                               Center(
-                                child: Container(
-                                  width: 120.w,
-                                  height: 40.h,
-                                  child: FittedBox(
-                                    child: Text(
-                                      title!,
-                                      style: TextStyle(
-                                        fontSize: 24.sp,
-                                        fontFamily: FontConstants.lateefFont,
-                                        fontWeight: FontWeightManager.bold,
-                                      ),
-                                    ),
+                                child: Text(
+                                  title!,
+                                  style: TextStyle(
+                                    fontSize: 24.sp,
+                                    fontFamily: FontConstants.lateefFont,
+                                    fontWeight: FontWeightManager.bold,
                                   ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+
                                 ),
+
                               ),
                             ],
                           ),
@@ -259,14 +257,14 @@ class CustomBodyPackages extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         width: MediaQuery.of(context).size.width*0.35,
-                        child: FittedBox(
-                          child: Text(
-                            title!,
-                            style: TextStyle(
-                              fontWeight: FontWeightManager.bold,
-                              fontSize: 16.sp,
-                            ),
+                        child: Text(
+                          title!,
+                          style: TextStyle(
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: 16.sp,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
@@ -279,7 +277,7 @@ class CustomBodyPackages extends StatelessWidget {
                       )
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

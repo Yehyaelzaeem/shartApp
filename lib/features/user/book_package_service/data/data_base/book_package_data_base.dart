@@ -124,7 +124,7 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
       showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
       cubit2.brandSelectedValue ='';
       cubit2. brandSelectedId ='';
-      cubit2.yearSelectedValue ='';
+      cubit2.yearSelectedValue.text ='';
       cubit2.brandModelSelectedValue='';
       cubit2. brandModelSelectedId ='';
       cubit2.colorSelectedValue ='';

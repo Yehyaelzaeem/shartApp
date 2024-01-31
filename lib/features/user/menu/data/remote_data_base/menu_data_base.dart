@@ -108,12 +108,17 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
     }
    print(data.toString());
     AuthCubit cubit =AuthCubit.get(context);
+
     if(cubit.token.isNotEmpty){
+      print('startttt');
+
       Response<dynamic> res = await DioHelper.postData(url: AppApis.getProductUser,
           language: cubit.localeLanguage==Locale('en')?'en':'ar',
           token: cubit.token,
           data: data
       );
+      print('asdsad');
+
       if (UserProductModel.fromJson(res.data).success == false) {
         cubitController.changeLoading(false);
       }

@@ -28,6 +28,7 @@ class CustomProductWidgetOrder extends StatelessWidget {
           width:'${items.providerProduct!.width!=null?items.providerProduct!.width!:''}',
           height:'${items.providerProduct!.height!=null?items.providerProduct!.height!:''}',
           images:list,
+          modelName: items.providerProduct!.modal!=null?items.providerProduct!.modal!.name:'',
           size:'${items.providerProduct!.size!=null?items.providerProduct!.size!:''}',
           productStatus: items.providerProduct!.productStatus,
           description:items.providerProduct!.description ,
@@ -88,7 +89,8 @@ class CustomProductWidgetOrder extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    items.provider!.name!,
+                    // items.provider!.name!,
+                    '${getLang(context, 'qty')} : ${items.qty.toString()}',
                     style: TextStyle(
                       fontWeight: FontWeightManager.regular,
                       fontSize: 16.sp,

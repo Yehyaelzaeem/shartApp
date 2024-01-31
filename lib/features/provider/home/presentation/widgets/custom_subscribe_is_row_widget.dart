@@ -62,13 +62,17 @@ class CustomSubscribeWidgetRow extends StatelessWidget {
                         isHistory: false,
                       )));
                 },
-                child: Text(
-                  '${getLang(context, 'subscription_now')}',
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.black,
-                      fontFamily: 'Lateef',
-                      fontWeight: FontWeight.bold),
+                child: FittedBox(
+                  child: Text(
+                    '${getLang(context, 'subscription_now')}',
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.black,
+                        fontFamily: 'Lateef',
+                        fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 )),
           ),
           SizedBox(height: 20.h,),

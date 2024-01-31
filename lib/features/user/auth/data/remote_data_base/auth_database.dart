@@ -160,8 +160,9 @@ class AuthDataSource implements BaseAuthDataSource {
     else {
       if (res.statusCode == 200) {
         showToast(text: '${VerifyAccountModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-        userLogin(cubit.registerPhoneController.text, '3', cubit.registerConfirmPasswordController.text, context);
-        AuthCubit.get(context).changeOtpCompleted(false);
+        userLogin(cubit.registerPhoneController.text, '3', cubit.registerConfirmPasswordController.text, context).then((value) {
+          AuthCubit.get(context).changeOtpCompleted(false);
+        });
         // NavigationManager.pushReplacement(Routes.home);
         cubit.registerNameController.text='';
         cubit.registerEmailController.text='';

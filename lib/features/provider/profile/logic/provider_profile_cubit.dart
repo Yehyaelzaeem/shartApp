@@ -74,6 +74,9 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
         providerProfileModel=value;
+        nameControllerProvider.text=providerProfileModel!.data!.name!;
+        emailControllerProvider.text=providerProfileModel!.data!.email!;
+        phoneControllerProvider.text=providerProfileModel!.data!.phone!;
         emit(GetProviderProfileState(value!));
 
       });

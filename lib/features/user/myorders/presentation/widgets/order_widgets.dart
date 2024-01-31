@@ -10,6 +10,7 @@ import '../../../../../core/resources/font_manager.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../data/model/myorder_model.dart';
+import '../screens/invoice_screen.dart';
 import '../screens/order_details.dart';
 
 InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,String status,BuildContext context) {
@@ -121,19 +122,25 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                 ),
               ),
               SizedBox(width: 5.w),
-              Card(
-                margin: EdgeInsets.zero,
-                color: primaryColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                  child: Text(
-                    ' ${getLang(context, '${status}')}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeightManager.bold,
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                  // NavigationManager.push(Routes.invoice);
+                },
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  color: primaryColor,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                    child: Text(
+                      '${getLang(context, '${status}')}',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeightManager.bold,
+                      ),
                     ),
                   ),
                 ),

@@ -57,7 +57,7 @@ class SparePartItemWidget extends StatelessWidget {
                   topLeft: Radius.circular(10.r)),
             ),
             child: Image.network(image,
-              errorBuilder: (context, error, stackTrace) {
+              errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                 return Center(child: Text('Error loading image'));
               },
             )
@@ -74,6 +74,8 @@ class SparePartItemWidget extends StatelessWidget {
                    fontWeight: FontWeightManager.regular,
                    color: highGreyColor,
                  ),
+                 maxLines: 1,
+                 overflow: TextOverflow.ellipsis,
                ),
              ),
              Padding(
@@ -84,29 +86,13 @@ class SparePartItemWidget extends StatelessWidget {
                    fontSize: 16.sp,
                    fontWeight: FontWeightManager.bold,
                  ),
+                 maxLines: 1,
+                 overflow: TextOverflow.ellipsis,
                ),
              ),
              FittedBox(
                child: Row(
-                 children: [
-                   // RichText(
-                   //   text:  TextSpan(children: [
-                   //     TextSpan(
-                   //         text: '${getLang(context, 'provider')}  :  ',
-                   //         style: TextStyle(
-                   //             fontSize: 10,
-                   //             fontWeight: FontWeight.bold, color: Colors.grey)),
-                   //     TextSpan(
-                   //       text: providerName,
-                   //       style: TextStyle(
-                   //         fontSize: 10.sp,
-                   //         color: redColor,
-                   //         fontWeight: FontWeightManager.medium,
-                   //       ),),
-                   //
-                   //   ]),
-                   // ),
-
+                 children: <Widget>[
                    Text(
                      providerName,
                      style: TextStyle(
@@ -114,6 +100,8 @@ class SparePartItemWidget extends StatelessWidget {
                        color: redColor,
                        fontWeight: FontWeightManager.medium,
                      ),
+                     maxLines: 1,
+                     overflow: TextOverflow.ellipsis,
                    ),
                    SizedBox(width: 20.w,),
                    Text(
@@ -123,6 +111,8 @@ class SparePartItemWidget extends StatelessWidget {
                        color: redColor,
                        fontWeight: FontWeightManager.medium,
                      ),
+                     maxLines: 1,
+                     overflow: TextOverflow.ellipsis,
                    ),
                  ],
                ),

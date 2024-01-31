@@ -9,6 +9,8 @@ import 'package:shart/shared_screens/google_map/custom_google_map.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
+import '../../../../../../core/resources/color.dart';
+import '../../../../../../core/resources/font_manager.dart';
 import '../../../logic/provider_profile_cubit.dart';
 import '../widgets/custom_radio_widget.dart';
 class ProviderAddAddressScreen extends StatelessWidget{
@@ -44,43 +46,17 @@ class ProviderAddAddressScreen extends StatelessWidget{
                 AddressLocationModel? x =ProviderProfileCubit.get(context).addressLocationModel;
                 return     Column(
                   children: <Widget>[
-                    CustomRadioAddAddressWidget(),
-                    if (cubit.addressType == 1)
-                      StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
-                        return Padding(
-                          padding: EdgeInsets.only(top: 25.h),
-                          child: DropdownButton2<String>(
-                            isExpanded: true,
-                            underline: const SizedBox.shrink(),
-                            hint: Text(
-                              '${cubit.selectValue}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                              ),
-                            ),
-                            items: <String>['عنوان1', 'عنوان2', 'عنوان3']
-                                .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ))
-                                .toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                cubit.selectValue = value!;
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                                decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: Colors.grey.withOpacity(0.5)),
-                                    borderRadius: BorderRadius.circular(8.r))),
-                          ),
-                        );
-                      }),
+                    SizedBox(height: 15.h,),
+
+                    Text(getLang(context, 'the_address'),
+                    style: TextStyle(
+                      fontWeight: FontWeightManager.bold,
+                      fontSize: 20.sp,
+                      fontFamily: FontConstants.lateefFont,
+                      color: blackColor,
+                    ),
+                    ),
+                    // CustomRadioAddAddressWidget(),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child: CustomTextField(

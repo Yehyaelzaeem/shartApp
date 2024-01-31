@@ -112,36 +112,6 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(8.r))),
                               );
                             }),
-                            CustomTextTitleBookingWidget(text: '${getLang(context, 'manufacturing_year')} *',topPadding: 25,),
-                            StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
-                              return DropdownButton2<String>(
-                                isExpanded: true,
-                                underline: const SizedBox.shrink(),
-                                hint: Text(
-                                  '${cubit.yearSelectedValue}',
-                                  style: TextStyle(fontSize: 14, color: Colors.black),
-                                ),
-                                items: <String>['2019', '2022', '2023','2024']
-                                    .map((String item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                ))
-                                    .toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    cubit.yearSelectedValue = value!;
-                                  });
-                                },
-                                buttonStyleData: ButtonStyleData(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey.withOpacity(0.5)),
-                                        borderRadius: BorderRadius.circular(8.r))),
-                              );
-                            }),
 
                             CustomTextTitleBookingWidget(text: '${getLang(context, 'color')} *',topPadding: 25,),
                             StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
@@ -175,6 +145,45 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(8.r))),
                               );
                             }),
+
+                            CustomTextTitleBookingWidget(text: '${getLang(context, 'manufacturing_year')} *',topPadding: 25,),
+                            // StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                            //   return DropdownButton2<String>(
+                            //     isExpanded: true,
+                            //     underline: const SizedBox.shrink(),
+                            //     hint: Text(
+                            //       '${cubit.yearSelectedValue}',
+                            //       style: TextStyle(fontSize: 14, color: Colors.black),
+                            //     ),
+                            //     items: <String>['2019', '2022', '2023','2024']
+                            //         .map((String item) => DropdownMenuItem<String>(
+                            //       value: item,
+                            //       child: Text(
+                            //         item,
+                            //         style: const TextStyle(fontSize: 14),
+                            //       ),
+                            //     ))
+                            //         .toList(),
+                            //     onChanged: (String? value) {
+                            //       setState(() {
+                            //         cubit.yearSelectedValue = value!;
+                            //       });
+                            //     },
+                            //     buttonStyleData: ButtonStyleData(
+                            //         decoration: BoxDecoration(
+                            //             border: Border.all(
+                            //                 color: Colors.grey.withOpacity(0.5)),
+                            //             borderRadius: BorderRadius.circular(8.r))),
+                            //   );
+                            // }),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 0.h),
+                              child: CustomTextField(
+                                  textInputType: TextInputType.number,
+                                  hintText: '',
+                                  hintColor: Colors.black,
+                                  controller: cubit.yearSelectedValue),
+                            ),
                             CustomTextTitleBookingWidget(
                               text: '${getLang(context, 'chassis_chassis_number')} *',topPadding: 25,),
                             Padding(
@@ -203,7 +212,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
 
                                  if(packageId.isNotEmpty&&cubit.brandSelectedId.isNotEmpty &&
                                      cubit.brandModelSelectedId.isNotEmpty && cubit.colorSelectedId.isNotEmpty&&
-                                     cubit.yearSelectedValue.isNotEmpty&&cubit.chassisController.text.isNotEmpty&&
+                                     cubit.yearSelectedValue.text.isNotEmpty&&cubit.chassisController.text.isNotEmpty&&
                                      cubit. descriptionController.text.isNotEmpty)
                                  {
                                    CheckCarModel checkCarModel =CheckCarModel(
@@ -211,7 +220,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                      brandId: cubit.brandSelectedId,
                                      modelId: cubit.brandModelSelectedId,
                                      colorId: cubit.colorSelectedId,
-                                     year:cubit.yearSelectedValue,
+                                     year:cubit.yearSelectedValue.text,
                                      chassis_no:cubit.chassisController.text ,
                                      description:cubit.descriptionController.text ,
                                    );

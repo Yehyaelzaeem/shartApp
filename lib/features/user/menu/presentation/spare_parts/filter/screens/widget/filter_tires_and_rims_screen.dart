@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import 'package:shart/features/provider/work_and_products/logic/work_products_cubit.dart';
@@ -36,7 +37,7 @@ class FilterTireAndRimsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('العرض',
+              Text(getLang(context, 'width'),
                   style: TextStyle(
                       fontSize: 16.sp, fontWeight: FontWeight.bold)),
               SizedBox(height: 16.h),
@@ -72,34 +73,6 @@ class FilterTireAndRimsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r))),
                 );
               }),
-              // DropdownButton2<String>(
-              //   isExpanded: true,
-              //   underline: const SizedBox.shrink(),
-              //   hint: Text('',
-              //     style: TextStyle(
-              //       fontSize: 14,
-              //       color: Theme.of(context).hintColor,
-              //     ),
-              //   ),
-              //   items: <String>['test', 'test', 'test']
-              //       .map((String item) => DropdownMenuItem<String>(
-              //     value: item,
-              //     child: Text(
-              //       item,
-              //       style: const TextStyle(fontSize: 14),
-              //     ),
-              //   )).toList(),
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       // selectedValue = value;
-              //     });
-              //   },
-              //   iconStyleData: IconStyleData(iconEnabledColor: primaryColor),
-              //   buttonStyleData: ButtonStyleData(
-              //       decoration: BoxDecoration(
-              //           color: Color(0xffF9F7EE),
-              //           borderRadius: BorderRadius.circular(8.r))),
-              // ),
             ],
           ),
         ),
@@ -113,42 +86,10 @@ class FilterTireAndRimsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('الإرتفاع',
+              Text(getLang(context, 'height'),
                   style: TextStyle(
                       fontSize: 16.sp, fontWeight: FontWeight.bold)),
               SizedBox(height: 16.h),
-              // DropdownButton2<String>(
-              //   isExpanded: true,
-              //   underline: const SizedBox.shrink(),
-              //   hint: Text(
-              //     'إختر',
-              //     style: TextStyle(
-              //       fontSize: 14,
-              //       color: Theme.of(context).hintColor,
-              //     ),
-              //   ),
-              //   items: <String>['test', 'test', 'test']
-              //       .map((String item) => DropdownMenuItem<String>(
-              //     value: item,
-              //     child: Text(
-              //       item,
-              //       style: const TextStyle(fontSize: 14),
-              //     ),
-              //   ))
-              //       .toList(),
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       // selectedValue = value;
-              //     });
-              //   },
-              //   iconStyleData: IconStyleData(iconEnabledColor: primaryColor),
-              //   buttonStyleData: ButtonStyleData(
-              //
-              //       decoration: BoxDecoration(
-              //           color: Color(0xffF9F7EE),
-              //
-              //           borderRadius: BorderRadius.circular(8.r))),
-              // ),
               StatefulBuilder(builder: (BuildContext context,
                   void Function(void Function()) setState) {
                 return CustomDropdownWidget(
@@ -196,7 +137,7 @@ class FilterTireAndRimsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('مقاس الجنط',
+              Text(getLang(context, 'size'),
                   style: TextStyle(
                       fontSize: 16.sp, fontWeight: FontWeight.bold)),
               SizedBox(height: 16.h),
@@ -246,42 +187,10 @@ class FilterTireAndRimsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('الماركة',
+              Text(getLang(context, 'brand'),
                   style: TextStyle(
                       fontSize: 16.sp, fontWeight: FontWeight.bold)),
               SizedBox(height: 16.h),
-              // DropdownButton2<String>(
-              //   isExpanded: true,
-              //   underline: const SizedBox.shrink(),
-              //   hint: Text(
-              //     'إختر',
-              //     style: TextStyle(
-              //       fontSize: 14,
-              //       color: Theme.of(context).hintColor,
-              //     ),
-              //   ),
-              //   items: <String>['test', 'test', 'test']
-              //       .map((String item) => DropdownMenuItem<String>(
-              //     value: item,
-              //     child: Text(
-              //       item,
-              //       style: const TextStyle(fontSize: 14),
-              //     ),
-              //   ))
-              //       .toList(),
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       // selectedValue = value;
-              //     });
-              //   },
-              //   iconStyleData: IconStyleData(iconEnabledColor: primaryColor),
-              //   buttonStyleData: ButtonStyleData(
-              //
-              //       decoration: BoxDecoration(
-              //           color: Color(0xffF9F7EE),
-              //
-              //           borderRadius: BorderRadius.circular(8.r))),
-              // ),
               StatefulBuilder(builder: (BuildContext context,
                   void Function(void Function()) setState) {
                 return CustomDropdownWidget(
@@ -330,43 +239,11 @@ class FilterTireAndRimsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('الحالة',
+              Text(getLang(context, 'status'),
                   style: TextStyle(
                       fontSize: 16.sp, fontWeight: FontWeight.bold)),
               SizedBox(height: 16.h),
-              // DropdownButton2<String>(
-              //   isExpanded: true,
-              //   underline: const SizedBox.shrink(),
-              //   hint: Text(
-              //     'إختر',
-              //     style: TextStyle(
-              //       fontSize: 14,
-              //       color: Theme.of(context).hintColor,
-              //     ),
-              //   ),
-              //   items: <String>['test',  'test']
-              //       .map((String item) => DropdownMenuItem<String>(
-              //     value: item,
-              //     child: Text(
-              //       item,
-              //       style: const TextStyle(fontSize: 14),
-              //     ),
-              //   ))
-              //       .toList(),
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       // selectedValue = value;
-              //     });
-              //   },
-              //   iconStyleData: IconStyleData(iconEnabledColor: primaryColor),
-              //   buttonStyleData: ButtonStyleData(
-              //
-              //       decoration: BoxDecoration(
-              //           color: Color(0xffF9F7EE),
-              //
-              //           borderRadius: BorderRadius.circular(8.r))),
-              // ),
-              StatefulBuilder(builder: (context,setState){
+              StatefulBuilder(builder: (BuildContext context,setState){
                 return  DropdownButton2<String>(
                   isExpanded: true,
                   underline: const SizedBox.shrink(),
@@ -420,7 +297,7 @@ class FilterTireAndRimsScreen extends StatelessWidget {
                    productStatus: cubit.statusSelectedValue,
                    name: cubit.productNameSelectedValue,
                    context: context);
-             }, buttonText: 'بحث'),
+             }, buttonText: getLang(context, 'search'),),
            );
          })
           ],

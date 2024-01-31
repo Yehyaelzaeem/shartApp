@@ -113,6 +113,29 @@ class OrderDetailsScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
+                      '${getLang(context, 'the_address')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(width: 25.w,),
+                    Text('',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
+                child: Row(
+                  children: [
+                    Text(
                       '${getLang(context, 'total-price')} :',
                       style: TextStyle(
                         fontSize: 14.sp,

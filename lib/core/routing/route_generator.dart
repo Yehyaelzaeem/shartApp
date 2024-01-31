@@ -9,7 +9,7 @@ import 'package:shart/features/provider/more/presentation/screens/more_screen.da
 import 'package:shart/features/provider/myorders/presentation/screens/my_orders_screen.dart';
 import 'package:shart/features/provider/home/presentation/screens/packages/packages_screen.dart';
 import 'package:shart/features/user/auth/ui/screens/verify_account_screen.dart';
-import 'package:shart/features/user/invoice/presentation/screens/invoice_screen.dart';
+import 'package:shart/features/user/myorders/presentation/screens/invoice_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/order_details.dart';
 import 'package:shart/features/user/notifications/presentation/screens/notification_screen.dart';
 import 'package:shart/features/user/products/presentation/screens/product_details_screen.dart';
@@ -167,9 +167,9 @@ class RouteGenerator {
     if (settings.name == Routes.tiresTypes) {
       return platformPageRoute(const TiresTypesScreen());
     }
-    if (settings.name == Routes.invoice) {
-      return platformPageRoute(const InvoiceScreen());
-    }
+    // if (settings.name == Routes.invoice) {
+    //   return platformPageRoute(const InvoiceScreen());
+    // }
     // if (settings.name == Routes.rims) {
     //   return platformPageRoute(const RimsScreen());
     // }

@@ -188,7 +188,26 @@
   "name": "name",
   "email": "email",
   "phone": "phone",
-  "complete_address_data": "Complete address data"
+  "complete_address_data": "Complete address data",
+  "qty": "qty",
+  "search_no": "Enter the product name to search for",
+  "bill": "The bill",
+  "by": "by",
+  "to": "to",
+  "element": "Element",
+  "the_cost": "The cost",
+  "qty2": "Quantity",
+  "total": "Total",
+  "required": "required",
+  "tire_services": "Tire services"
+
+
+
+
+
+
+
+
 
 
 

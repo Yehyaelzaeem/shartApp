@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/routing/navigation_services.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/user/menu/presentation/spare_parts/screens/spare_parts_details_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../../../core/resources/assets_menager.dart';
 import '../../../../../../../core/resources/font_manager.dart';
-import '../../../../../../../core/routing/routes.dart';
 import '../../../../book_package_service/logic/book_package_cubit.dart';
 import '../../../logic/menu_cubit.dart';
 
-class TiresTypesScreen extends StatefulWidget {
+class TiresTypesScreen extends StatelessWidget {
   const TiresTypesScreen({Key? key}) : super(key: key);
-
-  @override
-  State<TiresTypesScreen> createState() => _TiresTypesScreenState();
-}
-
-class _TiresTypesScreenState extends State<TiresTypesScreen> {
   @override
   Widget build(BuildContext context) {
     MenuCubit c =MenuCubit.get(context);
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: 'خدمات الإطارات  ',hasBackButton: true,hasCartButton: true,),
+        child: CustomAppBar(title: getLang(context, 'tire_services'),hasBackButton: true,hasCartButton: true,),
       ),
       body: Column(
         children: <Widget>[
@@ -58,7 +49,7 @@ class _TiresTypesScreenState extends State<TiresTypesScreen> {
                   ),
                   SizedBox(width: 15.w),
                   Text(
-                    'الإطارات',
+                    getLang(context, 'tires'),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeightManager.light,
@@ -99,7 +90,7 @@ class _TiresTypesScreenState extends State<TiresTypesScreen> {
                   ),
                   SizedBox(width: 15.w),
                   Text(
-                    'الجنوط',
+                    getLang(context, 'rims'),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeightManager.light,

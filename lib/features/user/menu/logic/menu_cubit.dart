@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/model/banners_model.dart';
@@ -26,16 +28,11 @@ class MenuCubit extends Cubit<MenuState> {
   String heightId = '';
   String sizeId = '';
   String size = '';
-List<String> listWidth=<String>['25','400','35','365'];
-List<String> listHeight=<String>['359','886','1252','384'];
-List<String> listSize=<String>['35/585','68/24','185/365','36/35'];
-
-
+ TextEditingController searchControllerHome =TextEditingController();
 
   TextEditingController searchController = TextEditingController();
  List<ProductModelProvider> providerList=<ProductModelProvider>[];
  List<ProductModelProvider> providerListTest=<ProductModelProvider>[];
-
   Future<dynamic> getPackageCheck(BuildContext context)async{
     menuRemoteDataSource.getPackage(context).then((PackageCheckModel? value){
       emit(GetPackageCheckState(value!));
@@ -118,6 +115,12 @@ List<String> listSize=<String>['35/585','68/24','185/365','36/35'];
   }
   void changeLoadingSearch(bool x){
     isSearching=x;
+    emit(ChangeLoadingState());
+  }
+  bool isSearchStart=false;
+
+  void changeSearchStart(bool x){
+    isSearchStart=x;
     emit(ChangeLoadingState());
   }
 

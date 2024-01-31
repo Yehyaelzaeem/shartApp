@@ -14,12 +14,13 @@ import '../../../menu/logic/menu_cubit.dart';
 import '../widgets/custom_image_slider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({Key? key, this.images, this.title, this.price, this.brandName, this.width, this.height, this.size, this.productStatus, this.description, this.cartProduct,}) : super(key: key);
+  const ProductDetailsScreen({Key? key, this.images, this.title, this.price, this.brandName, this.width, this.height, this.size, this.productStatus, this.description, this.cartProduct, this.modelName,}) : super(key: key);
  // final ProductModelData productModelData;
  final List<String>? images;
  final String? title;
  final String? price;
  final String? brandName;
+ final String? modelName;
  final String? width;
  final String? height;
  final String? size;
@@ -44,17 +45,6 @@ class ProductDetailsScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child:
                 CustomImageSliderWidget(listImage: images!,)
-              // Container(
-                //   height: 230.h,
-                //   width: double.infinity,
-                //   child: Image.network(image!,
-                //       fit: BoxFit.cover,
-                //       errorBuilder: (BuildContext context ,Object error,StackTrace? errorBuilder){
-                //        return Text('Error to load image');
-                //       },
-                //      ),
-                // ),
-
             ),
             SizedBox(height: 25.h,),
            Padding(
@@ -85,6 +75,19 @@ class ProductDetailsScreen extends StatelessWidget {
                                  fontWeight: FontWeightManager.medium,
                              ),
                            ),
+                           modelName!=null?Column(
+                             children: [
+                               SizedBox(height: 10.h,),
+                               Text(
+                                 modelName!,
+                                 style: TextStyle(
+                                     color:Color(0xff4b4b4b) ,
+                                     fontFamily: FontConstants.Tajawal,
+                                     fontWeight: FontWeightManager.medium,
+                                 ),
+                               ),
+                             ],
+                           ):SizedBox.shrink(),
                            SizedBox(height: 10.h,),
                            size!=''?
                            Column(

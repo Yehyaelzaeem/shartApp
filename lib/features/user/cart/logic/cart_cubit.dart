@@ -50,7 +50,7 @@ class CartCubit extends Cubit<CartState> {
   TextEditingController addressStreetController = TextEditingController();
   TextEditingController addressNuHouseController = TextEditingController();
   TextEditingController addressMarkController = TextEditingController();
-  int deliveryValue =50;
+  int deliveryValue =0;
   bool isActive =false;
 
 

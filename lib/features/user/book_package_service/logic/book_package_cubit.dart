@@ -21,13 +21,14 @@ class BookPackageCubit extends Cubit<BookPackageState> {
 
   var brandSelectedValue ='';
   var brandSelectedId ='';
-  var yearSelectedValue ='';
+  // var yearSelectedValue ='';
   var brandModelSelectedValue ='';
   var brandModelSelectedId ='';
   var colorSelectedValue ='';
   var colorSelectedId ='';
   TextEditingController descriptionController=TextEditingController();
   TextEditingController chassisController=TextEditingController();
+  TextEditingController yearSelectedValue=TextEditingController();
   void getBrands({String? type, required BuildContext context}){
     brands.clear();
     bookPackageDataSource.getBrands(type,context).then((value) {
