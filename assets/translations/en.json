@@ -111,9 +111,9 @@
   "sure_new_password": "Confirm the new password",
   "register_packages": "Register packages",
   "status": "Status",
-  "add_main_subtitle": "Add a main or subtitle",
+  "add_main_subtitle": "Add address",
   "branch_name": "branch name",
-  "the_address": "the address",
+  "the_address": "The address",
   "the_location": "the location",
   "phone_nu": "phone number",
   "save_modification": "Save the modification",
@@ -175,7 +175,7 @@
   "no_product_found": "These products were not found",
   "no_check_car_now": "There are no checking requests currently",
   "review": "Review",
-  "no_store": "This is a different store",
+  "no_store": "It is not possible to purchase from more than one merchant",
   "details": "Details",
   "package_duration": "Package duration",
   "checked_address": "Examination address",
@@ -199,14 +199,27 @@
   "qty2": "Quantity",
   "total": "Total",
   "required": "required",
-  "tire_services": "Tire services"
-
-
-
-
-
-
-
+  "tire_services": "Tire services",
+  "valid_from": "Valid from",
+  "rims2": "rim",
+  "tire": "tire",
+  "trim_price": "Trim price",
+  "trim_image": "Trim image",
+  "profile": "profile",
+  "store_data": "Store data",
+  "edit": "Edit",
+  "user_name": "User name",
+  "user_id": "User id",
+  "user_email": "User email",
+  "user_phone": "User phone",
+  "merchants": "Merchants",
+  "products": "Products",
+  "previous_work": "Previous work",
+  "branch_addresses": "Branch addresses",
+  "merchant_details": "Merchant details",
+  "product": "product",
+  "branch": "branch",
+  "business_photos": "Business and product photos"
 
 
 

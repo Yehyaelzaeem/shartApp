@@ -69,6 +69,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   AddressLocationModel? addressLocationModel;
   bool isAddressEditing =false;
   bool isUpdateLoading =false;
+  bool isUpdateEditingLoading =false;
 
   Future<ProviderGetProfileModel?> getProviderProfile (String token ,BuildContext context)async{
     if(token.isNotEmpty){
@@ -96,6 +97,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
               name: nameControllerProvider.text.isNotEmpty?nameControllerProvider.text:oldUserProfile.data!.name,
               email:emailControllerProvider.text.isNotEmpty?emailControllerProvider.text:oldUserProfile.data!.email,
               phone: phoneControllerProvider.text.isNotEmpty?phoneControllerProvider.text:oldUserProfile.data!.phone,
+              image: profileImageProviderFile!=null?profileImageProviderFile!.path:null,
               phoneCountry: PhoneCountry(
                   id: 3
               ),
@@ -124,6 +126,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getAddressListProvider(token, context).then((AddressListModel? value) {
         addressList= value;
+
         emit(GetAddressListState());
       });
     }
@@ -155,15 +158,13 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       name: addressNameController.text.isEmpty?addressData.name:addressNameController.text,
       address: addressController.text.isEmpty?addressData.address:addressController.text,
       phone: addressPhoneController.text.isEmpty?addressData.phone:addressPhoneController.text,
-      lat: '123456',
-      lng: '123',
+      lat: lat!=null?lat!.toString():addressData.lat,
+      lng: long!=null?long!.toString():addressData.lng,
     );
 
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.editAddressProvider(addressModelData ,token, context);
       getAddressListProvider(token,context);
-
-
     }
     else{
       print('token is empty getProviderProfile');
@@ -292,6 +293,10 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     emit(EditingAddressState());
   }void changeUpdateLoading(bool x){
     isUpdateLoading =x;
+    emit(EditingAddressState());
+  }
+  void changeUpdateEditingLoading(bool x){
+    isUpdateEditingLoading =x;
     emit(EditingAddressState());
   }
   void changeAddressEditing(bool x){

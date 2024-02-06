@@ -78,21 +78,19 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   }
 
   Future<UserProfileModel?> updateUserProfile ( UserProfileModel oldUserProfile ,String token ,BuildContext context)async{
-    if(nameController.text.isEmpty&&emailController.text.isEmpty&&phoneController.text.isEmpty&&profileImageFile==null){
-      showToast(text: 'please enter your data to need update', state: ToastStates.warning, context: context);
-    }else{
-      UserProfileModel userProfileModel =UserProfileModel(
-          data: Data(
-            name: nameController.text.isNotEmpty?nameController.text:oldUserProfile.data!.name,
-            email:emailController.text.isNotEmpty?emailController.text:oldUserProfile.data!.email,
-            phone: phoneController.text.isNotEmpty?phoneController.text:oldUserProfile.data!.phone,
-            phoneCountry: PhoneCountry(
-                id: 3
-            ),
-          )
-      );
-      userProfileRemoteDataSource.updateProfile(userProfileModel, token, context);
-    }
+    UserProfileModel userProfileModel =UserProfileModel(
+        data: Data(
+          name: nameController.text.isNotEmpty?nameController.text:oldUserProfile.data!.name,
+          email:emailController.text.isNotEmpty?emailController.text:oldUserProfile.data!.email,
+          phone: phoneController.text.isNotEmpty?phoneController.text:oldUserProfile.data!.phone,
+          image: profileImageFile!=null? profileImageFile!.path:null,
+          phoneCountry: PhoneCountry(
+              id: 3
+          ),
+        )
+
+    );
+    userProfileRemoteDataSource.updateProfile(userProfileModel, token, context);
     emit(UpdateUserProfile());
     return null;
   }

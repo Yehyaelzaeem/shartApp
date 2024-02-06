@@ -48,7 +48,6 @@ import '../../features/user/profile/presentation/conditions_terms/conditions_scr
 import '../../features/user/more/presentation/screens/more_screen.dart';
 import '../../features/user/myorders/presentation/screens/item_details.dart';
 import '../../features/user/myorders/presentation/screens/myorders_screen.dart';
-import '../../features/user/packages/presentation/screens/packages_screen.dart';
 import '../../features/user/profile/presentation/edit_profile/screens/edit_profile_screen.dart';
 import 'platform_page_route.dart';
 import 'undefined_route_screen.dart';

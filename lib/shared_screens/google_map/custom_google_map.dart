@@ -11,6 +11,7 @@ import '../../core/resources/font_manager.dart';
 import '../../core/routing/navigation_services.dart';
 import '../../core/routing/routes.dart';
 import '../../features/provider/profile/logic/provider_profile_cubit.dart';
+import '../../features/provider/profile/presentation/address/screens/provider_addresses.dart';
 import '../../features/user/cart/presentation/widgets/custom_address-user_widget.dart';
 import '../../features/user/profile/logic/user_profile_cubit.dart';
 import '../../features/user/profile/presentation/address/screens/user_add_address.dart';
@@ -133,8 +134,10 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
 
 
                 }else{
+
                     ProviderProfileCubit.get(context).addressLocationModel =addressModel;
                    NavigationManager.pushReplacement(Routes.providerAddAddress);
+                   //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProviderAddressesScreen()));
 
                 }
 

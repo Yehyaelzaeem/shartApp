@@ -103,8 +103,10 @@
   "des": "الوصف",
   "unit_price": "سعر القطعة",
   "rim_price": "سعر الجنط",
+  "trim_price": "سعر الإطار",
   "unit_image": "صورة القطعة",
   "rim_image": "صورة الجنط",
+  "trim_image": "صورة الإطار",
   "type": "النوع",
   "product_name": "أسم المنتج",
   "width": "العرض",
@@ -116,7 +118,7 @@
   "new_password": "كلمة المرور الجديدة",
   "sure_new_password": "تأكيد كلمة المرور الجديدة",
   "register_packages": "سجل الباقات",
-  "add_main_subtitle": "أضف عنوان رئيسي أو فرعي",
+  "add_main_subtitle": "أضف عنوان",
   "branch_name": "أسم الفرع",
   "the_address": "العنوان",
   "the_location": "الموقع",
@@ -177,7 +179,7 @@
   "no_check_car_now": "لا يوجد طلبات فحص حاليا",
   "no_product_found": "لم يتم العثور علي هذه المنتج",
   "review": "مراجعة",
-  "no_store": "هذا متجر مختلف",
+  "no_store": "لا يمكن شراء من اكتر من تاجر",
   "details": "التفاصيل",
   "package_duration": "مدة الباقة",
   "checked_address": "عنوان الفحص",
@@ -200,35 +202,24 @@
   "qty2": "الكمية",
   "total": "إجمالى",
   "required": "المطلوب",
-  "tire_services": "خدمات الإطارات"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "tire_services": "خدمات الإطارات",
+  "valid_from": "صالحة من",
+  "rims2": "الجنط",
+  "tire": "الإطار",
+  "profile": "بروفايل",
+  "store_data": "بيانات المتجر",
+  "edit": "تعديل",
+  "user_name": "اسم العميل",
+  "user_id": "الرقم الخاص بالعميل",
+  "user_email": "الايميل",
+  "user_phone": "الهاتف",
+  "merchants": "التجار",
+  "products": "المنتجات",
+  "previous_work": "سابقة الأعمال",
+  "branch_addresses": "عناوين الفروع",
+  "merchant_details": "تفاصيل التاجر",
+  "product": "منتج",
+  "branch": "فروع",
+  "business_photos": "صور الأعمال والمنتجات"
 
 }

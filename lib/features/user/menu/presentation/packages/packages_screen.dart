@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
+import 'package:shart/features/user/menu/data/model/check_model.dart';
 import 'package:shart/features/user/menu/logic/menu_cubit.dart';
 import 'package:shart/features/user/menu/presentation/packages/packages_details/package_details_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
@@ -14,6 +15,7 @@ class CarPackagesCheckScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MenuCubit cubit =MenuCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
@@ -21,9 +23,11 @@ class CarPackagesCheckScreen extends StatelessWidget {
       ),
       body: BlocConsumer<MenuCubit,MenuState>(
         builder: (BuildContext context ,MenuState state){
-          if(state is GetPackageCheckState){
-            final data =state.packageCheckModel;
-            return ListView.builder(
+          if(cubit.packageCheckModel!=null){
+            final PackageCheckModel? data =cubit.packageCheckModel;
+            return
+              data!.data!.length==0?Center(child: Text('No packages now')):
+             ListView.builder(
                 itemCount: data.data!.length,
                 itemBuilder: (BuildContext context,int index){
                   return Padding(

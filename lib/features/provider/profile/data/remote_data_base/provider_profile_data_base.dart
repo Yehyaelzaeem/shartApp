@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/core/routing/routes.dart';
 import 'package:shart/core/shared_preference/shared_preference.dart';
@@ -11,6 +12,7 @@ import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../../widgets/show_toast_widget.dart';
 import '../../../../user/auth/logic/auth_cubit.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav.dart';
 import '../../logic/provider_profile_cubit.dart';
 import '../model/about_compay_model.dart';
 import '../model/address_list_model.dart';
@@ -64,21 +66,36 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
   Future<ProviderGetProfileModel?> updateProviderProfile(ProviderGetProfileModel providerGetProfileModel ,String token, BuildContext context) async{
 
     ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
-    FormData data = FormData.fromMap({
-      'image':cubit.profileImageProviderFile !=null?
-              <MultipartFile>[
-                await MultipartFile.fromFile('${cubit.profileImageProviderFile!.path}', filename: 'upload')
-              ]
-          :null,
-      'name':providerGetProfileModel.data!.name,
-      'email':providerGetProfileModel.data!.email,
-      'phone':providerGetProfileModel.data!.phone,
-      'phone_country_id':'3',
-      'country_id':'1',
-      'city_id':'1',
-      'gender':'male',
-      'birth_date':'1990-01-01',
-    });
+    FormData? data;
+    if(providerGetProfileModel.data!.image!=null){
+      data = FormData.fromMap({
+        'image':
+        <MultipartFile>[
+          await MultipartFile.fromFile('${cubit.profileImageProviderFile!.path}', filename: 'upload')
+        ],
+        'name':providerGetProfileModel.data!.name,
+        'email':providerGetProfileModel.data!.email,
+        'phone':providerGetProfileModel.data!.phone,
+        'phone_country_id':'3',
+        'country_id':'1',
+        'city_id':'1',
+        'gender':'male',
+        'birth_date':'1990-01-01',
+      });
+
+    }else{
+      data = FormData.fromMap({
+        'name':providerGetProfileModel.data!.name,
+        'email':providerGetProfileModel.data!.email,
+        'phone':providerGetProfileModel.data!.phone,
+        'phone_country_id':'3',
+        'country_id':'1',
+        'city_id':'1',
+        'gender':'male',
+        'birth_date':'1990-01-01',
+      });
+    }
+
     cubit.changeUpdateLoading(true);
     Response<dynamic> res = await DioHelper.postData(url: AppApis.updateProviderProfileUser,
         token: token,
@@ -86,15 +103,11 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
     );
 
     if (ProviderGetProfileModel.fromJson(res.data).success == false) {
-      print('action');
-
       cubit.changeUpdateLoading(false);
       showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (res.statusCode == 200) {
-        print('don');
-
         cubit.changeUpdateLoading(false);
         cubit.getProviderProfile('${AuthProviderCubit.get(context).token}', context);
         Navigator.of(context).pop();
@@ -125,7 +138,6 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
     }
     else{
       if (res.statusCode == 200) {
-
         showToast(text: '${DeleteAccountProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
          NavigationManager.pushReplacement(Routes.providerLogin);
         cubit.nameControllerProvider.text='';
@@ -162,8 +174,9 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
     else{
       if (res.statusCode == 200) {
         cubit.getAddressListProvider(token, context);
-        cubit.changeAddLoading(false);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        Navigator.of(context).pop();
+        cubit.changeAddLoading(false);
         cubit.addressAddNameController.text='';
         cubit.addressAddController.text='';
         cubit.addressLocationModel=null;
@@ -176,8 +189,6 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
         throw 'Error';
       }
     }
-    cubit.changeAddLoading(false);
-
     return null;
   }
 
@@ -226,8 +237,8 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
     );
     if (AddressModel.fromJson(res.data).success == false) {
       cubit.changeUpdateLoading(false);
-
       showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+
     }
     else{
       if (res.statusCode == 200) {
@@ -235,6 +246,11 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
         cubit.getAddressListProvider(token, context);
         // Navigator.pop(context);
         showToast(text: '${AddressModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        cubit.addressNameController.text='';
+        cubit.addressController.text='';
+        cubit.addressPhoneController.text='';
+        cubit.lat=null;
+        cubit.long=null;
         return AddressModel.fromJson(res.data);
       }
       else {
@@ -348,8 +364,9 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
      if (response.statusCode == 200) {
        ProviderProfileCubit.get(context).getProviderProfile(token, context);
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProviderBottomNavScreen(checkPage: '0',)));
        showToast(text: 'successfully', state: ToastStates.success, context: context);
-       Navigator.of(context).pop();
+       ProviderProfileCubit.get(context).changeUpdateEditingLoading(false);
        cubitProvider.titleCompleteProfileController.text='';
        cubitProvider.numberCommercialCompleteProfileController.text='';
        cubitProvider.addressCompleteProfileController.text='';

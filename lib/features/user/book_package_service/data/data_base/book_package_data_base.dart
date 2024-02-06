@@ -116,25 +116,38 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
       },
         token: cubit.token,
         url: AppApis.sendCheckCars,language: cubit.localeLanguage==Locale('en')?'en':'ar');
-    if (response.statusCode == 200) {
+    if (response.data['success']== false) {
       cubit2.changeLoading(false);
-
-      Navigator.of(context).pop();
-      MyOrdersCubit.get(context).getMyCheckCars(context);
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
-      cubit2.brandSelectedValue ='';
-      cubit2. brandSelectedId ='';
-      cubit2.yearSelectedValue.text ='';
-      cubit2.brandModelSelectedValue='';
-      cubit2. brandModelSelectedId ='';
-      cubit2.colorSelectedValue ='';
-      cubit2. colorSelectedId ='';
-      cubit2. descriptionController.text ='';
-      cubit2. chassisController.text ='';
+      showToast(text: '${response.data['message']}',
+          state: ToastStates.error,
+          context: context);
     }
-    else {
-      cubit2.changeLoading(false);
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+    else
+    {
+      if (response.statusCode == 200) {
+        cubit2.changeLoading(false);
+
+        Navigator.of(context).pop();
+        MyOrdersCubit.get(context).getMyCheckCars(context);
+        showToast(text: '${json.encode(response.data['message'])}',
+            state: ToastStates.success,
+            context: context);
+        cubit2.brandSelectedValue ='';
+        cubit2. brandSelectedId ='';
+        cubit2.yearSelectedValue.text ='';
+        cubit2.brandModelSelectedValue='';
+        cubit2. brandModelSelectedId ='';
+        cubit2.colorSelectedValue ='';
+        cubit2. colorSelectedId ='';
+        cubit2. descriptionController.text ='';
+        cubit2. chassisController.text ='';
+      }
+      else {
+        cubit2.changeLoading(false);
+        showToast(text: '${json.encode(response.data['message'])}',
+            state: ToastStates.error,
+            context: context);
+      }
     }
     cubit2.changeLoading(false);
 

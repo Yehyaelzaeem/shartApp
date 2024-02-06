@@ -159,21 +159,40 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
   @override
   Future<UserProfileModel?> updateProfile(UserProfileModel userProfileModel ,String token, BuildContext context) async{
     UserProfileCubit cubit =UserProfileCubit.get(context);
-    FormData data = FormData.fromMap({
-      'image':
-      cubit.profileImageFile!=null?
-      <MultipartFile>[
-        await MultipartFile.fromFile('${cubit.profileImageFile!.path}', filename: 'upload')
-      ]:null,
-      'name':userProfileModel.data!.name,
-      'email':userProfileModel.data!.email,
-      'phone':userProfileModel.data!.phone,
-      'phone_country_id':'3',
-      'country_id':'1',
-      'city_id':'1',
-      'gender':'male',
-      'birth_date':'1990-01-01',
-    });
+    FormData? data;
+    if(userProfileModel.data!.image!=null){
+      data = FormData.fromMap({
+        'image':
+        <MultipartFile>[
+          await MultipartFile.fromFile('${cubit.profileImageFile!.path}', filename: 'upload')
+        ],
+        'name':userProfileModel.data!.name,
+        'email':userProfileModel.data!.email,
+        'phone':userProfileModel.data!.phone,
+        'phone_country_id':'3',
+        'country_id':'1',
+        'city_id':'1',
+        'gender':'male',
+        'birth_date':'1990-01-01',
+      });
+
+    }else{
+      data = FormData.fromMap({
+        // 'image':
+        // <MultipartFile>[
+        //   await MultipartFile.fromFile('${userProfileModel.data!.image}', filename: 'upload')
+        // ],
+        'name':userProfileModel.data!.name,
+        'email':userProfileModel.data!.email,
+        'phone':userProfileModel.data!.phone,
+        'phone_country_id':'3',
+        'country_id':'1',
+        'city_id':'1',
+        'gender':'male',
+        'birth_date':'1990-01-01',
+      });
+    }
+
     cubit.changeUpdateLoading(true);
     Response<dynamic> res = await DioHelper.postData(url: AppApis.updateProfileUser,
         token: token,
@@ -186,11 +205,9 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
     }
     else{
       if (res.statusCode == 200) {
-
         cubit.getUserProfile('${AuthCubit.get(context).token}', context);
         cubit.changeUpdateLoading(false);
         showToast(text: '${UserProfileModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-
         return UserProfileModel.fromJson(res.data);
       }
       else {

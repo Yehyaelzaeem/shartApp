@@ -142,11 +142,12 @@ class CartCubit extends Cubit<CartState> {
   Future<dynamic> addAddressUser(String token ,BuildContext context)async{
     if(addressLocationModel !=null){
       AddressModelData addressModelData= AddressModelData(
-        name: 'location / ${addressLocationModel!.country}/${addressLocationModel!.bigCity}/${addressLocationModel!.city}/${addressLocationModel!.locality}/${addressLocationModel!.street}',
-        address: 'address : ${addressController.text} / street: ${addressStreetController.text} / number_house : ${addressNuHouseController.text} / mark : ${addressMarkController.text}',
+        name: '${addressController.text}',
+        address: '${addressStreetController.text}/${addressNuHouseController.text}/${addressMarkController.text}',
         phone: UserProfileCubit.get(context).userProfileModel!=null?UserProfileCubit.get(context).userProfileModel!.data!.phone:'123456789',
         lng: long!.toString(),
         lat: lat!.toString(),
+        note: '${addressLocationModel!.country}/${addressLocationModel!.bigCity}/${addressLocationModel!.city}/${addressLocationModel!.locality}/${addressLocationModel!.street}'
       );
       if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
         cartRemoteDataSource.addAddressUser(addressModelData ,token, context);

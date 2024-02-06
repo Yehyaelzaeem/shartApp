@@ -10,6 +10,7 @@ import 'core/routing/route_generator.dart';
 import 'core/shared_preference/shared_preference.dart';
 import 'features/provider/auth/logic/auth_provider_cubit.dart';
 import 'features/provider/home/logic/provider_home_cubit.dart';
+import 'features/provider/myorders/logic/provider_orders_cubit.dart';
 import 'features/provider/profile/logic/provider_profile_cubit.dart';
 import 'features/provider/work_and_products/logic/work_products_cubit.dart';
 import 'features/user/auth/logic/auth_cubit.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProviderHomeCubit>(create: (BuildContext context) => ProviderHomeCubit()),
         BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
+        BlocProvider<ProviderOrdersCubit>(create: (BuildContext context) => ProviderOrdersCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),
        ],
       child: ScreenUtilInit(

@@ -42,6 +42,7 @@ class MyOrdersModelData {
    String? adminNote;
    String? providerNote;
   List<Items>? items;
+   UserAddress? userAddress;
 
   MyOrdersModelData(
       {this.id,
@@ -54,6 +55,7 @@ class MyOrdersModelData {
         this.userNote,
         this.adminNote,
         this.providerNote,
+        this.userAddress,
         this.items});
 
   MyOrdersModelData.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,7 @@ class MyOrdersModelData {
         : null;
     userId = json['user_id'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    userAddress = json['user_address'] != null ? new UserAddress.fromJson(json['user_address']) : null;
     totalPrice = json['total_price'];
     status = json['status'];
     userNote = json['user_note'];
@@ -84,6 +87,9 @@ class MyOrdersModelData {
     if (this.provider != null) {
       data['provider'] = this.provider!.toJson();
     }
+    if (this.userAddress != null) {
+      data['user_address'] = this.userAddress!.toJson();
+    }
     data['user_id'] = this.userId;
     if (this.user != null) {
       data['user'] = this.user!.toJson();
@@ -96,6 +102,70 @@ class MyOrdersModelData {
     if (this.items != null) {
       data['items'] = this.items!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class OrderAddress {
+  UserAddress? userAddress;
+
+  OrderAddress({this.userAddress});
+
+  OrderAddress.fromJson(Map<String, dynamic> json) {
+    userAddress = json['user_address'] != null
+        ? new UserAddress.fromJson(json['user_address'])
+        : null;
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.userAddress != null) {
+      data['user_address'] = this.userAddress!.toJson();
+    }
+    return data;
+  }
+}
+
+class UserAddress {
+  int? id;
+  String? name;
+  String? address;
+  String? lat;
+  String? lng;
+  String? phone;
+  String? note;
+  int? userId;
+
+  UserAddress(
+      {this.id,
+        this.name,
+        this.address,
+        this.lat,
+        this.lng,
+        this.phone,
+        this.note,
+        this.userId});
+
+  UserAddress.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+    lat = json['lat'];
+    lng = json['lng'];
+    phone = json['phone'];
+    note = json['note'];
+    userId = json['user_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['address'] = this.address;
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
+    data['phone'] = this.phone;
+    data['note'] = this.note;
+    data['user_id'] = this.userId;
     return data;
   }
 }

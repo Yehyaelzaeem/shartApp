@@ -35,6 +35,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
         return await pickImagesUsingImagePicker(allowMultiple);
       });
 
+
   ProviderProductsAndWorksRemoteDataSource productsAndWorksRemoteDataSource = ProviderProductsAndWorksRemoteDataSource();
   String typeSelectedValue = '';
   TextEditingController productNameSelectedValue = TextEditingController();
@@ -49,6 +50,17 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   String heightSelectedId = '';
   String sizeSelectedValue = '';
   String sizeSelectedId = '';
+  String namePriceProduct = '';
+  String nameImageProduct = '';
+  void addNamed(String name){
+    namePriceProduct=name;
+    emit(GetImageState());
+
+  } void addNamedImage(String name){
+    nameImageProduct=name;
+    emit(GetImageState());
+
+  }
   void reStarting( GetProductsModelData getProductsModelData){
     typeSelectedValue='${getProductsModelData.type}';
 
@@ -77,7 +89,6 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
       sizeSelectedValue=getProductsModelData.size!=null?getProductsModelData.size!.name.toString():'';
       priceController.text=getProductsModelData.price!.toString();
       desController.text=getProductsModelData.description!.toString();
-
     }
         emit(GetImageState());
   }
@@ -130,6 +141,12 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
       listWidth=value!;
       emit(GetSizeState());
     });
+  }
+  bool isSearchStart=false;
+
+  void changeSearchStart(bool x){
+    isSearchStart=x;
+    emit(ChangeTypeState());
   }
   void changeAddingState(bool a) {
     isAdding = a;
@@ -211,10 +228,16 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   }
   GetProductsModel? getProductsModel;
   void getAllProducts(BuildContext context) {
-    productsAndWorksRemoteDataSource.getAllProducts(AuthProviderCubit
-        .get(context)
-        .token, context).then((GetProductsModel? value) {
+    productsAndWorksRemoteDataSource.getAllProducts(token: AuthProviderCubit.get(context).token, context: context).then((GetProductsModel? value) {
       getProductsModel=value!;
+      emit(GetProductState());
+    });
+  }
+  GetProductsModel? getProductsSearchModel;
+  void getSearchProducts(String title,BuildContext context) {
+    getProductsSearchModel=null;
+    productsAndWorksRemoteDataSource.getAllProducts(title:title,token:AuthProviderCubit.get(context).token, context: context).then((GetProductsModel? value) {
+      getProductsSearchModel=value!;
       emit(GetProductState());
     });
   }
@@ -282,6 +305,9 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     }
     emit(EditProductState());
   }
+  var desControllerHitText='';
+  var priceControllerHitText='';
+  var nameControllerHitText='';
   void displayTitle(BuildContext context){
     typeSelectedValue = '${getLang(context, 'type')}';
     brandSelectedValue = '${getLang(context, 'brand')}';
@@ -289,7 +315,11 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     stateSelectedValue = '${getLang(context, 'status')}';
     widthSelectedValue = '${getLang(context, 'width')}';
     heightSelectedValue = '${getLang(context, 'height')}';
-    sizeSelectedValue = ' ${getLang(context, 'size')}';
+    sizeSelectedValue = '${getLang(context, 'size')}';
+    // priceController.text='${getLang(context, 'price')}';
+    desControllerHitText='${getLang(context, 'des')}';
+    nameControllerHitText='${getLang(context, 'product_name')}';
+    priceControllerHitText='${getLang(context, 'unit_price')}';
   }
   bool isAdding = false;
 

@@ -59,6 +59,7 @@ class AppApis{
   static const String aboutCompany='${baseUrl}pages/about';
   //Products
   static const String getProducts='${baseUrl}provider/products';
+  static  String getSearchProducts(String title)=>'${baseUrl}provider/products?title=$title';
   static const String addProduct='${baseUrl}provider/products/add';
   static  String editProduct(int id)=>'${baseUrl}provider/products/edit/$id';
   static  String deleteProduct(int id)=>'${baseUrl}provider/products/delete/$id';
@@ -87,5 +88,10 @@ class AppApis{
   static const String getSize='${baseUrl}sizes';
   static const String getHeight='${baseUrl}heights';
   static const String getWidth='${baseUrl}widths';
+
+
+  //Get Provider orders
+  static  String getMyOrdersProvider(int limit , String status)=>'${baseUrl}provider/get-my-orders?limit=$limit&status=$status';
+
 
 }

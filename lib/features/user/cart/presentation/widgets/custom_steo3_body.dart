@@ -181,18 +181,20 @@ class CustomStep3BodyWidget extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(width: 50.w,),
-              Text(
-                '${cubit.addressController.text}/${cubit.addressStreetController.text}\n${cubit.addressNuHouseController.text}/${cubit.addressMarkController.text}',
-                style:
-                TextStyle(
-                    fontFamily: FontConstants.Tajawal,
-                    fontSize: 14,
-                    color: blackTextColor,
-                    fontWeight: FontWeight.w400
+              Expanded(
+                child: Text(
+                  '${cubit.addressController.text}/${cubit.addressStreetController.text}\n${cubit.addressNuHouseController.text}/${cubit.addressMarkController.text}',
+                  style:
+                  TextStyle(
+                      fontFamily: FontConstants.Tajawal,
+                      fontSize: 14,
+                      color: blackTextColor,
+                      fontWeight: FontWeight.w400
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
                 ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
               ),
 
             ],

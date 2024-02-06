@@ -18,7 +18,6 @@ class ProviderAddAddressScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print("building......");
     ProviderProfileCubit.get(context).getLocation(context);
     ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
     return Scaffold(
@@ -46,16 +45,7 @@ class ProviderAddAddressScreen extends StatelessWidget{
                 AddressLocationModel? x =ProviderProfileCubit.get(context).addressLocationModel;
                 return     Column(
                   children: <Widget>[
-                    SizedBox(height: 15.h,),
-
-                    Text(getLang(context, 'the_address'),
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.bold,
-                      fontSize: 20.sp,
-                      fontFamily: FontConstants.lateefFont,
-                      color: blackColor,
-                    ),
-                    ),
+                    SizedBox(height: 10.h,),
                     // CustomRadioAddAddressWidget(),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -120,6 +110,8 @@ class ProviderAddAddressScreen extends StatelessWidget{
                         hintColor: Colors.black,
                         textInputType: TextInputType.phone,
                         controller: cubit.addressAddPhoneController),
+                    SizedBox(height: 10.h,),
+
                     cubit.isAddLoading?Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child: Center(child: CircularProgressIndicator(),),

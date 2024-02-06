@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -8,10 +9,11 @@ import '../../../../../../../core/resources/assets_menager.dart';
 import '../../../../../../../core/resources/color.dart';
 import '../../../../../../../core/resources/font_manager.dart';
 import '../../../../../../../shared_screens/pachages/package_subscribe_details_screen.dart';
+import '../../../../../../../widgets/custom_button.dart';
 import '../../../../logic/provider_home_cubit.dart';
 
 class CustomBodyPackages extends StatelessWidget {
-  const CustomBodyPackages({super.key, this.id, this.description, this.title, this.price, this.index, this.isHistory, this.startDate, this.endDate, this.status});
+  const CustomBodyPackages({super.key, this.id, this.description, this.title, this.price, this.index, this.isHistory, this.startDate, this.endDate, this.status, this.isBeforeBegin});
   final String? id;
   final int? index;
   final List<String>? description;
@@ -21,6 +23,7 @@ class CustomBodyPackages extends StatelessWidget {
   final String? endDate;
   final String? status;
   final bool? isHistory;
+  final bool? isBeforeBegin;
 
 
   @override
@@ -40,13 +43,13 @@ class CustomBodyPackages extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder:
-                    (BuildContext context)=>SubscribePackagesDetailsScreen(
-                  title: title,
-                  list: description,
-                  id:  id.toString(),
-                  price: price.toString(),
-                )));
+                // Navigator.push(context, MaterialPageRoute(builder:
+                //     (BuildContext context)=>SubscribePackagesDetailsScreen(
+                //   title: title,
+                //   list: description,
+                //   id:  id.toString(),
+                //   price: price.toString(),
+                // )));
               },
               child: Container(
                 margin: EdgeInsets.all(16.sp),
@@ -74,6 +77,7 @@ class CustomBodyPackages extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              isBeforeBegin==true?SizedBox.shrink():
                               Padding(
                                 padding:  EdgeInsets.only(right: 16.w),
                                 child: Container(
@@ -82,7 +86,7 @@ class CustomBodyPackages extends StatelessWidget {
                                   height: 20.h,
                                   child: FittedBox(
                                     child: Text(
-                                      'صالحة من 26 سبتمبر إلى 26 أكتوبر',
+                                      ' ${getLang(context, 'valid_from')}  ${startDate}  ${getLang(context, 'to')}  ${endDate}',
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         color: Colors.green,
@@ -186,7 +190,6 @@ class CustomBodyPackages extends StatelessWidget {
                             ),
                           ),
                         ):SizedBox.shrink(),
-
                         isHistory==true?
                         Row(
                           children: <Widget>[
@@ -211,7 +214,28 @@ class CustomBodyPackages extends StatelessWidget {
                           ],
                         ):SizedBox.shrink(),
                         SizedBox(height: 30.h,),
-
+                        isHistory!=true?
+                        BlocConsumer<ProviderHomeCubit, ProviderHomeState>(
+                          listener: (BuildContext context,ProviderHomeState state) {},
+                          builder: (BuildContext context, ProviderHomeState state) {
+                            return
+                              ProviderHomeCubit.get(context).isLoading==true?
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                child: Center(child: CircularProgressIndicator(),),
+                              ):
+                              Padding(padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                child: CustomElevatedButton(
+                                    onTap: () {
+                                      ProviderHomeCubit.get(context).subscribePackages(id!, context);
+                                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomPackageDetailsScreen()));
+                                    },
+                                    buttonText: getLang(context, 'subscribe_now')),
+                              );
+                          },
+                        ):
+                        SizedBox.shrink(),
+                        SizedBox(height: 30.h,),
                       ],
                     ),
                     Positioned(

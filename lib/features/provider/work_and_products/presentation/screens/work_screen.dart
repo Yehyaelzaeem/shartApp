@@ -133,7 +133,7 @@ class WorkScreen extends StatelessWidget {
                   cubit.addWorks(context);
                 },
                 buttonText: '${getLang(context, 'my_business_save')}'):Center(child: CircularProgressIndicator(),) : SizedBox.shrink(),
-            SizedBox(height: 80.h,)
+            SizedBox(height: 120.h,)
           ],
         );
          }  else{
