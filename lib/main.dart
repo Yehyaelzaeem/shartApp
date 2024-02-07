@@ -18,7 +18,8 @@ Future<void> main() async {
     if (isLog != null) {
       if(type == 'user'){
         widget =  UserBottomNavScreen();
-      }else{
+      }
+      else{
         widget =  ProviderBottomNavScreen();
       }
     }
@@ -40,7 +41,7 @@ Future<void> main() async {
           // ),
     ),
   );
-  //done ios
+  //done 2 second ios
   // runApp(
   //   EasyLocalization(
   //     supportedLocales: const <Locale>[Locale('ar'), Locale('en')],

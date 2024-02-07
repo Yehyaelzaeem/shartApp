@@ -17,6 +17,7 @@ import '../../../features/provider/work_and_products/logic/work_products_cubit.d
 import '../../../features/user/auth/logic/auth_cubit.dart';
 import '../../../features/user/book_package_service/logic/book_package_cubit.dart';
 import '../../../features/user/menu/logic/menu_cubit.dart';
+import '../../../features/user/merchants/logic/merchants_cubit.dart';
 import '../../../features/user/merchants/presentation/screens/merchants_screen.dart';
 import '../../../features/user/profile/presentation/about_company/about_company_screen.dart';
 import '../../../features/user/profile/presentation/complains/complains_screen.dart';
@@ -151,6 +152,7 @@ class CustomBodyMore extends StatelessWidget {
         buildProfileItemWidget(
             iconPath: IconsManager.mer,
             function: () {
+              MerchantsCubit.get(context).getMerchants(context);
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MerchantsScreen()));
               // MenuCubit.get(context).getPackageCheck(context);
               // NavigationManager.push(Routes.checkingPackages);

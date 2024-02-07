@@ -19,6 +19,7 @@ import 'features/user/cart/logic/cart_cubit.dart';
 import 'features/user/favorite/logic/favorite_cubit.dart';
 import 'features/user/menu/logic/menu_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'features/user/merchants/logic/merchants_cubit.dart';
 import 'features/user/myorders/logic/my_orders_cubit.dart';
 import 'features/user/profile/logic/user_profile_cubit.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<FavoriteCubit>(create: (BuildContext context) => FavoriteCubit()),
         BlocProvider<ProviderHomeCubit>(create: (BuildContext context) => ProviderHomeCubit()),
         BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
+        BlocProvider<MerchantsCubit>(create: (BuildContext context) => MerchantsCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
         BlocProvider<ProviderOrdersCubit>(create: (BuildContext context) => ProviderOrdersCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),

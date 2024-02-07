@@ -25,3 +25,4 @@ const Color redColor =Color(0xffDB3022);
 const Color geryTextColor =Color(0xff6E6D71);
 const Color blackTextColor =Color(0xff100E0D);
 const Color dividerColor =Color(0xffD0D5DD);
+const Color textGeryColor =Color(0xff4B4B4B);

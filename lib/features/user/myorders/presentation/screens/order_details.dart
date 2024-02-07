@@ -48,7 +48,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 25.w,),
+                    SizedBox(width: 5.w,),
                     Text(
                       '${myOrdersModelData.id.toString()}',
                       style: TextStyle(
@@ -72,9 +72,9 @@ class OrderDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 25.w,),
+                    SizedBox(width: 5.w,),
                     Text(
-                      myOrdersModelData.provider!.name!,
+                      myOrdersModelData.provider!=null?myOrdersModelData.provider!.name!:'',
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: blackTextColor,
@@ -96,7 +96,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 25.w,),
+                    SizedBox(width: 5.w,),
                     Text(
                       '${getLang(context, '${myOrdersModelData.status}')}',
                       style: TextStyle(
@@ -121,7 +121,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(width: 25.w,),
+                    SizedBox(width: 5.w,),
                     Text(
                       myOrdersModelData.totalPrice!.toString(),
                       style: TextStyle(
@@ -133,30 +133,34 @@ class OrderDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    '${getLang(context, 'the_address')} :',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: geryTextColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(width: 25.w,),
-                  Container(
-                    width: MediaQuery.of(context).size.width*0.6,
-                    child: Text('${myOrdersModelData.userAddress!.address!}',
+              Padding(
+                padding:   EdgeInsets.only(right: 16.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${getLang(context, 'the_address')} :',
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w700,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
                       ),
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                    SizedBox(width: 5.w,),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text('${myOrdersModelData.userAddress!.address!}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {

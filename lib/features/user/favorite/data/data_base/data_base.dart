@@ -7,10 +7,12 @@ import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../auth/logic/auth_cubit.dart';
+import '../model/favorite_mer_model.dart';
 import '../model/favorite_model.dart';
 
 abstract class BaseFavoriteRemoteDataSource{
   Future<FavoriteProductsUser?> getFavoriteProducts(String token ,BuildContext context);
+  Future<FavoriteMerModel?> getFavoriteMerProducts(BuildContext context);
   Future addAndRemoveFavoriteProducts(String productId ,String token ,BuildContext context);
 }
 class FavoriteRemoteDataSource implements BaseFavoriteRemoteDataSource{
@@ -31,6 +33,31 @@ class FavoriteRemoteDataSource implements BaseFavoriteRemoteDataSource{
     else{
       if (response.statusCode == 200) {
         return FavoriteProductsUser.fromJson(response.data);
+      }
+      else {
+        throw 'Error';
+      }
+    }
+    return null;
+
+  }
+
+ @override
+  Future<FavoriteMerModel?> getFavoriteMerProducts(BuildContext context)async {
+
+    AuthCubit cubit =AuthCubit.get(context);
+    Response<dynamic> response = await DioHelper.getData(
+        url: AppApis.getFavoriteMerchants,
+        language: cubit.localeLanguage==Locale('en')?'en':'ar',
+        token: cubit.token
+    );
+
+    if (FavoriteMerModel.fromJson(response.data).success == false) {
+       }
+    else{
+      if (response.statusCode == 200) {
+
+        return FavoriteMerModel.fromJson(response.data);
       }
       else {
         throw 'Error';

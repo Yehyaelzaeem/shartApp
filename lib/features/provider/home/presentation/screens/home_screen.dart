@@ -74,43 +74,34 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
                         listener: (BuildContext context,ProviderProfileState state) {},
                         builder: (BuildContext context,ProviderProfileState state) {
                           if(ProviderProfileCubit.get(context).providerProfileModel!=null){
-                           if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
-                             return CustomSubscribeWidgetRow();
-                           }
-                            // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
-                            // && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
-                            // ){
-                            //   print("nuulll 111");
-                            //   return  Row(
-                            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            //     children: <Widget>[
-                            //       CustomCompletePaperWidget(),
-                            //       CustomSubscribeWidget(),
-                            //     ],
-                            //   );
-                            // }else if(
-                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
-                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
-                            // {
-                            //   print("nuulll 222");
-                            //
-                            //   return CustomCompleteWidgetRow();
-                            // }else if(
-                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
-                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
-                            // {
-                            //   print("nuulll 333");
-                            //
-                            //   return CustomSubscribeWidgetRow();
-                            // }
+                           // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
+                           //   return CustomSubscribeWidgetRow();
+                           // }
+                            if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
+                            && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
+                            ){
+                              return  Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  CustomCompletePaperWidget(),
+                                  CustomSubscribeWidget(),
+                                ],
+                              );
+                            }else if(
+                                ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
+                                ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
+                            {
+                              return CustomCompleteWidgetRow();
+                            }else if(
+                                ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
+                                ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
+                            {
+                              return CustomSubscribeWidgetRow();
+                            }
                           else{
-                            print("nuulll 555");
-
                             return SizedBox.shrink();
                           }
                           }else{
-                            print("nuulll 666");
-
                             return SizedBox.shrink();
                           }
                         }

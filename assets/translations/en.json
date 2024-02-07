@@ -8,6 +8,7 @@
   "change_language": "Change the language",
   "sign_out": "Sign Out",
   "delete_account": "Delete Account",
+  "search_no_mer": "Enter the merchant name to search for",
   "the_menu": "Menu",
   "favorite": "Favorite",
   "my_orders": "My Orders",
@@ -173,6 +174,8 @@
   "no_order_now": "There are no requests currently",
   "no_item_favorite": "There is nothing in the favorites list!",
   "no_product_found": "These products were not found",
+  "no_mer_found": "This merchant was not found",
+  "no_data_mer": "This merchant was not found",
   "no_check_car_now": "There are no checking requests currently",
   "review": "Review",
   "no_store": "It is not possible to purchase from more than one merchant",
@@ -219,8 +222,10 @@
   "merchant_details": "Merchant details",
   "product": "product",
   "branch": "branch",
-  "business_photos": "Business and product photos"
+  "business_photos": "Business and product photos",
+  "no_data_provider": "There is no data with this name",
 
+  "no_data": "There is no data currently"
 
 
 

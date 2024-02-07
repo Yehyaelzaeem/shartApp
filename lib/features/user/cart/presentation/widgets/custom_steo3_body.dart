@@ -166,6 +166,7 @@ class CustomStep3BodyWidget extends StatelessWidget {
           ),
           SizedBox(height: 5.h,),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 getLang(context, 'delivery_address'),
@@ -191,7 +192,7 @@ class CustomStep3BodyWidget extends StatelessWidget {
                       color: blackTextColor,
                       fontWeight: FontWeight.w400
                   ),
-                  maxLines: 3,
+                  maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.start,
                 ),

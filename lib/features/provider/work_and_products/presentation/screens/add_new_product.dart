@@ -71,18 +71,21 @@ class ProviderAddNewProduct extends StatelessWidget {
                             if(controllerCubit.typeSelectedValue == 'قطع غيار' ||controllerCubit.typeSelectedValue == 'spare parts'){
                               controllerCubit.changeTypeAdd(false);
                               cubit.getBrands(type:'spare_parts',context: context);
+                              controllerCubit.brandSelectedValue='${getLang(context, 'brand')}';
                             }
                             else if(controllerCubit.typeSelectedValue == 'حافات' ||controllerCubit.typeSelectedValue == 'rims'){
                               cubit.getBrands(type:'rims',context: context);
                               controllerCubit.changeTypeAdd(true);
                               controllerCubit.addNamed('${getLang(context, 'rim_price')}');
                               controllerCubit.addNamedImage('${getLang(context, 'rim_image')}');
+                              controllerCubit.brandSelectedValue='${getLang(context, 'brand')}';
 
                             }
                             else if(controllerCubit.typeSelectedValue == 'إطارات' ||controllerCubit.typeSelectedValue == 'tires'){
                               cubit.getBrands(type:'tires',context: context);
                               controllerCubit.addNamed('${getLang(context, 'trim_price')}');
                               controllerCubit.addNamedImage('${getLang(context, 'trim_image')}');
+                              controllerCubit.brandSelectedValue='${getLang(context, 'brand')}';
 
                               controllerCubit.changeTypeAdd(true);
                             }
@@ -109,7 +112,7 @@ class ProviderAddNewProduct extends StatelessWidget {
                                   onChanged: (String? val){
                                     setState((){
                                       controllerCubit.brandSelectedValue = val!;
-                                      controllerCubit.brandModelSelectedValue = '';
+                                      controllerCubit.brandModelSelectedValue = '${getLang(context, 'car_model')}';
                                       for(BrandsData? a in cubit.brands ){
                                         if(controllerCubit.brandSelectedValue==a!.name){
                                           controllerCubit.brandSelectedId=a.id!.toString();

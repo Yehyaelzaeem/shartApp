@@ -13,8 +13,6 @@ import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../menu/presentation/spare_parts/screens/spare_parts_screen.dart';
 import '../../logic/cart_cubit.dart';
 import '../widgets/cart_item_widget.dart';
-import '../widgets/custom_address-user_widget.dart';
-import '../widgets/custom_payment_button.dart';
 import 'complete_order.dart';
 
 

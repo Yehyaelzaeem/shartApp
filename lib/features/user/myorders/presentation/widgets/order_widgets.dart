@@ -98,7 +98,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                     // ),
                     Text(
                        // myOrdersModelData.id!.toString(),
-                      item[0].provider!.name!,
+                      item[0].provider!=null?item[0].provider!.name!:'',
                       style: TextStyle(
                         fontWeight: FontWeightManager.regular,
                         fontSize: 16.sp,

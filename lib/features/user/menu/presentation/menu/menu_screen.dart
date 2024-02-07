@@ -7,6 +7,7 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/core/routing/navigation_services.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/features/user/menu/presentation/search/search_screen.dart';
 import 'package:shart/widgets/custom_menu_top_log_widget.dart';
 import 'package:shart/features/user/menu/presentation/menu/widget/custom_services_type_widget.dart';
@@ -16,6 +17,7 @@ import '../../../../../core/routing/routes.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_slider_widget.dart';
 import '../../../../../widgets/custom_welcome_message.dart';
+import '../../../../common/intro/presentation/screens/choose_user_type_screen.dart';
 import '../../logic/menu_cubit.dart';
 
 class UserMenuScreen extends StatelessWidget {
@@ -25,18 +27,23 @@ class UserMenuScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvoked: (_) async {
-        CustomDialogs.showAlertDialog(
-          type: DialogType.warning,
-          btnOkOnPress: () {
-            exit(0);
-          },
-          ctx: context,
-          btnCancelOnPress: () {},
-          title: getLang(context,'exit'),
-          desc: getLang(context, 'sure_exit'),
-          btnOkText: getLang(context, 'yes'),
-          btnCancelText:getLang(context, 'no'),
-        );
+        if(AuthCubit.get(context).token.isNotEmpty){
+          CustomDialogs.showAlertDialog(
+            type: DialogType.warning,
+            btnOkOnPress: () {
+              exit(0);
+            },
+            ctx: context,
+            btnCancelOnPress: () {},
+            title: getLang(context,'exit'),
+            desc: getLang(context, 'sure_exit'),
+            btnOkText: getLang(context, 'yes'),
+            btnCancelText:getLang(context, 'no'),
+          );
+        }else{
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>ChooseUserTypeScreen()));
+        }
+
         // NavigationManager.pushReplacement(Routes.login);
       },
       child: Scaffold(
