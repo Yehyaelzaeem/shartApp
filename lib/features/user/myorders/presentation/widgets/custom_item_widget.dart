@@ -8,10 +8,10 @@ import '../../../../../core/resources/font_manager.dart';
 import '../../../products/presentation/screens/product_details_screen.dart';
 import '../../data/model/myorder_model.dart';
 
-class CustomProductWidgetOrder extends StatelessWidget {
+class CustomWidgetOrder extends StatelessWidget {
  final Items items;
  final String status;
-  const CustomProductWidgetOrder({super.key, required this.items, required this.status});
+  const CustomWidgetOrder({super.key, required this.items, required this.status});
   @override
   Widget build(BuildContext context) {
     return InkWell(

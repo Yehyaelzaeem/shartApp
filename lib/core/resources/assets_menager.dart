@@ -5,6 +5,7 @@ class ImagesManager {
   //PNG
   static String splashImg = '$_imagesPath/intro.png';
   static String sawabImg = '$_imagesPath/sawab.png';
+  static String mar = '$_imagesPath/mar.png';
 
   static String introduction1 = '$_imagesPath/intro1.png';
   static String introduction2 = '$_imagesPath/intro2.png';
@@ -28,6 +29,9 @@ class ImagesManager {
 
 }
 class IconsManager {
+  static String mer = '$_iconsPath/mar.svg';
+  static String mer1 = '$_iconsPath/mer1.svg';
+  static String mer2 = '$_iconsPath/mer2.svg';
   static String complain = '$_iconsPath/complainIcon.svg';
   static String condition = '$_iconsPath/conditionIcon.svg';
   static String document = '$_iconsPath/document.svg';

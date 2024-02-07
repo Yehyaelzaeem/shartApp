@@ -15,7 +15,7 @@ import '../model/works_model.dart';
 
 abstract class BaseProviderProductsAndWorksRemoteDataSource{
   Future<dynamic> addProduct(String token ,ProductPushDataModel productPushDataModel ,BuildContext context);
-  Future<GetProductsModel?> getAllProducts(String token ,BuildContext context);
+  Future<GetProductsModel?> getAllProducts({String? title, required String token, required BuildContext context});
   Future<dynamic> delete(String token ,String id ,BuildContext context);
   Future<dynamic> editProduct(String token ,ProductPushDataModel productPushDataModel ,String id,BuildContext context);
   Future<dynamic> addWorks(String token,BuildContext context);
@@ -93,24 +93,38 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   }
 
   @override
-  Future<GetProductsModel?> getAllProducts(String token, BuildContext context)async {
+  Future<GetProductsModel?> getAllProducts({String? title, required String token, required BuildContext context})async {
     dynamic t = await CacheHelper.getDate(key: 'token');
-    Response<dynamic> res = await DioHelper.getData(url: AppApis.getProducts,
-        token: token.isNotEmpty?token:t);
-    if (GetProductsModel.fromJson(res.data).success == false) {
-      // showToast(text: '${GetProductsModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+    if(title!=null){
+      Response<dynamic> res = await DioHelper.getData(url: AppApis.getSearchProducts(title),
+          token: token.isNotEmpty?token:t);
+      if (GetProductsModel.fromJson(res.data).success == false) {
+      }
+      else{
+        if (res.statusCode == 200) {
+          return GetProductsModel.fromJson(res.data);
+        }
+        else {
+          throw 'Error';
+        }
+      }
+      return null;
     }
     else{
-      if (res.statusCode == 200) {
-         // showToast(text: '${GetProductsModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-        return GetProductsModel.fromJson(res.data);
+      Response<dynamic> res = await DioHelper.getData(url: AppApis.getProducts,
+          token: token.isNotEmpty?token:t);
+      if (GetProductsModel.fromJson(res.data).success == false) {
       }
-      else {
-         // showToast(text: '${GetProductsModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-        throw 'Error';
+      else{
+        if (res.statusCode == 200) {
+          return GetProductsModel.fromJson(res.data);
+        }
+        else {
+          throw 'Error';
+        }
       }
+      return null;
     }
-    return null;
 
   }
 

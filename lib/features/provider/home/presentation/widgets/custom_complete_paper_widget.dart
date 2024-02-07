@@ -26,7 +26,8 @@ class CustomCompletePaperWidget extends StatelessWidget {
                 spreadRadius: 5)
           ]),
       // padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-        child: Column(
+        child:
+        Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

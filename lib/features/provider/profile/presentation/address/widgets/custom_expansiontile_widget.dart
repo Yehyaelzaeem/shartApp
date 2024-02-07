@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shart/core/localization/appLocale.dart';
 
+import '../../../../../../shared_screens/google_map/custom_google_map.dart';
 import '../../../../../../widgets/custom_button.dart';
 import '../../../../auth/logic/auth_provider_cubit.dart';
 import '../../../logic/provider_profile_cubit.dart';
@@ -64,30 +65,13 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       color: Color(0xff4B4B4B)))),
           SizedBox(height: 25.h),
           Text(
-            getLang(context, 'the_location'),
-            style: TextStyle(
-                fontSize: 14.sp,
-                fontFamily: 'Lateef',
-                fontWeight: FontWeight.w500),
-          ),
-          TextField(
-            decoration: InputDecoration(
-                hintText:
-                'lat : ${cubit.addressList!.data![index].lat} / long : ${cubit.addressList!.data![index].lng}',
-                hintStyle: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
-                    fontFamily: 'Lateef',
-                    color: Color(0xff4B4B4B))),
-          ),
-          SizedBox(height: 25.h),
-          Text(
             getLang(context, 'phone_nu'),
             style: TextStyle(
                 fontSize: 14.sp,
                 fontFamily: 'Lateef',
                 fontWeight: FontWeight.w500),
           ),
+
           TextField(
               controller:cubit.addressPhoneController,
               decoration: InputDecoration(
@@ -97,6 +81,37 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       fontSize: 14.sp,
                       fontFamily: 'Lateef',
                       color: Color(0xff4B4B4B)))),
+          SizedBox(height: 25.h),
+          // Text(
+          //   getLang(context, 'the_location'),
+          //   style: TextStyle(
+          //       fontSize: 14.sp,
+          //       fontFamily: 'Lateef',
+          //       fontWeight: FontWeight.w500),
+          // ),
+          // InkWell(
+          //   onTap: (){
+          //     ProviderProfileCubit.get(context).getLocation(context);
+          //
+          //     Navigator.pushReplacement(context, MaterialPageRoute(builder:
+          //         (BuildContext context)=>CustomGoogleMapScreen(
+          //       lat: cubit.lat!=null?cubit.lat!:double.parse(cubit.addressList!.data![index].lat.toString()),
+          //       long: cubit.long!=null?cubit.long!:double.parse(cubit.addressList!.data![index].lng.toString()),
+          //           type: 'provider',
+          //     )));
+          //   },
+          //   child: TextField(
+          //     enabled: false,
+          //     decoration: InputDecoration(
+          //         hintText:
+          //         'lat : ${cubit.addressList!.data![index].lat} / long : ${cubit.addressList!.data![index].lng}',
+          //         hintStyle: TextStyle(
+          //             fontWeight: FontWeight.w400,
+          //             fontSize: 14.sp,
+          //             fontFamily: 'Lateef',
+          //             color: Color(0xff4B4B4B))),
+          //   ),
+          // ),
           SizedBox(height: 25.h),
           cubit.isUpdateLoading?Padding(
             padding: EdgeInsets.symmetric(vertical: 24.h),

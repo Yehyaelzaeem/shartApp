@@ -18,14 +18,17 @@ class AboutCompanyScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: Image.asset(ImagesManager.logoCircle),
-            ),
-            Center(child: Text(text!))
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 24.h),
+                child: Image.asset(ImagesManager.logoCircle),
+              ),
+              Center(child: Text(text!)),
+              SizedBox(height: 20.h,)
+            ],
+          ),
         ),
       ),
     );

@@ -15,6 +15,7 @@ import '../../../../user/menu/logic/menu_cubit.dart';
 import '../../../auth/logic/auth_provider_cubit.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/logic/provider_profile_cubit.dart';
+import '../../../profile_bottom/profile_bottom_screen.dart';
 import '../../../work_and_products/logic/work_products_cubit.dart';
 
 class ProviderBottomNavScreen extends StatefulWidget {
@@ -28,9 +29,9 @@ class ProviderBottomNavScreen extends StatefulWidget {
 class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
   List<Widget> pages = <Widget>[
     const ProviderHomeScreen(),
-    // const ProviderFavoriteScreen(),
     const ProviderOrdersScreen(),
-    // const ProviderMessagesScreen(),
+    const ProfileBottomScreen(),
+    // const ProviderMoreScreen(),
     const ProviderMoreScreen(),
   ];
 
@@ -41,6 +42,7 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
     workProductsCubit.getSize(context);
     workProductsCubit.getWidth(context);
     workProductsCubit.getHeight(context);
+
     MenuCubit.get(context).getBanners('provider',context);
     if (widget.checkPage != null) {
       currentPage = int.parse(widget.checkPage.toString()).toInt();
@@ -76,11 +78,12 @@ class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: getLang(context,'the_menu')),
-          // BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: getLang(context,'favorite')),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart_outlined), label: getLang(context,'my_orders')),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline_sharp), label: getLang(context,'profile')),
+
           // BottomNavigationBarItem(
-          //     icon: Icon(Icons.message_outlined), label:  getLang(context,'messages')),
+          //     icon: Icon(Icons.person), label:  getLang(context,'profile')),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings_outlined), label:getLang(context,'the_more')),
         ],

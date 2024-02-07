@@ -11,12 +11,14 @@ class StoreScreen extends StatelessWidget {
   const StoreScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(title: 'المتاجر',hasBackButton: true),
       ),
-      body: GridView.builder(
+      body:
+      GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 9.w,

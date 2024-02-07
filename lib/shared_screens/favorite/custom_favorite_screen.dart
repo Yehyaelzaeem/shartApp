@@ -27,7 +27,8 @@ class CustomFavoriteScreen extends StatelessWidget {
 
           if(cubit.favoriteProductsUser!=null){
             if(cubit.favoriteProductsUser!.data!.length==0){
-            return  Padding(
+            return
+              Padding(
                 padding: const EdgeInsets.all(40.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -14,7 +14,11 @@ import '../../../../../widgets/custom_menu_top_log_widget.dart';
 import '../../../../../widgets/custom_product_widget.dart';
 import '../../../../../widgets/custom_slider_widget.dart';
 import '../../../../../widgets/custom_welcome_message.dart';
+import '../widgets/custom_cancelled _orders_home.dart';
 import '../widgets/custom_complete_paper_widget.dart';
+import '../widgets/custom_complete_row_widget.dart';
+import '../widgets/custom_current_orders_home.dart';
+import '../widgets/custom_previous _orders_home.dart';
 import '../widgets/custom_subscribe_is_row_widget.dart';
 import '../widgets/custom_subscribe_widget.dart';
 
@@ -65,29 +69,60 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
                 CustomTopRowLogo(type: 'provider',),
                 CustomWelcomeMessage(),
                 CustomSliderWidget(),
-                BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
-                      listener: (BuildContext context,ProviderProfileState state) {},
-                      builder: (BuildContext context,ProviderProfileState state) {
-                        if(ProviderProfileCubit.get(context).providerProfileModel!=null){
-                          return
-                            ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false?
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              CustomCompletePaperWidget(),
-                              CustomSubscribeWidget(),
-                            ],
-                          ):
-                          Center(child: CustomSubscribeWidgetRow());
-                        }else{
-                          return  SizedBox();
-                        }
+                Center(
+                  child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
+                        listener: (BuildContext context,ProviderProfileState state) {},
+                        builder: (BuildContext context,ProviderProfileState state) {
+                          if(ProviderProfileCubit.get(context).providerProfileModel!=null){
+                           if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
+                             return CustomSubscribeWidgetRow();
+                           }
+                            // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
+                            // && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
+                            // ){
+                            //   print("nuulll 111");
+                            //   return  Row(
+                            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //     children: <Widget>[
+                            //       CustomCompletePaperWidget(),
+                            //       CustomSubscribeWidget(),
+                            //     ],
+                            //   );
+                            // }else if(
+                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
+                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
+                            // {
+                            //   print("nuulll 222");
+                            //
+                            //   return CustomCompleteWidgetRow();
+                            // }else if(
+                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
+                            //     ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
+                            // {
+                            //   print("nuulll 333");
+                            //
+                            //   return CustomSubscribeWidgetRow();
+                            // }
+                          else{
+                            print("nuulll 555");
 
-                      },
-                    ),
+                            return SizedBox.shrink();
+                          }
+                          }else{
+                            print("nuulll 666");
+
+                            return SizedBox.shrink();
+                          }
+                        }
+                      ),
+                ),
                 TabBar(
                   controller: controller,
-                  onTap: (int val) {},
+                  onTap: (int val) {
+                    setState(() {
+
+                    });
+                  },
                   tabs: <Widget>[
                     Tab(text: '${getLang(context, 'current_orders')}'),
                     Tab(text: '${getLang(context, 'previous_orders')}'),
@@ -99,19 +134,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
                   labelStyle: TextStyle(fontSize: 16.sp, fontFamily: 'Lateef'),
                   indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
                 ),
-                ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                         NavigationManager.push(Routes.orderDetails);
-                      },
-                      child:  CustomProductWidget(isOrder: false, isSparesParts: false, isCarCheck: false,),
-                    );
-                  },
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                ),
+                if(controller.index==0)
+                  CustomCurrentOrderHomeWidget(),
+                if(controller.index==1)
+                  CustomPreviousOrderHomeWidget(),
+                if(controller.index==2)
+                  CustomCancelledOrderHomeWidget(),
                 SizedBox(height: 40.h),
               ],
             ),

@@ -108,29 +108,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
-                child: Row(
-                  children: [
-                    Text(
-                      '${getLang(context, 'the_address')} :',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: geryTextColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(width: 25.w,),
-                    Text('',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+
               Padding(
                 padding:   EdgeInsets.only(top: 0.h,right: 16.w),
                 child: Row(
@@ -155,9 +133,34 @@ class OrderDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              Row(
+                children: [
+                  Text(
+                    '${getLang(context, 'the_address')} :',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: geryTextColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(width: 25.w,),
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.6,
+                    child: Text('${myOrdersModelData.userAddress!.address!}',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: blackTextColor,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return CustomProductWidgetOrder(items: myOrdersModelData.items![index], status:myOrdersModelData.status!,);
+                  return CustomWidgetOrder(items: myOrdersModelData.items![index], status:myOrdersModelData.status!,);
                 },
                 itemCount: myOrdersModelData.items!.length,
                 shrinkWrap: true,

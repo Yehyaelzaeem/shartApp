@@ -39,6 +39,8 @@ class BookPackageCubit extends Cubit<BookPackageState> {
   int brandId =1;
   void getBrandModel(BuildContext context){
     brandModelList.clear();
+    brandModelSelectedValue='';
+    emit(GetBrandsState());
     bookPackageDataSource.getBrandModel(brandId,context).then((BrandModel? value) {
       brandModelList =value!.data!;
       emit(GetBrandsState());

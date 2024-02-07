@@ -5,6 +5,7 @@ import 'package:shart/features/provider/work_and_products/presentation/screens/w
 import 'package:shart/widgets/custom_app_bar.dart';
 
 import '../../../../../core/localization/appLocale.dart';
+import '../../../../user/auth/logic/auth_cubit.dart';
 
 class ProviderWorkAndProductsScreen extends StatefulWidget {
   const ProviderWorkAndProductsScreen({Key? key}) : super(key: key);
@@ -25,7 +26,8 @@ class _MyWorkScreenState extends State<ProviderWorkAndProductsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
         child: CustomAppBar(title: '${getLang(context,'add_photo_video')}', hasBackButton: true,
@@ -42,33 +44,31 @@ class _MyWorkScreenState extends State<ProviderWorkAndProductsScreen>
           // mainAxisSize: MainAxisSize.min,
           // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                alignment: Alignment.topRight,
-                width: MediaQuery.of(context).size.width*0.5,
-                child: TabBar(
-                  onTap: (value) {
-                    setState(() {
-                      controller.index = value;
-                    });
-                  },
-                  controller: controller,
-                  tabs: <Widget>[
-                    Tab(text: '${getLang(context, 'my_business')}'),
-                    Tab(text: '${getLang(context, 'my_products')}'),
-                  ],
-                  unselectedLabelColor: Colors.black,
-                  labelColor: Color(0xff136B79),
-                  // padding: EdgeInsets.only(left: 0.w),
-                  indicatorColor: Color(0xff136B79),
-                  // indicatorPadding: EdgeInsets.symmetric(horizontal: 0,vertical: 0),
-                  labelStyle: TextStyle(
-                    fontFamily: 'Lateef',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                    color: Color(0xff136B79),
-                  ),
+            Container(
+              // alignment: Alignment.topRight,
+              // width: MediaQuery.of(context).size.width*0.5,
+              child: TabBar(
+                onTap: (value) {
+                  setState(() {
+                    controller.index = value;
+                  });
+                },
+                controller: controller,
+                tabs: <Widget>[
+                  Tab(text: '${getLang(context, 'my_business')}'),
+                  Tab(text: '${getLang(context, 'my_products')}'),
+                ],
+                padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 170.w):EdgeInsets.only(right: 120.w),
+                unselectedLabelColor: Colors.black,
+                labelColor: Color(0xff136B79),
+                // padding: EdgeInsets.only(left: 0.w),
+                indicatorColor: Color(0xff136B79),
+                // indicatorPadding: EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                labelStyle: TextStyle(
+                  fontFamily: 'Lateef',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.sp,
+                  color: Color(0xff136B79),
                 ),
               ),
             ),

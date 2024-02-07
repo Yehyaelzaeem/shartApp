@@ -40,11 +40,13 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
     },);
 
     if (LoginProviderModel.fromJson(res.data).success == false) {
+
       showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else {
       if (res.statusCode == 200) {
-        showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        // showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+        cubit.changeOtpCompleted(false);
         cubit.loginLoadingStates(false);
         CacheHelper.saveDate(key: 'providerToken', value:  LoginProviderModel.fromJson(res.data).data!.accessToken);
         CacheHelper.saveDate(key: 'isLog', value: true);
@@ -59,7 +61,6 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         throw 'Error';
       }
     }
-    cubit.loginLoadingStates(false);
     return null;
   }
 
@@ -76,35 +77,19 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
       'phone': registerData.phone,
       'phone_country_id': registerData.phoneCountry!.id ?? '3',
       'password': password,
-    },);
-
-    if (response.statusCode == 200) {
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
-      providerSendOTP(password,registerData.phone!.trim(), '${registerData.phoneCountry!.id ?? '3'}', context);
-      showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
+        },);
+    if(response.data['success']==false){
+      showToast(text: '${response.data['message']}', state: ToastStates.error, context: context);
+    }else{
+      if (response.statusCode == 200) {
+        providerSendOTP(password,registerData.phone!.trim(), '${registerData.phoneCountry!.id ?? '3'}', context);
+        showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
+      }
+      else {
+        cubit.loginRegLoadingStates(false);
+        showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+      }
     }
-    else {
-      cubit.loginRegLoadingStates(false);
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
-    }
-    // if (RegisterProviderModel.fromJson(res.data).success == false) {
-    //   cubit.loginRegLoadingStates(false);
-    //   showToast(text: '${RegisterProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-    // }
-    // else {
-    //   if (res.statusCode == 200) {
-    //     providerSendOTP(password,registerData.phone!.trim(), '${registerData.phoneCountry!.id ?? '3'}', context);
-    //     // showToast(text: '${RegisterModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-    //     showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
-    //     cubit.otpCode= RegisterProviderModel.fromJson(res.data).providerRegisterData!.otp!.trim().toString();
-    //     return RegisterProviderModel.fromJson(res.data);
-    //   }
-    //   else {
-    //     showToast(text: '${RegisterProviderModel.fromJson(res.data).message}', state:  ToastStates.error, context: context);
-    //     cubit.loginRegLoadingStates(false);
-    //     throw 'Error';
-    //   }
-    // }
     cubit.loginRegLoadingStates(false);
     return null;
   }
@@ -156,48 +141,27 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
       url: AppApis.verifyAccountProvider, data: <String, dynamic>{
       'otp': code,
     },);
-    if (response.statusCode == 200) {
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
-      providerLogin(cubit.registerPhoneControllerProvider.text,
-          '3', cubit.registerConfirmPasswordControllerProvider.text, context).then((value) {
+    if(response.data['success']==false){
+      cubit.changeOtpCompleted(false);
+      showToast(text: '${response.data['message']}', state: ToastStates.error, context: context);
+    }else{
+      if (response.statusCode == 200) {
+        showToast(text: '${response.data['message']}', state: ToastStates.success, context: context);
+        providerLogin(cubit.registerPhoneControllerProvider.text,
+            '3', cubit.registerConfirmPasswordControllerProvider.text, context).then((value) {
+        });
+        cubit.otpCode='';
+        cubit.registerNameControllerProvider.text='';
+        cubit.registerEmailControllerProvider.text='';
+        cubit.registerPhoneControllerProvider.text='';
+        cubit.registerPasswordControllerProvider.text='';
+        cubit.registerConfirmPasswordControllerProvider.text='';
+      }
+      else {
         cubit.changeOtpCompleted(false);
-      });
-      cubit.otpCode='';
-      cubit.registerNameControllerProvider.text='';
-      cubit.registerEmailControllerProvider.text='';
-      cubit.registerPhoneControllerProvider.text='';
-      cubit.registerPasswordControllerProvider.text='';
-      cubit.registerConfirmPasswordControllerProvider.text='';
+        showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+      }
     }
-    else {
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
-    }
-    // if (VerifyAccountProviderModel.fromJson(res.data).success == false) {
-    //   cubit.changeOtpCompleted(false);
-    //   showToast(text: '${VerifyAccountProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-    // }
-    // else {
-    //   if (res.statusCode == 200) {
-    //     showToast(text: '${VerifyAccountProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-    //     cubit.changeOtpCompleted(false);
-    //      providerLogin(cubit.registerPhoneControllerProvider.text,
-    //          '3', cubit.registerConfirmPasswordControllerProvider.text, context);
-    //     // NavigationManager.pushReplacement(Routes.providerNavBar);
-    //     cubit.otpCode='';
-    //     cubit.registerNameControllerProvider.text='';
-    //     cubit.registerEmailControllerProvider.text='';
-    //     cubit.registerPhoneControllerProvider.text='';
-    //     cubit.registerPasswordControllerProvider.text='';
-    //     cubit.registerConfirmPasswordControllerProvider.text='';
-    //     return VerifyAccountProviderModel.fromJson(res.data);
-    //   }
-    //   else {
-    //     showToast(text: '${VerifyAccountProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-    //     cubit.changeOtpCompleted(false);
-    //     throw 'Error';
-    //   }
-    // }
-    cubit.changeOtpCompleted(false);
     return null;
   }
 }

@@ -28,13 +28,14 @@ class MenuCubit extends Cubit<MenuState> {
   String sizeId = '';
   String size = '';
  TextEditingController searchControllerHome =TextEditingController();
-
+   PackageCheckModel? packageCheckModel;
   TextEditingController searchController = TextEditingController();
  List<ProductModelProvider> providerList=<ProductModelProvider>[];
  List<ProductModelProvider> providerListTest=<ProductModelProvider>[];
   Future<dynamic> getPackageCheck(BuildContext context)async{
     menuRemoteDataSource.getPackage(context).then((PackageCheckModel? value){
-      emit(GetPackageCheckState(value!));
+      packageCheckModel=value!;
+      emit(GetPackageCheckState(value));
     });
   }
   List<String> listBanners =<String>[];

@@ -17,12 +17,14 @@ import '../../../features/provider/work_and_products/logic/work_products_cubit.d
 import '../../../features/user/auth/logic/auth_cubit.dart';
 import '../../../features/user/book_package_service/logic/book_package_cubit.dart';
 import '../../../features/user/menu/logic/menu_cubit.dart';
+import '../../../features/user/merchants/presentation/screens/merchants_screen.dart';
 import '../../../features/user/profile/presentation/about_company/about_company_screen.dart';
 import '../../../features/user/profile/presentation/complains/complains_screen.dart';
 import '../../../features/user/profile/presentation/conditions_terms/conditions_screen.dart';
 import '../../../features/user/profile/data/model/user_profile_model.dart';
 import '../../../features/user/profile/logic/user_profile_cubit.dart';
 import '../../../features/user/profile/presentation/widgets/profile_item_widget.dart';
+import '../../../features/user/store/presentation/screens/store_screen.dart';
 import '../../../widgets/custom_alert_dialog.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 
@@ -118,23 +120,22 @@ class CustomBodyMore extends StatelessWidget {
             },
             text: getLang(context,'my_addresses')):SizedBox.shrink(),
 
-        type!='user'?
-        buildProfileItemWidget(
-          iconPath: IconsManager.myWork,
-          function: () {
-            WorkProductsCubit.get(context).getWorks(context);
-            WorkProductsCubit.get(context).getAllProducts(context);
-            NavigationManager.push(Routes.providerWorkScreen);
-          },
-          text: getLang(context,'business_products'),
-        ):SizedBox.shrink(),
+        // type!='user'?
+        // buildProfileItemWidget(
+        //   iconPath: IconsManager.myWork,
+        //   function: () {
+        //     WorkProductsCubit.get(context).getWorks(context);
+        //     WorkProductsCubit.get(context).getAllProducts(context);
+        //     NavigationManager.push(Routes.providerWorkScreen);
+        //   },
+        //   text: getLang(context,'business_products'),
+        // ):SizedBox.shrink(),
 
         buildProfileItemWidget(
             iconPath: IconsManager.package,
             function: () {
-
-
              if(type=='user'){
+               MenuCubit.get(context).getPackageCheck(context);
                NavigationManager.push(Routes.checkingPackages);
              }else{
               ProviderHomeCubit.get(context).getHistoryPackages(context);
@@ -146,6 +147,15 @@ class CustomBodyMore extends StatelessWidget {
 
             },
             text:  getLang(context,'packages')),
+        type=='user'?
+        buildProfileItemWidget(
+            iconPath: IconsManager.mer,
+            function: () {
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>MerchantsScreen()));
+              // MenuCubit.get(context).getPackageCheck(context);
+              // NavigationManager.push(Routes.checkingPackages);
+            },
+            text:  getLang(context,'merchants')):SizedBox.shrink(),
 
         buildProfileItemWidget(
             iconPath: IconsManager.info,

@@ -36,7 +36,7 @@ class ProviderPackagesScreen extends StatelessWidget {
                     description: data.subscription!.description,
                     price: data.subscription!.price.toString(),
                     index:index ,
-                    title:data.subscription!.title ,
+                    title:data.subscription!.title,
                     startDate:data.startsAt ,
                     endDate: data.endsAt,
                     status: data.status,
@@ -69,6 +69,7 @@ class ProviderPackagesScreen extends StatelessWidget {
                     index:index ,
                     title:data.title ,
                     isHistory: false,
+                    isBeforeBegin: true,
                   );
                 },
                 physics: BouncingScrollPhysics(),

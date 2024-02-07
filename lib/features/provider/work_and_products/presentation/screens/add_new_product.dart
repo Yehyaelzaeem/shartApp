@@ -75,9 +75,15 @@ class ProviderAddNewProduct extends StatelessWidget {
                             else if(controllerCubit.typeSelectedValue == 'حافات' ||controllerCubit.typeSelectedValue == 'rims'){
                               cubit.getBrands(type:'rims',context: context);
                               controllerCubit.changeTypeAdd(true);
+                              controllerCubit.addNamed('${getLang(context, 'rim_price')}');
+                              controllerCubit.addNamedImage('${getLang(context, 'rim_image')}');
+
                             }
                             else if(controllerCubit.typeSelectedValue == 'إطارات' ||controllerCubit.typeSelectedValue == 'tires'){
                               cubit.getBrands(type:'tires',context: context);
+                              controllerCubit.addNamed('${getLang(context, 'trim_price')}');
+                              controllerCubit.addNamedImage('${getLang(context, 'trim_image')}');
+
                               controllerCubit.changeTypeAdd(true);
                             }
                           });
@@ -236,14 +242,14 @@ class ProviderAddNewProduct extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 25.h),
                         child: CustomTextField(
                             maxLines: 1,
-                            hintText: '${getLang(context, 'product_name')}',
+                            hintText: controllerCubit.nameControllerHitText,
                             controller: controllerCubit.productNameSelectedValue,
                             hintColor: Colors.black)),
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 5.h),
                         child: CustomTextField(
                             maxLines: 4,
-                            hintText: '${getLang(context, 'des')}',
+                            hintText: controllerCubit.desControllerHitText,
                             controller: controllerCubit.desController,
                             hintColor: Colors.black)),
                     Padding(
@@ -251,7 +257,7 @@ class ProviderAddNewProduct extends StatelessWidget {
                       child: CustomTextField(
                           textInputType: TextInputType.number,
                           hintText: controllerCubit.isParts==false?
-                          '${getLang(context, 'unit_price')}':'${getLang(context, 'rim_price')}',
+                          '${controllerCubit.priceControllerHitText}':'${controllerCubit.namePriceProduct}',
                           controller: controllerCubit.priceController,
                           hintColor: Colors.black),
                     ),
@@ -268,7 +274,7 @@ class ProviderAddNewProduct extends StatelessWidget {
                           enabled: false,
                           prefixIcon: Icon(Icons.camera_alt_outlined),
                           hintText: controllerCubit.isParts==false?
-                          '${getLang(context, 'unit_image')}':'${getLang(context, 'rim_image')}',
+                          '${getLang(context, 'unit_image')}':'${controllerCubit.nameImageProduct}',
                           controller: TextEditingController(),
                           hintColor: Colors.black),
                     ):

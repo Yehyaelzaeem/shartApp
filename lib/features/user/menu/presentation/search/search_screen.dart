@@ -1,15 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/resources/assets_menager.dart';
-import 'package:shart/features/user/menu/data/model/product_model.dart';
-
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../widgets/custom_text_field.dart';
 import '../../../../../widgets/show_toast_widget.dart';
-import '../../../../provider/work_and_products/data/model/product_model.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../../../cart/data/model/cart_model.dart';
 import '../../../favorite/logic/favorite_cubit.dart';
@@ -19,7 +15,6 @@ import '../spare_parts/widgets/spare_part_item.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     MenuCubit cubit = MenuCubit.get(context);
@@ -33,28 +28,54 @@ class SearchScreen extends StatelessWidget {
                   SizedBox(height: 70.h,),
                   Padding(
                     padding: EdgeInsets.only(left: 16.w, right: 16.w),
-                    child: CustomTextField(
-                      borderColor: greyColor,
-                      hintText: getLang(context, 'hit_message'),
-                      hintStyle: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: greyColor
-                      ),
-                      textInputAction: TextInputAction.search,
-                      onFieldSubmitted: (String v){
-                        cubit.searchProducts(name :cubit.searchControllerHome.text,context: context);
-                      },
-                      prefixIcon: const Icon(Icons.search, color: greyColor,),
-                      controller: cubit.searchControllerHome,
-                      onChanged: (String value) {
-                        if(value.isNotEmpty){
-                          cubit.changeSearchStart(true);
-                          cubit.searchProducts(name :value,context: context);
-                        }else{
-                          cubit.changeSearchStart(false);
-                        }
-                      },
+                    child: Stack(
+                      children: [
+                        CustomTextField(
+                          borderColor: greyColor,
+                          hintText: getLang(context, 'hit_message'),
+                          hintStyle: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: greyColor
+                          ),
+                          textInputAction: TextInputAction.search,
+                          onFieldSubmitted: (String v){
+                            cubit.searchProducts(name :cubit.searchControllerHome.text,context: context);
+                          },
+                          prefixIcon: const Icon(Icons.search, color: greyColor,),
+                          controller: cubit.searchControllerHome,
+                          onChanged: (String value) {
+                            if(value.isNotEmpty){
+                              cubit.changeSearchStart(true);
+                              cubit.searchProducts(name :value,context: context);
+                            }else{
+                              cubit.changeSearchStart(false);
+                            }
+                          },
+                        ),
+                        cubit.isSearchStart==true?
+                        Positioned(
+                            right: 10,
+                            top: 3,
+                            bottom: 3,
+                            child:
+                            Container(
+                              width: 30.w,
+                              color: Colors.white,
+                              child: Center(
+                                child: IconButton(
+                                  onPressed: (){
+                                    cubit.searchControllerHome.text='';
+                                    cubit.changeSearchStart(false);
+                                  },
+                                  icon: Icon(Icons.clear,
+                                    color: blueColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ):SizedBox.shrink(),
+                      ],
                     ),
                   ),
                   SizedBox(height: 20.h,),
@@ -101,7 +122,7 @@ class SearchScreen extends StatelessWidget {
                                           image: data2.images![0].image,
                                           type: data2.type,
                                           productState: data2.productStatus,
-                                          providerId: data2.provider!.id!.toString(),
+                                          providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                           count: 1,
                                           productBrand: data2.brand!=null?data2.brand!.name:''),
 
@@ -124,10 +145,10 @@ class SearchScreen extends StatelessWidget {
                                         image: data2.images![0].image,
                                         type: data2.type,
                                         productState: data2.productStatus,
-                                        providerId: data2.provider!.id!.toString(),
+                                        providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                         count: 1,
                                         productBrand: data2.brand!=null?data2.brand!.name:''),
-                                    providerName: data2.provider!.name!,
+                                    providerName: data2.provider!=null?data2.provider!.name!:'',
 
                                   ),
                                 ),

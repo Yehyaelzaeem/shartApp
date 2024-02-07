@@ -57,13 +57,18 @@ class ProviderHomeRemoteDataSource implements BaseProviderHomeRemoteDataSource {
         token: authProviderCubit.token,
         language: cubit.localeLanguage==Locale('en')?'en':'ar',
       );
-      if (response.statusCode == 200) {
-        providerHomeCubit.changeLoad(false);
-        showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
-      }
-      else {
-        providerHomeCubit.changeLoad(false);
-        showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+      if(response.data['success']==false){
+        showToast(text: '${response.data['message']}', state: ToastStates.error, context: context);
+      }else{
+        if (response.statusCode == 200) {
+          providerHomeCubit.changeLoad(false);
+          Navigator.of(context).pop();
+          showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
+        }
+        else {
+          providerHomeCubit.changeLoad(false);
+          showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+        }
       }
     }catch(e){
       providerHomeCubit.changeLoad(false);
