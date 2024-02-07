@@ -29,7 +29,7 @@ class SparePartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     CartCubit cubit =CartCubit.get(context);
     return Container(
-      height: 285.h,
+      height: 180.h,
       // width: MediaQuery.of(context).size.width*0.4,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
@@ -41,8 +41,7 @@ class SparePartItemWidget extends StatelessWidget {
                 spreadRadius: 1)
           ]),
       child: BlocConsumer<CartCubit, CartState>(
-  listener: (context, CartState state) {
-  },
+  listener: (context, CartState state) {},
   builder: (context, CartState state) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,

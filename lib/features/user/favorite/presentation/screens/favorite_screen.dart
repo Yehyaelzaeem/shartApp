@@ -16,8 +16,7 @@ class UserFavoriteScreen extends StatelessWidget {
                 checkPage: '0',
               )));
         },
-        child:
-        AuthCubit.get(context).token.isEmpty?
+        child: AuthCubit.get(context).token.isEmpty?
             CustomVisitorScreen(): CustomFavoriteScreen(type: 'user',));
   }
 }

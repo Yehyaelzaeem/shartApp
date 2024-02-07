@@ -8,12 +8,12 @@ import '../../profile/logic/provider_profile_cubit.dart';
 import '../../profile/presentation/complete_profile/widgets/custom_complete_body.dart';
 
 class CustomEditStoreBody extends StatelessWidget {
-  const CustomEditStoreBody({super.key});
-
+  const CustomEditStoreBody({super.key, this.isEdit});
+  final bool? isEdit;
   @override
   Widget build(BuildContext context) {
     ProviderProfileCubit cubit = ProviderProfileCubit.get(context);
-
+    isEdit==true?cubit.displayDataOfScreen():null;
     return SingleChildScrollView(
       child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
         listener: (BuildContext context,ProviderProfileState state) {},

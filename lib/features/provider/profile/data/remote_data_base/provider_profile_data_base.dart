@@ -42,8 +42,10 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
   @override
   Future<ProviderGetProfileModel?> getProviderProfile(String token, BuildContext context) async{
     dynamic t = await CacheHelper.getDate(key: 'token');
+    print('getttt profile');
     Response<dynamic> res = await DioHelper.getData(url: AppApis.getProviderProfileUser,
         token: token.isNotEmpty?token:t);
+    print('eeee profile');
 
     if (ProviderGetProfileModel.fromJson(res.data).success == false) {
       showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.error, context: context);

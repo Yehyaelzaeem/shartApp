@@ -119,7 +119,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
               ),
 
               Row(
-                children: [
+                children: <Widget>[
                   Text(
                     '${getLang(context, 'total-price')} :',
                     style: TextStyle(
@@ -140,7 +140,8 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                 ],
               ),
               Row(
-                children: [
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
                   Text(
                     '${getLang(context, 'the_address')} :',
                     style: TextStyle(

@@ -243,7 +243,15 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       showToast(text: 'please complete required data', state: ToastStates.error, context: context);
     }
    }
-
+  void displayDataOfScreen(){
+    ProviderGetProfileModelData data =providerProfileModel!.data!;
+    titleCompleteProfileController.text=data.storeName!;
+    numberCommercialCompleteProfileController.text=data.commercialRegistrationNo!;
+    iPanCompleteProfileController.text=data.ipan!;
+    addressCompleteProfileController.text=data.mainAddress!;
+    dateCompleteProfileController.text=data.commercialEndDate!;
+    emit(ChangeRadio());
+  }
 
   File? profileImageProviderFile;
   File? logoCompleteFile;

@@ -3,13 +3,16 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/provider/home/logic/provider_home_cubit.dart';
+import 'package:shart/features/provider/profile/logic/provider_profile_cubit.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../user/auth/logic/auth_cubit.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav.dart';
 import '../model/history_packages_model.dart';
 import '../model/packages_model.dart';
 
@@ -62,7 +65,8 @@ class ProviderHomeRemoteDataSource implements BaseProviderHomeRemoteDataSource {
       }else{
         if (response.statusCode == 200) {
           providerHomeCubit.changeLoad(false);
-          Navigator.of(context).pop();
+          ProviderProfileCubit.get(context).getProviderProfile(AuthProviderCubit.get(context).token, context);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProviderBottomNavScreen(checkPage: '0',)));
           showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
         }
         else {

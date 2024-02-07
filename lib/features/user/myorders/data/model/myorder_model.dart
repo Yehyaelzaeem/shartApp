@@ -36,7 +36,7 @@ class MyOrdersModelData {
    Provider? provider;
    int? userId;
    User? user;
-  dynamic totalPrice;
+   dynamic totalPrice;
    String? status;
    String? userNote;
    String? adminNote;

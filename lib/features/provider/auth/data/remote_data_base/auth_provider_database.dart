@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:dio/src/response.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/shared_preference/shared_preference.dart';
 import 'package:shart/features/provider/auth/data/models/login_provider_model.dart';
 import 'package:shart/features/provider/auth/data/models/register_provider_model.dart';
@@ -40,7 +38,7 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
     },);
 
     if (LoginProviderModel.fromJson(res.data).success == false) {
-
+      cubit.loginLoadingStates(false);
       showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else {
@@ -60,6 +58,7 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         cubit.loginLoadingStates(false);
         throw 'Error';
       }
+      cubit.loginLoadingStates(false);
     }
     return null;
   }

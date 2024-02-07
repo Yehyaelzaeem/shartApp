@@ -26,68 +26,55 @@ class CustomCompleteWidgetRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         color: primaryColor,),
       child:
-      Column(
-        children: [
-          SizedBox(height: 20.h,),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
           Container(
               height: 120.h,
-              width: ScreenUtil().screenWidth - 50,
+              width: 120.w,
               child: Image.asset('assets/images/fixCarProvider.png',
               )),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 40.h,),
-              Container(
-                height: 40.h,
-                width: MediaQuery.of(context).size.width*0.4,
-                child: FittedBox(
-                  child:  Text(
-                    '${getLang(context, 'complete_message')}',
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeightManager.bold,
-                        fontFamily: 'Cairo'),
-                    textAlign: TextAlign.center,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h,),
-              Container(
-                width: MediaQuery.of(context).size.width*0.3,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff136B79),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-
-                      minimumSize: Size(134.w, 36.h),
+          Spacer(),
+          Column(children: <Widget>[
+            Text(
+              '${getLang(context, 'complete_message')}',
+              style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeightManager.bold,
+                  fontFamily: 'Cairo'),
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 5.h,),
+            Container(
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff136B79),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    onPressed: () {
-                      NavigationManager.push(Routes.providerCompleteRenterData);
-                    },
-                    child: FittedBox(
-                      child: Text(
-                        '${getLang(context, 'complete')}',
-                        style:  TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                            fontFamily: 'Lateef',
-                            fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )),
-              ),
-              SizedBox(height: 20.h,),
-            ],
-          ),
-          SizedBox(height: 20.h,)
+                    elevation: 0,
+
+                    minimumSize: Size(134.w, 36.h),
+                  ),
+                  onPressed: () {
+                    NavigationManager.push(Routes.providerCompleteRenterData);
+                  },
+                  child: Text(
+                    '${getLang(context, 'complete')}',
+                    style:  TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                        fontFamily: 'Lateef',
+                        fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+            ),
+          ],)
+
         ],
       ),
     );

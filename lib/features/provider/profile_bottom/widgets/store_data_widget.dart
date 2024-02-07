@@ -27,8 +27,7 @@ class StoreDataWidget extends StatelessWidget {
                 if(cubit.providerProfileModel!.data!.profileCompleted==false)
                   CustomCompleteProfileBody(),
                 if(cubit.providerProfileModel!.data!.profileCompleted==true)
-                  CustomEditStoreBody(),
-
+                  CustomEditStoreBody(isEdit: true,),
               ],
             );
             else

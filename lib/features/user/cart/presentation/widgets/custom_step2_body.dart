@@ -102,6 +102,7 @@ class CustomStep2BodyWidget extends StatelessWidget {
         ),
         SizedBox(height: 5.h,),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               getLang(context, 'delivery_address'),

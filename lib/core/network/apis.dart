@@ -30,6 +30,13 @@ class AppApis{
   //CheckCar
   static const String sendCheckCars='${baseUrl}user/check-car';
   static const String getCheckCars='${baseUrl}user/get-checks';
+ // Merchants
+  static const String getMerchants='${baseUrl}user/providers-search';
+  static  String getWorksMerchant(int id)=>'${baseUrl}user/get-provider-works/$id';
+  static  String getProductsMerchant(int id)=>'${baseUrl}user/get-products-by-provider-id/$id';
+  static  String getAddressMerchant(int id)=>'${baseUrl}user/get-provider-addresses/$id';
+  static const String addFavoriteMerchants='${baseUrl}user/add-remove-fav-provider';
+  static const String getFavoriteMerchants='${baseUrl}user/get-fav-providers';
 
 
 

@@ -58,7 +58,7 @@ class _MyWorkScreenState extends State<ProfileBottomScreen>
                   // alignment: Alignment.topRight,
                   // width: MediaQuery.of(context).size.width*0.5,
                   child: TabBar(
-                    onTap: (value) {
+                    onTap: (int value) {
                       setState(() {
                         controller.index = value;
                       });
@@ -69,7 +69,7 @@ class _MyWorkScreenState extends State<ProfileBottomScreen>
                       Tab(text: '${getLang(context, 'my_business')}'),
                       Tab(text: '${getLang(context, 'my_products')}'),
                     ],
-                    padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 120.w):EdgeInsets.only(right: 70.w),
+                    padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 100.w):EdgeInsets.only(right: 65.w),
                     unselectedLabelColor: Colors.black,
                     labelColor: Color(0xff136B79),
                     // padding: EdgeInsets.only(left: 0.w),

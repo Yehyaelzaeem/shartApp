@@ -137,6 +137,7 @@ class AuthCubit extends Cubit<AuthState> {
 
      UserProfileCubit.get(context).getUserProfile(token, context);
      FavoriteCubit.get(context).getFavoriteProducts(token, context);
+     FavoriteCubit.get(context).getFavoriteMerProducts(context);
      MyOrdersCubit.get(context).getMyOrder(context);
      MyOrdersCubit.get(context).getMyCheckCars(context);
    }catch(e){

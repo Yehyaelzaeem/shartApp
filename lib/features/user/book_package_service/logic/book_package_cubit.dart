@@ -1,8 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
+import '../../../../core/localization/appLocale.dart';
 import '../data/data_base/book_package_data_base.dart';
 import '../data/model/brand_color_model.dart';
 import '../data/model/brand_model.dart';
@@ -31,6 +31,7 @@ class BookPackageCubit extends Cubit<BookPackageState> {
   TextEditingController yearSelectedValue=TextEditingController();
   void getBrands({String? type, required BuildContext context}){
     brands.clear();
+    emit(GetBrandsState());
     bookPackageDataSource.getBrands(type,context).then((value) {
       brands =value!.data!;
       emit(GetBrandsState());
@@ -39,7 +40,6 @@ class BookPackageCubit extends Cubit<BookPackageState> {
   int brandId =1;
   void getBrandModel(BuildContext context){
     brandModelList.clear();
-    brandModelSelectedValue='';
     emit(GetBrandsState());
     bookPackageDataSource.getBrandModel(brandId,context).then((BrandModel? value) {
       brandModelList =value!.data!;

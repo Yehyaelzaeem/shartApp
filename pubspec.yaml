@@ -1,6 +1,6 @@
 name: shart
 description: A new Flutter project.
-version: 1.0.0+5
+version: 1.0.0+7
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -29,9 +29,12 @@ dependencies:
   bloc: ^8.1.1
   dio: ^5.3.3
   shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.1
+  smooth_page_indicator: ^1.1.0
   awesome_dialog: ^3.1.0
   dartz: ^0.10.1
   fluttertoast: ^8.2.4
+  photo_view: ^0.14.0
   another_stepper: ^1.2.2
   conditional_builder_null_safety:
 #  get_it: ^7.6.4
