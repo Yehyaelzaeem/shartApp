@@ -9,6 +9,7 @@ import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../logic/auth_cubit.dart';
 import '../../ui/screens/verify_account_screen.dart';
 import '../models/login_model.dart';
@@ -43,14 +44,17 @@ class AuthDataSource implements BaseAuthDataSource {
     }
     else {
       if (res.statusCode == 200) {
-        AuthCubit.get(context).changeOtpCompleted(false);
         // showToast(text: '${LoginModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         AuthCubit.get(context).loginLoadingStates(false);
         AuthCubit.get(context).token=  '${LoginModel.fromJson(res.data).data!.accessToken}';
         CacheHelper.saveDate(key: 'token', value:  LoginModel.fromJson(res.data).data!.accessToken);
         CacheHelper.saveDate(key: 'isLog', value: true);
         AuthCubit.get(context).getToken(context);
-        NavigationManager.pushReplacement(Routes.home);
+        NavigationManager.pushNamedAndRemoveUntil(Routes.home);
+
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
+        //     UserBottomNavScreen(checkPage: '0',)));
+        // NavigationManager.pushReplacement(Routes.home);
         AuthCubit.get(context).phoneController.text='';
         AuthCubit.get(context).passwordController.text='';
         return LoginModel.fromJson(res.data);
@@ -62,6 +66,7 @@ class AuthDataSource implements BaseAuthDataSource {
       }
     }
     AuthCubit.get(context).loginLoadingStates(false);
+    AuthCubit.get(context).changeOtpCompleted(false);
     return null;
   }
 
@@ -85,14 +90,14 @@ class AuthDataSource implements BaseAuthDataSource {
     },);
 
     if (RegisterModel.fromJson(res.data).success == false) {
+      AuthCubit.get(context).loginRegLoadingStates(false);
       showToast(text: '${RegisterModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else {
       if (res.statusCode == 200) {
-        sendOTP(registerData.phone!.trim(), '${registerData.phoneCountryRegisterModel!.id ?? '3'}', context);
-        // showToast(text: '${RegisterModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
-        cubit.otpCode= RegisterModel.fromJson(res.data).registerData!.otp!.trim().toString();
+        sendOTP(registerData.phone!.trim(), '${registerData.phoneCountryRegisterModel!.id ?? '3'}', context);
+        // cubit.otpCode= RegisterModel.fromJson(res.data).registerData!.otp!.trim().toString();
         return RegisterModel.fromJson(res.data);
       }
       else {
@@ -101,7 +106,7 @@ class AuthDataSource implements BaseAuthDataSource {
         throw 'Error';
       }
     }
-    // cubit.loginRegLoadingStates(false);
+     cubit.loginRegLoadingStates(false);
     return null;
   }
 
@@ -121,8 +126,9 @@ class AuthDataSource implements BaseAuthDataSource {
     else {
       if (res.statusCode == 200) {
         // NavigationManager.pushReplacement(Routes.otpScreen);
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder:
-            (context)=>VerifyAccountScreen(otpCode:'${SendOTPModel.fromJson(res.data).data!.otp}' ,)));
+            (BuildContext context)=>VerifyAccountScreen(otpCode:'${SendOTPModel.fromJson(res.data).data!.otp}' ,)));
         AuthCubit.get(context).loginRegLoadingStates(false);
         // ScaffoldMessenger.of(context).showSnackBar(
         //     SnackBar(content: Text('OTP Code is  : ${SendOTPModel.fromJson(res.data).data!.otp}'),
@@ -147,7 +153,6 @@ class AuthDataSource implements BaseAuthDataSource {
   }
 
 
-
   @override
   Future<VerifyAccountModel?> verifyAccount(String code, BuildContext context) async{
     AuthCubit.get(context).changeOtpCompleted(true);
@@ -157,13 +162,13 @@ class AuthDataSource implements BaseAuthDataSource {
       'otp': code,
     },);
     if (VerifyAccountModel.fromJson(res.data).success == false) {
+      AuthCubit.get(context).changeOtpCompleted(false);
       showToast(text: '${VerifyAccountModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else {
       if (res.statusCode == 200) {
         showToast(text: 'successfully verification', state: ToastStates.success, context: context);
-        userLogin(cubit.registerPhoneController.text, '3', cubit.registerConfirmPasswordController.text, context).then((value) {
-        });
+         userLogin(cubit.registerPhoneController.text.trim(), '3', cubit.registerConfirmPasswordController.text.trim(), context);
         // NavigationManager.pushReplacement(Routes.home);
         cubit.registerNameController.text='';
         cubit.registerEmailController.text='';

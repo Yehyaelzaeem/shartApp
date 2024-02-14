@@ -24,7 +24,7 @@ class CustomMerDetailsScreen extends StatelessWidget {
     return Scaffold(
         appBar: PreferredSize(
         preferredSize: Size(double.infinity, 80.h),
-        child: CustomAppBar(title: getLang(context, 'merchant_details'),hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'merchant_details'),hasBackButton: true,hasCartButton: true,),
         ),
         body: BlocConsumer<MerchantsCubit, MerchantsState>(
         listener: (BuildContext context,MerchantsState state) {},
@@ -32,7 +32,8 @@ class CustomMerDetailsScreen extends StatelessWidget {
           return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
-                  child: Column(
+                  child:
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomMerImageTitleWidget(merchantsModelData: merchantsModelData,),

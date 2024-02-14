@@ -5,3 +5,4 @@ abstract class ProviderOrdersState {}
 
 class ProviderOrdersInitial extends ProviderOrdersState {}
 class GetMyOrdersState extends ProviderOrdersState {}
+class AcceptOrdersState extends ProviderOrdersState {}

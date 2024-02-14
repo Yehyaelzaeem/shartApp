@@ -41,7 +41,7 @@ Future<void> main() async {
           // ),
     ),
   );
-  //done 2 second ios
+  //حعسا ىثص push new apk
   // runApp(
   //   EasyLocalization(
   //     supportedLocales: const <Locale>[Locale('ar'), Locale('en')],

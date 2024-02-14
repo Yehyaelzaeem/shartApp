@@ -11,31 +11,35 @@ import '../../data/model/myorder_model.dart';
 class CustomWidgetOrder extends StatelessWidget {
  final Items items;
  final String status;
-  const CustomWidgetOrder({super.key, required this.items, required this.status});
+ final int id;
+
+  const CustomWidgetOrder({super.key, required this.items, required this.status, required this.id});
   @override
   Widget build(BuildContext context) {
+
     return InkWell(
       onTap: (){
         List<String> list= [];
         for(var a in items.providerProduct!.images!){
           list.add(a.image.toString());
         }
+
         Navigator.push(context, MaterialPageRoute(builder:
             (BuildContext context)=>ProductDetailsScreen(
           title: items.providerProduct!.title!,
           price: items.providerProduct!.price.toString() ,
           brandName:items.providerProduct!.brand!=null?items.providerProduct!.brand!.name:'',
-          width:'${items.providerProduct!.width!=null?items.providerProduct!.width!:''}',
-          height:'${items.providerProduct!.height!=null?items.providerProduct!.height!:''}',
+          width:'${items.providerProduct!.width!=null?items.providerProduct!.width!.name:''}',
+          height:'${items.providerProduct!.height!=null?items.providerProduct!.height!.name:''}',
           images:list,
           modelName: items.providerProduct!.modal!=null?items.providerProduct!.modal!.name:'',
-          size:'${items.providerProduct!.size!=null?items.providerProduct!.size!:''}',
+          size:'${items.providerProduct!.size!=null?items.providerProduct!.size!.name:''}',
           productStatus: items.providerProduct!.productStatus,
           description:items.providerProduct!.description ,
         )));
       },
       child: Container(
-        height: 115.h,
+        height: 120.h,
         margin: EdgeInsets.only(top: 16.h),
         decoration: BoxDecoration(
           border: Border.all(color: greyColor),
@@ -68,46 +72,147 @@ class CustomWidgetOrder extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  SizedBox(height: 5,),
-                  Text(
-                    items.providerProduct!.brand!=null?items.providerProduct!.brand!.name!:'',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.light,
-                      fontSize: 12.sp,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                  FittedBox(
-                    child: Text(
-                      items.providerProduct!.title!,
-                      style: TextStyle(
-                        fontWeight: FontWeightManager.bold,
-                        fontSize: 16.sp,
+                  Row(
+                    children: [
+                      Text('${getLang(context, 'brand')} : ',
+                        style: TextStyle(
+                          fontWeight: FontWeightManager.light,
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade700,
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: Text(
+                          items.providerProduct!.brand!=null?items.providerProduct!.brand!.name!:'',
+                          style: TextStyle(
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: 12.sp,
+                            color: blackTextColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    // items.provider!.name!,
-                    '${getLang(context, 'qty')} : ${items.qty.toString()}',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
-                    ),
+                  Row(
+                    children: [
+                      Text('${getLang(context, 'product_name')} : ',
+                        style: TextStyle(
+                          fontWeight: FontWeightManager.light,
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          items.providerProduct!.title!,
+                          style: TextStyle(
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: 12.sp,
+                            color: blackTextColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '${items.providerProduct!.price} ${getLang(context, 'rs')}',
-                    style: TextStyle(
-                      fontWeight: FontWeightManager.regular,
-                      fontSize: 16.sp,
-                      color: Color(0xffDB3022),
-                    ),
+                  Row(
+                    children: [
+                      Text('${getLang(context, 'qty')} : ',
+                        style: TextStyle(
+                          fontWeight: FontWeightManager.light,
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${items.qty.toString()}',
+                          style: TextStyle(
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: 12.sp,
+                            color: blackTextColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-
+                  Row(
+                    children: [
+                      Text('${getLang(context, 'price')} : ',
+                        style: TextStyle(
+                          fontWeight: FontWeightManager.light,
+                          fontSize: 12.sp,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${items.providerProduct!.price} ${getLang(context, 'rs')}',
+                          style: TextStyle(
+                            fontWeight: FontWeightManager.bold,
+                            fontSize: 12.sp,
+                            color: Colors.red,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
+            // FittedBox(
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: <Widget>[
+            //       SizedBox(height: 5,),
+            //       Text(
+            //         items.providerProduct!.brand!=null?items.providerProduct!.brand!.name!:'',
+            //         style: TextStyle(
+            //           fontWeight: FontWeightManager.light,
+            //           fontSize: 12.sp,
+            //           color: Colors.grey.shade700,
+            //         ),
+            //       ),
+            //       FittedBox(
+            //         child: Text(
+            //           items.providerProduct!.title!,
+            //           style: TextStyle(
+            //             fontWeight: FontWeightManager.bold,
+            //             fontSize: 16.sp,
+            //           ),
+            //         ),
+            //       ),
+            //       Text(
+            //         // items.provider!.name!,
+            //         '${getLang(context, 'qty')} : ${items.qty.toString()}',
+            //         style: TextStyle(
+            //           fontWeight: FontWeightManager.regular,
+            //           fontSize: 16.sp,
+            //         ),
+            //       ),
+            //       Text(
+            //         '${items.providerProduct!.price} ${getLang(context, 'rs')}',
+            //         style: TextStyle(
+            //           fontWeight: FontWeightManager.regular,
+            //           fontSize: 16.sp,
+            //           color: Color(0xffDB3022),
+            //         ),
+            //       ),
+            //
+            //     ],
+            //   ),
+            // ),
             SizedBox(width: 5.w),
             // Container(
             //   height: 33,

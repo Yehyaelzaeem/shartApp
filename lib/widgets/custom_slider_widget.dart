@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/resources/assets_menager.dart';
 import '../core/resources/color.dart';
 import '../features/user/menu/logic/menu_cubit.dart';
 
@@ -33,6 +34,9 @@ class _CustomSliderWidgetState extends State<CustomSliderWidget> {
                     child: Image.network(
                       e,
                       fit: BoxFit.fill,
+                      errorBuilder: (context,error,v){
+                        return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                      },
                       width: ScreenUtil().screenWidth - 50,
                     ),
                   ))

@@ -146,6 +146,7 @@
   "end_at": "End At",
   "no_items_cart": "No items in cart",
   "cart": "Cart",
+  "video": "Video",
   "confirmation": "Confirmation",
   "go_shopping": "Go shopping",
   "delivery_address": "Delivery Address",
@@ -225,10 +226,11 @@
   "business_photos": "Business and product photos",
   "no_data_provider": "There is no data with this name",
 
-  "no_data": "There is no data currently"
-
-
-
-
-
+  "no_data": "There is no data currently",
+  "preparing": "preparing",
+  "rejected": "Rejected",
+  "accept": "Accept",
+  "reject": "Reject",
+  "preparing2": "Preparing",
+  "deliver": "Deliver"
 }

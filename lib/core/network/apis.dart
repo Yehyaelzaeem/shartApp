@@ -37,6 +37,8 @@ class AppApis{
   static  String getAddressMerchant(int id)=>'${baseUrl}user/get-provider-addresses/$id';
   static const String addFavoriteMerchants='${baseUrl}user/add-remove-fav-provider';
   static const String getFavoriteMerchants='${baseUrl}user/get-fav-providers';
+  static  String cancelOrderUser(int id)=>'${baseUrl}user/order/cancel/${id}';
+
 
 
 
@@ -99,6 +101,11 @@ class AppApis{
 
   //Get Provider orders
   static  String getMyOrdersProvider(int limit , String status)=>'${baseUrl}provider/get-my-orders?limit=$limit&status=$status';
+  static  String acceptOrder(int id)=>'${baseUrl}provider/order/accept/${id}';
+  static  String rejectOrder(int id)=>'${baseUrl}provider/order/reject/${id}';
+  static  String cancelOrder(int id)=>'${baseUrl}provider/order/cancel/${id}';
+  static  String deliveredOrder(int id)=>'${baseUrl}provider/order/delivered/${id}';
+  static  String preparingOrder(int id)=>'${baseUrl}provider/order/preparing/${id}';
 
 
 }

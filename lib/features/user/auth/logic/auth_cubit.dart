@@ -41,7 +41,10 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController registerConfirmPasswordController = TextEditingController();
  String otpCode='';
  String textFieldOtp='';
-
+ void putCode(String x ){
+   controllerOtpTest.text=x;
+   emit(UserLoginState());
+ }
   Future getPermission()async{
     bool service;
     LocationPermission permission;
@@ -111,10 +114,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
-  void verifyAccount (String code ,BuildContext context){
-    authDataSource.verifyAccount(code, context);
+  Future verifyAccount (String code ,BuildContext context)async{
+     await  authDataSource.verifyAccount(code, context);
     emit(VerifyAccountState());
   }
+  // void sendCode (BuildContext context){
+  //   authDataSource.sendOTP( registerPhoneController.text.trim(), '3', context);
+  //   emit(VerifyAccountState());
+  // }
 
 
   void changeVisibilityIcon(){

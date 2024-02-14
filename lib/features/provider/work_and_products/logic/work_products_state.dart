@@ -5,6 +5,7 @@ abstract class WorkProductsState {}
 
 class WorkProductsInitial extends WorkProductsState {}
 class GetImageState extends WorkProductsState {}
+class GetVideo extends WorkProductsState {}
 class GetProductState extends WorkProductsState {
   // final GetProductsModel getProductsModel;
   // GetProductState(this.getProductsModel) {

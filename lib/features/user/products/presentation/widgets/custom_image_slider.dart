@@ -1,8 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../widgets/custom_show_image.dart';
 
@@ -37,6 +36,9 @@ class _CustomSliderWidgetState extends State<CustomImageSliderWidget> {
                       e!,
                       fit: BoxFit.cover,
                       width: ScreenUtil().screenWidth ,
+                      errorBuilder: (BuildContext context,Object error,StackTrace? v){
+                        return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                      },
                     ),
                   ))
                   .toList(),

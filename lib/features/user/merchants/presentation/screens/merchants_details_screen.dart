@@ -26,7 +26,7 @@ class _MerchantsDetailsScreenState extends State<MerchantsDetailsScreen> {
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 80.h),
-          child: CustomAppBar(title: getLang(context, 'merchant_details'),hasBackButton: true),
+          child: CustomAppBar(title: getLang(context, 'merchant_details'),hasBackButton: true,hasCartButton: true,),
         ),
         body:
         Column(

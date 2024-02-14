@@ -37,6 +37,10 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     productDataSource= ProductDataSource(productData: products);
        emit(GetMyOrderState());
   }
+  void cancelOrderUser(int id ,BuildContext context){
+    myOrderRemoteDataSource.cancelOrderUser(id, context);
+    emit(GetMyOrderState());
+  }
   void getProductData(MyOrdersModelData myOrdersModelData) {
     for(Items a in myOrdersModelData.items!){
       products.add(Product(name: a.providerProduct!.title!, description: a.providerProduct!.description!,

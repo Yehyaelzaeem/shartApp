@@ -30,4 +30,24 @@ class ProviderOrdersCubit extends Cubit<ProviderOrdersState> {
       emit(GetMyOrdersState());
     });
   }
+  Future<dynamic> acceptOrder(int id,BuildContext context)async{
+    await providerMyOrdersRemoteDataSource.acceptOrder(id, context);
+    emit(AcceptOrdersState());
+  }
+  Future<dynamic> rejectOrder(int id,BuildContext context)async{
+    await providerMyOrdersRemoteDataSource.rejectOrder(id, context);
+    emit(AcceptOrdersState());
+  }
+  Future<dynamic> cancelOrder(int id,BuildContext context)async{
+    await providerMyOrdersRemoteDataSource.cancelOrder(id, context);
+    emit(AcceptOrdersState());
+  }
+  Future<dynamic> deliveredOrder(int id,BuildContext context)async{
+    await providerMyOrdersRemoteDataSource.deliveredOrder(id, context);
+    emit(AcceptOrdersState());
+  }
+  Future<dynamic> preparingOrder(int id,BuildContext context)async{
+    await providerMyOrdersRemoteDataSource.preparingOrder(id, context);
+    emit(AcceptOrdersState());
+  }
 }

@@ -29,7 +29,6 @@ class SparePartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     CartCubit cubit =CartCubit.get(context);
     return Container(
-      height: 180.h,
       // width: MediaQuery.of(context).size.width*0.4,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
@@ -61,62 +60,64 @@ class SparePartItemWidget extends StatelessWidget {
               },
             )
           ),
-         Column(
-           children: [
-             Padding(
-               padding: EdgeInsets.only(
-                   left: 16.sp, right: 16.sp, top: 2.sp, bottom: 0.sp),
-               child: Text(
-                 brandName,
-                 style: TextStyle(
-                   fontSize: 12.sp,
-                   fontWeight: FontWeightManager.regular,
-                   color: highGreyColor,
-                 ),
-                 maxLines: 1,
-                 overflow: TextOverflow.ellipsis,
-               ),
-             ),
-             Padding(
-               padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 0.h),
-               child: Text(
-                 productName,
-                 style: TextStyle(
-                   fontSize: 16.sp,
-                   fontWeight: FontWeightManager.bold,
-                 ),
-                 maxLines: 1,
-                 overflow: TextOverflow.ellipsis,
-               ),
-             ),
-             FittedBox(
-               child: Row(
-                 children: <Widget>[
-                   Text(
-                     providerName,
-                     style: TextStyle(
-                       fontSize: 16.sp,
-                       color: redColor,
-                       fontWeight: FontWeightManager.medium,
-                     ),
-                     maxLines: 1,
-                     overflow: TextOverflow.ellipsis,
+         FittedBox(
+           child: Column(
+             children: [
+               Padding(
+                 padding: EdgeInsets.only(
+                     left: 16.sp, right: 16.sp, top: 2.sp, bottom: 0.sp),
+                 child: Text(
+                   brandName,
+                   style: TextStyle(
+                     fontSize: 12.sp,
+                     fontWeight: FontWeightManager.regular,
+                     color: highGreyColor,
                    ),
-                   SizedBox(width: 20.w,),
-                   Text(
-                     '${price} ${getLang(context, 'rs')}',
-                     style: TextStyle(
-                       fontSize: 16.sp,
-                       color: redColor,
-                       fontWeight: FontWeightManager.medium,
-                     ),
-                     maxLines: 1,
-                     overflow: TextOverflow.ellipsis,
-                   ),
-                 ],
+                   maxLines: 1,
+                   overflow: TextOverflow.ellipsis,
+                 ),
                ),
-             ),
-           ],
+               Padding(
+                 padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 0.h),
+                 child: Text(
+                   productName,
+                   style: TextStyle(
+                     fontSize: 16.sp,
+                     fontWeight: FontWeightManager.bold,
+                   ),
+                   maxLines: 1,
+                   overflow: TextOverflow.ellipsis,
+                 ),
+               ),
+               FittedBox(
+                 child: Row(
+                   children: <Widget>[
+                     Text(
+                       providerName,
+                       style: TextStyle(
+                         fontSize: 16.sp,
+                         color: redColor,
+                         fontWeight: FontWeightManager.medium,
+                       ),
+                       maxLines: 1,
+                       overflow: TextOverflow.ellipsis,
+                     ),
+                     SizedBox(width: 20.w,),
+                     Text(
+                       '${price} ${getLang(context, 'rs')}',
+                       style: TextStyle(
+                         fontSize: 16.sp,
+                         color: redColor,
+                         fontWeight: FontWeightManager.medium,
+                       ),
+                       maxLines: 1,
+                       overflow: TextOverflow.ellipsis,
+                     ),
+                   ],
+                 ),
+               ),
+             ],
+           ),
          ),
           Spacer(),
 
@@ -172,7 +173,7 @@ class SparePartItemWidget extends StatelessWidget {
                 ),
               ),
             ),
-          SizedBox(height: 10.h,)
+          Spacer(),
         ],
       );
   },

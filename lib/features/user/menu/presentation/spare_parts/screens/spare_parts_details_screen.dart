@@ -115,6 +115,7 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                   title: data.title,
                                   price: data.price.toString() ,
                                   brandName:data.brand!=null?data.brand!.name:'',
+                                  modelName: data.modal!=null?data.modal!.name:'',
                                   width:'${data.width!=null?data.width!.name:''}',
                                   height:'${data.height!=null?data.height!.name:''}',
                                   images: list,

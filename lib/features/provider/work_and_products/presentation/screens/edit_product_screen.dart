@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
+import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../../../../widgets/custom_text_field.dart';
 import '../../../../user/book_package_service/data/model/brand_model.dart';
@@ -182,7 +183,7 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                         onChanged: (String? value) {
                           setState(() {
                             controllerCubit.brandSelectedValue = value!;
-                            for(var a in cubit.brands ){
+                            for(BrandsData? a in cubit.brands ){
                               if(controllerCubit.brandSelectedValue==a!.name){
                                 controllerCubit.brandSelectedId=a.id!.toString();
                                 break;
@@ -228,7 +229,7 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                         onChanged: (String? value) {
                           setState(() {
                             controllerCubit.brandModelSelectedValue = value!;
-                            for(var a in cubit.brandModelList ){
+                            for(BrandModelData? a in cubit.brandModelList ){
                               if(controllerCubit.brandModelSelectedValue==a!.name){
                                 controllerCubit.brandModelSelectedId=a.id!.toString();
                                 break;
@@ -410,7 +411,11 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey),
                               ),
-                              child: Image.network('${widget.getProductsModelData.images![index].image}'),
+                              child: Image.network('${widget.getProductsModelData.images![index].image}',
+                                errorBuilder: (BuildContext context,Object error,StackTrace? v){
+                                  return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                                },
+                              ),
                             );
                           }),
                     ),

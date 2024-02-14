@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/localization/appLocale.dart';
 import '../../../../../../widgets/custom_button.dart';
+import '../../../../core/resources/assets_menager.dart';
 import '../../../../core/resources/color.dart';
 import '../../profile/logic/provider_profile_cubit.dart';
 import '../../profile/presentation/complete_profile/widgets/custom_complete_body.dart';
@@ -37,7 +38,9 @@ class CustomEditStoreBody extends StatelessWidget {
                 width: 50,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(data.logo!),
+                  child: Image.network(data.logo!,  errorBuilder: (BuildContext context,Object error,v){
+                    return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                  },),
                 ),
               ),
               Divider(color: Colors.grey.shade300,),
@@ -167,7 +170,11 @@ class CustomEditStoreBody extends StatelessWidget {
                 width: 50,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(data.nationalIdImage!),
+                  child: Image.network(data.nationalIdImage!,
+                    errorBuilder: (context,error,v){
+                      return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                    },
+                  ),
                 ),
               ),
               Divider(color: Colors.grey.shade300,),

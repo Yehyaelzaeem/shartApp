@@ -9,6 +9,8 @@ import 'package:shart/features/user/menu/logic/menu_cubit.dart';
 import 'package:shart/features/user/menu/presentation/packages/packages_details/package_details_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 
+import '../../../../../core/resources/assets_menager.dart';
+
 
 class CarPackagesCheckScreen extends StatelessWidget {
   const CarPackagesCheckScreen({Key? key}) : super(key: key);
@@ -62,7 +64,11 @@ class CarPackagesCheckScreen extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                                    child: Image.network('${data.data![index].image}',fit: BoxFit.cover,))),
+                                    child: Image.network('${data.data![index].image}',fit: BoxFit.cover,
+                                      errorBuilder: (context,error,v){
+                                        return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                                      },
+                                    ))),
                           ),
                           Align(
                             alignment: Alignment.centerLeft,

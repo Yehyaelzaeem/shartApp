@@ -12,6 +12,7 @@ import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 
+import '../../../auth/logic/auth_cubit.dart';
 import '../../data/model/check_car_model.dart';
 import '../widgets/cutom_text_booking_widget.dart';
 
@@ -209,25 +210,32 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                            Padding(
                               padding: EdgeInsets.symmetric(vertical: 30.h),
                               child: CustomElevatedButton(onTap: () {
+                                if(AuthCubit.get(context).token.isNotEmpty){
 
-                                 if(packageId.isNotEmpty&&cubit.brandSelectedId.isNotEmpty &&
-                                     cubit.brandModelSelectedId.isNotEmpty && cubit.colorSelectedId.isNotEmpty&&
-                                     cubit.yearSelectedValue.text.isNotEmpty&&cubit.chassisController.text.isNotEmpty&&
-                                     cubit. descriptionController.text.isNotEmpty)
-                                 {
-                                   CheckCarModel checkCarModel =CheckCarModel(
-                                     packageId:packageId ,
-                                     brandId: cubit.brandSelectedId,
-                                     modelId: cubit.brandModelSelectedId,
-                                     colorId: cubit.colorSelectedId,
-                                     year:cubit.yearSelectedValue.text,
-                                     chassis_no:cubit.chassisController.text ,
-                                     description:cubit.descriptionController.text ,
-                                   );
-                                   BookPackageCubit.get(context).sendCheckCar(checkCarModel, context);
-                                 }else{
-                                   showToast(text: 'complete data', state: ToastStates.error, context: context);
-                                 }
+                                  if(packageId.isNotEmpty&&cubit.brandSelectedId.isNotEmpty &&
+                                      cubit.brandModelSelectedId.isNotEmpty && cubit.colorSelectedId.isNotEmpty&&
+                                      cubit.yearSelectedValue.text.isNotEmpty&&cubit.chassisController.text.isNotEmpty&&
+                                      cubit. descriptionController.text.isNotEmpty)
+                                  {
+                                    CheckCarModel checkCarModel =CheckCarModel(
+                                      packageId:packageId ,
+                                      brandId: cubit.brandSelectedId,
+                                      modelId: cubit.brandModelSelectedId,
+                                      colorId: cubit.colorSelectedId,
+                                      year:cubit.yearSelectedValue.text,
+                                      chassis_no:cubit.chassisController.text ,
+                                      description:cubit.descriptionController.text ,
+                                    );
+                                    BookPackageCubit.get(context).sendCheckCar(checkCarModel, context);
+                                  }else{
+                                    showToast(text: 'complete data', state: ToastStates.error, context: context);
+                                  }
+                                }else{
+                                  showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
+                                }
+
+
+
 
                               }, buttonText:  getLang(context, 'sure')),
                             ),

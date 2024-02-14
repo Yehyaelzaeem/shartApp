@@ -1,6 +1,6 @@
 name: shart
 description: A new Flutter project.
-version: 1.0.0+7
+version: 1.0.0+12
 
 environment:
   sdk: '>=3.0.5 <4.0.0'

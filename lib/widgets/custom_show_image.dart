@@ -2,7 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:shart/core/resources/assets_menager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'custom_video_player.dart';
 
 void showCustomImages({required BuildContext context, required List<String?> images}){
   Navigator.push(context,
@@ -22,18 +25,45 @@ void showCustomImages({required BuildContext context, required List<String?> ima
                       tag: images[index]!),
                   minScale: PhotoViewComputedScale.contained * 0.8,
                   maxScale: PhotoViewComputedScale.covered,
+                  errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                    // Return a custom widget to display when image loading fails
+                    return Material(
+                      child:
+                      VideoPlayerWidget(videoUrl: images[index]!)
+                      // Image.asset(
+                      //   AppImages.video,
+                      //   width: double.infinity,
+                      //   height: double.infinity,// Path to your custom error image
+                      // ),
+                    );
+                  },
                 );
               },
               itemCount:  images.length,
               loadingBuilder: (BuildContext context, ImageChunkEvent? event) => Center(
-                child: SizedBox(
-                  width: 20.0,
-                  height: 20.0,
-                  child: CircularProgressIndicator(
-                    value: event == null ? 0 : event.cumulativeBytesLoaded /
-                        event.expectedTotalBytes!,
-                  ),
+                child:
+
+                Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    SizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: Image.asset(ImagesManager.holder,fit: BoxFit.cover,),
+                    ),
+                    SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: event == null ? 0 : event.cumulativeBytesLoaded /
+                              event.expectedTotalBytes!,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+
               ),
             ),
             Align(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
+import '../../../../../core/resources/assets_menager.dart';
 import '../../data/model/get_products_list_model.dart';
 
 class ProviderProductDetailsScreen extends StatelessWidget {
@@ -26,7 +27,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               'النوع',
               style: TextStyle(
@@ -155,7 +156,11 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: Colors.grey),
                       ),
-                      child: Image.network('${getProductsModelData.images![index].image}'),
+                      child: Image.network('${getProductsModelData.images![index].image}',
+                        errorBuilder: (context,error,v){
+                          return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                        },
+                      ),
                     );
                   }),
             ),
