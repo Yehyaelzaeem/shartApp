@@ -24,7 +24,7 @@ class CustomProductDetails extends StatelessWidget {
     CartCubit cubit =CartCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: getLang(context, 'product_details'),hasBackButton: true),
+        child: CustomAppBar(title: getLang(context, 'product_details'),hasBackButton: true,hasCartButton: true,),
         preferredSize: Size(double.infinity, 80.h),
       ),
       body:

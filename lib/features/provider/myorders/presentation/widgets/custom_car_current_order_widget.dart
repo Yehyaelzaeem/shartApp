@@ -41,6 +41,9 @@ final GetCheckCarsModelData getCheckCarsModelData;
                 child: Image.network(
                   getCheckCarsModelData.package!.image!,
                   fit: BoxFit.cover,
+                  errorBuilder: (context,error,v){
+                    return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                  },
                 ),
               ),
             ),

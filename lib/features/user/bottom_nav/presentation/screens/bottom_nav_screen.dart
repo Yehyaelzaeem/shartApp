@@ -82,6 +82,7 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
+  print('dddddddddddddddddddddddddddd');
     return Scaffold(
       resizeToAvoidBottomInset: true,
       bottomNavigationBar: BottomNavigationBar(

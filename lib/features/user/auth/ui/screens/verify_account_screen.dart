@@ -13,15 +13,15 @@ class VerifyAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String res;
     Future.delayed(Duration(seconds: 3)).then((value){
-      var x = otpCode;
+      String x = otpCode;
       List resList=[];
-      var res;
       for(int i=0;i<=x.length-1;i++){
         resList.add(x[i]);
       }
       res= '${resList[3]}${resList[2]}${resList[1]}${resList[0]}';
-      AuthCubit.get(context).controllerOtpTest.text =res;
+      AuthCubit.get(context).putCode(res);
     });
 
     return BlocConsumer<AuthCubit,AuthState>(

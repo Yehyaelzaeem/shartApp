@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
+import 'package:shart/widgets/custom_material_button.dart';
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
-import '../../../../../core/resources/font_manager.dart';
-import '../../../../../widgets/custom_product_widget.dart';
+import '../../../../provider/work_and_products/data/model/product_model.dart';
 import '../../data/model/myorder_model.dart';
+import '../../logic/my_orders_cubit.dart';
 import '../widgets/custom_item_widget.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -15,6 +14,7 @@ class OrderDetailsScreen extends StatelessWidget {
  final MyOrdersModelData myOrdersModelData;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true),
@@ -27,18 +27,29 @@ class OrderDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding:   EdgeInsets.only(top: 24.h,right: 16.w),
-                child: Text(
-                  getLang(context, 'order_details'),
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                padding:   EdgeInsets.only(top: 16.h,right: 16.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      getLang(context, 'order_details'),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    myOrdersModelData.status !='cancelled'&&myOrdersModelData.status !='delivered' && myOrdersModelData.status !='rejected'?
+                    CustomMaterialButton(text: '${getLang(context, 'cancel')}', onPressed: (){
+                      MyOrdersCubit.get(context).cancelOrderUser(myOrdersModelData.id!, context);
+                    }):
+                    SizedBox.shrink()
+                  ],
                 ),
               ),
               Padding(
                 padding:   EdgeInsets.only(top: 0.h,right: 16.w),
-                child: Row(
+                child:
+                Row(
                   children: [
                     Text(
                       '${getLang(context, 'order_id')} :',
@@ -108,7 +119,6 @@ class OrderDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               Padding(
                 padding:   EdgeInsets.only(top: 0.h,right: 16.w),
                 child: Row(
@@ -164,7 +174,9 @@ class OrderDetailsScreen extends StatelessWidget {
               ),
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return CustomWidgetOrder(items: myOrdersModelData.items![index], status:myOrdersModelData.status!,);
+                  return CustomWidgetOrder(
+                    id: myOrdersModelData.id!,
+                    items: myOrdersModelData.items![index], status:myOrdersModelData.status!,);
                 },
                 itemCount: myOrdersModelData.items!.length,
                 shrinkWrap: true,

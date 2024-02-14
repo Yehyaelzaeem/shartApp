@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
+import 'package:video_player/video_player.dart';
 import '../../../../widgets/multi_image/multi_image_picker_view.dart';
 import '../data/data_base/data_base.dart';
 import '../data/model/get_products_list_model.dart';
@@ -35,6 +37,25 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
         return await pickImagesUsingImagePicker(allowMultiple);
       });
 
+
+  File? _videoFile;
+  VideoPlayerController? controllerVideo;
+  List<VideoPlayerController> controllerList=<VideoPlayerController>[];
+  Future<void> pickVideo() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.video,
+    );
+    if (result != null) {
+      _videoFile = File(result.files.single.path!);
+      controllerVideo = VideoPlayerController.file(_videoFile!);
+      controllerList.add(controllerVideo!);
+      controllerVideo!.initialize().then((_) {
+        controllerVideo!.play();});}
+    else {
+      // User canceled the picker
+    }
+    emit(GetVideo());
+  }
 
   ProviderProductsAndWorksRemoteDataSource productsAndWorksRemoteDataSource = ProviderProductsAndWorksRemoteDataSource();
   String typeSelectedValue = '';
@@ -101,6 +122,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   bool isParts = false;
   XFile? image;
   Iterable<ImageFile>? images = <ImageFile>[];
+  Iterable images2 = <ImageFile>[];
   Iterable<ImageFile>? imagesWorks = <ImageFile>[];
 
   void getImage() async {
@@ -166,6 +188,31 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
         imagesFile.add(file);
       }
     }
+    //
+    // if (controllerList.isNotEmpty) {
+    //   for (VideoPlayerController asset in controllerList) {
+    //     String videoFilePath = asset.dataSource.substring(7);
+    //     if (videoFilePath.isNotEmpty) {
+    //       File file2 = File(videoFilePath);
+    //       // final File file = File('$videoFilePath');
+    //       if (file2.existsSync()) {
+    //         // Now you have the 'file' object, you can use it as needed
+    //         // For example, you can upload it to an API or perform other operations
+    //         print(' exist');
+    //         imagesFile.add(file2);
+    //       } else {
+    //         print('Error: File does not exist');
+    //       }
+    //       // Now you have the 'file' object, you can use it as needed
+    //       // For example, you can upload it to an API or perform other operations
+    //     } else {
+    //       print('Error: File not found or invalid path');
+    //     }
+    //
+    //   }
+    // }
+    // print('dfsdsfds => ${imagesFile.toList()}');
+
     String type;
     if (typeSelectedValue == 'قطع غيار' || typeSelectedValue == 'spare parts') {
       type = 'spare_parts';
@@ -319,7 +366,10 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     widthSelectedValue = '${getLang(context, 'width')}';
     heightSelectedValue = '${getLang(context, 'height')}';
     sizeSelectedValue = '${getLang(context, 'size')}';
-    // priceController.text='${getLang(context, 'price')}';
+    priceController.text='';
+    productNameSelectedValue.text='';
+    desController.text='';
+    priceController.text='';
     desControllerHitText='${getLang(context, 'des')}';
     nameControllerHitText='${getLang(context, 'product_name')}';
     priceControllerHitText='${getLang(context, 'unit_price')}';

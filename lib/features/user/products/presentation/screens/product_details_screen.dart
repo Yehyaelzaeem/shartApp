@@ -6,16 +6,18 @@ import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 
+import '../../../../../core/resources/themes/styles/styles.dart';
+import '../../../../../widgets/custom_divider.dart';
 import '../../../../../widgets/custom_slider_widget.dart';
 import '../../../../../widgets/show_toast_widget.dart';
 import '../../../cart/data/model/cart_model.dart';
 import '../../../cart/logic/cart_cubit.dart';
 import '../../../menu/logic/menu_cubit.dart';
+import '../../../merchants/presentation/widgets/custom_row deyatils.dart';
 import '../widgets/custom_image_slider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({Key? key, this.images, this.title, this.price, this.brandName, this.width, this.height, this.size, this.productStatus, this.description, this.cartProduct, this.modelName,}) : super(key: key);
- // final ProductModelData productModelData;
  final List<String>? images;
  final String? title;
  final String? price;
@@ -47,136 +49,90 @@ class ProductDetailsScreen extends StatelessWidget {
                 CustomImageSliderWidget(listImage: images!,)
             ),
             SizedBox(height: 25.h,),
-           Padding(
-             padding:  EdgeInsets.only(left: 18.w,right: 18.w),
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 Row(
-                   children: [
-                     Expanded(
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Text(
-                             title!,
-                             style: TextStyle(
-                                 color: Color(0xff100E0D),
-                                 fontSize: 16.sp,
-                                 fontFamily: FontConstants.Tajawal,
-                                 fontWeight: FontWeightManager.bold),
-                           ),
-                           SizedBox(height: 10.h,),
-                           Text(
-                             brandName!,
-                             style: TextStyle(
-                                 color:Color(0xff4b4b4b) ,
-                                 fontFamily: FontConstants.Tajawal,
-                                 fontWeight: FontWeightManager.medium,
-                             ),
-                           ),
-                           modelName!=null?Column(
-                             children: [
-                               SizedBox(height: 10.h,),
-                               Text(
-                                 modelName!,
-                                 style: TextStyle(
-                                     color:Color(0xff4b4b4b) ,
-                                     fontFamily: FontConstants.Tajawal,
-                                     fontWeight: FontWeightManager.medium,
-                                 ),
-                               ),
-                             ],
-                           ):SizedBox.shrink(),
-                           SizedBox(height: 10.h,),
-                           size!=''?
-                           Column(
-                             children: [
-                               Text(
-                                 size!,
-                                 style:TextStyle(
-                                     color:Color(0xff4b4b4b) ,
-                                     fontWeight: FontWeightManager.regular),
-                               ),
-                               SizedBox(height: 10.h,),
-                             ],
-                           ):SizedBox.shrink(),
-                           Text(
-                             productStatus!,
-                             style:TextStyle(
-                                 color:Color(0xff4b4b4b) ,
-                                 fontWeight: FontWeightManager.medium),
-                           ),
-                           SizedBox(height: 10.h,),
-
-
-                         ],),
-                     ),
-                     Expanded(
-                       child: Padding(
-                         padding:  EdgeInsets.only(right: 30.w),
-                         child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             mainAxisAlignment: MainAxisAlignment.start,
-                             children: [
-                             Container(
-                               width: 150,
-                               child: FittedBox(
-                                 child: Text(
-                                 '${getLang(context, 'price')} : ${price!} ${getLang(context, 'rs')}',
-                                    style:
-                                    TextStyle(
-                                        color: redColor,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeightManager.bold),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                               ),
-                             ),
-                           SizedBox(height: 10.h,),
-                           width!='' ||height!=''?
-                           Column(
-                             children: [
-                               Text(
-                                 width!,
-                                 style:TextStyle(
-                                     color:Color(0xff4b4b4b) ,
-                                     fontWeight: FontWeightManager.regular),
-                               ),
-                               SizedBox(height: 10.h,),
-                               Text(
-                                 height!,
-                                 style:TextStyle(
-                                     color:Color(0xff4b4b4b) ,
-                                     fontWeight: FontWeightManager.regular),
-                               ),
-                             ],
-                           ):SizedBox(height: 50.h,),
-                           SizedBox(height: 10.h,),
-
-
-                         ]),
-                       ),
-                     ),
-                   ],
-                 ),
-                 Padding(
-                   padding: EdgeInsets.only(top: 20.h, bottom: 5.h),
-                   child: Text(
-                     getLang(context, 'des'),
-                     style: TextStyle(fontWeight: FontWeightManager.bold),
-                   ),
-                 ),
-                 Text(description!),
-                 SizedBox(height: 100.h,),
-                 cartProduct!=null?
-                 BlocConsumer<CartCubit, CartState>(
-                  listener: (BuildContext context,CartState state) {},
-                  builder: (BuildContext context,CartState state) {
-                    return Column(children: [
-                   if (cubit.products.where((Cart element) => element.id == cartProduct!.id).toList().length == 0)
-                     InkWell(onTap: (){
+            Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 12.w),
+                child:Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CustomRowDetails(title: getLang(context, 'product_name'),value: title!,),
+                        CustomRowDetails(title: getLang(context, 'price'),dis:50.w,
+                          color: redColor,value: '${price!.toString()} ${getLang(context, 'rs')}',
+                          fontSize: 23,
+                        ),
+                      ],
+                    ),
+                    CustomDivider(),
+                    brandName!=null?
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomRowDetails(title: getLang(context, 'brand'),value:brandName!,),
+                            height!=null&&height!.isNotEmpty?
+                            CustomRowDetails(title: getLang(context, 'height'),dis:40.w, value:height!,):
+                            SizedBox.shrink(),
+                          ],
+                        ),
+                        CustomDivider(),
+                      ],
+                    ):SizedBox.shrink(),
+                    modelName!=null?
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            CustomRowDetails(title: getLang(context, 'car_model'),value:  modelName!,),
+                            width!=null&&width!.isNotEmpty?
+                            CustomRowDetails(title: getLang(context, 'width'),dis:40.w,value: width!,):
+                            SizedBox.shrink(),
+                          ],
+                        ),
+                        CustomDivider(),
+                      ],
+                    ):SizedBox.shrink(),
+                    size!=null&&size!.isNotEmpty?
+                    Column(
+                      children: <Widget>[
+                        CustomRowDetails(title: getLang(context, 'size'),value:size!,),
+                        CustomDivider(),
+                      ],
+                    ):SizedBox.shrink(),
+                    CustomRowDetails(title: getLang(context, 'status'),value:productStatus!,),
+                    CustomDivider(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.h, bottom: 5.h),
+                      child: Text(
+                        getLang(context, 'des'),
+                        style:
+                        TextStyles.font16GeryColor400WeightTajawal.copyWith(
+                            fontFamily: FontConstants.lateefFont,
+                            fontSize: 20,
+                            fontWeight: FontWeightManager.bold
+                        ),
+                      ),
+                    ),
+                    Text(
+                        description!,
+                        style:
+                        TextStyles.font16BlackColor500WeightTajawal.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                          fontFamily: FontConstants.lateefFont,
+                        )
+                    ),
+                    SizedBox(height: 35.h,),
+                    cartProduct!=null?
+                    BlocConsumer<CartCubit, CartState>(
+                      listener: (BuildContext context,CartState state) {},
+                      builder: (BuildContext context,CartState state) {
+                        return Column(children: <Widget>[
+                          if (cubit.products.where((Cart element) => element.id == cartProduct!.id).toList().length == 0)
+                             InkWell(onTap: (){
                        print(cartProduct!.providerId);
                        if( cubit.products.isEmpty){
                          cubit.addProduct(cartProduct!);
@@ -188,7 +144,7 @@ class ProductDetailsScreen extends StatelessWidget {
                          showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
                        }
                      },
-                       child: Container(
+                                     child: Container(
                          margin: EdgeInsets.symmetric(horizontal: 9.w,vertical: 5),
                          height: 48.h,
                          decoration: BoxDecoration(
@@ -204,9 +160,9 @@ class ProductDetailsScreen extends StatelessWidget {
                            ),
                          ),
                        ),
-                     ),
-                   if (cubit.products.where((Cart element) => element.id == cartProduct!.id).toList().length > 0)
-                     InkWell(
+                                    ),
+                         if (cubit.products.where((Cart element) => element.id == cartProduct!.id).toList().length > 0)
+                           InkWell(
                        onTap: (){
                          cubit.removeProduct(cartProduct!);
                        },
@@ -227,13 +183,150 @@ class ProductDetailsScreen extends StatelessWidget {
                          ),
                        ),
                      ),
-                 ],);
-  },
-):SizedBox.shrink()
-
-               ],
-             ),
-           )
+                        ],);
+                      },
+                    ):
+                    SizedBox.shrink(),
+                    SizedBox(height: 50.h,),
+                  ],
+                )
+            ),
+//            Padding(
+//              padding:  EdgeInsets.only(left: 18.w,right: 18.w),
+//              child: Column(
+//                crossAxisAlignment: CrossAxisAlignment.start,
+//                children: [
+//                  Row(
+//                    children: [
+//                      Expanded(
+//                        child: Column(
+//                          crossAxisAlignment: CrossAxisAlignment.start,
+//                          children: [
+//                            Text(
+//                              title!,
+//                              style: TextStyle(
+//                                  color: Color(0xff100E0D),
+//                                  fontSize: 16.sp,
+//                                  fontFamily: FontConstants.Tajawal,
+//                                  fontWeight: FontWeightManager.bold),
+//                            ),
+//                            SizedBox(height: 10.h,),
+//                            Text(
+//                              brandName!,
+//                              style: TextStyle(
+//                                  color:Color(0xff4b4b4b) ,
+//                                  fontFamily: FontConstants.Tajawal,
+//                                  fontWeight: FontWeightManager.medium,
+//                              ),
+//                            ),
+//                            modelName!=null?Column(
+//                              children: [
+//                                SizedBox(height: 10.h,),
+//                                Text(
+//                                  modelName!,
+//                                  style: TextStyle(
+//                                      color:Color(0xff4b4b4b) ,
+//                                      fontFamily: FontConstants.Tajawal,
+//                                      fontWeight: FontWeightManager.medium,
+//                                  ),
+//                                ),
+//                              ],
+//                            ):SizedBox.shrink(),
+//                            SizedBox(height: 10.h,),
+//                            size!=''?
+//                            Column(
+//                              children: [
+//                                Text(
+//                                  size!,
+//                                  style:TextStyle(
+//                                      color:Color(0xff4b4b4b) ,
+//                                      fontWeight: FontWeightManager.regular),
+//                                ),
+//                                SizedBox(height: 10.h,),
+//                              ],
+//                            ):SizedBox.shrink(),
+//                            Text(
+//                              productStatus!,
+//                              style:TextStyle(
+//                                  color:Color(0xff4b4b4b) ,
+//                                  fontWeight: FontWeightManager.medium),
+//                            ),
+//                            SizedBox(height: 10.h,),
+//
+//
+//                          ],),
+//                      ),
+//                      Expanded(
+//                        child: Padding(
+//                          padding:  EdgeInsets.only(right: 30.w),
+//                          child: Column(
+//                              crossAxisAlignment: CrossAxisAlignment.start,
+//                              mainAxisAlignment: MainAxisAlignment.start,
+//                              children: [
+//                              Container(
+//                                width: 150,
+//                                child: FittedBox(
+//                                  child: Text(
+//                                  '${getLang(context, 'price')} : ${price!} ${getLang(context, 'rs')}',
+//                                     style:
+//                                     TextStyle(
+//                                         color: redColor,
+//                                         fontSize: 16.sp,
+//                                         fontWeight: FontWeightManager.bold),
+//                                     maxLines: 1,
+//                                     overflow: TextOverflow.ellipsis,
+//                                   ),
+//                                ),
+//                              ),
+//                            SizedBox(height: 10.h,),
+//                            width!='' ||height!=''?
+//                            Column(
+//                              children: [
+//                                Text(
+//                                  width!,
+//                                  style:TextStyle(
+//                                      color:Color(0xff4b4b4b) ,
+//                                      fontWeight: FontWeightManager.regular),
+//                                ),
+//                                SizedBox(height: 10.h,),
+//                                Text(
+//                                  height!,
+//                                  style:TextStyle(
+//                                      color:Color(0xff4b4b4b) ,
+//                                      fontWeight: FontWeightManager.regular),
+//                                ),
+//                              ],
+//                            ):SizedBox(height: 50.h,),
+//                            SizedBox(height: 10.h,),
+//
+//
+//                          ]),
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                  Padding(
+//                    padding: EdgeInsets.only(top: 20.h, bottom: 5.h),
+//                    child: Text(
+//                      getLang(context, 'des'),
+//                      style: TextStyle(fontWeight: FontWeightManager.bold),
+//                    ),
+//                  ),
+//                  Text(description!),
+//                  SizedBox(height: 100.h,),
+//                  cartProduct!=null?
+//                  BlocConsumer<CartCubit, CartState>(
+//                   listener: (BuildContext context,CartState state) {},
+//                   builder: (BuildContext context,CartState state) {
+//                     return Column(children: [
+//
+//                  ],);
+//   },
+// ):SizedBox.shrink()
+//
+//                ],
+//              ),
+//            )
           ],
         ),
       ),

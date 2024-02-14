@@ -168,8 +168,8 @@
   "ok": "موافق",
   "order_done": "تم تأكيد طلبك بنجاح !",
   "pending": "قيد الانتظار",
-  "accepted": "قبلت",
-  "cancelled": "ألغيت",
+  "accepted": "مقبول",
+  "cancelled": "ملغي",
   "order_details": "تفاصيل الطلب",
   "order_id": "رقم الطلب",
   "the_shop": "المتجر",
@@ -225,6 +225,13 @@
   "branch": "فروع",
   "business_photos": "صور الأعمال والمنتجات",
   "no_data": "لا توجد بيانات حاليا",
-  "no_data_provider": "لا توجد بيانات بهذا الاسم"
+  "no_data_provider": "لا توجد بيانات بهذا الاسم",
+  "video": "فيديو",
+  "preparing": "في التحضير",
+  "rejected": "مرفوض",
+  "accept": "قبول",
+  "reject": "رفض",
+  "preparing2": "تحضير",
+  "deliver": "تسليم"
 
 }

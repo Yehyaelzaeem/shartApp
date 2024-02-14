@@ -77,8 +77,8 @@ class CardItem extends StatelessWidget {
                       width:90.w ,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          SizedBox(height: 14.h,),
                           Text(
                                 product.productBrand!,
                                 style:
@@ -105,7 +105,6 @@ class CardItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                           ),
-                          SizedBox(height: 20.h,),
                           Text(
                             '${product.productPrice} ${getLang(context, 'rs')}',
                             style:
@@ -119,22 +118,20 @@ class CardItem extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                           ),
-
                         ],
                       ),
                     ),
                     Container(
                       width: 90.w,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          SizedBox(height: 14.h,),
                           InkWell(
                               onTap: (){
                                 cubit.removeProduct(product);
                               },
                               child: Icon(CupertinoIcons.delete, size: 20.w,)),
-                          SizedBox(height: 37.h,),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,

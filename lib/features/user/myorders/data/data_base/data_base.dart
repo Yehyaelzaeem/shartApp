@@ -6,12 +6,16 @@ import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
+import '../../../../../core/shared_preference/shared_preference.dart';
+import '../../../../../widgets/show_toast_widget.dart';
+import '../../logic/my_orders_cubit.dart';
 import '../model/check_car_model.dart';
 import '../model/myorder_model.dart';
 
 abstract class BaseMyOrderRemoteDataSource {
   Future<MyOrdersModel?> getMyOrder(String token ,BuildContext context);
   Future<GetCheckCarsModel?> getMyCheckCars(BuildContext context);
+  Future<dynamic> cancelOrderUser(int id ,BuildContext context);
 
 }
 class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
@@ -61,4 +65,26 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
     }
     return null;
     }
+
+  @override
+  Future<dynamic> cancelOrderUser(int id, BuildContext context) async{
+    dynamic t = await CacheHelper.getDate(key: 'token');
+    AuthCubit cubit =AuthCubit.get(context);
+    Response<dynamic> res = await DioHelper.postData(
+        url: AppApis.cancelOrderUser(id),
+        token:cubit.token.isNotEmpty?cubit.token:t);
+    if(res.data['success']==false){
+      showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
+    }else{
+      if (res.statusCode == 200) {
+        MyOrdersCubit.get(context).getMyOrder(context);
+        Navigator.pop(context);
+        showToast(text: '${res.data['message']}', state: ToastStates.success, context: context);
+      }
+      else {
+        showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
+      }
+    }
+    return null;
+  }
   }

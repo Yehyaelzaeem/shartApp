@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/resources/assets_menager.dart';
+
 class FullScreenImageDialog extends StatelessWidget {
   final String imageUrl;
 
@@ -18,6 +20,9 @@ class FullScreenImageDialog extends StatelessWidget {
           child: Image.network(
             imageUrl,
             fit: BoxFit.contain,
+            errorBuilder: (BuildContext context,Object error,StackTrace? v){
+              return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+            },
           ),
         ),
       ),

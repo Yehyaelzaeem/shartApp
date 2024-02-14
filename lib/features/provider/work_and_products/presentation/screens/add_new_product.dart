@@ -1,5 +1,5 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +7,7 @@ import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
+import 'package:video_player/video_player.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../../../../widgets/custom_text_field.dart';
 import '../../../../../widgets/show_toast_widget.dart';
@@ -18,6 +19,8 @@ import '../widgets/custom_dropdown_widget.dart';
 
 class ProviderAddNewProduct extends StatelessWidget {
   const ProviderAddNewProduct({Key? key}) : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
     WorkProductsCubit controllerCubit =WorkProductsCubit.get(context);
@@ -289,6 +292,71 @@ class ProviderAddNewProduct extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
                       ),
                     ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 25),
+                    //   child: InkWell(
+                    //     onTap: (){
+                    //       controllerCubit.pickVideo();
+                    //       controllerCubit.controllerVideo!.pause();
+                    //     },
+                    //     child: CustomTextField(
+                    //         enabled: false,
+                    //         prefixIcon: Icon(Icons.video_collection_outlined),
+                    //         hintText: '${getLang(context, 'video')}',
+                    //         controller: TextEditingController(),
+                    //         hintColor: Colors.black),
+                    //   ),
+                    // ),
+                    // controllerCubit.controllerList.isNotEmpty?
+                    //     Container(
+                    //       height: 130,
+                    //       child: ListView(
+                    //         scrollDirection: Axis.horizontal,
+                    //         children: <Widget>[
+                    //           ...controllerCubit.controllerList.map((VideoPlayerController e) => Container(
+                    //             height: 130,
+                    //             width: 150,
+                    //             padding: EdgeInsets.all(5),
+                    //             child: ClipRRect(
+                    //               borderRadius: BorderRadius.all(Radius.circular(20)),
+                    //               child: AspectRatio(
+                    //                 aspectRatio: e.value.aspectRatio,
+                    //                 child: Stack(
+                    //                   alignment: Alignment.center,
+                    //                   children: [
+                    //                     VideoPlayer(e),
+                    //                    StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                    //                      return  IconButton(onPressed: (){
+                    //                        setState(() {
+                    //                          e.value.isPlaying
+                    //                              ? e.pause()
+                    //                              : e.play();
+                    //                        });
+                    //                      }, icon:  Icon(
+                    //                        e.value.isPlaying ? Icons.pause :Icons.play_arrow,
+                    //                        size: 25,
+                    //                        color: Colors.white,
+                    //                      ),);
+                    //                    }),
+                    //                     Positioned(
+                    //                         right: 0,
+                    //                         top: 0,
+                    //                         child:
+                    //                     IconButton(
+                    //                       icon: Icon(Icons.clear,color: Colors.white60,),
+                    //                       onPressed: (){
+                    //
+                    //                       },
+                    //                     ))
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ))
+                    //         ],
+                    //       ),
+                    //     )
+                    // :SizedBox.shrink(),
                 controllerCubit.isLoading?Center(child: CircularProgressIndicator(),): Padding(
                       padding: EdgeInsets.symmetric(vertical: 30.h),
                       child: CustomElevatedButton(

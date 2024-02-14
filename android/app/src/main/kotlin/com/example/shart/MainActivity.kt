@@ -1,4 +1,4 @@
-package com.shart.app
+package com.app.shart
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,6 +6,8 @@ class ImagesManager {
   static String splashImg = '$_imagesPath/intro.png';
   static String sawabImg = '$_imagesPath/sawab.png';
   static String mar = '$_imagesPath/mar.png';
+  static String holder = '$_imagesPath/hol.png';
+  static String video = '$_imagesPath/video.png';
 
   static String introduction1 = '$_imagesPath/intro1.png';
   static String introduction2 = '$_imagesPath/intro2.png';

@@ -72,7 +72,9 @@ class ProviderOrdersScreen extends StatelessWidget {
                       return InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder:
-                              (BuildContext context)=>OrderDetailsProviderScreen(providerOrderModelData: data[index],)));
+                              (BuildContext context)=>OrderDetailsProviderScreen(
+                                isAccess: true,
+                                providerOrderModelData: data[index],)));
                           },
                         child:
                         Padding(padding:

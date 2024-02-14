@@ -44,7 +44,6 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
     else {
       if (res.statusCode == 200) {
         // showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-        cubit.changeOtpCompleted(false);
         cubit.loginLoadingStates(false);
         CacheHelper.saveDate(key: 'providerToken', value:  LoginProviderModel.fromJson(res.data).data!.accessToken);
         CacheHelper.saveDate(key: 'isLog', value: true);
@@ -58,8 +57,8 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         cubit.loginLoadingStates(false);
         throw 'Error';
       }
-      cubit.loginLoadingStates(false);
     }
+    cubit.changeOtpCompleted(false);
     return null;
   }
 
@@ -78,6 +77,8 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
       'password': password,
         },);
     if(response.data['success']==false){
+      cubit.loginRegLoadingStates(false);
+
       showToast(text: '${response.data['message']}', state: ToastStates.error, context: context);
     }else{
       if (response.statusCode == 200) {

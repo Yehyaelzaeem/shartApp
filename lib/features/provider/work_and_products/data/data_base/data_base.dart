@@ -34,7 +34,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   Future<dynamic> addProduct(String token, ProductPushDataModel productPushDataModel, BuildContext context)async {
     dynamic t = await CacheHelper.getDate(key: 'token');
     WorkProductsCubit cubit =WorkProductsCubit.get(context);
-    cubit.changeUpdateLoading(true);
+    // cubit.changeUpdateLoading(true);
     List<MultipartFile> list =<MultipartFile>[
       for(File a in cubit.imagesFile )
       await MultipartFile.fromFile(a.path, filename: 'upload'),
@@ -53,10 +53,6 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
       'height_id':  '${productPushDataModel.height}',
       'size_id':  '${productPushDataModel.size}',
     });
-    print("1 :${productPushDataModel.type}");
-    print("11 :${productPushDataModel.width}");
-    print("111 :${productPushDataModel.height}");
-    print("11111 :${productPushDataModel.size}");
     Response<dynamic> response = await DioHelper.postData(url: AppApis.addProduct,
         dataOption: data,
         token: token.isNotEmpty?token:t);
@@ -65,7 +61,6 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
         showToast(text: '${getLang(context, 'my_business_showToast2')}', state: ToastStates.success, context: context);
             WorkProductsCubit.get(context).getAllProducts(context);
             Navigator.of(context).pop();
-
             cubit.multiImagePickerController.clearImages();
             cubit.typeSelectedValue = '';
             cubit.productNameSelectedValue.text = '';
