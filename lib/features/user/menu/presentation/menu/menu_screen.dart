@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,8 +23,8 @@ class UserMenuScreen extends StatelessWidget {
   const UserMenuScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
-    return PopScope(
+    return RefreshIndicator(child:
+        PopScope(
       canPop: false,
       onPopInvoked: (_) async {
         if(AuthCubit.get(context).token.isNotEmpty){
@@ -69,8 +68,8 @@ class UserMenuScreen extends StatelessWidget {
                     },
                     child: CustomTextField(
                       hintStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
                       ),
                       hintText:  getLang(context, 'hit_message'),
                       enabled: false,
@@ -115,6 +114,11 @@ class UserMenuScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+        onRefresh: ()async{
+          await Future.delayed(Duration(seconds: 1));
+          MenuCubit.get(context).getBanners('user',context);
+
+        });
   }
 }

@@ -11,7 +11,7 @@ class AboutCompanyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(
           title: getLang(context,'about_company'),hasBackButton: true,
         ),

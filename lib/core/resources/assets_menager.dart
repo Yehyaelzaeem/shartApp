@@ -19,7 +19,7 @@ class ImagesManager {
   static String complain = '$_imagesPath/complain.png';
   static String oil = '$_imagesPath/oil.png';
   static String oil2 = '$_imagesPath/oil2.png';
-  static String logoCircle = '$_imagesPath/logoCircle.png';
+  static const String logoCircle = '$_imagesPath/logoCircle.png';
   static String otp = '$_imagesPath/svg/otp.svg';
   static String tire1 = '$_imagesPath/tire1.png';
   static String tire2 = '$_imagesPath/tire2.png';
@@ -31,7 +31,9 @@ class ImagesManager {
 
 }
 class IconsManager {
+  static String not = '$_iconsPath/not.svg';
   static String mer = '$_iconsPath/mar.svg';
+  static String otp2 = '$_iconsPath/otp2.svg';
   static String mer1 = '$_iconsPath/mer1.svg';
   static String mer2 = '$_iconsPath/mer2.svg';
   static String complain = '$_iconsPath/complainIcon.svg';

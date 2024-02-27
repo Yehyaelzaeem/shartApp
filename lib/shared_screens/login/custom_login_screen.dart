@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/shared_screens/login/widgets/custom_body_login.dart';
 import 'package:shart/shared_screens/login/widgets/custom_container.dart';
 import '../../core/resources/assets_menager.dart';
@@ -21,9 +22,10 @@ class CustomLoginScreen extends StatelessWidget {
         key: type=='user'? userCubit.formKey:providerCubit.formKeyProvider,
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CustomImageTop(image:  ImagesManager.introduction1,),
-              CustomTitle(title: 'تسجيل الدخول',),
+              Center(child: CustomImageTop(image:  ImagesManager.introduction1,)),
+              CustomTitle(title: '${getLang(context, 'sign_in')}',),
               type=='user'?
               CustomContainer(widget:
               BlocConsumer<AuthCubit,AuthState>(

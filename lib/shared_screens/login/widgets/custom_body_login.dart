@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../core/routing/navigation_services.dart';
 import '../../../core/routing/routes.dart';
@@ -21,13 +22,13 @@ class CustomBodyLogin extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 20.h),
         CustomTextField(
-          hintText: 'رقم الهاتف',
+          hintText: '${getLang(context, 'phone')}',
           controller: type=='user'? userCubit.phoneController:providerCubit.phoneControllerProvider,
           textInputType: TextInputType.phone,
 
           validationFunc: (String? val) {
             if (val!.length!=11) {
-              return 'رقم الهاتف لا يساوي 11 رقم يجب التاكد من رقم الهاتف';
+              return '${getLang(context, 'sign_in_ver')}';
             }
             return null;
           },
@@ -39,13 +40,13 @@ class CustomBodyLogin extends StatelessWidget {
           child: CustomTextField(
             validationFunc: (String? val) {
               if (val!.isEmpty) {
-                return 'كلمة المرور مطلوبة';
+                return '${getLang(context, 'sign_in_ver2')}';
               }
               return null;
             },
             isPassword:type=='user'? userCubit.visibility:providerCubit.visibility ,
             prefixIcon: const Icon(Icons.lock),
-            hintText: 'كلمة المرور',
+            hintText: '${getLang(context, 'pass')}',
             textInputType: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
             controller: type=='user'? userCubit.passwordController:providerCubit.passwordControllerProvider,
@@ -66,7 +67,7 @@ class CustomBodyLogin extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: InkWell(
-              onTap: () =>type=='user'?  NavigationManager.push(Routes.forgotPassword):NavigationManager.push(Routes.providerForgetPassword), child: const Text('نسيت كلمة المرور ؟')),
+              onTap: () =>type=='user'?  NavigationManager.push(Routes.forgotPassword):NavigationManager.push(Routes.providerForgetPassword), child:  Text('${getLang(context, 'pass2')}')),
         ),
         (type=='user'? userCubit.isLoading:providerCubit.isLoading)==false?
         Padding(
@@ -78,7 +79,7 @@ class CustomBodyLogin extends StatelessWidget {
                 AuthCubit.get(context).userLogin(context):
                 AuthProviderCubit.get(context).providerLogin(context);
               },
-              buttonText: 'تسجيل الدخول'),
+              buttonText: '${getLang(context, 'sign_in')}'),
         ):Padding(
           padding:  EdgeInsets.only(top:64.h,bottom: 20.h),
           child: Center(child: CircularProgressIndicator(),),
@@ -91,8 +92,8 @@ class CustomBodyLogin extends StatelessWidget {
               NavigationManager.pushReplacement(Routes.register):
               NavigationManager.pushReplacement(Routes.providerRegister);
             },
-            child: const Text(
-              'إنشاء حساب؟',
+            child:  Text(
+              '${getLang(context, 'create_account')}',
               style: TextStyle(
                 decoration: TextDecoration.underline,
               ),

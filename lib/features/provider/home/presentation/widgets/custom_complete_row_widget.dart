@@ -19,12 +19,13 @@ class CustomCompleteWidgetRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 24.h, bottom: 24.h),
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 3),
       width:width?? ScreenUtil().screenWidth - 50,
       // height:height?? 200.h,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-        color: primaryColor,),
+        color:  Color(0xff136B79),
+      ),
       child:
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -35,46 +36,46 @@ class CustomCompleteWidgetRow extends StatelessWidget {
               width: 120.w,
               child: Image.asset('assets/images/fixCarProvider.png',
               )),
-          Spacer(),
-          Column(children: <Widget>[
-            Text(
-              '${getLang(context, 'complete_message')}',
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeightManager.bold,
-                  fontFamily: 'Cairo'),
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: 5.h,),
-            Container(
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff136B79),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+          Expanded(
+            child: Column(children: <Widget>[
+              Text(
+                '${getLang(context, 'complete_message')}',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeightManager.bold,
+                    fontFamily: 'Cairo'),
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 5.h,),
+              Container(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
+                      minimumSize: Size(134.w, 36.h),
                     ),
-                    elevation: 0,
-
-                    minimumSize: Size(134.w, 36.h),
-                  ),
-                  onPressed: () {
-                    NavigationManager.push(Routes.providerCompleteRenterData);
-                  },
-                  child: Text(
-                    '${getLang(context, 'complete')}',
-                    style:  TextStyle(
-                        fontSize: 16.sp,
-                        color: Colors.white,
-                        fontFamily: 'Lateef',
-                        fontWeight: FontWeight.bold),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )),
-            ),
-          ],)
-
+                    onPressed: () {
+                      NavigationManager.push(Routes.providerCompleteRenterData);
+                    },
+                    child: Text(
+                      '${getLang(context, 'complete')}',
+                      style:  TextStyle(
+                          fontSize: 16.sp,
+                          color: Colors.black,
+                          fontFamily: 'Lateef',
+                          fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+              ),
+            ],),
+          )
         ],
       ),
     );

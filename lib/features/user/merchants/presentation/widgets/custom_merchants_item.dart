@@ -55,7 +55,7 @@ class CustomMerchantsItem extends StatelessWidget {
                     right: 10.w,
                     child:
 
-                    StatefulBuilder(builder: (context,setState){
+                    StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
                       return
                         merchantsModelData.isFav==true?
                         InkWell(

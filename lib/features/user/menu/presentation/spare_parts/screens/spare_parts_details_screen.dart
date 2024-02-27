@@ -26,7 +26,7 @@ class SparePartsDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: CustomAppBar(title:getLang(context, type), hasBackButton: true,hasCartButton: true,),
-          preferredSize: Size(double.infinity, 80.h)),
+          preferredSize: Size(double.infinity, 70.h)),
       body:
       BlocConsumer<MenuCubit, MenuState>(
         listener: (BuildContext context,MenuState state) {},
@@ -101,18 +101,21 @@ class SparePartsDetailsScreen extends StatelessWidget {
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         ProductModelData data2 = cubit.productModel!.data![index];
+                        print('id : ==== ${ cubit.productModel!.data![index].id!}');
+                        print('length : ==== ${ cubit.productModel!.data!.length}');
                         return Stack(
-                          children: [
+                          children: <Widget>[
                             InkWell(
                               onTap: () {
                                 final ProductModelData data = cubit.productModel!.data![index];
-                                List<String> list= [];
-                                for(var a in data.images!){
+                                List<String> list= <String>[];
+                                for(Images a in data.images!){
                                   list.add(a.image.toString());
                                 }
                                 Navigator.push(context, MaterialPageRoute(builder:
                                     (BuildContext context)=>ProductDetailsScreen(
                                   title: data.title,
+                                  type: type,
                                   price: data.price.toString() ,
                                   brandName:data.brand!=null?data.brand!.name:'',
                                   modelName: data.modal!=null?data.modal!.name:'',
@@ -134,6 +137,8 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                           providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                           count: 1,
                                           productBrand: data2.brand!=null?data2.brand!.name:''),
+                                          id: data2.id!,
+                                          isFav: data2.isFav,
 
                                  )));
                                 // NavigationManager.push(Routes.productDetails);
@@ -156,8 +161,7 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                     providerId: data2.provider!=null?data2.provider!.id!.toString():'',
                                     count: 1,
                                     productBrand: data2.brand!=null?data2.brand!.name:''),
-                                    providerName: data2.provider!=null?data2.provider!.name!:'',
-
+                                providerName: data2.provider!=null?data2.provider!.name!:'',
                               ),
                             ),
                             Positioned(
@@ -248,6 +252,8 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                   }
                                   Navigator.push(context, MaterialPageRoute(builder:
                                       (BuildContext context)=>ProductDetailsScreen(
+                                        id: data2.id!,
+                                        isFav: data2.isFav,
                                     title: data.title,
                                     price: data.price.toString() ,
                                     brandName:data.brand!=null?data.brand!.name:'',

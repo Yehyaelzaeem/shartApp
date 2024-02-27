@@ -15,7 +15,7 @@ class ProviderAddressesScreen extends StatelessWidget {
     ProviderProfileCubit cubit =ProviderProfileCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: getLang(context, 'my_addresses'), hasBackButton: true,),
       ),
       body: Container(

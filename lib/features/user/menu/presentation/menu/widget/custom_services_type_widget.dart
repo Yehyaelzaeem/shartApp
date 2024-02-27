@@ -27,12 +27,19 @@ class CustomServicesTypeWidget extends StatelessWidget {
           children: <Widget>[
             Image.asset(image!),
             SizedBox(width: 24.w),
-            Text(
-              text!,
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeightManager.light,
-                fontFamily: FontConstants.lateefFont,
+            Expanded(
+              child: Text(
+                text!,
+                style: TextStyle(
+                  fontSize: 24.sp,
+                  fontWeight: FontWeightManager.light,
+                  height: 1,
+                  fontFamily: FontConstants.lateefFont,
+                ),
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+
               ),
             ),
           ],

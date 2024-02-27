@@ -25,12 +25,15 @@ class CardItem extends StatelessWidget {
 
         Navigator.push(context, MaterialPageRoute(builder:
             (BuildContext context)=>ProductDetailsScreen(
+              id: product.id!,
+              isFav: product.isFav,
           title: product.productName,
           price: product.productPrice.toString() ,
           brandName:product.productBrand!=null?product.productBrand!:'',
           width:'',
           height:'',
           images: list,
+          isCart: true,
           size:'',
           productStatus: product.productState,
           description:product.description ,

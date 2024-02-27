@@ -12,7 +12,7 @@ class StoreProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: 'متجر الثواب',hasBackButton: true),
       ),
       body: GridView.builder(

@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import '../../../../core/resources/assets_menager.dart';
 import '../../../../core/resources/color.dart';
-import '../../../../core/routing/navigation_services.dart';
-import '../../../../core/routing/routes.dart';
 import '../../../../features/provider/auth/logic/auth_provider_cubit.dart';
 import '../../../../features/provider/profile/logic/provider_profile_cubit.dart';
+import '../../../../features/provider/profile/presentation/change_password/change_password_screen.dart';
 import '../../../../features/user/auth/logic/auth_cubit.dart';
 import '../../../../features/user/profile/logic/user_profile_cubit.dart';
+import '../../../../features/user/profile/presentation/change_password/change_password_screen.dart';
 import '../../../../widgets/custom_button.dart';
 import '../../../../widgets/custom_text_field.dart';
 
@@ -145,8 +145,8 @@ class CustomEditProfileBodyWidget extends StatelessWidget {
                   CustomElevatedButton(
       onTap: () {
         type=='user'?
-        NavigationManager.push(Routes.forgotPassword):
-        NavigationManager.push(Routes.providerForgetPassword);
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ChangePasswordScreen())):
+            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ChangePasswordProviderScreen()));
       },
       buttonText:  getLang(context, 'update_password'),
       backgroundColor: whiteColor,

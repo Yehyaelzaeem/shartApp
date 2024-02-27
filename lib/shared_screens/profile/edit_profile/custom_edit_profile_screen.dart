@@ -17,7 +17,7 @@ class CustomEditProfileScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar:  PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child:
           CustomAppBar(title: getLang(context, 'edit_profile'), hasBackButton: true,
             onTap: (){
@@ -36,6 +36,7 @@ class CustomEditProfileScreen extends StatelessWidget {
       BlocConsumer<ProviderProfileCubit,ProviderProfileState>(
         listener: (BuildContext context, ProviderProfileState state) {},
         builder: (BuildContext context, ProviderProfileState state) {
+          ProviderProfileCubit.get(context).putProfileData();
          return CustomEditProfileBodyWidget(type: 'provider', userCubit: UserProfileCubit.get(context), providerCubit: ProviderProfileCubit.get(context),);
         },
       ),

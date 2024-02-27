@@ -16,12 +16,16 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteMerModel? favoriteMerModel;
 
   Future<dynamic> getFavoriteProducts(String token,BuildContext context)async{
+    favoriteProductsUser=null;
+    emit(GetFavoritesState());
     favoriteRemoteDataSource.getFavoriteProducts(token, context).then((FavoriteProductsUser? value) {
       favoriteProductsUser=value!;
       emit(GetFavoritesState());
     });
   }
   Future<dynamic> getFavoriteMerProducts(BuildContext context)async{
+    favoriteMerModel=null;
+    emit(GetFavoritesMerState());
     favoriteRemoteDataSource.getFavoriteMerProducts(context).then((FavoriteMerModel? value) {
       favoriteMerModel=value!;
       emit(GetFavoritesMerState());

@@ -14,7 +14,7 @@ class StoreScreen extends StatelessWidget {
     return
       Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: 'المتاجر',hasBackButton: true),
       ),
       body:

@@ -26,16 +26,15 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
   @override
   Future<PackageCheckModel?> getPackage(BuildContext context) async{
     AuthCubit cubit =AuthCubit.get(context);
-    Response<dynamic> res = await DioHelper.getData(url: AppApis.checkCars,language: cubit.localeLanguage==Locale('en')?'en':'ar');
+    Response<dynamic> res = await DioHelper.getData(url: AppApis.checkCars,
+        language: cubit.localeLanguage==Locale('en')?'en':'ar');
 
     if (PackageCheckModel.fromJson(res.data).success == false) {
       showToast(text: '${PackageCheckModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (res.statusCode == 200) {
-        print('${PackageCheckModel.fromJson(res.data).data![1].title}');
-        // showToast(text: '${UserProfileModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-        return PackageCheckModel.fromJson(res.data);
+         return PackageCheckModel.fromJson(res.data);
       }
       else {
         // showToast(text: '${PackageCheckModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
@@ -106,33 +105,22 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
     }if (sizeId != null && sizeId.isNotEmpty) {
       data['size_id'] = sizeId;
     }
-   print(data.toString());
     AuthCubit cubit =AuthCubit.get(context);
 
     if(cubit.token.isNotEmpty){
-      print('startttt');
 
       Response<dynamic> res = await DioHelper.postData(url: AppApis.getProductUser,
           language: cubit.localeLanguage==Locale('en')?'en':'ar',
           token: cubit.token,
           data: data
       );
-      print('asdsad');
-
       if (UserProductModel.fromJson(res.data).success == false) {
         cubitController.changeLoading(false);
       }
       else{
         if (res.statusCode == 200) {
           cubitController.changeLoading(false);
-
           if((providerId!=null && providerId!='') ||brandId!=null|| modelId!=null||productStatus!=null){
-            // print('dddd222d');
-            // print('1  : $providerId');
-            // print('2  : $brandId');
-            // print('3  : $modelId');
-            // print('4  : $productStatus');
-            // print('ddddd');
             Navigator.of(context).pop();
           }
           return UserProductModel.fromJson(res.data);
@@ -155,9 +143,12 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
         if (res.statusCode == 200) {
           cubitController.changeLoading(false);
 
-          if(providerId!=null ||brandId!=null|| modelId!=null||productStatus!=null){
+          if((providerId!=null && providerId!='') ||brandId!=null|| modelId!=null||productStatus!=null){
             Navigator.of(context).pop();
           }
+          // if(providerId!=null ||brandId!=null|| modelId!=null||productStatus!=null){
+          //    Navigator.of(context).pop();
+          // }
           return UserProductModel.fromJson(res.data);
         }
         else {

@@ -8,12 +8,12 @@ import '../../../../../../widgets/custom_text_field.dart';
 import '../../../logic/provider_profile_cubit.dart';
 
 class CustomCompleteProfileBody extends StatelessWidget {
-  const CustomCompleteProfileBody({super.key});
-
+  const CustomCompleteProfileBody({super.key, this.isEdit});
+  final bool? isEdit;
   @override
   Widget build(BuildContext context) {
     ProviderProfileCubit cubit = ProviderProfileCubit.get(context);
-
+     // cubit.displayDataOfScreen();
     return SingleChildScrollView(
       child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
         listener: (BuildContext context,ProviderProfileState state) {},
@@ -95,7 +95,6 @@ class CustomCompleteProfileBody extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30.h,),
-
               cubit.idCompleteFile ==null?
               InkWell(
                 onTap: () {
@@ -133,7 +132,10 @@ class CustomCompleteProfileBody extends StatelessWidget {
                   controller: TextEditingController(),
                   prefixIcon: Icon(Icons.upload_file_outlined,color:  Colors.blue.shade800,)),
               SizedBox(height: 60.h,),
-              cubit.isUpdateLoading == false ?CustomElevatedButton(onTap: () {
+              cubit.isUpdateLoading == false ?
+              CustomElevatedButton(onTap: () {
+                isEdit==true?
+                cubit.updateCompleteProfile(context):
                 cubit.sendCompleteProfile(context);
               }, buttonText: '${getLang(context, 'done')}'): Center(child: CircularProgressIndicator()),
               SizedBox(height: 150.h,),

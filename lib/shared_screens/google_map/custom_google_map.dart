@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/user/cart/logic/cart_cubit.dart';
 import 'package:shart/features/user/cart/presentation/screen/complete_order.dart';
 import 'package:shart/widgets/custom_button.dart';
@@ -15,13 +16,15 @@ import '../../features/provider/profile/presentation/address/screens/provider_ad
 import '../../features/user/cart/presentation/widgets/custom_address-user_widget.dart';
 import '../../features/user/profile/logic/user_profile_cubit.dart';
 import '../../features/user/profile/presentation/address/screens/user_add_address.dart';
+import '../../widgets/custom_text_field.dart';
 import 'address_location_model.dart';
 
 class CustomGoogleMapScreen extends StatefulWidget {
   final double lat;
   final double long;
   final String type;
-  const CustomGoogleMapScreen({super.key, required this.lat, required this.long, required this.type});
+  final int? id;
+  const CustomGoogleMapScreen({super.key, required this.lat, required this.long, required this.type, this.id});
 
   @override
   State<CustomGoogleMapScreen> createState() => _MapScreenState();
@@ -49,7 +52,7 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Shart's Map",
+        title: Center(child: Text('${getLang(context, 'c_location')}',
         style: TextStyle(
           fontSize: 25.sp,
           fontFamily: FontConstants.lateefFont,
@@ -59,25 +62,17 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
         )),
       ),
       body: Column(
-        children: [
-          TextField(
-            onSubmitted: (val){
-              _searchPlace();
-            },
-            textInputAction: TextInputAction.search,
-            controller: searchController,
-            textAlign: TextAlign.end,
-            decoration: InputDecoration(
-              hintText: 'Search for a place',
-              contentPadding: EdgeInsets.symmetric(vertical: 18,horizontal: 25),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  _searchPlace();
-                },
-              ),
-            ),
-          ),
+        children: <Widget>[
+          CustomTextField(
+              hintText: '${getLang(context, 'search2')}',
+              controller: searchController,
+              prefixIcon:
+              Icon(Icons.search_sharp, color: Colors.grey.shade400),
+              onFieldSubmitted: (String val){
+                _searchPlace();
+              },
+              textInputAction: TextInputAction.search,
+              borderColor: Colors.grey.shade300),
           Expanded(
             child: GoogleMap(
               onMapCreated: (GoogleMapController controller) {
@@ -108,43 +103,51 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
               },
             ),
           ),
-          CustomElevatedButton(
-              onTap: (){
-                if(getCountry.isEmpty){
-                  LatLng latng=LatLng(widget.lat, widget.long);
-                  setState(() {
-                    getAddressPosition(latng);
-                  });
-                }
-                AddressLocationModel addressModel =AddressLocationModel(
-                  lat: getLat.isEmpty?widget.lat.toString():getLat ,
-                  long: getLong.isEmpty?widget.long.toString():getLong,
-                  country: getCountry.isEmpty?'':getCountry,
-                  bigCity: getBigCity.isEmpty?'':getBigCity,
-                  city: getCity.isEmpty?'':getCity,
-                  street: getStreet.isEmpty?'':getStreet,
-                  locality: getLocality.isEmpty?'':getLocality,
-                );
-                if(getCountry.isNotEmpty){
-                  if(widget.type=='user'){
-                    // UserProfileCubit.get(context).addressLocationModel =addressModel;
-                    CartCubit.get(context).addressLocationModel =addressModel;
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CompleteOrder()));
-                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserAddAddressScreen()));
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w ,vertical: 10.h),
+            child: CustomElevatedButton(
+                onTap: (){
+                  if(getCountry.isEmpty){
+                    LatLng latng=LatLng(widget.lat, widget.long);
+                    setState(() {
+                      getAddressPosition(latng);
+                    });
+                  }
+                  AddressLocationModel addressModel =AddressLocationModel(
+                    id: widget.id!=null? widget.id!:null,
+                    lat: getLat.isEmpty?widget.lat.toString():getLat ,
+                    long: getLong.isEmpty?widget.long.toString():getLong,
+                    country: getCountry.isEmpty?'':getCountry,
+                    bigCity: getBigCity.isEmpty?'':getBigCity,
+                    city: getCity.isEmpty?'':getCity,
+                    street: getStreet.isEmpty?'':getStreet,
+                    locality: getLocality.isEmpty?'':getLocality,
+                  );
+                  if(getCountry.isNotEmpty){
+                    if(widget.type=='user'){
+                      // UserProfileCubit.get(context).addressLocationModel =addressModel;
+                      CartCubit.get(context).addressLocationModel =addressModel;
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CompleteOrder()));
+                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserAddAddressScreen()));
 
 
-                }else{
+                  }else{
+                      if(widget.type=='providerAddress'){
+                        ProviderProfileCubit.get(context).putDataOfLocationEditor(addressModel);
+                        Navigator.of(context).pop();
+                      }else{
+                        ProviderProfileCubit.get(context).addressLocationModel =addressModel;
+                        NavigationManager.pushReplacement(Routes.providerAddAddress);
+                      }
 
-                    ProviderProfileCubit.get(context).addressLocationModel =addressModel;
-                   NavigationManager.pushReplacement(Routes.providerAddAddress);
-                   //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ProviderAddressesScreen()));
 
-                }
+                  }
 
-                }
-              },
-              fontSize: 25,
-              buttonText: 'Save'),
+                  }
+                },
+                fontSize: 25,
+                buttonText: '${getLang(context, 'my_business_save')}'),
+          ),
 
         ],
       ),

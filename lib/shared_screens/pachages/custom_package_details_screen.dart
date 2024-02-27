@@ -12,7 +12,7 @@ class CustomPackageDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           child: CustomAppBar(title: 'تفاصيل الباقة', hasBackButton: true),
-          preferredSize: Size(double.infinity, 80.h)),
+          preferredSize: Size(double.infinity, 70.h)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

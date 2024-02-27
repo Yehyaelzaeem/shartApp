@@ -24,17 +24,25 @@ class CustomRowDetails extends StatelessWidget {
                 fontFamily: FontConstants.lateefFont,
                 color: color??null,
                 fontSize: fontSize??null
-              )),
+              ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
         ),
-        Text(
-           ': ${value!}',
-            style:
-            TextStyles.font16BlackColor500WeightTajawal.copyWith(
-              fontWeight: FontWeight.w700,
-              fontFamily: FontConstants.lateefFont,
-              color: color??null,
-              fontSize: fontSize??null
-            )
+        Container(
+          width:  120.w,
+          child: Text(
+             ': ${value!}',
+              style:
+              TextStyles.font16BlackColor500WeightTajawal.copyWith(
+                fontWeight: FontWeight.w700,
+                fontFamily: FontConstants.lateefFont,
+                color: color??null,
+                fontSize: fontSize??null
+              ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
         ),
 
       ],

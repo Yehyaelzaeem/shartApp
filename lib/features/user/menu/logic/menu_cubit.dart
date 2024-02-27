@@ -1,4 +1,5 @@
 
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/model/banners_model.dart';
@@ -33,6 +34,8 @@ class MenuCubit extends Cubit<MenuState> {
  List<ProductModelProvider> providerList=<ProductModelProvider>[];
  List<ProductModelProvider> providerListTest=<ProductModelProvider>[];
   Future<dynamic> getPackageCheck(BuildContext context)async{
+    packageCheckModel=null;
+    emit(GetBannersState2());
     menuRemoteDataSource.getPackage(context).then((PackageCheckModel? value){
       packageCheckModel=value!;
       emit(GetPackageCheckState(value));
@@ -41,7 +44,8 @@ class MenuCubit extends Cubit<MenuState> {
   List<String> listBanners =<String>[];
   List<BannersModelData?>? bannersModel;
   Future<dynamic> getBanners(String type,BuildContext context)async{
-    listBanners.clear();
+    listBanners=<String>[];
+    emit(GetBannersState2());
     menuRemoteDataSource.getBanners(type,context).then((BannersModel? value) {
       bannersModel=value!.data!;
       for(BannersModelData a in value.data!){
@@ -81,6 +85,7 @@ class MenuCubit extends Cubit<MenuState> {
     searchProductModel=null;
     menuRemoteDataSource.getProducts(type:type,providerId :providerId,widthId: widthId,sizeId: sizeId,brandId:brandId,heightId:heightId,productStatus:productStatus,name:name,context:context).then((UserProductModel? value) {
       searchProductModel=value!;
+      print('sa==========${searchProductModel!.toJson()}');
       emit(GetProductsState());
     });
   }

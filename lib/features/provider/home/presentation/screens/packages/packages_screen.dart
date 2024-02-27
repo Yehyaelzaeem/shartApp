@@ -15,7 +15,7 @@ class ProviderPackagesScreen extends StatelessWidget {
     ProviderHomeCubit cubit =ProviderHomeCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: getLang(context, 'register_packages'),hasBackButton: true,
         ),
       ),

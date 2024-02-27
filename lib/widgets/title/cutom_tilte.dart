@@ -8,17 +8,14 @@ class CustomTitle extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 17.w),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 32.sp,
-            fontFamily: FontConstants.lateefFont,
-            fontWeight: FontWeightManager.bold,
-          ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 17.w),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 32.sp,
+          fontFamily: FontConstants.lateefFont,
+          fontWeight: FontWeightManager.bold,
         ),
       ),
     );

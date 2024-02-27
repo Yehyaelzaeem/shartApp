@@ -5,6 +5,8 @@ abstract class ProviderProfileState {}
 
 class ProviderProfileInitial extends ProviderProfileState {}
 class EditingAddressState extends ProviderProfileState {}
+class ChangePasswordVisibility extends ProviderProfileState {}
+class ChangePasswordState extends ProviderProfileState {}
 class GetProviderProfileState extends ProviderProfileState {
   final ProviderGetProfileModel providerGetProfileModel;
   GetProviderProfileState(this.providerGetProfileModel);
@@ -14,6 +16,7 @@ class AddAddressState extends ProviderProfileState {}
 class EditAddressState extends ProviderProfileState {}
 class DeleteAddressState extends ProviderProfileState {}
 class UploadImage extends ProviderProfileState {}
+class FCMTokenState extends ProviderProfileState {}
 class UploadPDF extends ProviderProfileState {}
 class ChangeRadio extends ProviderProfileState {}
 class DeleteAccountState extends ProviderProfileState {}

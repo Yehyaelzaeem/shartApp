@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/shared_screens/register/widgets/custom_body_register.dart';
 import '../../core/resources/assets_menager.dart';
 import '../../core/routing/navigation_services.dart';
@@ -31,9 +32,11 @@ class CustomRegisterScreen extends StatelessWidget {
           child: Form(
             key:type=='user'? userCubit.registerFormKey:providerCubit.registerFormKeyProvider,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
               children: <Widget>[
-                CustomImageTop(image:  ImagesManager.introduction3,),
-                CustomTitle(title: 'إنشاء حساب',),
+                Center(child: CustomImageTop(image:  ImagesManager.introduction3,)),
+                CustomTitle(title: '${getLang(context, 'create_account2')}',),
                 type=='user'?
                 CustomContainer(widget:  BlocConsumer<AuthCubit,AuthState>(
                   builder: (BuildContext context,AuthState state){

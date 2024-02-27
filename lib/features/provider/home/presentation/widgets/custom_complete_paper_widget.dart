@@ -17,14 +17,9 @@ class CustomCompletePaperWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width*0.4,
       height: 163.h,
       decoration: BoxDecoration(
-          color: primaryColor,
+          color: Color(0xff136B79),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: primaryColor.withOpacity(0.8),
-                blurRadius: 2,
-                spreadRadius: 5)
-          ]),
+      ),
       // padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         child:
         Column(
@@ -35,6 +30,7 @@ class CustomCompletePaperWidget extends StatelessWidget {
                 height: 80.h,
                 child: Image.asset('assets/images/fixCarProvider.png')),
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.w),
               height: 30.h,
               width: MediaQuery.of(context).size.width*0.4,
               child: FittedBox(
@@ -42,6 +38,7 @@ class CustomCompletePaperWidget extends StatelessWidget {
                   '${getLang(context, 'complete_message')}',
                   style: TextStyle(
                       fontSize: 16.sp,
+                      color: whiteColor,
                       fontWeight: FontWeightManager.bold,
                       fontFamily: 'Cairo'),
                   textAlign: TextAlign.center,
@@ -56,7 +53,7 @@ class CustomCompletePaperWidget extends StatelessWidget {
               width: MediaQuery.of(context).size.width*0.3,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff136B79),
+                    backgroundColor: primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -70,7 +67,7 @@ class CustomCompletePaperWidget extends StatelessWidget {
                     '${getLang(context, 'complete')}',
                     style: TextStyle(
                         fontSize: 16.sp,
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: 'Lateef',
                         fontWeight: FontWeight.bold),
                   )),

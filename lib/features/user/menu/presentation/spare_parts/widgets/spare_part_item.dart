@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
+import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/features/user/cart/logic/cart_cubit.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../../../../core/resources/color.dart';
 import '../../../../../../../core/resources/font_manager.dart';
+import '../../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
+import '../../../../auth/logic/auth_cubit.dart';
 import '../../../../cart/data/model/cart_model.dart';
 
 class SparePartItemWidget extends StatelessWidget {
@@ -45,6 +48,7 @@ class SparePartItemWidget extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          image.isNotEmpty?
           Container(
             width: 167.w,
             height: 131.h,
@@ -56,10 +60,10 @@ class SparePartItemWidget extends StatelessWidget {
             ),
             child: Image.network(image,
               errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                return Center(child: Text('Error loading image'));
+                return Image.asset(ImagesManager.holder);
               },
             )
-          ),
+          ):SizedBox.shrink(),
          FittedBox(
            child: Column(
              children: [
@@ -123,15 +127,19 @@ class SparePartItemWidget extends StatelessWidget {
 
           if (cubit.products.where((Cart element) => element.id == cartProduct!.id).toList().length == 0)
           InkWell(onTap: (){
-            print(cartProduct!.providerId);
-            if( cubit.products.isEmpty){
-              cubit.addProduct(cartProduct!);
-            }
-            if(cubit.products[0].providerId == cartProduct!.providerId ){
-              cubit.addProduct(cartProduct!);
+            if(AuthCubit.get(context).token.isNotEmpty){
+              if( cubit.products.isEmpty){
+                cubit.addProduct(cartProduct!);
+              }
+              if(cubit.products[0].providerId == cartProduct!.providerId ){
+                cubit.addProduct(cartProduct!);
 
+              }else{
+                showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
+              }
             }else{
-              showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
+              visitorDialog(context);
+              // showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
             }
           },
             child: Container(

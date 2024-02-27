@@ -12,7 +12,8 @@ class CustomWelcomeMessage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
           left: 16.w, right: 16.w, bottom: 4.h, top: 12.h),
-      child: Text(
+      child:
+      Text(
         getLang(context, 'welcome_message'),
         style: TextStyle(
           fontSize: 24.sp,

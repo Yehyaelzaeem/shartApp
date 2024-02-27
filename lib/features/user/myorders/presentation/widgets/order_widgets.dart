@@ -59,7 +59,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                   children: <Widget>[
                     Row(
                       children: [
-                        Text('رقم الطلب : ',
+                        Text('${getLang(context, 'order_number')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -82,7 +82,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                     ),
                     Row(
                       children: [
-                        Text('اسم المتجر : ',
+                        Text('${getLang(context, 'store_name')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -105,7 +105,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                     ),
                     Row(
                       children: [
-                        Text('الحالة : ',
+                        Text('${getLang(context, 'status')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -128,7 +128,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                     ),
                     Row(
                       children: [
-                        Text('الاجمالي : ',
+                        Text('${getLang(context, 'total_price')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -222,36 +222,63 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
               //     ],
               //   ),
               // ),
-              SizedBox(width: 5.w),
-              InkWell(
-                onTap: (){
-                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
-                  // NavigationManager.push(Routes.invoice);
-                },
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  color: primaryColor,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                    child: Text(
-                      '${getLang(context, '${status}')}',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeightManager.bold,
-                      ),
+            ],
+          ),
+          AuthCubit.get(context).localeLanguage==Locale('en')?
+          Positioned(
+            right: 10,
+            bottom: 10,
+            child: InkWell(
+              onTap: (){
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                // NavigationManager.push(Routes.invoice);
+              },
+              child: Card(
+                margin: EdgeInsets.zero,
+                color: primaryColor.withOpacity(0.5),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                  child: Text(
+                    '${getLang(context, '${status}')}',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeightManager.bold,
                     ),
                   ),
                 ),
               ),
-              SizedBox(width: 15.w),
-
-
-            ],
+            ),
+          ):
+          Positioned(
+            left: 10,
+            bottom: 10,
+            child: InkWell(
+              onTap: (){
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                // NavigationManager.push(Routes.invoice);
+              },
+              child: Card(
+                margin: EdgeInsets.zero,
+                color: primaryColor.withOpacity(0.5),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                  child: Text(
+                    '${getLang(context, '${status}')}',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeightManager.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-
         ],
       ),
     ),
@@ -437,48 +464,96 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
               //     ],
               //   ),
               // ),
-              SizedBox(width: 5.w),
-              Column(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
 
-                      // NavigationManager.push(Routes.invoice);
-                    },
-                    child: Text('${getLang(context, 'view_invoice')}',
-                        style: TextStyle(fontSize: 12)),
-                  ),
-                  Container(
-                      width: 80.w,
-                      height: 1,
-                      color: Colors.black,
-                      margin: EdgeInsets.only(top: 5, bottom: 30)),
-                  Card(
-                    margin: EdgeInsets.zero,
-                    color: Color(0xff136B79),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.r)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8,right: 8,top: 5),
-                      child: Center(
-                        child: Text(
-                          '${getLang(context, '${status}')}',
-                          style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeightManager.bold,
-                          ),
+
+
+            ],
+          ),
+          AuthCubit.get(context).localeLanguage==Locale('en')?
+          Positioned(
+            right: 10,
+            bottom: 10,
+            child:
+            Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                    // NavigationManager.push(Routes.invoice);
+                  },
+                  child: Text('${getLang(context, 'view_invoice')}',
+                      style: TextStyle(fontSize: 12)),
+                ),
+                Container(
+                    width: 80.w,
+                    height: 1,
+                    color: Colors.black,
+                    margin: EdgeInsets.only(top: 5, bottom: 30)),
+                Card(
+                  margin: EdgeInsets.zero,
+                  color: Color(0xff136B79).withOpacity(0.5),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8,top: 5),
+                    child: Center(
+                      child: Text(
+                        '${getLang(context, '${status}')}',
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeightManager.bold,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(width: 15.w),
+                ),
+              ],
+            ),
+          ):
+          Positioned(
+            left: 10,
+            bottom: 10,
+            child:
+            Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
 
-            ],
+                    // NavigationManager.push(Routes.invoice);
+                  },
+                  child: Text('${getLang(context, 'view_invoice')}',
+                      style: TextStyle(fontSize: 12)),
+                ),
+                Container(
+                    width: 80.w,
+                    height: 1,
+                    color: Colors.black,
+                    margin: EdgeInsets.only(top: 5, bottom: 30)),
+                Card(
+                  margin: EdgeInsets.zero,
+                  color: Color(0xff136B79).withOpacity(0.7),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8,top: 3,bottom: 2),
+                    child: Center(
+                      child: Text(
+                        '${getLang(context, '${status}')}',
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeightManager.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           // Positioned(
           //   child: Container(
@@ -701,28 +776,54 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
               //     ],
               //   ),
               // ),
-              SizedBox(width: 5.w),
-              Card(
-                margin: EdgeInsets.zero,
-                color: Color(0xffFF0000),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                  child: Text(
-                    '${getLang(context, '${status}')}',
-                    style: TextStyle(
-                      color: whiteColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeightManager.bold,
-                    ),
+            ],
+          ),
+          AuthCubit.get(context).localeLanguage==Locale('en')?
+          Positioned(
+            right: 5,
+            bottom: 10,
+            child:
+            Card(
+              margin: EdgeInsets.zero,
+              color: Color(0xffFF0000).withOpacity(0.5),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.r)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                child: Text(
+                  '${getLang(context, '${status}')}',
+                  style: TextStyle(
+                    color: whiteColor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeightManager.bold,
                   ),
                 ),
               ),
-              SizedBox(width: 11.w),
-
-            ],
+            ),
+          ):
+          Positioned(
+            left: 5,
+            bottom: 10,
+            child:
+            Card(
+              margin: EdgeInsets.zero,
+              color: Color(0xffFF0000).withOpacity(0.5),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.r)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                child: Text(
+                  '${getLang(context, '${status}')}',
+                  style: TextStyle(
+                    color: whiteColor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeightManager.bold,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

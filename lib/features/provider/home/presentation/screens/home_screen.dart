@@ -13,7 +13,10 @@ import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_menu_top_log_widget.dart';
 import '../../../../../widgets/custom_product_widget.dart';
 import '../../../../../widgets/custom_slider_widget.dart';
+import '../../../../../widgets/custom_title_tab_bar.dart';
 import '../../../../../widgets/custom_welcome_message.dart';
+import '../../../../user/menu/logic/menu_cubit.dart';
+import '../../../myorders/logic/provider_orders_cubit.dart';
 import '../widgets/custom_cancelled _orders_home.dart';
 import '../widgets/custom_complete_paper_widget.dart';
 import '../widgets/custom_complete_row_widget.dart';
@@ -39,7 +42,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    ProviderOrdersCubit cubit=  ProviderOrdersCubit.get(context);
+    return RefreshIndicator(child:
+    PopScope(
       canPop: false,
       onPopInvoked: (_) async {
         CustomDialogs.showAlertDialog(
@@ -69,61 +74,63 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
                 CustomTopRowLogo(type: 'provider',),
                 CustomWelcomeMessage(),
                 CustomSliderWidget(),
+                // CustomSubscribeWidget(),
                 Center(
                   child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
-                        listener: (BuildContext context,ProviderProfileState state) {},
-                        builder: (BuildContext context,ProviderProfileState state) {
-                          if(ProviderProfileCubit.get(context).providerProfileModel!=null){
-                           // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
-                           //   return CustomSubscribeWidgetRow();
-                           // }
-                            if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
-                            && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
-                            ){
-                              return  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  CustomCompletePaperWidget(),
-                                  CustomSubscribeWidget(),
-                                ],
-                              );
-                            }else if(
-                                ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
-                                ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
-                            {
-                              return CustomCompleteWidgetRow();
-                            }else if(
-                                ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
-                                ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
-                            {
-                              return CustomSubscribeWidgetRow();
-                            }
+                      listener: (BuildContext context,ProviderProfileState state) {},
+                      builder: (BuildContext context,ProviderProfileState state) {
+                        if(ProviderProfileCubit.get(context).providerProfileModel!=null){
+                          // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
+                          //   return CustomSubscribeWidgetRow();
+                          // }
+                          if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
+                              && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
+                          ){
+                            // return CustomSubscribeWidgetRow();
+                            return  Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                CustomCompletePaperWidget(),
+                                CustomSubscribeWidget(),
+                              ],
+                            );
+                          }else if(
+                          ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
+                              ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
+                          {
+                            return CustomCompleteWidgetRow();
+                          }else if(
+                          ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
+                              ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
+                          {
+                            return CustomSubscribeWidgetRow();
+                          }
                           else{
                             return SizedBox.shrink();
                           }
-                          }else{
-                            return SizedBox.shrink();
-                          }
+                        }else{
+                          return SizedBox.shrink();
                         }
-                      ),
+                      }
+                  ),
                 ),
                 TabBar(
                   controller: controller,
                   onTap: (int val) {
                     setState(() {
-
                     });
                   },
                   tabs: <Widget>[
-                    Tab(text: '${getLang(context, 'current_orders')}'),
-                    Tab(text: '${getLang(context, 'previous_orders')}'),
-                    Tab(text: '${getLang(context, 'canceled_orders')}'),
+                    CustomTitleTabBarWidget(title: '${getLang(context, 'current_orders')}',),
+                    CustomTitleTabBarWidget(title: '${getLang(context, 'previous_orders')}',),
+                    CustomTitleTabBarWidget(title: '${getLang(context, 'canceled_orders')}',),
                   ],
                   labelColor: Color(0xff136B79),
                   unselectedLabelColor: Colors.black,
                   indicatorColor: Color(0xff136B79),
+
                   labelStyle: TextStyle(fontSize: 16.sp, fontFamily: 'Lateef'),
-                  indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+                  // indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
                 ),
                 if(controller.index==0)
                   CustomCurrentOrderHomeWidget(),
@@ -137,6 +144,15 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
           ),
         ),
       ),
-    );
+    ),
+        onRefresh: ()async{
+          await Future.delayed(Duration(seconds: 1));
+          cubit.putNull();
+          MenuCubit.get(context).getBanners('provider',context);
+         cubit.getMyOrdersCurrentProvider(context);
+         cubit.getMyOrdersPreviousProvider(context);
+         cubit.getMyOrdersCancelledProvider(context);
+        });
+
   }
 }

@@ -25,7 +25,7 @@ class UserAddAddressScreen extends StatelessWidget{
           title: getLang(context,'adding_address'),
           hasBackButton: true,
         ),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body: SingleChildScrollView(
         child: Container(

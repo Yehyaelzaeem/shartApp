@@ -11,7 +11,6 @@ import 'package:shart/features/provider/home/presentation/screens/packages/packa
 import 'package:shart/features/user/auth/ui/screens/verify_account_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/invoice_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/order_details.dart';
-import 'package:shart/features/user/notifications/presentation/screens/notification_screen.dart';
 import 'package:shart/features/user/products/presentation/screens/product_details_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/report_screen.dart';
 import 'package:shart/features/user/store/presentation/screens/store_products.dart';
@@ -20,13 +19,13 @@ import 'package:shart/features/user/store/presentation/screens/store_screen.dart
 import '../../features/common/intro/presentation/screens/choose_user_type_screen.dart';
 import '../../features/common/intro/presentation/screens/onboarding_screen.dart';
 import '../../features/common/splash/presentation/screens/splash_screen.dart';
+import '../../features/provider/auth/presentation/screens/forgot_password_screen.dart';
 import '../../features/provider/auth/presentation/screens/login_provider_screen.dart';
 import '../../features/provider/auth/presentation/screens/otp_provider_screen.dart';
 import '../../features/provider/auth/presentation/screens/register_provider_screen.dart';
 import '../../features/provider/profile/presentation/address/screens/provider_add_address.dart';
 import '../../features/provider/profile/presentation/address/screens/provider_addresses.dart';
 import '../../features/provider/profile/presentation/edit_profile/screen/edit_profile_screen.dart';
-import '../../features/provider/profile/presentation/forget_password/screen/forgot_password_screen.dart';
 import '../../features/provider/work_and_products/presentation/screens/add_new_product.dart';
 import '../../features/provider/work_and_products/presentation/screens/product_details_screen.dart';
 import '../../features/provider/work_and_products/presentation/screens/work_and_products_screen.dart';
@@ -172,9 +171,9 @@ class RouteGenerator {
     // if (settings.name == Routes.rims) {
     //   return platformPageRoute(const RimsScreen());
     // }
-    if (settings.name == Routes.notifications) {
-      return platformPageRoute(const NotificationScreen());
-    }
+    // if (settings.name == Routes.notifications) {
+    //   return platformPageRoute(const NotificationScreen());
+    // }
     if (settings.name == Routes.orders) {
       return platformPageRoute(const UserOrdersScreen());
     }
@@ -232,7 +231,7 @@ class RouteGenerator {
       return platformPageRoute(const ProviderPackagesScreen());
     }
     if (settings.name == Routes.providerForgetPassword) {
-      return platformPageRoute(const ProviderForgotPasswordScreen());
+      return platformPageRoute(const ForgotPasswordProviderScreen());
     }
     if (settings.name == Routes.providerMore) {
       return platformPageRoute(const ProviderMoreScreen());

@@ -94,14 +94,13 @@ class CartCubit extends Cubit<CartState> {
  Future<dynamic> addProduct(Cart product) async {
     if (products.where((Cart element) => element.id == product.id).toList().length == 0) products.add(product);
     products.where((Cart element) => element.id == product.id).first.count = 1;
-    emit(GetCartDataState());  }
-
+    emit(GetCartDataState());
+  }
   Future<dynamic> addQty(Cart product) async {
     product.count = product.count! + 1;
     products.where((Cart element) => element.id == product.id).first.count = product.count;
     emit(GetCartDataState());
   }
-
   Future<dynamic> removeQty(Cart product) async {
     product.count = product.count! - 1;
     if (product.count == 0)

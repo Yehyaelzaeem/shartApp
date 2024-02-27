@@ -23,7 +23,7 @@ class CustomMerDetailsScreen extends StatelessWidget {
     MerchantsCubit cubit=MerchantsCubit.get(context);
     return Scaffold(
         appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: getLang(context, 'merchant_details'),hasBackButton: true,hasCartButton: true,),
         ),
         body: BlocConsumer<MerchantsCubit, MerchantsState>(

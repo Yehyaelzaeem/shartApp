@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shart/features/provider/auth/data/models/register_provider_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
+import '../../../../core/localization/appLocale.dart';
 import '../../../../core/shared_preference/shared_preference.dart';
+import '../../../../shared_screens/notifications/logic/notification_cubit.dart';
 import '../../myorders/logic/provider_orders_cubit.dart';
 import '../../profile/logic/provider_profile_cubit.dart';
 import '../../work_and_products/logic/work_products_cubit.dart';
@@ -15,6 +17,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
   static AuthProviderCubit get(BuildContext context)=>BlocProvider.of(context);
   AuthProviderDataSource authProviderDataSource =AuthProviderDataSource();
   final GlobalKey<FormState> formKeyProvider = GlobalKey<FormState>();
+  TextEditingController phoneController2 = TextEditingController();
 
   final GlobalKey<FormState> registerFormKeyProvider = GlobalKey<FormState>();
   bool visibility = true;
@@ -38,6 +41,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
 
  void getToken(BuildContext context)async{
     token = await CacheHelper.getDate(key: 'providerToken');
+    NotificationCubit.get(context).getNotification('provider',context);
     ProviderProfileCubit.get(context).getProviderProfile('${token}', context);
     ProviderProfileCubit.get(context).getAddressListProvider(token, context);
     WorkProductsCubit.get(context).getWorks(context);
@@ -78,6 +82,19 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
   }
 
 
+  Future<dynamic> forgetPassword(BuildContext context,)async{
+    if(phoneController2.text.isNotEmpty){
+      authProviderDataSource.forgetPassword(phoneController2.text,'3', context,);
+      emit(ResetPasswordState());
+    }else{
+      showToast(text: '${getLang(context, 'complete_data')}', state: ToastStates.error, context: context);
+    }
+  }
+
+  Future<dynamic> resetPassword(String code,BuildContext context,)async{
+    authProviderDataSource.resetPassword(code, context,);
+    emit(ResetPasswordState());
+  }
 
 
   void providerVerifyAccount (String code ,BuildContext context){

@@ -29,7 +29,9 @@ class CustomProductWidgetOrderProvider extends StatelessWidget {
           modelName: items.providerProduct!.modal!=null?items.providerProduct!.modal!.name:'',
           size:'${items.providerProduct!.size!=null?items.providerProduct!.size!.name:''}',
           productStatus: items.providerProduct!.productStatus,
-          description:items.providerProduct!.description ,
+          description:items.providerProduct!.description,
+              id: items.providerProduct!.id!,
+              isFav: items.providerProduct!.isFav,
         )));
       },
       child: Container(

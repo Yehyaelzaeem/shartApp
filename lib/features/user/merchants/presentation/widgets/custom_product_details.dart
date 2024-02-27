@@ -4,15 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/features/user/menu/data/model/product_model.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../core/resources/themes/styles/styles.dart';
+import '../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
 import '../../../../../widgets/custom_divider.dart';
 import '../../../../../widgets/custom_show_image.dart';
 import '../../../../../widgets/show_toast_widget.dart';
 import '../../../cart/data/model/cart_model.dart';
 import '../../../cart/logic/cart_cubit.dart';
+import '../../../favorite/logic/favorite_cubit.dart';
 import '../../../products/presentation/widgets/custom_image_slider.dart';
+import '../../logic/merchants_cubit.dart';
 import 'custom_row deyatils.dart';
 
 class CustomProductDetails extends StatelessWidget {
@@ -22,10 +26,12 @@ class CustomProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartCubit cubit =CartCubit.get(context);
+    FavoriteCubit cubit2 =FavoriteCubit.get(context);
+
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: getLang(context, 'product_details'),hasBackButton: true,hasCartButton: true,),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body:
       SingleChildScrollView(
@@ -35,7 +41,58 @@ class CustomProductDetails extends StatelessWidget {
             Align(
                 alignment: Alignment.center,
                 child:
-                CustomImageSliderWidget(listImage: productModelData.images!.map((Images e) => e.image).toList(),)
+                Stack(
+                  children: <Widget>[
+                    CustomImageSliderWidget(listImage: productModelData.images!.map((Images e) => e.image).toList(),),
+                    Positioned(
+                      top: 8.h,
+                      right: 10.w,
+                      child:
+                      StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                        return
+                          productModelData.isFav==true?
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                productModelData.isFav=false;
+                              });
+                              cubit2.addAndRemoveFavoriteProducts(productModelData.id!.toString(),AuthCubit.get(context).token,context);
+                            },
+                            child: CircleAvatar(
+                                minRadius: 14.sp,
+                                backgroundColor: whiteColor,
+                                child:
+                                Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                  size: 18.sp,
+                                )
+                            ),
+                          ):
+                          InkWell(
+                            onTap: (){
+                              setState(() {
+                                productModelData.isFav=true;
+                              });
+                              cubit2.addAndRemoveFavoriteProducts(productModelData.id!.toString(),AuthCubit.get(context).token,context);
+                            },
+                            child: CircleAvatar(
+                              minRadius: 14.sp,
+                              backgroundColor: whiteColor,
+                              child:
+                              Icon(
+                                Icons.favorite_border_rounded,
+                                color: Colors.grey,
+                                size: 18.sp,
+                              ),
+                            ),
+                          ) ;
+                      }),
+
+                    ),
+
+                  ],
+                )
             ),
             SizedBox(height: 25.h,),
             Padding(
@@ -134,15 +191,21 @@ class CustomProductDetails extends StatelessWidget {
                       return Column(children: <Widget>[
                         if (cubit.products.where((Cart element) => element.id == productModelData.id).toList().length == 0)
                           InkWell(onTap: (){
-                            if( cubit.products.isEmpty){
-                              cubit.addProduct(cartProduct);
-                            }
-                            if(cubit.products[0].providerId == cartProduct.providerId ){
-                              cubit.addProduct(cartProduct);
+                            if(AuthCubit.get(context).token.isNotEmpty){
+                              if( cubit.products.isEmpty){
+                                cubit.addProduct(cartProduct);
+                              }
+                              if(cubit.products[0].providerId == cartProduct.providerId ){
+                                cubit.addProduct(cartProduct);
 
+                              }else{
+                                showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
+                              }
                             }else{
-                              showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
+                              visitorDialog(context);
+                              // showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
                             }
+
                           },
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 9.w,vertical: 5),

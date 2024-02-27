@@ -29,7 +29,7 @@ class ProviderBottomNavScreen extends StatefulWidget {
 class _ProviderBottomNavScreenState extends State<ProviderBottomNavScreen> {
   List<Widget> pages = <Widget>[
     const ProviderHomeScreen(),
-    const ProviderOrdersScreen(),
+    const ProviderOrdersScreen(isNotNotification: true,),
     const ProfileBottomScreen(),
     // const ProviderMoreScreen(),
     const ProviderMoreScreen(),

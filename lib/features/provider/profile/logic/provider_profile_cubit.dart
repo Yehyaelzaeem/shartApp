@@ -26,7 +26,10 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   ProviderProfileRemoteDataSource providerProfileRemoteDataSource =ProviderProfileRemoteDataSource();
   ProviderGetProfileModel? providerProfileModel;
   final GlobalKey<FormState> formKeyEditProvider = GlobalKey<FormState>();
-
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
+  bool passwordVisibility = true;
+  bool passwordConfirmVisibility = true;
   TextEditingController nameControllerProvider = TextEditingController();
   TextEditingController emailControllerProvider = TextEditingController();
   TextEditingController phoneControllerProvider = TextEditingController();
@@ -67,10 +70,14 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   int addressType = 0;
 
   AddressLocationModel? addressLocationModel;
+  AddressLocationModel? addressLocationModelEditor;
   bool isAddressEditing =false;
   bool isUpdateLoading =false;
   bool isUpdateEditingLoading =false;
-
+  void putDataOfLocationEditor(AddressLocationModel x){
+    addressLocationModelEditor =x;
+    emit(UpdateUserProfile());
+  }
   Future<ProviderGetProfileModel?> getProviderProfile (String token ,BuildContext context)async{
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
@@ -85,6 +92,12 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       print('token is empty getProviderProfile');
     }
     return null;
+  }
+  void putProfileData(){
+    nameControllerProvider.text=providerProfileModel!.data!.name!;
+    emailControllerProvider.text=providerProfileModel!.data!.email!;
+    phoneControllerProvider.text=providerProfileModel!.data!.phone!;
+    emit(UpdateUserProfile());
   }
   Future<ProviderGetProfileModel?> updateProviderProfile
       ( ProviderGetProfileModel oldUserProfile ,String token ,BuildContext context)async{
@@ -142,12 +155,15 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       phone: addressAddPhoneController.text,
       lng: long!.toString(),
       lat: lat!.toString(),
+      note:addressLocationModel!=null?'${addressLocationModel!.country},${addressLocationModel!.bigCity},${addressLocationModel!.city},${addressLocationModel!.locality},${addressLocationModel!.street}':'',
     );
 
-    if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
+    if(token.isNotEmpty&&addressModelData.name!.isNotEmpty&&addressModelData.address!.isNotEmpty&&addressModelData.phone!.isNotEmpty&&addressModelData.lng!.isNotEmpty&&addressModelData.lat!.isNotEmpty){
       providerProfileRemoteDataSource.addAddressProvider(addressModelData ,token, context);
       // getAddressListProvider(token,context);
       emit(AddAddressState());
+    }else{
+      showToast(text: '${getLang(context, 'complete_data')}', state: ToastStates.error, context: context);
     }
     return null;
   }
@@ -158,8 +174,11 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       name: addressNameController.text.isEmpty?addressData.name:addressNameController.text,
       address: addressController.text.isEmpty?addressData.address:addressController.text,
       phone: addressPhoneController.text.isEmpty?addressData.phone:addressPhoneController.text,
-      lat: lat!=null?lat!.toString():addressData.lat,
-      lng: long!=null?long!.toString():addressData.lng,
+      lat: addressData.lat,
+      lng: addressData.lng,
+      note: addressLocationModelEditor!=null?
+      '${addressLocationModelEditor!.country}/${addressLocationModelEditor!.bigCity}'
+          '/${addressLocationModelEditor!.city}/${addressLocationModelEditor!.locality}/${addressLocationModelEditor!.street}':''
     );
 
     if(token.isNotEmpty){
@@ -226,7 +245,10 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     emit(ChangeRadio());
 
   }
-
+  Future<dynamic> sendFCMToken (String token ,String FcmToken )async{
+    await  providerProfileRemoteDataSource.sendFCMToken(token, FcmToken);
+    emit(FCMTokenState());
+  }
   void sendCompleteProfile(BuildContext context){
     if(titleCompleteProfileController.text.isNotEmpty&&numberCommercialCompleteProfileController.text.isNotEmpty
         &&iPanCompleteProfileController.text.isNotEmpty &&addressCompleteProfileController.text.isNotEmpty
@@ -238,7 +260,23 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
         commercialEndDate: dateCompleteProfileController.text.trim(),
         mainAddress: addressCompleteProfileController.text.trim(),
       );
-      providerProfileRemoteDataSource.sendCompleteProfile(AuthProviderCubit.get(context).token, completeProfileModel, context);
+      providerProfileRemoteDataSource.sendCompleteProfile(false,AuthProviderCubit.get(context).token, completeProfileModel, context);
+    }else{
+      showToast(text: 'please complete required data', state: ToastStates.error, context: context);
+    }
+   }
+   void updateCompleteProfile(BuildContext context){
+    if(titleCompleteProfileController.text.isNotEmpty&&numberCommercialCompleteProfileController.text.isNotEmpty
+        &&iPanCompleteProfileController.text.isNotEmpty &&addressCompleteProfileController.text.isNotEmpty
+        &&dateCompleteProfileController.text.isNotEmpty){
+      CompleteProfileModel completeProfileModel =CompleteProfileModel(
+        storeName: titleCompleteProfileController.text.trim(),
+        commercialRegistrationNo: numberCommercialCompleteProfileController.text.trim(),
+        iPan: iPanCompleteProfileController.text.trim(),
+        commercialEndDate: dateCompleteProfileController.text.trim(),
+        mainAddress: addressCompleteProfileController.text.trim(),
+      );
+      providerProfileRemoteDataSource.sendCompleteProfile(true,AuthProviderCubit.get(context).token, completeProfileModel, context);
     }else{
       showToast(text: 'please complete required data', state: ToastStates.error, context: context);
     }
@@ -250,7 +288,6 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     iPanCompleteProfileController.text=data.ipan!;
     addressCompleteProfileController.text=data.mainAddress!;
     dateCompleteProfileController.text=data.commercialEndDate!;
-    emit(ChangeRadio());
   }
 
   File? profileImageProviderFile;
@@ -264,7 +301,8 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
       logoCompleteFile =File(image.path);
     }
     emit(UploadImage());
-  }Future<void> pickImage2() async {
+  }
+  Future<void> pickImage2() async {
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -294,6 +332,14 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     emit(UploadImage());
 
   }
+  Future<dynamic> changePassword(BuildContext context,)async{
+    if(passwordController.text.isNotEmpty && passwordConfirmController.text.isNotEmpty &&AuthProviderCubit.get(context).token.isNotEmpty){
+      providerProfileRemoteDataSource.changePassword(passwordController.text,passwordConfirmController.text,AuthProviderCubit.get(context).token, context,);
+      emit(ChangePasswordState());
+    }else{
+      showToast(text: '${getLang(context, 'complete_data')}', state: ToastStates.error, context: context);
+    }
+  }
 
   bool isAddLoading =false;
   void changeAddLoading(bool x){
@@ -310,5 +356,13 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   void changeAddressEditing(bool x){
     isAddressEditing =x;
     emit(EditingAddressState());
+  }
+  void changePasswordVisibility(bool x){
+    passwordVisibility =x;
+    emit(ChangePasswordVisibility());
+  }
+  void changePasswordConfirmVisibility(bool x){
+    passwordConfirmVisibility =x;
+    emit(ChangePasswordVisibility());
   }
 }

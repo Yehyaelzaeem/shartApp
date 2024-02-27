@@ -33,7 +33,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     MyOrdersCubit cubit =MyOrdersCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child: CustomAppBar(title: getLang(context, 'bill'), hasBackButton: true)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

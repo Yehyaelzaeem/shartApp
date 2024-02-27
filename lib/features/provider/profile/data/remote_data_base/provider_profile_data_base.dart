@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/core/routing/routes.dart';
@@ -31,9 +30,10 @@ abstract class BaseProviderProfileRemoteDataSource{
   Future<AddressListModel?> deleteAddressProvider(int id ,String token ,BuildContext context);
   Future<AboutCompanyModel?> getABoutCompanyProvider(BuildContext context);
   Future<AboutCompanyModel?> getTermsAndConditionsProvider(BuildContext context);
+  Future<dynamic> changePassword(String password,String confirmPassword, String token, BuildContext context);
   Future<AboutCompanyModel?> getPrivacyProvider(BuildContext context);
-  Future<dynamic>  sendCompleteProfile(String token ,CompleteProfileModel completeProfileModel ,BuildContext context);
-
+  Future<dynamic>  sendCompleteProfile(bool? isUpdate,String token ,CompleteProfileModel completeProfileModel ,BuildContext context);
+  Future<dynamic> sendFCMToken(String token, String fcmToken);
 }
 
 class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSource {
@@ -42,10 +42,8 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
   @override
   Future<ProviderGetProfileModel?> getProviderProfile(String token, BuildContext context) async{
     dynamic t = await CacheHelper.getDate(key: 'token');
-    print('getttt profile');
     Response<dynamic> res = await DioHelper.getData(url: AppApis.getProviderProfileUser,
         token: token.isNotEmpty?token:t);
-    print('eeee profile');
 
     if (ProviderGetProfileModel.fromJson(res.data).success == false) {
       showToast(text: '${ProviderGetProfileModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
@@ -63,6 +61,22 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
   }
 
 
+  @override
+  Future<dynamic> sendFCMToken(String token, String fcmToken)async{
+
+    Response<dynamic> res = await DioHelper.postData(
+      token: token,
+      url: AppApis.sendFCMTokenProvider, data: <String, dynamic>{
+      'fcm_token': fcmToken,
+    },);
+
+    if (res.statusCode == 200) {
+      print(json.encode(res.data));
+    }
+    else {
+      print(res.statusMessage);
+    }
+  }
 
   @override
   Future<ProviderGetProfileModel?> updateProviderProfile(ProviderGetProfileModel providerGetProfileModel ,String token, BuildContext context) async{
@@ -141,7 +155,7 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
     else{
       if (res.statusCode == 200) {
         showToast(text: '${DeleteAccountProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-         NavigationManager.pushReplacement(Routes.providerLogin);
+         NavigationManager.pushReplacement(Routes.chooseUserScreen);
         cubit.nameControllerProvider.text='';
         cubit.emailControllerProvider.text='';
         cubit.phoneControllerProvider.text='';
@@ -166,7 +180,7 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
       'lat':'${addressModelData.lat}',
       'lng':'${addressModelData.lng}',
       'phone':'${addressModelData.phone}',
-      'note':'',
+      'note':addressModelData.note,
     }
     );
     if (AddressModel.fromJson(res.data).success == false) {
@@ -234,7 +248,7 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
           'lat':'${addressModelData.lat}',
           'lng':'${addressModelData.lng}',
           'phone':'${addressModelData.phone}',
-           'note':'',
+           'note':addressModelData.note,
         }
     );
     if (AddressModel.fromJson(res.data).success == false) {
@@ -342,20 +356,35 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
   }
 
   @override
-  Future<dynamic> sendCompleteProfile(String token ,CompleteProfileModel completeProfileModel ,BuildContext context) async{
+  Future<dynamic> sendCompleteProfile(bool? isUpdate,String token ,CompleteProfileModel completeProfileModel ,BuildContext context) async{
     ProviderProfileCubit cubitProvider =ProviderProfileCubit.get(context);
     cubitProvider.changeUpdateLoading(true);
-    var data = FormData.fromMap({
-         'commercial_registration_file': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.pdfCompleteFile!.path, filename: cubitProvider.pdfCompleteFile!.path),],
-         'logo':<MultipartFile>[await MultipartFile.fromFile(cubitProvider.logoCompleteFile!.path, filename: cubitProvider.logoCompleteFile!.path,),],
-         'national_id_image': <MultipartFile>[await MultipartFile.fromFile(cubitProvider.idCompleteFile!.path, filename: cubitProvider.idCompleteFile!.path,),],
-         'store_name': completeProfileModel.storeName,
+    FormData data = FormData.fromMap({
+      'store_name': completeProfileModel.storeName,
       'commercial_registration_no': completeProfileModel.commercialRegistrationNo,
       'ipan': completeProfileModel.iPan,
       'commercial_end_date': completeProfileModel.commercialEndDate,
       'main_address': completeProfileModel.mainAddress
     });
 
+    if (cubitProvider.pdfCompleteFile != null) {
+      data.files.add(MapEntry(
+        'commercial_registration_file',
+        await MultipartFile.fromFile(cubitProvider.pdfCompleteFile!.path, filename: cubitProvider.pdfCompleteFile!.path),
+      ));
+    }
+    if (cubitProvider.logoCompleteFile != null) {
+      data.files.add(MapEntry(
+        'logo',
+        await MultipartFile.fromFile(cubitProvider.logoCompleteFile!.path, filename: cubitProvider.logoCompleteFile!.path),
+      ));
+    }
+    if (cubitProvider.idCompleteFile != null) {
+      data.files.add(MapEntry(
+        'national_id_image',
+        await MultipartFile.fromFile(cubitProvider.idCompleteFile!.path, filename: cubitProvider.idCompleteFile!.path),
+      ));
+    }
    try{
      AuthCubit cubit =AuthCubit.get(context);
      Response<dynamic> response = await DioHelper.postData(
@@ -378,7 +407,6 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
        cubitProvider.idCompleteFile=null;
        cubitProvider.pdfCompleteFile=null;
        cubitProvider.changeUpdateLoading(false);
-       print(json.encode(response.data));
      }
      else {
        cubitProvider.changeUpdateLoading(false);
@@ -391,6 +419,34 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
 
   }
 
+  @override
+  Future<dynamic> changePassword(String password, String confirmPassword, String token, BuildContext context) async{
+    ProviderProfileCubit cubit= ProviderProfileCubit.get(context);
+    cubit.changeAddLoading(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.changePasswordProvider,
+        data: <String,dynamic>{
+          'password':password,
+          'password_confirmation':confirmPassword,
+        },
+        token: token);
 
+    if(response.data['success']==true){
+      cubit.changeAddLoading(false);
+
+      if (response.statusCode == 200) {
+        showToast(text: response.data['message'], state: ToastStates.success, context: context);
+        Navigator.of(context).pop();
+        cubit.passwordController.text='';
+        cubit.passwordConfirmController.text='';
+      }
+      else {
+        showToast(text: response.data['message'], state: ToastStates.error, context: context);
+      }
+    }else{
+      cubit.changeAddLoading(false);
+      showToast(text: response.data['message'], state: ToastStates.error, context: context);
+    }
+    cubit.changeAddLoading(false);
+  }
 
 }

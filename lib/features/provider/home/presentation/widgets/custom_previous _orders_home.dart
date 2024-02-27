@@ -46,7 +46,8 @@ class CustomPreviousOrderHomeWidget extends StatelessWidget {
                  return InkWell(
                    onTap: () {
                      Navigator.push(context, MaterialPageRoute(builder:
-                         (BuildContext context)=>OrderDetailsProviderScreen(providerOrderModelData: cubit.myOrdersPrevious!.data![index],)));
+                         (BuildContext context)=>OrderDetailsProviderScreen(
+                           providerOrderModelData: cubit.myOrdersPrevious!.data![index],)));
                    },
                    child: CustomProductMyOrderWidget(
                      isHome: true,

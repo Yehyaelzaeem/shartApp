@@ -24,7 +24,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     return Scaffold(
       appBar: PreferredSize(
           child: CustomAppBar(title: 'تفاصيل القطعة',hasBackButton: true),
-          preferredSize: Size(double.infinity, 80.h)),
+          preferredSize: Size(double.infinity, 70.h)),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(

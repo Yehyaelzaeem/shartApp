@@ -28,7 +28,7 @@ class SearchScreen extends StatelessWidget {
     MerchantsCubit merchantsCubit =MerchantsCubit.get(context);
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child: CustomAppBar(title: getLang(context,'search'),hasBackButton: true,),
         ),
 
@@ -222,6 +222,8 @@ class SearchScreen extends StatelessWidget {
                                         }
                                         Navigator.push(context, MaterialPageRoute(builder:
                                             (BuildContext context)=>ProductDetailsScreen(
+                                              id: data.id!,
+                                              isFav: data.isFav,
                                           title: data.title,
                                           price: data.price.toString() ,
                                           brandName:data.brand!=null?data.brand!.name:'',

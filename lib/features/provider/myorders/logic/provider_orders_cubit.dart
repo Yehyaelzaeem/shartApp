@@ -13,6 +13,7 @@ class ProviderOrdersCubit extends Cubit<ProviderOrdersState> {
   ProviderOrderModel? myOrdersPrevious;
   ProviderOrderModel? myOrdersCancelled;
   Future<dynamic> getMyOrdersCurrentProvider(BuildContext context)async{
+    // myOrdersCurrent=null;
     await providerMyOrdersRemoteDataSource.getProviderOrders(10, 'current', AuthProviderCubit.get(context).token, context).then((value){
       myOrdersCurrent =value!;
       emit(GetMyOrdersState());
@@ -30,6 +31,17 @@ class ProviderOrdersCubit extends Cubit<ProviderOrdersState> {
       emit(GetMyOrdersState());
     });
   }
+  void putNull(){
+     myOrdersCurrent=null;
+     myOrdersPrevious=null;
+     myOrdersCancelled=null;
+     emit(GetMyOrdersState());
+  }
+  void putNullCurrent(){
+     myOrdersCurrent=null;
+     emit(GetMyOrdersState());
+  }
+
   Future<dynamic> acceptOrder(int id,BuildContext context)async{
     await providerMyOrdersRemoteDataSource.acceptOrder(id, context);
     emit(AcceptOrdersState());

@@ -5,6 +5,8 @@ import '../../../../../../core/localization/appLocale.dart';
 import '../../../../../../widgets/custom_button.dart';
 import '../../../../core/resources/assets_menager.dart';
 import '../../../../core/resources/color.dart';
+import '../../../../widgets/custom_show_image.dart';
+import '../../../../widgets/custom_show_pdf.dart';
 import '../../profile/logic/provider_profile_cubit.dart';
 import '../../profile/presentation/complete_profile/widgets/custom_complete_body.dart';
 
@@ -33,14 +35,20 @@ class CustomEditStoreBody extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(height: 5.h,),
-              Container(
-                height: 50,
-                width: 50,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(data.logo!,  errorBuilder: (BuildContext context,Object error,v){
-                    return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
-                  },),
+              InkWell(
+                onTap: (){
+                  showCustomImages(context: context,
+                      images: <String?>[data.logo!]);
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(data.logo!,  errorBuilder: (BuildContext context,Object error,v){
+                      return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                    },),
+                  ),
                 ),
               ),
               Divider(color: Colors.grey.shade300,),
@@ -147,12 +155,25 @@ class CustomEditStoreBody extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(height: 5.h,),
-              Container(
-                height: 50,
-                width: 50,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child:Icon(Icons.picture_as_pdf,color: Colors.blue.shade300,)
+              InkWell(
+                onTap: ()async{
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PDFViewerPage(pdfUrl:data.commercialRegistrationFile! ),
+                    fullscreenDialog: true, // Open the PDF screen in full screen
+                  ),
+                  );
+
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child:Icon(Icons.picture_as_pdf,color: Colors.blue.shade300,)
+                  ),
                 ),
               ),
               Divider(color: Colors.grey.shade300,),
@@ -165,15 +186,21 @@ class CustomEditStoreBody extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(height: 5.h,),
-              Container(
-                height: 50,
-                width: 50,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(data.nationalIdImage!,
-                    errorBuilder: (context,error,v){
-                      return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
-                    },
+              InkWell(
+                onTap: (){
+                  showCustomImages(context: context,
+                      images: <String?>[data.nationalIdImage!]);
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(data.nationalIdImage!,
+                      errorBuilder: (BuildContext context,Object error,StackTrace? v){
+                        return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -204,7 +231,7 @@ class CustomEditStoreBody extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10.h,),
-              CustomCompleteProfileBody(),
+              CustomCompleteProfileBody(isEdit: true,),
             ],
           );
         },
