@@ -123,6 +123,7 @@ class ProviderGetProfileModelData {
   String? storeName;
   String? commercialRegistrationNo;
   String? ipan;
+  String? fcmToken;
   String? commercialEndDate;
   String? mainAddress;
   String? commercialRegistrationFile;
@@ -148,6 +149,7 @@ class ProviderGetProfileModelData {
         this.storeName,
         this.commercialRegistrationNo,
         this.ipan,
+        this.fcmToken,
         this.commercialEndDate,
         this.mainAddress,
         this.commercialRegistrationFile,
@@ -167,6 +169,7 @@ class ProviderGetProfileModelData {
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
+    fcmToken = json['fcm_token'];
     phoneCountry = json['phone_country'] != null
         ? new PhoneCountry.fromJson(json['phone_country'])
         : null;
@@ -198,6 +201,7 @@ class ProviderGetProfileModelData {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
+    data['fcm_token'] = this.fcmToken;
     if (this.phoneCountry != null) {
       data['phone_country'] = this.phoneCountry!.toJson();
     }

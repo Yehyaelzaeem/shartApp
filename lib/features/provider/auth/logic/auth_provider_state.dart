@@ -9,6 +9,7 @@ class GetTokenState extends AuthProviderState {}
 class ProviderRegisterState extends AuthProviderState {}
 class ProviderVerifyAccountState extends AuthProviderState {}
 class ProviderChangeOtpCompleted extends AuthProviderState {}
+class ResetPasswordState extends AuthProviderState {}
 class ProviderLoginLoadingStates extends AuthProviderState {}
 class ChangeVisibilityIconState extends AuthProviderState {}
 class ChangeLanguageState extends AuthProviderState {}

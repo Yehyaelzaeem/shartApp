@@ -1,10 +1,15 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/features/user/myorders/presentation/screens/payment_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_material_button.dart';
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
-import '../../../../provider/work_and_products/data/model/product_model.dart';
+import '../../../../../widgets/custom_alert_dialog.dart';
+import '../../../../../widgets/custom_button.dart';
+import '../../../cart/logic/cart_cubit.dart';
 import '../../data/model/myorder_model.dart';
 import '../../logic/my_orders_cubit.dart';
 import '../widgets/custom_item_widget.dart';
@@ -18,7 +23,7 @@ class OrderDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16.0,right: 16),
@@ -40,7 +45,19 @@ class OrderDetailsScreen extends StatelessWidget {
                     ),
                     myOrdersModelData.status !='cancelled'&&myOrdersModelData.status !='delivered' && myOrdersModelData.status !='rejected'?
                     CustomMaterialButton(text: '${getLang(context, 'cancel')}', onPressed: (){
-                      MyOrdersCubit.get(context).cancelOrderUser(myOrdersModelData.id!, context);
+                      CustomDialogs.showAlertDialog(
+                        type: DialogType.warning,
+                        btnOkOnPress: () {
+                          MyOrdersCubit.get(context).cancelOrderUser(myOrdersModelData.id!, context);
+                        },
+                        ctx: context,
+                        btnCancelOnPress: () {},
+                        title: '${getLang(context, 'cancel_title')}',
+                        desc: '${getLang(context, 'cancel_mes')}',
+                        btnOkText: '${getLang(context, 'yes')}',
+                        btnCancelText: '${getLang(context, 'no')}',
+                      );
+
                     }):
                     SizedBox.shrink()
                   ],
@@ -181,7 +198,26 @@ class OrderDetailsScreen extends StatelessWidget {
                 itemCount: myOrdersModelData.items!.length,
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
-              )
+              ),
+              SizedBox(height: 20.h,),
+              myOrdersModelData.status=='accepted'?
+              BlocConsumer<CartCubit, CartState>(
+                listener: (BuildContext context,CartState state) {},
+                builder: (BuildContext context, CartState state) {
+                  return
+                    CartCubit.get(context).isAddOrderLoading?Center(child: CircularProgressIndicator(),) :
+                    CustomElevatedButton(onTap: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder:
+                              (BuildContext context)=>
+                                  PaymentScreen(myOrdersModelData: myOrdersModelData,)));
+                      // CartCubit.get(context).addAddressUser(AuthCubit.get(context).token, context);
+                      // _showDialog(context);
+                    },
+                        buttonText: getLang(context, 'pay'));
+                },
+              ):SizedBox.shrink(),
+
             ],
           ),
         ),

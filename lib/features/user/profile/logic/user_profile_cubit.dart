@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/features/user/profile/data/model/message_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 
@@ -34,6 +35,10 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   TextEditingController addressAddController = TextEditingController();
   TextEditingController addressAddPhoneController = TextEditingController();
   final GlobalKey<FormState> formKeyEdit = GlobalKey<FormState>();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
+  bool passwordVisibility = true;
+  bool passwordConfirmVisibility = true;
 
   TextEditingController complainController = TextEditingController();
   String selectValue='';
@@ -215,7 +220,14 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       print('token is empty getProviderProfile');
     }
     emit(DeleteAddressUserState());
-    return null;
+  } 
+  Future<dynamic> changePassword(BuildContext context,)async{
+    if(passwordController.text.isNotEmpty && passwordConfirmController.text.isNotEmpty &&AuthCubit.get(context).token.isNotEmpty){
+      userProfileRemoteDataSource.changePassword(passwordController.text,passwordConfirmController.text,AuthCubit.get(context).token, context,);
+      emit(ChangePasswordState());
+    }else{
+      showToast(text: '${getLang(context, 'complete_data')}', state: ToastStates.error, context: context);
+    }
   }
 
 
@@ -247,5 +259,13 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   void changeAddressEditing(bool x){
     isAddressEditing =x;
     emit(EditingAddressState());
+  }
+  void changePasswordVisibility(bool x){
+    passwordVisibility =x;
+    emit(ChangePasswordVisibility());
+  }
+  void changePasswordConfirmVisibility(bool x){
+    passwordConfirmVisibility =x;
+    emit(ChangePasswordVisibility());
   }
 }

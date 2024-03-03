@@ -4,6 +4,7 @@ import 'package:shart/core/resources/themes/styles/styles.dart';
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../widgets/custom_app_bar.dart';
+import '../../../../../widgets/custom_title_tab_bar.dart';
 import '../../data/models/mer_model.dart';
 import '../widgets/custom_branch_widget.dart';
 import '../widgets/custom_previous_widget.dart';
@@ -25,7 +26,7 @@ class _MerchantsDetailsScreenState extends State<MerchantsDetailsScreen> {
       length: 3,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child: CustomAppBar(title: getLang(context, 'merchant_details'),hasBackButton: true,hasCartButton: true,),
         ),
         body:
@@ -37,9 +38,9 @@ class _MerchantsDetailsScreenState extends State<MerchantsDetailsScreen> {
                 setState(() {});
               },
               tabs: <Widget>[
-                Tab(text: '${getLang(context, 'products')}'),
-                Tab(text: '${getLang(context, 'previous_work')}'),
-                Tab(text: '${getLang(context, 'branch_addresses')}'),
+                CustomTitleTabBarWidget(title: '${getLang(context, 'products')}',),
+                CustomTitleTabBarWidget(title: '${getLang(context, 'previous_work')}',),
+                CustomTitleTabBarWidget(title: '${getLang(context, 'branch_addresses')}',),
               ],
               labelStyle: TextStyles.font15BlueColor500WeightTajawal,
               unselectedLabelStyle: TextStyles.font15BlueColor500WeightTajawal.copyWith(

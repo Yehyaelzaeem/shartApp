@@ -39,6 +39,7 @@ class Data {
   String? birthDate;
   int? age;
   String? image;
+  String? fcmToken;
   bool? isVerified;
   int? otp;
   String? passwordOtp;
@@ -57,6 +58,7 @@ class Data {
         this.city,
         this.gender,
         this.birthDate,
+        this.fcmToken,
         this.age,
         this.image,
         this.isVerified,
@@ -72,6 +74,7 @@ class Data {
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
+    fcmToken = json['fcm_token'];
     phoneCountry = json['phone_country'] != null
         ? new PhoneCountry.fromJson(json['phone_country'])
         : null;
@@ -101,6 +104,7 @@ class Data {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
+    data['fcm_token'] = this.fcmToken;
     if (this.phoneCountry != null) {
       data['phone_country'] = this.phoneCountry!.toJson();
     }

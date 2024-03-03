@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/assets_menager.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_button.dart';
 
@@ -11,6 +12,7 @@ import '../../../../../../core/resources/color.dart';
 import '../../../../../../core/resources/font_manager.dart';
 import '../../../../../../core/routing/navigation_services.dart';
 import '../../../../../../core/routing/routes.dart';
+import '../../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
 import '../../../../book_package_service/presentation/screens/book_package_service_screen.dart';
 import '../../../logic/menu_cubit.dart';
 
@@ -23,7 +25,7 @@ class CarCheckPackagesDetailsScreen extends StatelessWidget {
     MenuCubit cubit =MenuCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar( title:  getLang(context, 'package_details'),hasBackButton: true)
       ),
       body:
@@ -95,7 +97,11 @@ class CarCheckPackagesDetailsScreen extends StatelessWidget {
                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                            child: CustomElevatedButton(
                                onTap: () {
-                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>UserBookPackageServiceScreen(packageId: data.data![index!].id.toString(),)));
+                                 if(AuthCubit.get(context).token.isNotEmpty){
+                                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>UserBookPackageServiceScreen(packageId: data.data![index!].id.toString(),)));
+                                 }else{
+                                   visitorDialog(context);
+                                 }
                                  // NavigationManager.push(Routes.bookPackageService);
                                },
                                buttonText: getLang(context, 'subscribe_now')),

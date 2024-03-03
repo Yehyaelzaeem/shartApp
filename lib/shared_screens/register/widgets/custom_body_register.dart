@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 
 import '../../../core/routing/navigation_services.dart';
 import '../../../core/routing/routes.dart';
@@ -23,11 +24,11 @@ class CustomBodyRegister extends StatelessWidget {
         CustomTextField(
           validationFunc: (String? value){
             if(value!.isEmpty){
-              return 'الاسم فارغ';
+              return '${getLang(context, 'empty_name')}';
             }
             return null;
           },
-          hintText: 'الاسم كامل',
+          hintText: '${getLang(context, 'full_name')}',
           controller:  type=='user'? userCubit.registerNameController:providerCubit.registerNameControllerProvider,
           textInputType: TextInputType.name,
           prefixIcon: const Icon(Icons.person),
@@ -37,11 +38,11 @@ class CustomBodyRegister extends StatelessWidget {
           child: CustomTextField(
             validationFunc: (String? value){
               if(value!.isEmpty){
-                return 'البريد الإلكتروني فارغ';
+                return '${getLang(context, 'email_empty')}';
               }
               return null;
             },
-            hintText: 'البريد الإلكتروني',
+            hintText: '${getLang(context, 'email')}',
             controller:
             type=='user'? userCubit.registerEmailController:providerCubit.registerEmailControllerProvider,
             textInputType: TextInputType.emailAddress,
@@ -51,11 +52,11 @@ class CustomBodyRegister extends StatelessWidget {
         CustomTextField(
           validationFunc: (String? val){
             if (val!.length!=11) {
-              return 'رقم الهاتف لا يساوي 11 رقم يجب التاكد من رقم الهاتف';
+              return '${getLang(context, 'sign_in_ver')}';
             }
             return null;
           },
-          hintText: 'رقم الجوال',
+          hintText: '${getLang(context, 'phone')}',
           controller:
           type=='user'? userCubit.registerPhoneController:providerCubit.registerPhoneControllerProvider,
           textInputType: TextInputType.phone,
@@ -66,14 +67,14 @@ class CustomBodyRegister extends StatelessWidget {
           child: CustomTextField(
             validationFunc: (String? value){
               if(value!.isEmpty){
-                return 'كلمة المرور فارغة';
+                return '${getLang(context, 'pass_empty')}';
               }
               return null;
             },
             isPassword:
             type=='user'? userCubit.regVisibility:providerCubit.regVisibility,
             prefixIcon: const Icon(Icons.lock),
-            hintText: 'كلمة المرور',
+            hintText: '${getLang(context, 'pass')}',
             textInputType: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
             controller:
@@ -93,14 +94,14 @@ class CustomBodyRegister extends StatelessWidget {
           validationFunc: (String? value){
             if(value!.isEmpty){
 
-              return 'كلمة المرور والتاكد من كلمة المرور ليس متطابقان';
+              return '${getLang(context, 'pass2_empty')}';
             }
             return null;
           },
           isPassword:
           type=='user'? userCubit.regVisibilityConfirm:providerCubit.regVisibilityConfirm,
           prefixIcon: const Icon(Icons.lock),
-          hintText: 'تأكيد كلمة المرور',
+          hintText: '${getLang(context, 'pass_confirm')}',
           textInputType: TextInputType.visiblePassword,
           textInputAction: TextInputAction.done,
           controller:
@@ -124,7 +125,7 @@ class CustomBodyRegister extends StatelessWidget {
           child: CustomElevatedButton(
               onTap: () {
                 type=='user'? userCubit.userRegister(context):providerCubit.providerRegister(context);
-              }, buttonText: 'إنشاء حساب'),
+              }, buttonText: '${getLang(context, 'create_account2')}'),
         ):
         Padding(
           padding:  EdgeInsets.only(bottom: 20.h, top: 64.h),
@@ -138,8 +139,8 @@ class CustomBodyRegister extends StatelessWidget {
               NavigationManager.pushReplacement(Routes.login):
               NavigationManager.pushReplacement(Routes.providerLogin);
             },
-            child: const Text(
-              'تسجيل الدخول',
+            child:  Text(
+              '${getLang(context, 'sign_up')}',
               style: TextStyle(
                 decoration: TextDecoration.underline,
               ),

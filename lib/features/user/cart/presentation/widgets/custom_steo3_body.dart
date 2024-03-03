@@ -6,7 +6,6 @@ import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 import '../../../../../widgets/custom_button.dart';
-import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../logic/cart_cubit.dart';
 
 class CustomStep3BodyWidget extends StatelessWidget {
@@ -15,8 +14,7 @@ class CustomStep3BodyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartCubit cubit =   CartCubit.get(context) ;
-    return
-      Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(

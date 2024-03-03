@@ -6,6 +6,7 @@ import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../user/auth/logic/auth_cubit.dart';
 import '../../../../user/myorders/data/model/check_car_model.dart';
 import '../../../../user/myorders/presentation/screens/report_screen.dart';
 
@@ -23,16 +24,17 @@ final GetCheckCarsModelData getCheckCarsModelData;
       child: Container(
         height: 100.h,
         margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
-        decoration: BoxDecoration(
+        decoration:
+        BoxDecoration(
           border: Border.all(color: greyColor),
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Row(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10.r),
-                  bottomRight: Radius.circular(10.r)),
+              borderRadius:AuthCubit.get(context).localeLanguage==Locale('en')?
+              BorderRadius.only(topLeft: Radius.circular(10.r), bottomLeft: Radius.circular(10.r)):
+              BorderRadius.only(topRight: Radius.circular(10.r), bottomRight: Radius.circular(10.r)),
               child: Container(
                 padding: const EdgeInsets.all(0.0),
                 width: 134.w,
@@ -41,7 +43,7 @@ final GetCheckCarsModelData getCheckCarsModelData;
                 child: Image.network(
                   getCheckCarsModelData.package!.image!,
                   fit: BoxFit.cover,
-                  errorBuilder: (context,error,v){
+                  errorBuilder: (BuildContext context,Object error,StackTrace? v){
                     return Image.asset(ImagesManager.holder,fit: BoxFit.cover,);
                   },
                 ),
@@ -93,11 +95,16 @@ final GetCheckCarsModelData getCheckCarsModelData;
               ),
               child: Center(
                 child: FittedBox(
-                  child: Text(
-                    '${getLang(context, '${getCheckCarsModelData.status}')}',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeightManager.bold,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      getCheckCarsModelData.status=='accepted'?
+                      '${getLang(context, 'accepted2')}':
+                      '${getLang(context, '${getCheckCarsModelData.status}')}',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeightManager.bold,
+                      ),
                     ),
                   ),
                 ),

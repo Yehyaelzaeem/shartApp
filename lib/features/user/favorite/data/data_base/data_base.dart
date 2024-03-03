@@ -7,6 +7,7 @@ import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../auth/logic/auth_cubit.dart';
+import '../../../menu/logic/menu_cubit.dart';
 import '../model/favorite_mer_model.dart';
 import '../model/favorite_model.dart';
 

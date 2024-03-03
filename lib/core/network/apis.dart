@@ -6,10 +6,18 @@ class AppApis{
   static const String registerUser='${baseUrl}user/register';
   static const String verifyAccountUser='${baseUrl}user/verify_account';
   static const String sendOTPUser='${baseUrl}user/send-otp';
+  static const String sendFCMToken='${baseUrl}user/update-fcm-token';
+  static const String forgetPassword='${baseUrl}user/forget_password';
+  static const String resetPassword='${baseUrl}user/reset_password';
   //Profile
   static const String getProfileUser='${baseUrl}user/profile';
   static const String updateProfileUser='${baseUrl}user/update-profile';
   static const String deleteAccount='${baseUrl}user/delete-account';
+  static const String changePasswordUser='${baseUrl}user/change-password';
+  //?per_page/$page
+  static  String getUserNotification(int limit)=>'${baseUrl}user/my-notifications?per_page=$limit';
+  // static  String getSingleOrder(int id)=>'${baseUrl}user/get-order/$id';
+
   //Address
   static const String getAddressUser='${baseUrl}user/addresses';
   static const String addAddressUser='${baseUrl}user/addresses/add';
@@ -26,7 +34,7 @@ class AppApis{
   //Cart
   static const String sendOrder='${baseUrl}user/make-order';
   static const String getMyOrder='${baseUrl}user/get-my-orders';
-  static  String getSingleOrder(int id)=>'${baseUrl}user/get-my-orders/$id';
+  static  String getSingleOrder(int id)=>'${baseUrl}user/get-order/$id';
   //CheckCar
   static const String sendCheckCars='${baseUrl}user/check-car';
   static const String getCheckCars='${baseUrl}user/get-checks';
@@ -51,12 +59,19 @@ class AppApis{
   static const String  registerProvider='${baseUrl}provider/register';
   static const String verifyAccountProvider='${baseUrl}provider/verify_account';
   static const String sendOTPProvider='${baseUrl}provider/send-otp';
+  static const String sendFCMTokenProvider='${baseUrl}provider/update-fcm-token';
+  static const String forgetPasswordProvider='${baseUrl}provider/forget_password';
+  static const String resetPasswordProvider='${baseUrl}provider/reset_password';
   //profile
   static const String getProviderProfileUser='${baseUrl}provider/profile';
   static const String updateProviderProfileUser='${baseUrl}provider/update-profile';
   static const String deleteAccountProvider='${baseUrl}provider/delete-account';
   static const String getAddressProvider='${baseUrl}provider/addresses';
   static const String addAddressProvider='${baseUrl}provider/addresses/add';
+  static const String changePasswordProvider='${baseUrl}provider/change-password';
+  //?per_page=$page
+  static  String getProviderNotification(int limit)=>'${baseUrl}provider/my-notifications?per_page=$limit';
+
   static  String editAddressProvider (int id)=>'${baseUrl}provider/addresses/edit/$id';
   static  String deleteAddressProvider (int id)=>'${baseUrl}provider/addresses/delete/$id';
   //Complete Profile
@@ -72,6 +87,8 @@ class AppApis{
   static const String addProduct='${baseUrl}provider/products/add';
   static  String editProduct(int id)=>'${baseUrl}provider/products/edit/$id';
   static  String deleteProduct(int id)=>'${baseUrl}provider/products/delete/$id';
+  static  String getSingleOrderProvider(int id)=>'${baseUrl}provider/get-order/$id';
+
   // Works
   static const String getAllWorks='${baseUrl}provider/works';
   static const String addWorks='${baseUrl}provider/works/add';
@@ -100,7 +117,7 @@ class AppApis{
 
 
   //Get Provider orders
-  static  String getMyOrdersProvider(int limit , String status)=>'${baseUrl}provider/get-my-orders?limit=$limit&status=$status';
+  static  String getMyOrdersProvider(int limit , String status)=>'${baseUrl}provider/get-my-orders?&status=$status';
   static  String acceptOrder(int id)=>'${baseUrl}provider/order/accept/${id}';
   static  String rejectOrder(int id)=>'${baseUrl}provider/order/reject/${id}';
   static  String cancelOrder(int id)=>'${baseUrl}provider/order/cancel/${id}';

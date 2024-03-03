@@ -5,6 +5,7 @@ import 'package:shart/features/provider/work_and_products/presentation/screens/w
 import 'package:shart/widgets/custom_app_bar.dart';
 
 import '../../../../../core/localization/appLocale.dart';
+import '../../../../../widgets/custom_title_tab_bar.dart';
 import '../../../../user/auth/logic/auth_cubit.dart';
 
 class ProviderWorkAndProductsScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _MyWorkScreenState extends State<ProviderWorkAndProductsScreen>
     return
       Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: '${getLang(context,'add_photo_video')}', hasBackButton: true,
         onTap: (){
           Navigator.pop(context);
@@ -55,8 +56,8 @@ class _MyWorkScreenState extends State<ProviderWorkAndProductsScreen>
                 },
                 controller: controller,
                 tabs: <Widget>[
-                  Tab(text: '${getLang(context, 'my_business')}'),
-                  Tab(text: '${getLang(context, 'my_products')}'),
+                  CustomTitleTabBarWidget(title: '${getLang(context, 'my_business')}',),
+                  CustomTitleTabBarWidget(title: '${getLang(context, 'my_products')}',),
                 ],
                 padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 170.w):EdgeInsets.only(right: 120.w),
                 unselectedLabelColor: Colors.black,

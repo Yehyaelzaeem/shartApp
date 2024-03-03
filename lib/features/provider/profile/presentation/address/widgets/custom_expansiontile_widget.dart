@@ -65,6 +65,53 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       color: Color(0xff4B4B4B)))),
           SizedBox(height: 25.h),
           Text(
+            getLang(context, 'the_location'),
+            style: TextStyle(
+                fontSize: 14.sp,
+                fontFamily: 'Lateef',
+                fontWeight: FontWeight.w500),
+          ),
+          InkWell(
+            onTap: (){
+              // ProviderProfileCubit.get(context).getLocation(context);
+              Navigator.push(context, MaterialPageRoute(builder:
+                  (BuildContext context)=>CustomGoogleMapScreen(
+                    id: cubit.addressList!.data![index].id,
+                lat: double.parse(cubit.addressList!.data![index].lat.toString()),
+                long:double.parse(cubit.addressList!.data![index].lng.toString()),
+                type: 'providerAddress',
+              )));
+            },
+            child:
+            TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                hintText:
+
+                cubit.addressLocationModelEditor!=null?
+                cubit.addressList!.data![index].id==cubit.addressLocationModelEditor!.id?
+                '${cubit.addressLocationModelEditor!.country}/${cubit.addressLocationModelEditor!.bigCity}'
+                    '/${cubit.addressLocationModelEditor!.city}/${cubit.addressLocationModelEditor!.locality}/${cubit.addressLocationModelEditor!.street}':
+                '${cubit.addressList!.data![index].note!=null&&cubit.addressList!.data![index].note!.isNotEmpty?cubit.addressList!.data![index].note:'lat : ${cubit.addressList!.data![index].lat} / long : ${cubit.addressList!.data![index].lng}'}':
+                '${cubit.addressList!.data![index].note!=null&&cubit.addressList!.data![index].note!.isNotEmpty?cubit.addressList!.data![index].note:'lat : ${cubit.addressList!.data![index].lat} / long : ${cubit.addressList!.data![index].lng}'}',
+                hintStyle: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.sp,
+                  fontFamily: 'Lateef',
+                  color: Color(0xff4B4B4B),
+                ),
+                disabledBorder:  UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black, // Change this color to your desired color
+                    width: 1.0, // You can also adjust the width if needed
+                  ),
+                ),
+              ),
+            ),
+
+          ),
+          SizedBox(height: 25.h),
+          Text(
             getLang(context, 'phone_nu'),
             style: TextStyle(
                 fontSize: 14.sp,
@@ -80,38 +127,9 @@ class CustomExpansionTileWidget extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
                       fontFamily: 'Lateef',
-                      color: Color(0xff4B4B4B)))),
-          SizedBox(height: 25.h),
-          // Text(
-          //   getLang(context, 'the_location'),
-          //   style: TextStyle(
-          //       fontSize: 14.sp,
-          //       fontFamily: 'Lateef',
-          //       fontWeight: FontWeight.w500),
-          // ),
-          // InkWell(
-          //   onTap: (){
-          //     ProviderProfileCubit.get(context).getLocation(context);
-          //
-          //     Navigator.pushReplacement(context, MaterialPageRoute(builder:
-          //         (BuildContext context)=>CustomGoogleMapScreen(
-          //       lat: cubit.lat!=null?cubit.lat!:double.parse(cubit.addressList!.data![index].lat.toString()),
-          //       long: cubit.long!=null?cubit.long!:double.parse(cubit.addressList!.data![index].lng.toString()),
-          //           type: 'provider',
-          //     )));
-          //   },
-          //   child: TextField(
-          //     enabled: false,
-          //     decoration: InputDecoration(
-          //         hintText:
-          //         'lat : ${cubit.addressList!.data![index].lat} / long : ${cubit.addressList!.data![index].lng}',
-          //         hintStyle: TextStyle(
-          //             fontWeight: FontWeight.w400,
-          //             fontSize: 14.sp,
-          //             fontFamily: 'Lateef',
-          //             color: Color(0xff4B4B4B))),
-          //   ),
-          // ),
+                      color: Color(0xff4B4B4B)),
+              )),
+
           SizedBox(height: 25.h),
           cubit.isUpdateLoading?Padding(
             padding: EdgeInsets.symmetric(vertical: 24.h),

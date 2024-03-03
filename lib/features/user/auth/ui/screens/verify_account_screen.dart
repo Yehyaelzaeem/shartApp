@@ -3,13 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../widgets/custom_button.dart';
 
 class VerifyAccountScreen extends StatelessWidget {
   final String otpCode;
-  const VerifyAccountScreen({super.key, required this.otpCode});
+  final String? type;
+  const VerifyAccountScreen({super.key, required this.otpCode, this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -75,21 +77,21 @@ class VerifyAccountScreen extends StatelessWidget {
                         SizedBox(height: 40.h,),
                         Padding(
                           padding: EdgeInsets.only(bottom: 20.h, top: 64.h),
-                          child: CustomElevatedButton(
+                          child:
+                          AuthCubit.get(context).isLoading==true?Center(child: CircularProgressIndicator()):
+                          CustomElevatedButton(
                               onTap: () {
-
-                                if(AuthCubit.get(context).controllerOtpTest.text.length ==4){
-                                  AuthCubit.get(context).verifyAccount(otpCode,context);
-                                }
-                                // if(AuthCubit.get(context).textFieldOtp.length ==4){
-                                //   String res='';
-                                //   for(int i=AuthCubit.get(context).textFieldOtp.length-1;i>=0;i--){
-                                //     res +=AuthCubit.get(context).textFieldOtp[i];
-                                //   }
-                                //   AuthCubit.get(context).verifyAccount(res,context);
-                                // }
+                               if(type=='pass'){
+                                 if(AuthCubit.get(context).controllerOtpTest.text.length ==4){
+                                   AuthCubit.get(context).resetPassword(otpCode,context);
+                                 }
+                               }else{
+                                 if(AuthCubit.get(context).controllerOtpTest.text.length ==4){
+                                   AuthCubit.get(context).verifyAccount(otpCode,context);
+                                 }
+                               }
                               },
-                              buttonText: 'استمرار'),
+                              buttonText: '${getLang(context, 'count')}'),
                         ),
                         Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom))
                       ],

@@ -66,7 +66,6 @@ class CustomStep2BodyWidget extends StatelessWidget {
           ],
         ),
         SizedBox(height: 5.h,),
-
         Row(
           children: [
             Text(

@@ -1,4 +1,5 @@
 class AddressLocationModel{
+  final int? id;
   final String? country;
   final String? city;
   final String? locality;
@@ -10,6 +11,7 @@ class AddressLocationModel{
   AddressLocationModel(
       {this.country,
       this.city,
+      this.id,
       this.locality,
       this.street,
       this.bigCity,

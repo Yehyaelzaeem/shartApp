@@ -26,7 +26,7 @@ class ProviderAddAddressScreen extends StatelessWidget{
           title: getLang(context,'adding_address'),
           hasBackButton: true,
         ),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -67,10 +67,15 @@ class ProviderAddAddressScreen extends StatelessWidget{
                         borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
                       onPressed: ()async{
-                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CustomGoogleMapScreen(
-                         lat: cubit.lat!,
-                         long: cubit.long!, type: 'provider',
-                       )));
+                        if(cubit.lat!=null&&cubit.long!=null){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CustomGoogleMapScreen(
+                            lat: cubit.lat!,
+                            long: cubit.long!, type: 'provider',
+                          )));
+                        }else{
+                          print('waiting');
+                        }
+
                       }, child: Row(
                         children: [
                           Icon(Icons.location_on_rounded,

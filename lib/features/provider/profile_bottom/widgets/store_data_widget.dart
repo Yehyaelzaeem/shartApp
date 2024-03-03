@@ -23,9 +23,9 @@ class StoreDataWidget extends StatelessWidget {
           builder: (BuildContext context,ProviderProfileState  state) {
             if(cubit.providerProfileModel!=null)
                  return Column(
-              children: [
+              children: <Widget>[
                 if(cubit.providerProfileModel!.data!.profileCompleted==false)
-                  CustomCompleteProfileBody(),
+                   CustomCompleteProfileBody(),
                 if(cubit.providerProfileModel!.data!.profileCompleted==true)
                   CustomEditStoreBody(isEdit: true,),
               ],

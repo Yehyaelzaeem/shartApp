@@ -8,6 +8,7 @@ import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../../core/resources/color.dart';
+import '../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
 import '../../../../../widgets/custom_app_bar.dart';
 import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../menu/presentation/spare_parts/screens/spare_parts_screen.dart';
@@ -24,7 +25,7 @@ class CartScreen extends StatelessWidget {
     CartCubit cubit =CartCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: '${getLang(context, 'cart')}',hasBackButton: true,
         onTap: (){
           if(CartCubit.get(context).isAddingAddress==true){
@@ -127,7 +128,8 @@ class CartScreen extends StatelessWidget {
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (BuildContext context)=>CompleteOrder()));
                             }else{
-                              showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
+                              visitorDialog(context);
+                              // showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
                             }
 
                           },

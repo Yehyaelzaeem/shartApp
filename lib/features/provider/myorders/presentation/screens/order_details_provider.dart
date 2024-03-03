@@ -1,11 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-import 'package:shart/widgets/custom_button.dart';
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
+import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_material_button.dart';
-import '../../../../user/myorders/presentation/widgets/custom_item_widget.dart';
 import '../../data/models/provider_order_model.dart';
 import '../../logic/provider_orders_cubit.dart';
 import '../widgets/custom_product_widget.dart';
@@ -20,7 +20,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -52,18 +52,21 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5.w,),
-                    Text(
-                      '${providerOrderModelData.id.toString()}',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        '${providerOrderModelData.id.toString()}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'user_name')} :',
                       style: TextStyle(
@@ -73,12 +76,17 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5.w,),
-                    Text(
-                      providerOrderModelData.user!.name!,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        providerOrderModelData.user!.name!,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
                   ],
@@ -94,12 +102,17 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5.w,),
-                    Text(
-                      providerOrderModelData.user!.email!,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        providerOrderModelData.user!.email!,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                     ),
                   ],
@@ -115,12 +128,17 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5.w,),
-                    Text(
-                      providerOrderModelData.user!.phone!,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        providerOrderModelData.user!.phone!,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
                   ],
@@ -136,12 +154,17 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 5.w,),
-                    Text(
-                      '${providerOrderModelData.totalPrice!.toString()} ${getLang(context, 'rs')}',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: redColor,
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        '${providerOrderModelData.totalPrice!.toString()} ${getLang(context, 'rs')}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: redColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                     ),
                   ],
@@ -156,6 +179,8 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                         color: geryTextColor,
                         fontWeight: FontWeight.w500,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                     SizedBox(width: 5.w,),
                     Container(
@@ -167,7 +192,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                           color: blackTextColor,
                           fontWeight: FontWeight.w700,
                         ),
-                        maxLines: 4,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -218,28 +243,64 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                 padding:  EdgeInsets.symmetric(horizontal: 16,vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         providerOrderModelData.status!='accepted'?
                         CustomMaterialButton(
                           color: Colors.green.shade300,
                           text: '${getLang(context, 'accept')}', onPressed: () {
-                          cubit.acceptOrder(providerOrderModelData.id!,context);
+                          CustomDialogs.showAlertDialog(
+                            type: DialogType.success,
+                            btnOkOnPress: () {
+                              cubit.acceptOrder(providerOrderModelData.id!,context);
+                            },
+                            ctx: context,
+                            btnCancelOnPress: () {},
+                            title: '${getLang(context, 'acc_title')}',
+                            desc: '${getLang(context, 'acc_mes')}',
+                            btnOkText: '${getLang(context, 'yes')}',
+                            btnCancelText: '${getLang(context, 'no')}',
+                          );
+
                         },):SizedBox.shrink(),
                         providerOrderModelData.status!='accepted'?SizedBox(width: 16,):SizedBox.shrink(),
-                        providerOrderModelData.status!='rejected'? CustomMaterialButton(
+                        providerOrderModelData.status!='rejected'?
+                        CustomMaterialButton(
                           color: Colors.red,
                           text: '${getLang(context, 'reject')}', onPressed: () {
-                          cubit.rejectOrder(providerOrderModelData.id!,context);
+                          CustomDialogs.showAlertDialog(
+                            type: DialogType.error,
+                            btnOkOnPress: () {
+                              cubit.rejectOrder(providerOrderModelData.id!,context);
+                            },
+                            ctx: context,
+                            btnCancelOnPress: () {},
+                            title: '${getLang(context, 'rej_title')}',
+                            desc: '${getLang(context, 'rej_mes')}',
+                            btnOkText: '${getLang(context, 'yes')}',
+                            btnCancelText: '${getLang(context, 'no')}',
+                          );
+
                         },):SizedBox.shrink(),
                         SizedBox(width: 16,),
                         providerOrderModelData.status!='canceled'?
                         CustomMaterialButton(
                           color: Colors.grey,
                           text: '${getLang(context, 'cancel')}', onPressed: () {
-                          cubit.cancelOrder(providerOrderModelData.id!,context);
+                          CustomDialogs.showAlertDialog(
+                            type: DialogType.warning,
+                            btnOkOnPress: () {
+                              cubit.cancelOrder(providerOrderModelData.id!,context);
+                            },
+                            ctx: context,
+                            btnCancelOnPress: () {},
+                            title: '${getLang(context, 'cancel_title')}',
+                            desc: '${getLang(context, 'cancel_mes')}',
+                            btnOkText: '${getLang(context, 'yes')}',
+                            btnCancelText: '${getLang(context, 'no')}',
+                          );
 
                         },):SizedBox.shrink(),
                       ],
@@ -247,25 +308,48 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                     SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
+                        providerOrderModelData.status!='preparing'?
                         CustomMaterialButton(
                           textColor:Colors.black54,
                           text: '${getLang(context, 'preparing2')}', onPressed: () {
-                          cubit.preparingOrder(providerOrderModelData.id!,context);
-
-                        },),
+                          CustomDialogs.showAlertDialog(
+                            type: DialogType.warning,
+                            btnOkOnPress: () {
+                              cubit.preparingOrder(providerOrderModelData.id!,context);
+                            },
+                            ctx: context,
+                            btnCancelOnPress: () {},
+                            title: '${getLang(context, 'prep_title')}',
+                            desc: '${getLang(context, 'prep_mes')}',
+                            btnOkText: '${getLang(context, 'yes')}',
+                            btnCancelText: '${getLang(context, 'no')}',
+                          );
+                        },):SizedBox.shrink(),
                         SizedBox(width: 16,),
+                        providerOrderModelData.status!='delivered'?
                         CustomMaterialButton(
                           textColor:Colors.black54,
                           text: '${getLang(context, 'deliver')}', onPressed: () {
-                          cubit.deliveredOrder(providerOrderModelData.id!,context);
+                          CustomDialogs.showAlertDialog(
+                            type: DialogType.warning,
+                            btnOkOnPress: () {
+                              cubit.deliveredOrder(providerOrderModelData.id!,context);
+                            },
+                            ctx: context,
+                            btnCancelOnPress: () {},
+                            title: '${getLang(context, 'del_title')}',
+                            desc: '${getLang(context, 'del_mes')}',
+                            btnOkText: '${getLang(context, 'yes')}',
+                            btnCancelText: '${getLang(context, 'no')}',
+                          );
 
-                        },),
+                        },):SizedBox.shrink(),
                       ],
                     ),
                   ],
                 ),
-              )):SizedBox.shrink()
+              )):SizedBox.shrink(),
         ],
       ),
     );

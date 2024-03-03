@@ -10,6 +10,7 @@ class Cart {
   final String? productState;
   final String? providerId;
   final String? productBrand;
+  final bool? isFav;
   int? count;
 
 
@@ -21,6 +22,7 @@ class Cart {
     required this.description,
     required this.image,
     required this.type,
+    this.isFav,
     required this.productState,
     required this.providerId,
     required this.productBrand,
@@ -36,6 +38,7 @@ class Cart {
       description: json['description'],
       image: json['image'],
       type: json['type'],
+      isFav: json['isFav'],
       productState: json['productState'],
       providerId: json['providerId'],
       count: json['count'],
@@ -53,6 +56,7 @@ class Cart {
       'image': this.image,
       'type': this.type,
       'productState': this.productState,
+      'isFav': this.isFav,
       'providerId': this.providerId,
       'productBrand': this.productBrand,
       'count': this.count,

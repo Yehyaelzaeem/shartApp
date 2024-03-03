@@ -25,12 +25,15 @@ class CardItem extends StatelessWidget {
 
         Navigator.push(context, MaterialPageRoute(builder:
             (BuildContext context)=>ProductDetailsScreen(
+              id: product.id!,
+              isFav: product.isFav,
           title: product.productName,
           price: product.productPrice.toString() ,
           brandName:product.productBrand!=null?product.productBrand!:'',
           width:'',
           height:'',
           images: list,
+          isCart: true,
           size:'',
           productStatus: product.productState,
           description:product.description ,
@@ -122,7 +125,6 @@ class CardItem extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: 90.w,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -166,14 +168,16 @@ class CardItem extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(width: 10.w,),
-                              Text(
-                                '${product.count}',
-                                style:  TextStyle(
-                                    fontSize: 18.sp,
-                                    color: blackTextColor,
-                                    fontWeight: FontWeight.w600
+                              Container(
+                                child: Text(
+                                  '${product.count}',
+                                  style:  TextStyle(
+                                      fontSize: 18.sp,
+                                      color: blackTextColor,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                               SizedBox(
                                 width: 10.w,

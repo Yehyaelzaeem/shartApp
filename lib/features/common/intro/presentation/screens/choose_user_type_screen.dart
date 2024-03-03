@@ -10,6 +10,7 @@ import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_button.dart';
 
+import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../../../../core/shared_preference/shared_preference.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
@@ -40,10 +41,10 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
             },
             ctx: context,
             btnCancelOnPress: () {},
-            title: 'الخروج',
-            desc: 'هل أنت متأكد من أنك تريد  الخروج ؟',
-            btnOkText: 'نعم',
-            btnCancelText: 'لا',
+            title: getLang(context,'exit'),
+            desc: getLang(context, 'sure_exit'),
+            btnOkText: getLang(context, 'yes'),
+            btnCancelText:getLang(context, 'no'),
           );
           // NavigationManager.pushReplacement(Routes.login);
         },
@@ -68,7 +69,7 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        'الدخول بصفة',
+                        '${getLang(context, 'entry_as')}',
                         style: TextStyle(
                           fontSize: 32.sp,
                           fontFamily: FontConstants.lateefFont,
@@ -82,7 +83,7 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
                               CacheHelper.saveDate(key: 'type', value: 'user');
                               NavigationManager.push(Routes.login);
                             },
-                            buttonText: 'عميل',
+                            buttonText: '${getLang(context, 'client')}',
                             fontColor: blackColor),
                       ),
                       CustomElevatedButton(
@@ -90,7 +91,7 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
                             CacheHelper.saveDate(key: 'type', value: 'provider');
                             NavigationManager.push(Routes.providerLogin);
                           },
-                          buttonText: 'مقدم خدمة',
+                          buttonText: '${getLang(context, 'provider2')}',
                           fontColor: blackColor),
                       Padding(
                         padding: EdgeInsets.only(top: 16.h),
@@ -100,7 +101,7 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(isVisitor: true,)));
                           },
                           child: Text(
-                            'زائر',
+                            '${getLang(context, 'visitor')}',
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontWeight: FontWeightManager.regular,

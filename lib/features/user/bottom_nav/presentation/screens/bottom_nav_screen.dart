@@ -38,7 +38,7 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
   List<Widget> pages = <Widget>[
     UserMenuScreen(),
     UserFavoriteScreen(),
-    UserOrdersScreen(),
+    UserOrdersScreen(isNotNotification: true,),
     CartBottomNavScreen(),
     // UserMessagesScreen(),
     UserMoreScreen(),
@@ -82,7 +82,6 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
-  print('dddddddddddddddddddddddddddd');
     return Scaffold(
       resizeToAvoidBottomInset: true,
       bottomNavigationBar: BottomNavigationBar(

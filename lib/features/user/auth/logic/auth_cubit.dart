@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/user/auth/data/models/register_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
+import '../../../../core/localization/appLocale.dart';
 import '../../../../core/shared_preference/shared_preference.dart';
+import '../../../../shared_screens/notifications/logic/notification_cubit.dart';
 import '../../book_package_service/logic/book_package_cubit.dart';
 import '../../favorite/logic/favorite_cubit.dart';
 import '../../menu/logic/menu_cubit.dart';
@@ -24,10 +25,8 @@ class AuthCubit extends Cubit<AuthState> {
   bool visibility = true;
   bool regVisibility = true;
   bool regVisibilityConfirm = true;
-
-  // String tokenTest='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMDk2ZDE0MWQzZDZlNWY1YjhjYjFjMWQ0NDk1NDQ1OTNkODhjYjk1OWZlYWE2NmY4NDI1MDJjMzlmZjBjNDkxYTI2YzkwOTM3NjgwNzAxZTgiLCJpYXQiOjE3MDMxNDYyMTguNTk5OTUwMDc1MTQ5NTM2MTMyODEyNSwibmJmIjoxNzAzMTQ2MjE4LjU5OTk1MTAyODgyMzg1MjUzOTA2MjUsImV4cCI6MTczNDc2ODYxOC41OTQwOTMwODQzMzUzMjcxNDg0Mzc1LCJzdWIiOiIxMzMiLCJzY29wZXMiOltdfQ.SrPQ0UQrkQMuB-56f0BAfxKgQQ1PRm3fhrkmRqUpT2wfW4sIyePeqHFta7o_f8K-jrfF88M92Ivp9y7WELfjxjSEdTJ09LvTyVdUr5FbJbLfEFZ7fHbniLo1zeriV0FVUrqTarWfhN94BaK1ru7hvY7BO1djLN7EJpOM59zT34ynmFcsIxGhWe2i_GuDt68reF-h8jCZHAtMVqGjpfdVS5QANC2i_QlCKpYG1e3o2YBV_RdkwmUZ1l--sNOyee_duIkuLqZDYgSii6MFWyYkdbEzRSMCFWW9tPEYRu25BPCzuvtblxaVgGj-tcLraiN7BYtJ_J6eQyHLN4g96HSp2GePp4AnLpaQCTjCBXZrOdgwl6HZJ3uaggBVP82cs1ouHShY9k5lzUjHrnA2bqxizpEQoaE2bf1RvDWXIIC_wkC-g9XEA4zlF7EjlZ_ig5EWp10bv9UGiZB9qgtnIOqkFRo8Faz8kT9Mf49MGgBnPop6AaiBmWxzPTs1oLrNejNPMQUslfUKZhYmrVv3z3FNuX6yI-pnk8dVp-Tblymbky4gRZY62cT9VMGaj0q1iJ_7uuTEx_q-w_l8lVNkXDiajj8tJ4QU6UbdX_sDCEMZyPzlFX1gSvyPfOUfAE5NWgKgiSSSNul8Q8xvFdPO-Ds9z8zX4gA0DEt8zuZFhrZ3VNs';
+  TextEditingController phoneController2 = TextEditingController();
   String token='';
-  // String token2='';
   bool isLoading =false;
   bool isRegLoading =false;
   bool isOtpCompleted =false;
@@ -45,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
    controllerOtpTest.text=x;
    emit(UserLoginState());
  }
-  Future getPermission()async{
+  Future<dynamic> getPermission()async{
     bool service;
     LocationPermission permission;
     service =await Geolocator.isLocationServiceEnabled();
@@ -102,6 +101,7 @@ class AuthCubit extends Cubit<AuthState> {
     CacheHelper.sharedPreference!.setString('lang', codeLang);
    if(isUser ==true){
      MenuCubit.get(context).getPackageCheck(context);
+     MyOrdersCubit.get(context).getMyCheckCars(context);
      BookPackageCubit.get(context).getBrands( context: context);
      BookPackageCubit.get(context).getBrandModel(context);
      BookPackageCubit.get(context).getBrandColors(context);
@@ -114,9 +114,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
-  Future verifyAccount (String code ,BuildContext context)async{
+  Future<dynamic> verifyAccount (String code ,BuildContext context)async{
      await  authDataSource.verifyAccount(code, context);
     emit(VerifyAccountState());
+  }
+  Future<dynamic> sendFCMToken (String token ,String FcmToken )async{
+    print('----------------------------------------');
+     await  authDataSource.sendFCMToken(token, FcmToken);
+    emit(FCMTokenState());
   }
   // void sendCode (BuildContext context){
   //   authDataSource.sendOTP( registerPhoneController.text.trim(), '3', context);
@@ -137,11 +142,13 @@ class AuthCubit extends Cubit<AuthState> {
     regVisibilityConfirm =!regVisibilityConfirm;
     emit(ChangeVisibilityIconState());
   }
+
   void getToken(BuildContext context)async{
    try{
      token = await CacheHelper.getDate(key: 'token');
-     print('token $token');
+     print(token);
 
+     // NotificationCubit.get(context).getNotification('user',context);
      UserProfileCubit.get(context).getUserProfile(token, context);
      FavoriteCubit.get(context).getFavoriteProducts(token, context);
      FavoriteCubit.get(context).getFavoriteMerProducts(context);
@@ -152,7 +159,19 @@ class AuthCubit extends Cubit<AuthState> {
    }
     emit(GetTokenState());
   }
+  Future<dynamic> forgetPassword(BuildContext context,)async{
+    if(phoneController2.text.isNotEmpty){
+      authDataSource.forgetPassword(phoneController2.text,'3', context,);
+      emit(ResetPasswordState());
+    }else{
+      showToast(text: '${getLang(context, 'complete_data')}', state: ToastStates.error, context: context);
+    }
+  }
 
+  Future<dynamic> resetPassword(String code,BuildContext context,)async{
+    authDataSource.resetPassword(code, context,);
+    emit(ResetPasswordState());
+  }
 
   void loginLoadingStates(bool x){
     isLoading =x;
@@ -166,6 +185,7 @@ class AuthCubit extends Cubit<AuthState> {
     isOtpCompleted =x;
     emit(ChangeOtpCompleted());
   }
+
 
 
 }

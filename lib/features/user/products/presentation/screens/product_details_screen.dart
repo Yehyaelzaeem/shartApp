@@ -4,39 +4,46 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
+import 'package:shart/features/user/favorite/logic/favorite_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-
 import '../../../../../core/resources/themes/styles/styles.dart';
+import '../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
 import '../../../../../widgets/custom_divider.dart';
-import '../../../../../widgets/custom_slider_widget.dart';
 import '../../../../../widgets/show_toast_widget.dart';
+import '../../../auth/logic/auth_cubit.dart';
 import '../../../cart/data/model/cart_model.dart';
 import '../../../cart/logic/cart_cubit.dart';
+import '../../../favorite/data/model/favorite_model.dart';
 import '../../../menu/logic/menu_cubit.dart';
 import '../../../merchants/presentation/widgets/custom_row deyatils.dart';
 import '../widgets/custom_image_slider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({Key? key, this.images, this.title, this.price, this.brandName, this.width, this.height, this.size, this.productStatus, this.description, this.cartProduct, this.modelName,}) : super(key: key);
+   ProductDetailsScreen({Key? key, this.images, this.title, this.price, this.brandName, this.width, this.height, this.size, this.productStatus, this.description, this.cartProduct, this.modelName, required this.id, this.isFav, this.isCart, this.type,}) : super(key: key);
  final List<String>? images;
  final String? title;
  final String? price;
  final String? brandName;
+ final String? type;
  final String? modelName;
  final String? width;
  final String? height;
  final String? size;
+ final int id;
+  bool? isFav;
  final String? productStatus;
  final String? description;
   final Cart? cartProduct;
+  final bool? isCart;
 
   @override
   Widget build(BuildContext context) {
+    FavoriteCubit cubit2=FavoriteCubit.get(context);
     CartCubit cubit =CartCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: getLang(context, 'product_details'),hasBackButton: true),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body:
       SingleChildScrollView(
@@ -46,7 +53,91 @@ class ProductDetailsScreen extends StatelessWidget {
             Align(
                 alignment: Alignment.center,
                 child:
-                CustomImageSliderWidget(listImage: images!,)
+                Stack(
+                  children: <Widget>[
+                    CustomImageSliderWidget(listImage: images!,),
+                    isCart==true?
+                    SizedBox.shrink():
+                    Positioned(
+                      top: 8.h,
+                      right: 10.w,
+                      child:
+                      StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                        return
+                          isFav==true?
+                          InkWell(
+                            onTap: (){
+                              if(AuthCubit.get(context).token.isNotEmpty){
+                                setState(() {
+                                  isFav=false;
+                                });
+                                cubit2.addAndRemoveFavoriteProducts(id.toString(),AuthCubit.get(context).token,context).then((value) {
+                                  if(type!=null){
+                                    if(type=='spare_parts'){
+                                      MenuCubit.get(context).getProducts(type:'spare_parts',context: context);
+                                    }
+                                    else if(type=='tires'){
+                                      MenuCubit.get(context).getProducts(type:'tires',context: context);
+                                    }
+                                    else if(type =='rims'){
+                                      MenuCubit.get(context).getProducts(type:'rims',context: context);
+                                    }
+                                  }
+                                });
+                              }else{
+                                showToast(text: getLang(context, 'Log_in_first'), state: ToastStates.error, context: context);
+                              }
+                              },
+                            child: CircleAvatar(
+                                minRadius: 14.sp,
+                                backgroundColor: whiteColor,
+                                child:
+                                Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                  size: 18.sp,
+                                )
+                            ),
+                          ):
+                          InkWell(
+                            onTap: (){
+                              if(AuthCubit.get(context).token.isNotEmpty){
+                                setState(() {
+                                  isFav=true;
+                                });
+                                cubit2.addAndRemoveFavoriteProducts(id.toString(),AuthCubit.get(context).token,context).then((value) {
+                                  if(type!=null){
+                                    if(type=='spare_parts'){
+                                      MenuCubit.get(context).getProducts(type:'spare_parts',context: context);
+                                    }
+                                    else if(type=='tires'){
+                                      MenuCubit.get(context).getProducts(type:'tires',context: context);
+                                    }
+                                    else if(type =='rims'){
+                                      MenuCubit.get(context).getProducts(type:'rims',context: context);
+                                    }
+                                  }
+                                });
+                              }else{
+                                showToast(text: getLang(context, 'Log_in_first'), state: ToastStates.error, context: context);
+                              }
+                              },
+                            child: CircleAvatar(
+                              minRadius: 14.sp,
+                              backgroundColor: whiteColor,
+                              child:
+                              Icon(
+                                Icons.favorite_border_rounded,
+                                color: Colors.grey,
+                                size: 18.sp,
+                              ),
+                            ),
+                          ) ;
+                      }),
+
+                    ),
+                  ],
+                )
             ),
             SizedBox(height: 25.h,),
             Padding(
@@ -70,7 +161,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: <Widget>[
                             CustomRowDetails(title: getLang(context, 'brand'),value:brandName!,),
                             height!=null&&height!.isNotEmpty?
                             CustomRowDetails(title: getLang(context, 'height'),dis:40.w, value:height!,):
@@ -133,18 +224,23 @@ class ProductDetailsScreen extends StatelessWidget {
                         return Column(children: <Widget>[
                           if (cubit.products.where((Cart element) => element.id == cartProduct!.id).toList().length == 0)
                              InkWell(onTap: (){
-                       print(cartProduct!.providerId);
-                       if( cubit.products.isEmpty){
-                         cubit.addProduct(cartProduct!);
-                       }
-                       if(cubit.products[0].providerId == cartProduct!.providerId ){
-                         cubit.addProduct(cartProduct!);
+                               if(AuthCubit.get(context).token.isNotEmpty){
+                                 if( cubit.products.isEmpty){
+                                   cubit.addProduct(cartProduct!);
+                                 }
+                                 if(cubit.products[0].providerId == cartProduct!.providerId ){
+                                   cubit.addProduct(cartProduct!);
 
-                       }else{
-                         showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
-                       }
+                                 }else{
+                                   showToast(text: getLang(context, 'no_store'), state: ToastStates.error, context: context);
+                                 }
+                               }else{
+                                 visitorDialog(context);
+                                 // showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
+                               }
+
                      },
-                                     child: Container(
+                               child: Container(
                          margin: EdgeInsets.symmetric(horizontal: 9.w,vertical: 5),
                          height: 48.h,
                          decoration: BoxDecoration(

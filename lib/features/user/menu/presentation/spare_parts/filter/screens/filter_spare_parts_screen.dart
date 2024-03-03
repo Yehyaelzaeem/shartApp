@@ -31,7 +31,7 @@ class SparePartsFilterScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child: CustomAppBar(title: getLang(context, 'select_search'),hasBackButton: true,
           onTap: (){
             cubitController.searchController.text='';

@@ -18,7 +18,7 @@ class ReportScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: getLang(context, 'package_details'), hasBackButton: true),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
@@ -88,33 +88,33 @@ class ReportScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    getLang(context, 'package_duration'),
-                    style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
-                  ),
-                  Text('ابتداءا من 27 سبتمبر إلى 27 أكتوبر',
-                      style: TextStyle(fontSize: 14.sp))
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    getLang(context, 'checked_address'),
-                    style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
-                  ),
-                  SizedBox(width: 20.w),
-                  Container(height: 18.h, width: 1, color: primaryColor)
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: <Widget>[
+            //       Text(
+            //         getLang(context, 'package_duration'),
+            //         style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
+            //       ),
+            //       Text('ابتداءا من 27 سبتمبر إلى 27 أكتوبر',
+            //           style: TextStyle(fontSize: 14.sp))
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
+            //   child: Row(
+            //     children: <Widget>[
+            //       Text(
+            //         getLang(context, 'checked_address'),
+            //         style: TextStyle(fontSize: 14.sp, color: Color(0xff6E6D71)),
+            //       ),
+            //       SizedBox(width: 20.w),
+            //       Container(height: 18.h, width: 1, color: primaryColor)
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.only(top: 24.h, bottom: 16.h, left: x?5:28.w),
               child: Row(

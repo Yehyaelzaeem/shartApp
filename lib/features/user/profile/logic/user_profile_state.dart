@@ -16,6 +16,8 @@ class DeleteAccountState extends UserProfileState {}
 class UpdateUserProfile extends UserProfileState {}
 class AboutCompanyUserState extends UserProfileState {}
 class EditingAddressState extends UserProfileState {}
+class ChangePasswordVisibility extends UserProfileState {}
+class ChangePasswordState extends UserProfileState {}
 class TestState extends UserProfileState {}
 
 class GetAddressListUserState extends UserProfileState {}

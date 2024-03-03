@@ -23,15 +23,18 @@ Widget buildProfileItemWidget(
         children: <Widget>[
           iconPath !=null? SvgPicture.asset(iconPath):Image.asset('assets/images/privacy.png'),
           SizedBox(width: 8.w),
-          Text(
-            text,
-            style: TextStyle(
-                fontSize: 24.sp,
-                fontWeight: FontWeightManager.regular,
-                fontFamily: FontConstants.lateefFont,
-                color: text == 'حذف الحساب' ? Colors.red : blackColor),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontSize: 24.sp,
+                  fontWeight: FontWeightManager.regular,
+                  fontFamily: FontConstants.lateefFont,
+                  color: text == 'حذف الحساب' ? Colors.red : blackColor),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          const Spacer(),
           lang==true?
          BlocConsumer<AuthCubit,AuthState>(builder: (BuildContext context,AuthState state){
            return  Container(

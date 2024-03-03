@@ -15,7 +15,7 @@ class TiresTypesScreen extends StatelessWidget {
     MenuCubit c =MenuCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(title: getLang(context, 'tire_services'),hasBackButton: true,hasCartButton: true,),
       ),
       body: Column(

@@ -12,6 +12,7 @@ import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 
+import '../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../../data/model/check_car_model.dart';
 import '../widgets/cutom_text_booking_widget.dart';
@@ -27,7 +28,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
     cubit.getBrands( context: context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child: CustomAppBar(title: getLang(context, 'booking_details'), hasBackButton: true)),
       body: BlocConsumer<BookPackageCubit, BookPackageState>(
           listener: (BuildContext context, BookPackageState state) {},
@@ -231,7 +232,8 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                     showToast(text: 'complete data', state: ToastStates.error, context: context);
                                   }
                                 }else{
-                                  showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
+                                  visitorDialog(context);
+                                  // showToast(text: getLang(context, 'Log_in_first'),state: ToastStates.error, context: context);
                                 }
 
 

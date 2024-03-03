@@ -12,17 +12,27 @@ import '../../../../../core/resources/font_manager.dart';
 import '../../../../../core/routing/routes.dart';
 import '../../../../../widgets/custom_product_widget.dart';
 import '../../../../user/myorders/presentation/screens/order_details.dart';
+import '../../../auth/logic/auth_provider_cubit.dart';
 import '../../../bottom_nav/presentation/screens/bottom_nav.dart';
 import '../widgets/custom_myorders_widget.dart';
 import 'order_details_provider.dart';
 
 class ProviderOrdersScreen extends StatelessWidget {
-  const ProviderOrdersScreen({Key? key}) : super(key: key);
-
+  const ProviderOrdersScreen({Key? key, this.isNotNotification}) : super(key: key);
+  final bool? isNotNotification;
   @override
   Widget build(BuildContext context) {
+    isNotNotification!=true?
+    ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context):null;
+    isNotNotification!=true?
+    ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context):null;
+    isNotNotification!=true?
+    ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context):null;
+
+
     ProviderOrdersCubit cubit =ProviderOrdersCubit.get(context);
-    return PopScope(
+    return RefreshIndicator(child:
+    PopScope(
       canPop: false,
       onPopInvoked: (_) async {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -33,7 +43,7 @@ class ProviderOrdersScreen extends StatelessWidget {
       },
       child: Scaffold(
           appBar: PreferredSize(
-              preferredSize: Size(double.infinity, 80.h),
+              preferredSize: Size(double.infinity, 70.h),
               child: CustomAppBar(
                 title: '${getLang(context, 'my_requests')}',
               )),
@@ -73,9 +83,9 @@ class ProviderOrdersScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder:
                               (BuildContext context)=>OrderDetailsProviderScreen(
-                                isAccess: true,
-                                providerOrderModelData: data[index],)));
-                          },
+                            isAccess: true,
+                            providerOrderModelData: data[index],)));
+                        },
                         child:
                         Padding(padding:
                         EdgeInsets.only(left: 16.w, right: 16.w,), child:
@@ -97,6 +107,11 @@ class ProviderOrdersScreen extends StatelessWidget {
           )
 
       ),
-    );
+    ), onRefresh: ()async{
+      await Future.delayed(Duration(seconds: 1));
+      cubit.putNullCurrent();
+      cubit.getMyOrdersCurrentProvider(context);
+    });
+
   }
 }

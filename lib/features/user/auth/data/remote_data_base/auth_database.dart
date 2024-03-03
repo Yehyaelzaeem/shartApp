@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/src/response.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/shared_preference/shared_preference.dart';
 import 'package:shart/features/user/auth/data/models/verify_account_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
@@ -9,12 +10,14 @@ import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
-import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
+import '../../../profile/presentation/change_password/change_password_screen.dart';
 import '../../logic/auth_cubit.dart';
 import '../../ui/screens/verify_account_screen.dart';
 import '../models/login_model.dart';
 import '../models/register_model.dart';
+import '../models/reset_password_model.dart';
 import '../models/send_otp_model.dart';
+import '../models/verify_reset_password_model.dart';
 
 
 abstract class BaseAuthDataSource{
@@ -22,6 +25,10 @@ abstract class BaseAuthDataSource{
   Future<RegisterModel?> userRegister(RegisterData registerData,String password,BuildContext context);
   Future<VerifyAccountModel?> verifyAccount(String code,BuildContext context);
   Future<SendOTPModel?> sendOTP(String phone,String phone_country_id ,BuildContext context);
+  Future<dynamic> sendFCMToken(String token, String fcmToken);
+  Future<ResetPasswordModel?> forgetPassword(String phone,String countryId, BuildContext context);
+  Future<VerifyResetPasswordModel?> resetPassword(String code, BuildContext context);
+
 }
 
 class AuthDataSource implements BaseAuthDataSource {
@@ -44,17 +51,20 @@ class AuthDataSource implements BaseAuthDataSource {
     }
     else {
       if (res.statusCode == 200) {
-        // showToast(text: '${LoginModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
         AuthCubit.get(context).loginLoadingStates(false);
         AuthCubit.get(context).token=  '${LoginModel.fromJson(res.data).data!.accessToken}';
         CacheHelper.saveDate(key: 'token', value:  LoginModel.fromJson(res.data).data!.accessToken);
         CacheHelper.saveDate(key: 'isLog', value: true);
         AuthCubit.get(context).getToken(context);
         NavigationManager.pushNamedAndRemoveUntil(Routes.home);
-
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
-        //     UserBottomNavScreen(checkPage: '0',)));
-        // NavigationManager.pushReplacement(Routes.home);
+        String? fcmToken;
+        FirebaseMessaging messaging = FirebaseMessaging.instance;
+        messaging.getToken().then((String? value)async {
+          await CacheHelper.saveDate(key: 'FcmToken', value: value);
+          fcmToken=value;
+          fcmToken!=null?
+          AuthCubit.get(context).sendFCMToken(LoginModel.fromJson(res.data).data!.accessToken!,fcmToken!):null;
+        });
         AuthCubit.get(context).phoneController.text='';
         AuthCubit.get(context).passwordController.text='';
         return LoginModel.fromJson(res.data);
@@ -187,7 +197,80 @@ class AuthDataSource implements BaseAuthDataSource {
     return null;
   }
 
+  @override
+  Future<dynamic> sendFCMToken(String token, String fcmToken)async{
+    Response<dynamic> res = await DioHelper.postData(
+      token: token,
+      url: AppApis.sendFCMToken, data: <String, dynamic>{
+      'fcm_token': fcmToken,
+    },);
+    if (res.statusCode == 200) {
+    }
+    else {
+    }
+  }
+
+  @override
+  Future<ResetPasswordModel?> forgetPassword(String phone,String countryId, BuildContext context) async{
+    AuthCubit cubit= AuthCubit.get(context);
+    cubit.loginLoadingStates(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.forgetPassword,
+        data: <String,dynamic>{
+          'type':'phone',
+          'phone':phone.trim(),
+          'phone_country_id':countryId,
+        },);
+
+    if(ResetPasswordModel.fromJson(response.data).success==true){
+      if (response.statusCode == 200) {
+        cubit.loginLoadingStates(false);
+        showToast(text: response.data['message'], state: ToastStates.success, context: context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>VerifyAccountScreen(type: 'pass',otpCode: ResetPasswordModel.fromJson(response.data).data!.passwordOtp!.toString(),)));
+        return ResetPasswordModel.fromJson(response.data);
+      }
+      else {
+        showToast(text: response.data['message'], state: ToastStates.error, context: context);
+      }
+
+    }else{
+      cubit.loginLoadingStates(false);
+      showToast(text: response.data['message'], state: ToastStates.error, context: context);
+    }
+    cubit.loginLoadingStates(false);
+    return null;
+  }
+
+  @override
+  Future<VerifyResetPasswordModel?> resetPassword(String code, BuildContext context) async{
+    AuthCubit cubit= AuthCubit.get(context);
+    cubit.loginLoadingStates(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.resetPassword,
+      data: <String,dynamic>{
+        'otp':code.trim(),
+      },);
+    if(VerifyResetPasswordModel.fromJson(response.data).success==true){
+      if (response.statusCode == 200) {
+        cubit.loginLoadingStates(false);
+        showToast(text: response.data['message'], state: ToastStates.success, context: context);
+
+        AuthCubit.get(context).token=  '${VerifyResetPasswordModel.fromJson(response.data).data!.accessToken}';
+        CacheHelper.saveDate(key: 'token', value:  VerifyResetPasswordModel.fromJson(response.data).data!.accessToken);
+        AuthCubit.get(context).getToken(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>ChangePasswordScreen()));
+        cubit.phoneController2.text='';
+        return VerifyResetPasswordModel.fromJson(response.data);
+      }
+      else {
+        showToast(text: response.data['message'], state: ToastStates.error, context: context);
+      }
+
+    }else{
+      cubit.loginLoadingStates(false);
+      showToast(text: response.data['message'], state: ToastStates.error, context: context);
+    }
+    cubit.loginLoadingStates(false);
+    return null;
+  }
+  }
 
 
-
-}

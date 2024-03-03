@@ -104,9 +104,7 @@ class CustomBodyMore extends StatelessWidget {
             NavigationManager.push(Routes.providerEditProfile);
           },
           text: getLang(context,'edite_profile'),),
-
-
-        type!='user'?buildProfileItemWidget(
+          type!='user'?buildProfileItemWidget(
             iconPath: IconsManager.myAddress,
             function: () {
               if( type=='user'){
@@ -231,7 +229,6 @@ class CustomBodyMore extends StatelessWidget {
         buildProfileItemWidget(
             iconPath: IconsManager.logout,
             function: () {
-
               CustomDialogs.showAlertDialog(
                 type: DialogType.info,
                 btnOkOnPress: () {

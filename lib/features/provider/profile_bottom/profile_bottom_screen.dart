@@ -5,6 +5,7 @@ import 'package:shart/features/provider/profile_bottom/widgets/store_data_widget
 
 import '../../../core/localization/appLocale.dart';
 import '../../../widgets/custom_app_bar.dart';
+import '../../../widgets/custom_title_tab_bar.dart';
 import '../../user/auth/logic/auth_cubit.dart';
 import '../bottom_nav/presentation/screens/bottom_nav.dart';
 import '../work_and_products/presentation/screens/products_screen.dart';
@@ -40,7 +41,7 @@ class _MyWorkScreenState extends State<ProfileBottomScreen>
         },
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 80.h),
+            preferredSize: Size(double.infinity, 70.h),
             child: CustomAppBar(title: '${getLang(context,'store_data')}',
               hasBackButton: false,
 
@@ -65,11 +66,11 @@ class _MyWorkScreenState extends State<ProfileBottomScreen>
                     },
                     controller: controller,
                     tabs: <Widget>[
-                      Tab(text: '${getLang(context, 'store_data')}'),
-                      Tab(text: '${getLang(context, 'my_business')}'),
-                      Tab(text: '${getLang(context, 'my_products')}'),
+                      CustomTitleTabBarWidget(title: '${getLang(context, 'store_data')}',),
+                      CustomTitleTabBarWidget(title: '${getLang(context, 'my_business')}',),
+                      CustomTitleTabBarWidget(title: '${getLang(context, 'my_products')}',),
                     ],
-                    padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 100.w):EdgeInsets.only(right: 65.w),
+                    // padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 100.w):EdgeInsets.only(right: 65.w),
                     unselectedLabelColor: Colors.black,
                     labelColor: Color(0xff136B79),
                     // padding: EdgeInsets.only(left: 0.w),

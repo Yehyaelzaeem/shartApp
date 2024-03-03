@@ -4,10 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nested/nested.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/themes/app_theme.dart';
+import 'package:shart/notificationss.dart';
+import 'package:shart/shared_screens/notifications/logic/notification_cubit.dart';
 import 'core/localization/appLocale.dart';
 import 'core/routing/navigation_services.dart';
 import 'core/routing/route_generator.dart';
-import 'core/shared_preference/shared_preference.dart';
 import 'features/provider/auth/logic/auth_provider_cubit.dart';
 import 'features/provider/home/logic/provider_home_cubit.dart';
 import 'features/provider/myorders/logic/provider_orders_cubit.dart';
@@ -28,20 +29,21 @@ class MyApp extends StatelessWidget {
   final Widget widget;
   @override
   Widget build(BuildContext context) {
-    return
-      MultiBlocProvider(
+    return MultiBlocProvider(
         providers: <SingleChildWidget>[
         BlocProvider<AuthCubit>(create: (BuildContext context) => AuthCubit()),
         BlocProvider<UserProfileCubit>(create: (BuildContext context) => UserProfileCubit()),
         BlocProvider<AuthProviderCubit>(create: (BuildContext context) => AuthProviderCubit()),
         BlocProvider<ProviderProfileCubit>(create: (BuildContext context) => ProviderProfileCubit()),
         BlocProvider<MenuCubit>(create: (BuildContext context) => MenuCubit()),
+        BlocProvider<NotificationCubit>(create: (BuildContext context) => NotificationCubit()),
         BlocProvider<WorkProductsCubit>(create: (BuildContext context) => WorkProductsCubit()),
         BlocProvider<FavoriteCubit>(create: (BuildContext context) => FavoriteCubit()),
         BlocProvider<ProviderHomeCubit>(create: (BuildContext context) => ProviderHomeCubit()),
         BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
         BlocProvider<MerchantsCubit>(create: (BuildContext context) => MerchantsCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
+        // BlocProvider<BeerCubit>(create: (BuildContext context) => BeerCubit()),
         BlocProvider<ProviderOrdersCubit>(create: (BuildContext context) => ProviderOrdersCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),
        ],
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
         designSize: const Size(375, 812),
         useInheritedMediaQuery: true,
         builder: (BuildContext context, Widget? child) {
+          NotificationsFCM(context);
           return BlocConsumer<AuthCubit ,AuthState>(
               builder: (BuildContext context ,AuthState state){
                 return  MaterialApp(

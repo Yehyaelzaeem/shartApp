@@ -6,8 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/assets_menager.dart';
+import 'package:shart/features/provider/work_and_products/data/model/works_model.dart';
 import 'package:shart/widgets/custom_button.dart';
 import '../../../../../widgets/custom_text_field.dart';
+import '../../../../../widgets/show_toast_widget.dart';
+import '../../../profile/logic/provider_profile_cubit.dart';
 import '../../logic/work_products_cubit.dart';
 
 class WorkScreen extends StatelessWidget {
@@ -19,7 +22,7 @@ class WorkScreen extends StatelessWidget {
       listener: (BuildContext context,WorkProductsState state) {},
       builder: (BuildContext context, WorkProductsState state) {
         if(cubit.worksModel !=null){
-          final data =cubit.worksModel;
+          final WorksModel? data =cubit.worksModel;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -36,7 +39,13 @@ class WorkScreen extends StatelessWidget {
                 ),
                 InkWell(
                    onTap: () async {
-                     cubit.changeAddingState(!cubit.isAdding);
+                     if(ProviderProfileCubit.get(context).providerProfileModel!=null){
+                       if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false){
+                         showToast(text: '${getLang(context, 'complete_mes')}', state: ToastStates.error, context: context);
+                       }else{
+                         cubit.changeAddingState(!cubit.isAdding);
+                       }
+                     }
                    },
                    child:
                    cubit.isAdding == false ?

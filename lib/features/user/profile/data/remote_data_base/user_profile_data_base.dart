@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shart/core/routing/navigation_services.dart';
@@ -21,7 +20,6 @@ abstract class BaseUserProfileRemoteDataSource{
   Future<UserProfileModel?> getUserProfile(String token ,BuildContext context);
   Future<UserProfileModel?> updateProfile(UserProfileModel userProfileModel ,String token ,BuildContext context);
   Future<DeleteAccountModel?> deleteAccount(String token ,BuildContext context);
-
   Future<AboutCompanyModel?> getABoutCompanyUser(BuildContext context);
   Future<AboutCompanyModel?> getTermsAndConditionsUser(BuildContext context);
   Future<AboutCompanyModel?> getPrivacyUser(BuildContext context);
@@ -29,6 +27,7 @@ abstract class BaseUserProfileRemoteDataSource{
   Future<dynamic> addAddressUser(AddressModelData addressModelData, String token, BuildContext context);
   Future<dynamic> deleteAddressUser(int id, String token, BuildContext context);
   Future<dynamic> editAddressUser(AddressModelData addressModelData, String token, BuildContext context);
+  Future<dynamic> changePassword(String password,String confirmPassword, String token, BuildContext context);
   Future<AddressListModel?> getAddressListUser(String token, BuildContext context);
 }
 
@@ -144,6 +143,16 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
     }
     else{
       if (res.statusCode == 200) {
+        // if(UserProfileModel.fromJson(res.data).data!.fcmToken ==null){
+        //   String? fcmToken;
+        //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+        //   messaging.getToken().then((String? value)async {
+        //     await CacheHelper.saveDate(key: 'FcmToken', value: value);
+        //     fcmToken=value;
+        //     fcmToken!=null?
+        //     AuthCubit.get(context).sendFCMToken(token,fcmToken!):null;
+        //   });
+        // }
         return UserProfileModel.fromJson(res.data);
       }
       else {
@@ -231,7 +240,7 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
     else{
       if (res.statusCode == 200) {
         showToast(text: '${DeleteAccountModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-         NavigationManager.pushReplacement(Routes.login);
+         NavigationManager.pushReplacement(Routes.chooseUserScreen);
         return DeleteAccountModel.fromJson(res.data);
       }
       else {
@@ -337,6 +346,34 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
     return null;
   }
 
+  @override
+  Future<dynamic> changePassword(String password, String confirmPassword, String token, BuildContext context) async{
+    UserProfileCubit cubit= UserProfileCubit.get(context);
+   cubit.changeAddLoading(true);
+    Response<dynamic> response = await DioHelper.postData(url: AppApis.changePasswordUser,
+      data: <String,dynamic>{
+        'password':password,
+        'password_confirmation':confirmPassword,
+      },
+       token: token);
 
+   if(response.data['success']==true){
+     cubit.changeAddLoading(false);
+
+     if (response.statusCode == 200) {
+        showToast(text: response.data['message'], state: ToastStates.success, context: context);
+        Navigator.of(context).pop();
+        cubit.passwordController.text='';
+        cubit.passwordConfirmController.text='';
+     }
+     else {
+       showToast(text: response.data['message'], state: ToastStates.error, context: context);
+     }
+   }else{
+     cubit.changeAddLoading(false);
+     showToast(text: response.data['message'], state: ToastStates.error, context: context);
+   }
+    cubit.changeAddLoading(false);
+  }
 
 }

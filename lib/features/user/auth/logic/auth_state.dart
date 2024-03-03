@@ -10,7 +10,10 @@ class GetPermissionStates extends AuthState {}
 class UserRegisterState extends AuthState {}
 class ChangeLanguage extends AuthState {}
 class VerifyAccountState extends AuthState {}
+class FCMTokenState extends AuthState {}
 class ChangeOtpCompleted extends AuthState {}
 class LoginLoadingStates extends AuthState {}
+class ResetPasswordState extends AuthState {}
 class ChangeVisibilityIconState extends AuthState {}
+class ChangePasswordVisibility extends AuthState {}
 

@@ -67,13 +67,15 @@ class CustomFavoriteItem extends StatelessWidget {
              list.add(a.image.toString());
            }
            Navigator.push(context,
-               MaterialPageRoute(builder: (BuildContext context)=>ProductDetailsScreen(
+             MaterialPageRoute(builder: (BuildContext context)=>ProductDetailsScreen(
              title: data.title,
              price: data.price.toString() ,
              brandName:data.brand!=null?data.brand!.name:'',
              width:'${data.width!=null?data.width!:''}',
              height:'${data.height!=null?data.height!:''}',
              images: list,
+             isFav: data.isFav,
+             id:data.id! ,
              size:'${data.size!=null?data.size!:''}',
              productStatus: data.productStatus,
              description:data.description ,

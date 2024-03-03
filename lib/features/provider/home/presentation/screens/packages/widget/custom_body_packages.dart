@@ -64,206 +64,387 @@ class CustomBodyPackages extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(top: 10.h),
-                          height: 95.h,
-                          width: double.infinity,
-                          color: Color(0xffF9F7EE),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              isBeforeBegin==true?SizedBox.shrink():
-                              Padding(
-                                padding:  EdgeInsets.only(right: 16.w),
-                                child: Container(
-                                  alignment: AlignmentDirectional.topStart,
-                                  width:400.w,
-                                  height: 20.h,
-                                  child: FittedBox(
-                                    child: Text(
-                                      ' ${getLang(context, 'valid_from')}  ${startDate}  ${getLang(context, 'to')}  ${endDate}',
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: Colors.green,
-                                        fontFamily: FontConstants.lateefFont,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: Text(
-                                  title!,
-                                  style: TextStyle(
-                                    fontSize: 24.sp,
-                                    fontFamily: FontConstants.lateefFont,
-                                    fontWeight: FontWeightManager.bold,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                child:
+               Column(
+                 children: [
+                   Padding(
+                     padding:  EdgeInsets.only(right: 16.w,top: 10.h,left: 16.w),
+                     child: Container(
+                       alignment: AlignmentDirectional.topStart,
+                       width:400.w,
+                       height: 20.h,
+                       child: FittedBox(
+                         child: Text(
+                           ' ${getLang(context, 'valid_from')}  ${startDate}  ${getLang(context, 'to')}  ${endDate}',
+                           style: TextStyle(
+                             fontSize: 16.sp,
+                             color: Colors.green,
+                             fontFamily: FontConstants.lateefFont,
+                             fontWeight: FontWeight.w400,
+                           ),
+                         ),
+                       ),
+                     ),
+                   ),
+                   ListView.builder(
+                     physics: NeverScrollableScrollPhysics(),
+                     padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
+                     itemBuilder: (BuildContext context, int index2) {
+                       return Container(
+                         width: double.infinity,
+                         height: 32.h,
+                         padding:
+                         EdgeInsets.symmetric(horizontal: 15.w),
+                         decoration: BoxDecoration(
+                             color: index! % 2 != 0 ? whiteColor : Color(0xffF9F7EE)),
+                         child: Row(
+                           children: <Widget>[
+                             SvgPicture.asset(IconsManager.trueIcon),
+                             SizedBox(width: 8.w),
+                             Text('${description![index2]}',)
+                           ],
+                         ),
+                       );
+                     },
+                     shrinkWrap: true,
+                     itemCount: description!.length,
+                   ),
+                   isHistory==true?
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: <Widget>[
+                       Container(
+                         width: MediaQuery.of(context).size.width*0.4,
+                         child: Row(
+                           children: [
+                             SizedBox(width: 20.w,),
+                             Text('${getLang(context, 'start_at')}  :  ',
+                               style: TextStyle(
+                                   fontSize: 17.0,
+                                   color: Colors.black,
+                                   fontFamily: FontConstants.lateefFont,
+                                   letterSpacing: 0.004200000017881393,
+                                   fontWeight: FontWeight.bold
+                               ),
+                             ),
+                             Expanded(
+                               child: Text('${startDate}',
+                                 style: TextStyle(
+                                     fontSize: 17.0,
+                                     color: Colors.black,
+                                     fontFamily: FontConstants.lateefFont,
+                                     letterSpacing: 0.004200000017881393,
+                                     fontWeight: FontWeight.bold
+                                 ),
+                                 maxLines: 1,
+                                 overflow:TextOverflow.ellipsis,
 
-                                ),
+                               ),
+                             ),
+                           ],
+                         ),
+                       ),
+                       Container(
+                         width: MediaQuery.of(context).size.width*0.4,
+                         child: Center(
+                           child: Row(
+                             children: <Widget>[
+                               SizedBox(width: 20.w,),
+                               Text('${getLang(context,'end_at')} :  ',
+                                 style: TextStyle(
+                                     fontSize: 17.0,
+                                     color: Colors.black,
+                                     fontFamily: FontConstants.lateefFont,
+                                     letterSpacing: 0.004200000017881393,
+                                     fontWeight: FontWeight.bold
+                                 ),
+                               ),
+                               Expanded(
+                                 child: Text('${endDate}',
+                                   style: TextStyle(
+                                       fontSize: 17.0,
+                                       color: Colors.black,
+                                       fontFamily: FontConstants.lateefFont,
+                                       letterSpacing: 0.004200000017881393,
+                                       fontWeight: FontWeight.bold
+                                   ),
+                                   maxLines: 1,
+                                   overflow:TextOverflow.ellipsis,
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       )
 
-                              ),
-                            ],
-                          ),
-                        ),
-                        ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.only(top: 77.h, bottom: 10.h),
-                          itemBuilder: (BuildContext context, int index2) {
-                            return Container(
-                              width: double.infinity,
-                              height: 32.h,
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 15.w),
-                              decoration: BoxDecoration(
-                                  color: index! % 2 != 0 ? whiteColor : Color(0xffF9F7EE)),
-                              child: Row(
-                                children: <Widget>[
-                                  SvgPicture.asset(IconsManager.trueIcon),
-                                  SizedBox(width: 8.w),
-                                  Text('${description![index2]}',)
-                                ],
-                              ),
-                            );
-                          },
-                          shrinkWrap: true,
-                          itemCount: description!.length,
-                        ),
-                        isHistory==true?
-                        Center(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width*0.8,
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(width: 30.w,),
-                                Text('${getLang(context, 'start_at')}  :  ',
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.black,
-                                    fontFamily: FontConstants.lateefFont,
-                                    letterSpacing: 0.004200000017881393,
-                                    fontWeight: FontWeight.bold
-                                ),
-                                ),
-                                Text('${startDate}',
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.black,
-                                    fontFamily: FontConstants.lateefFont,
-                                    letterSpacing: 0.004200000017881393,
-                                    fontWeight: FontWeight.bold
-                                ),
-                                  maxLines: 1,
-                                  overflow:TextOverflow.ellipsis,
-
-                                ),
-                                SizedBox(width: 30.w,),
-                                Text('${getLang(context,'end_at')} :  ',
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      color: Colors.black,
-                                      fontFamily: FontConstants.lateefFont,
-                                      letterSpacing: 0.004200000017881393,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Text('${endDate}',
-                                  style: TextStyle(
-                                      fontSize: 17.0,
-                                      color: Colors.black,
-                                      fontFamily: FontConstants.lateefFont,
-                                      letterSpacing: 0.004200000017881393,
-                                      fontWeight: FontWeight.bold
-                                  ),
-                                  maxLines: 1,
-                                  overflow:TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ):SizedBox.shrink(),
-                        isHistory==true?
-                        Row(
-                          children: <Widget>[
-                            SizedBox(width: 100.w,),
-
-                            Text('${getLang(context,'status')}  :  ',
-                            style: TextStyle(
-                                fontSize: 17.0,
-                                color: Colors.black,
-                                fontFamily: FontConstants.lateefFont,
-                                letterSpacing: 0.004200000017881393,
-                                fontWeight: FontWeight.bold
-                            ),
-                            ),
-                            Text('${status}',style: TextStyle(
-                                fontSize: 17.0,
-                                color: Colors.black,
-                                fontFamily: FontConstants.lateefFont,
-                                letterSpacing: 0.004200000017881393,
-                                fontWeight: FontWeight.bold
-                            ),),
-                          ],
-                        ):SizedBox.shrink(),
-                        SizedBox(height: 30.h,),
-                        isHistory!=true?
-                        BlocConsumer<ProviderHomeCubit, ProviderHomeState>(
-                          listener: (BuildContext context,ProviderHomeState state) {},
-                          builder: (BuildContext context, ProviderHomeState state) {
-                            return
-                              ProviderHomeCubit.get(context).isLoading==true?
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                child: Center(child: CircularProgressIndicator(),),
-                              ):
-                              Padding(padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                child: CustomElevatedButton(
-                                    onTap: () {
-                                      ProviderHomeCubit.get(context).subscribePackages(id!, context);
-                                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomPackageDetailsScreen()));
-                                    },
-                                    buttonText: getLang(context, 'subscribe_now')),
-                              );
-                          },
-                        ):
-                        SizedBox.shrink(),
-                        SizedBox(height: 30.h,),
-                      ],
-                    ),
-                    Positioned(
-                      top: 70.h,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: CircleAvatar(
-                            radius: 44.sp,
-                            child: CircleAvatar(
-                              radius: 40.sp,
-                              backgroundColor: Color(0xffF9F7EE),
-                              child: Text(
-                                '${price!}\n ${getLang(context, 'rs')}',
-                                style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeightManager.bold,
-                                    fontFamily: FontConstants.lateefFont,
-                                    color: blackColor),
-                              ),
-                            ),
-                            backgroundColor: whiteColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                     ],
+                   ):SizedBox.shrink(),
+                   isHistory==true?
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: <Widget>[
+                       Text('${getLang(context,'status')}  :  ',
+                         style: TextStyle(
+                             fontSize: 17.0,
+                             color: Colors.black,
+                             fontFamily: FontConstants.lateefFont,
+                             letterSpacing: 0.004200000017881393,
+                             fontWeight: FontWeight.bold
+                         ),
+                       ),
+                       Text('${status}',
+                         style: TextStyle(
+                           fontSize: 17.0,
+                           color: Colors.black,
+                           fontFamily: FontConstants.lateefFont,
+                           letterSpacing: 0.004200000017881393,
+                           fontWeight: FontWeight.bold
+                       ),),
+                     ],
+                   ):SizedBox.shrink(),
+                   SizedBox(height: 30.h,),
+                   isHistory!=true?
+                   BlocConsumer<ProviderHomeCubit, ProviderHomeState>(
+                     listener: (BuildContext context,ProviderHomeState state) {},
+                     builder: (BuildContext context, ProviderHomeState state) {
+                       return
+                         ProviderHomeCubit.get(context).isLoading==true?
+                         Padding(
+                           padding: EdgeInsets.symmetric(horizontal: 16.w),
+                           child: Center(child: CircularProgressIndicator(),),
+                         ):
+                         Padding(padding: EdgeInsets.symmetric(horizontal: 16.w),
+                           child: CustomElevatedButton(
+                               onTap: () {
+                                 ProviderHomeCubit.get(context).subscribePackages(id!, context);
+                                 // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomPackageDetailsScreen()));
+                               },
+                               buttonText: getLang(context, 'subscribe_now')),
+                         );
+                     },
+                   ):
+                   SizedBox.shrink(),
+                   isHistory==true?SizedBox.shrink():SizedBox(height: 30.h,),
+                 ],
+               )
+                // Stack(
+                //   children: <Widget>[
+                //     Column(
+                //       children: <Widget>[
+                //         // Container(
+                //         //   padding: EdgeInsets.only(top: 10.h),
+                //         //   // height: 95.h,
+                //         //   width: double.infinity,
+                //         //   color: Color(0xffF9F7EE),
+                //         //   child: Column(
+                //         //     crossAxisAlignment: CrossAxisAlignment.start,
+                //         //     children: <Widget>[
+                //         //       isBeforeBegin==true?SizedBox.shrink():
+                //         //       Padding(
+                //         //         padding:  EdgeInsets.only(right: 16.w),
+                //         //         child: Container(
+                //         //           alignment: AlignmentDirectional.topStart,
+                //         //           width:400.w,
+                //         //           height: 20.h,
+                //         //           child: FittedBox(
+                //         //             child: Text(
+                //         //               ' ${getLang(context, 'valid_from')}  ${startDate}  ${getLang(context, 'to')}  ${endDate}',
+                //         //               style: TextStyle(
+                //         //                 fontSize: 16.sp,
+                //         //                 color: Colors.green,
+                //         //                 fontFamily: FontConstants.lateefFont,
+                //         //                 fontWeight: FontWeight.w400,
+                //         //               ),
+                //         //             ),
+                //         //           ),
+                //         //         ),
+                //         //       ),
+                //         //       // Center(
+                //         //       //   child: Text(
+                //         //       //     title!,
+                //         //       //     style: TextStyle(
+                //         //       //       fontSize: 24.sp,
+                //         //       //       fontFamily: FontConstants.lateefFont,
+                //         //       //       fontWeight: FontWeightManager.bold,
+                //         //       //     ),
+                //         //       //     maxLines: 2,
+                //         //       //     overflow: TextOverflow.ellipsis,
+                //         //       //
+                //         //       //   ),
+                //         //       //
+                //         //       // ),
+                //         //     ],
+                //         //   ),
+                //         // ),
+                //         Padding(
+                //           padding:  EdgeInsets.only(right: 16.w),
+                //           child: Container(
+                //             alignment: AlignmentDirectional.topStart,
+                //             width:400.w,
+                //             height: 20.h,
+                //             child: FittedBox(
+                //               child: Text(
+                //                 ' ${getLang(context, 'valid_from')}  ${startDate}  ${getLang(context, 'to')}  ${endDate}',
+                //                 style: TextStyle(
+                //                   fontSize: 16.sp,
+                //                   color: Colors.green,
+                //                   fontFamily: FontConstants.lateefFont,
+                //                   fontWeight: FontWeight.w400,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //         ListView.builder(
+                //           physics: NeverScrollableScrollPhysics(),
+                //           padding: EdgeInsets.only(top: 77.h, bottom: 10.h),
+                //           itemBuilder: (BuildContext context, int index2) {
+                //             return Container(
+                //               width: double.infinity,
+                //               height: 32.h,
+                //               padding:
+                //               EdgeInsets.symmetric(horizontal: 15.w),
+                //               decoration: BoxDecoration(
+                //                   color: index! % 2 != 0 ? whiteColor : Color(0xffF9F7EE)),
+                //               child: Row(
+                //                 children: <Widget>[
+                //                   SvgPicture.asset(IconsManager.trueIcon),
+                //                   SizedBox(width: 8.w),
+                //                   Text('${description![index2]}',)
+                //                 ],
+                //               ),
+                //             );
+                //           },
+                //           shrinkWrap: true,
+                //           itemCount: description!.length,
+                //         ),
+                //         isHistory==true?
+                //         Center(
+                //           child: Container(
+                //             width: MediaQuery.of(context).size.width*0.8,
+                //             child: Row(
+                //               children: <Widget>[
+                //                 SizedBox(width: 30.w,),
+                //                 Text('${getLang(context, 'start_at')}  :  ',
+                //                 style: TextStyle(
+                //                     fontSize: 17.0,
+                //                     color: Colors.black,
+                //                     fontFamily: FontConstants.lateefFont,
+                //                     letterSpacing: 0.004200000017881393,
+                //                     fontWeight: FontWeight.bold
+                //                 ),
+                //                 ),
+                //                 Text('${startDate}',
+                //                 style: TextStyle(
+                //                     fontSize: 17.0,
+                //                     color: Colors.black,
+                //                     fontFamily: FontConstants.lateefFont,
+                //                     letterSpacing: 0.004200000017881393,
+                //                     fontWeight: FontWeight.bold
+                //                 ),
+                //                   maxLines: 1,
+                //                   overflow:TextOverflow.ellipsis,
+                //
+                //                 ),
+                //                 SizedBox(width: 30.w,),
+                //                 Text('${getLang(context,'end_at')} :  ',
+                //                   style: TextStyle(
+                //                       fontSize: 17.0,
+                //                       color: Colors.black,
+                //                       fontFamily: FontConstants.lateefFont,
+                //                       letterSpacing: 0.004200000017881393,
+                //                       fontWeight: FontWeight.bold
+                //                   ),
+                //                 ),
+                //                 Text('${endDate}',
+                //                   style: TextStyle(
+                //                       fontSize: 17.0,
+                //                       color: Colors.black,
+                //                       fontFamily: FontConstants.lateefFont,
+                //                       letterSpacing: 0.004200000017881393,
+                //                       fontWeight: FontWeight.bold
+                //                   ),
+                //                   maxLines: 1,
+                //                   overflow:TextOverflow.ellipsis,
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ):SizedBox.shrink(),
+                //         isHistory==true?
+                //         Row(
+                //           children: <Widget>[
+                //             SizedBox(width: 100.w,),
+                //
+                //             Text('${getLang(context,'status')}  :  ',
+                //             style: TextStyle(
+                //                 fontSize: 17.0,
+                //                 color: Colors.black,
+                //                 fontFamily: FontConstants.lateefFont,
+                //                 letterSpacing: 0.004200000017881393,
+                //                 fontWeight: FontWeight.bold
+                //             ),
+                //             ),
+                //             Text('${status}',style: TextStyle(
+                //                 fontSize: 17.0,
+                //                 color: Colors.black,
+                //                 fontFamily: FontConstants.lateefFont,
+                //                 letterSpacing: 0.004200000017881393,
+                //                 fontWeight: FontWeight.bold
+                //             ),),
+                //           ],
+                //         ):SizedBox.shrink(),
+                //         SizedBox(height: 30.h,),
+                //         isHistory!=true?
+                //         BlocConsumer<ProviderHomeCubit, ProviderHomeState>(
+                //           listener: (BuildContext context,ProviderHomeState state) {},
+                //           builder: (BuildContext context, ProviderHomeState state) {
+                //             return
+                //               ProviderHomeCubit.get(context).isLoading==true?
+                //               Padding(
+                //                 padding: EdgeInsets.symmetric(horizontal: 16.w),
+                //                 child: Center(child: CircularProgressIndicator(),),
+                //               ):
+                //               Padding(padding: EdgeInsets.symmetric(horizontal: 16.w),
+                //                 child: CustomElevatedButton(
+                //                     onTap: () {
+                //                       ProviderHomeCubit.get(context).subscribePackages(id!, context);
+                //                       // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>CustomPackageDetailsScreen()));
+                //                     },
+                //                     buttonText: getLang(context, 'subscribe_now')),
+                //               );
+                //           },
+                //         ):
+                //         SizedBox.shrink(),
+                //         SizedBox(height: 30.h,),
+                //       ],
+                //     ),
+                //     // Positioned(
+                //     //   top: 70.h,
+                //     //   child: SizedBox(
+                //     //     width: MediaQuery.of(context).size.width,
+                //     //     child: Center(
+                //     //       child: CircleAvatar(
+                //     //         radius: 44.sp,
+                //     //         child: CircleAvatar(
+                //     //           radius: 40.sp,
+                //     //           backgroundColor: Color(0xffF9F7EE),
+                //     //           child: Text(
+                //     //             '${price!}\n ${getLang(context, 'rs')}',
+                //     //             style: TextStyle(
+                //     //                 fontSize: 20.sp,
+                //     //                 fontWeight: FontWeightManager.bold,
+                //     //                 fontFamily: FontConstants.lateefFont,
+                //     //                 color: blackColor),
+                //     //           ),
+                //     //         ),
+                //     //         backgroundColor: whiteColor,
+                //     //       ),
+                //     //     ),
+                //     //   ),
+                //     // ),
+                //   ],
+                // ),
               ),
             ),
           ],

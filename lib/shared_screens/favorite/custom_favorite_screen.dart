@@ -15,11 +15,13 @@ class CustomFavoriteScreen extends StatelessWidget {
   final String type;
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(
+    FavoriteCubit cubit=  FavoriteCubit.get(context);
+    return
+    DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 80.h),
+          preferredSize: Size(double.infinity, 70.h),
           child: CustomAppBar(title: '${getLang(context, 'favorite')}'),
         ),
         body:

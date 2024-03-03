@@ -126,7 +126,8 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
     {
       if (response.statusCode == 200) {
         cubit2.changeLoading(false);
-
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
         MyOrdersCubit.get(context).getMyCheckCars(context);
         showToast(text: '${json.encode(response.data['message'])}',

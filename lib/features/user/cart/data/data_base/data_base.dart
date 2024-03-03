@@ -60,7 +60,6 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
     print('order address is = ${cartItems.userAddressId}');
     AuthCubit cubit =AuthCubit.get(context);
      CartCubit cartCubit =CartCubit.get(context);
-
     // cartCubit.changeLoading(true);
     Map<String, String> headers = <String, String>{
       'Content-Type': 'application/json',
@@ -70,85 +69,88 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
       'Authorization': 'Bearer ${cubit.token}'
     };
 
-     Dio dio = Dio();
-    Response<dynamic> response = await dio.request(
-      'https://shart.dev01.matrix-clouds.com/api/user/make-order',
-      options: Options(
-        method: 'POST',
-        headers: headers,
-      ),
-      data: cartItems.toJson(),
-    );
-
-    if (response.statusCode == 200) {
-      MyOrdersCubit.get(context).getMyOrder(context);
-      cartCubit.changeAddOrderLoading(false);
-      cartCubit.addressLocationModel=null;
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Container(
-              height: 530.h,
-              width: 343,
-              child:
-              Column(
-                children: [
-                  Align(
-                    alignment: AlignmentDirectional.topEnd,
-                    child: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                      },
-                    ),),
-                  SizedBox(height: 70.h,),
-                  Expanded(child: Image.asset('assets/images/true.png')),
-                  SizedBox(height: 30.h,),
-                  Text(
-                    getLang(context, 'order_done'),
-                    style:   TextStyle(
-                        fontFamily: FontConstants.Tajawal,
-                        fontSize: 20,
-                        color: blackTextColor,
-                        fontWeight: FontWeight.w400
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 60.h,),
-                  CustomElevatedButton(
-                      onTap: (){
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                UserBottomNavScreen(
-                              checkPage: '2',
-                            )));
-                        cartCubit.reStartAddressFields();
-                        cartCubit.removeAll();
-                      },
-                      buttonText: getLang(context, 'ok'))
-                ],
-              )
-              ,
-            ),
-
-          );
-        },
-
+    try{
+      Dio dio = Dio();
+      Response<dynamic> response = await dio.request(
+        'https://shart.dev01.matrix-clouds.com/api/user/make-order',
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: cartItems.toJson(),
       );
-      // showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
-      // cartCubit.changeLoading(false);
 
-    }
-    else {
+      if (response.statusCode == 200) {
+        MyOrdersCubit.get(context).getMyOrder(context);
+        cartCubit.changeAddOrderLoading(false);
+        cartCubit.addressLocationModel=null;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Container(
+                height: 530.h,
+                width: 343,
+                child:
+                Column(
+                  children: [
+                    Align(
+                      alignment: AlignmentDirectional.topEnd,
+                      child: IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                        },
+                      ),),
+                    SizedBox(height: 70.h,),
+                    Expanded(child: Image.asset('assets/images/true.png')),
+                    SizedBox(height: 30.h,),
+                    Text(
+                      getLang(context, 'order_done'),
+                      style:   TextStyle(
+                          fontFamily: FontConstants.Tajawal,
+                          fontSize: 20,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w400
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 60.h,),
+                    CustomElevatedButton(
+                        onTap: (){
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  UserBottomNavScreen(
+                                    checkPage: '2',
+                                  )));
+                          cartCubit.reStartAddressFields();
+                          cartCubit.removeAll();
+                        },
+                        buttonText: getLang(context, 'ok'))
+                  ],
+                )
+                ,
+              ),
+
+            );
+          },
+
+        );
+        // showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
+        // cartCubit.changeLoading(false);
+
+      }
+      else {
+        cartCubit.changeAddOrderLoading(false);
+
+        // cartCubit.changeLoading(false);
+        showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+      }
       cartCubit.changeAddOrderLoading(false);
-
       // cartCubit.changeLoading(false);
-      showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+    }catch(e){
+      cartCubit.changeAddOrderLoading(false);
     }
-    cartCubit.changeAddOrderLoading(false);
-
-    // cartCubit.changeLoading(false);
   }
 
 }

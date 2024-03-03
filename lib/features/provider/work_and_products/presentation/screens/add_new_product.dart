@@ -29,7 +29,7 @@ class ProviderAddNewProduct extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: '${getLang(context, 'my_products_adding')}', hasBackButton: true),
-        preferredSize: Size(double.infinity, 80.h),
+        preferredSize: Size(double.infinity, 70.h),
       ),
       body:
       BlocConsumer<WorkProductsCubit ,WorkProductsState>(
