@@ -148,7 +148,7 @@ class AuthCubit extends Cubit<AuthState> {
      token = await CacheHelper.getDate(key: 'token');
      print(token);
 
-     NotificationCubit.get(context).getNotification('user',context);
+     // NotificationCubit.get(context).getNotification('user',context);
      UserProfileCubit.get(context).getUserProfile(token, context);
      FavoriteCubit.get(context).getFavoriteProducts(token, context);
      FavoriteCubit.get(context).getFavoriteMerProducts(context);

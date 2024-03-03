@@ -48,6 +48,7 @@ import '../../features/user/more/presentation/screens/more_screen.dart';
 import '../../features/user/myorders/presentation/screens/item_details.dart';
 import '../../features/user/myorders/presentation/screens/myorders_screen.dart';
 import '../../features/user/profile/presentation/edit_profile/screens/edit_profile_screen.dart';
+import '../../shared_screens/notifications/presentation/screens/notification_screen.dart';
 import 'platform_page_route.dart';
 import 'undefined_route_screen.dart';
 

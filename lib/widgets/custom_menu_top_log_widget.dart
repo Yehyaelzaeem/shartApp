@@ -30,7 +30,9 @@ class CustomTopRowLogo extends StatelessWidget {
               AuthCubit.get(context).token.isNotEmpty?
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>NotificationScreen(type: type,)));
+                  // NavigationManager.push(Routes.notifications,arguments: <String, dynamic>{'type':type});
+
+                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>NotificationScreen(type: type,)));
                 },
                 child: Padding(
                     padding: EdgeInsets.only(top: 10, left: 10.w),
@@ -43,6 +45,8 @@ class CustomTopRowLogo extends StatelessWidget {
               SizedBox.shrink():
               InkWell(
                 onTap: () {
+                  // NavigationManager.push(Routes.notifications,arguments: <String, dynamic>{'type':type});
+
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>NotificationScreen(type: type,)));
                  },
                 child: Padding(

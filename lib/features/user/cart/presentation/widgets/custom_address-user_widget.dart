@@ -68,11 +68,13 @@ class CustomAddressUserWidget extends StatelessWidget {
         SizedBox(height: 5.h,),
         InkWell(
           onTap: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
-                CustomGoogleMapScreen(
-              lat: cubit.lat!,
-              long: cubit.long!, type: 'user',
-            )));
+            if(cubit.lat!=null&&cubit.long!=null){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
+                  CustomGoogleMapScreen(
+                    lat: cubit.lat!,
+                    long: cubit.long!, type: 'user',
+                  )));
+            }
           },
           child: CustomTextField(
             enabled: false,

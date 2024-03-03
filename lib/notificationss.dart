@@ -3,7 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shart/core/shared_preference/shared_preference.dart';
-
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
+import 'package:shart/shared_screens/notifications/logic/notification_cubit.dart';
+import 'package:shart/shared_screens/notifications/presentation/screens/notification_screen.dart';
 import 'core/routing/navigation_services.dart';
 import 'core/routing/routes.dart';
 import 'features/services.dart';
@@ -13,25 +15,27 @@ class NotificationsFCM {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
-  NotificationsFCM() {
+  NotificationsFCM(BuildContext context) {
     configLocalNotification();
-    registerNotification();
+    registerNotification(context);
     _createNotificationChannel('shart', 'shart', 'shart');
   }
 
-  void registerNotification() async {
+  void registerNotification(BuildContext context) async {
     debugPrint('FCM registerNotification');
     await firebaseMessaging.requestPermission();
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       message.data.forEach((String key, value) {
         debugPrint('fcm message $key -> $value');
-
       });
       RemoteNotification notification = message.notification!;
       Map<String, dynamic> data = message.data;
-      // AndroidNotification android = message.notification!.android!;
-      showNotification('${notification.title}', '${notification.body}', data);
+       // AndroidNotification android = message.notification!.android!;
+      showNotification('${notification.title}', '${notification.body}', data,);
+      print('test = ${AuthCubit.get(context).token.isNotEmpty}');
+      AuthCubit.get(context).token.isNotEmpty?
+          NotificationCubit.get(context).getNotification(10, 'user', context):
+          NotificationCubit.get(context).getNotification(10, 'provider', context);
       // NavigationService.push(NavigationService.navigationKey.currentContext!,
       //     Routes.notificationsScreen);
     });
@@ -50,23 +54,34 @@ class NotificationsFCM {
       // final String propertyId = notificationInfo['id'];
       //TODO handle notification redirect
       if (message.notification != null) {
-        debugPrint('${message.notification!.title!}999999999999999999999999999999999');
+        debugPrint('${message.notification!.title!}999uu99${message.notification!.title!.substring(0,5)}9999999999999999999999999999');
         debugPrint('${message.notification!.body!}888888888888888');
-        debugPrint('${message.notification!.bodyLocKey!}99999999555559999999999999999999999999');
-        debugPrint('${message.notification!.bodyLocArgs!}ffgfhfghgfhfhfghgh');
-        debugPrint('${message.notification!.apple!}99999999999999988888999999999999999999');
-      //   if(message.notification!.title=='New Order'){
-      //     NavigationService.push(NavigationService.navigationKey.currentContext!, Routes.providerOrders);
-      //   }
-      //   else if(message.notification!.title!.substring(0,4)=='Order'){
-      //     NavigationService.push(NavigationService.navigationKey.currentContext!, Routes.orders);
-      //   }
+        // if (message.notification != null && message.notification!.title != null) {
+        //   if(message.notification!.title=='New Order'){
+        //     print('yes New Order');
+        //     NavigationService.push(NavigationService.navigationKey.currentContext!, Routes.providerOrders);
+        //   }
+        //   else if(message.notification!.title!.substring(0,5)=='Order'){
+        //     print('yes =-== Order');
+        //     // Navigator.of(context).pushNamed(Routes.orders);
+        //       // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
+        //       //     NotificationScreen(type: 'user')));
+        //
+        //   }        } else {
+        //   // قد تكون القيمة null، فقم بمعالجة الحالة بشكل مناسب
+        // }
+
       //   NavigationManager.push(Routes.orders);
 
-        var x =await CacheHelper.getDate(key: 'token');
-        x!=null?
-        NavigationManager.push(Routes.orders):
-        NavigationManager.push(Routes.providerOrders);
+      //   var x =await CacheHelper.getDate(key: 'token');
+      //   // x!=null?
+      //   // NavigationManager.push(Routes.orders):
+      //   // NavigationManager.push(Routes.providerOrders);
+      //   x!=null?
+      //   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
+      //       NotificationScreen(type: 'user'))):
+      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
+      //       NotificationScreen(type: 'provider')));
         // NavigationService.push(NavigationService.navigationKey.currentContext!, Routes.orders);
 
 
@@ -98,7 +113,6 @@ class NotificationsFCM {
       saveFCM(token!);
     });
     debugPrint('A /////////end o***********nMessageOpenedApp event was published!');
-
   }
 
   // void _handleMessage(RemoteMessage message) {
@@ -131,8 +145,6 @@ class NotificationsFCM {
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      // onDidReceiveBackgroundNotificationResponse: (details) =>
-      //     kEcho("gsddfgsdfadadsg"),
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
       // onDidReceiveBackgroundNotificationResponse: (NotificationResponse details) {
       //   // kEcho(details.payload!);
@@ -171,10 +183,6 @@ class NotificationsFCM {
       NavigationManager.push(Routes.orders):
       NavigationManager.push(Routes.providerOrders);
 
-
-      // NavigationService.push(NavigationService.navigationKey.currentContext!,
-      //
-      //    Routes.notificationsScreen);
       if (propertyId != null) {
         // Handle the notification response with valid data
       }
@@ -188,8 +196,8 @@ class NotificationsFCM {
   Future<void> _createNotificationChannel(
       String id, String name, String description) async {
     debugPrint('create channel');
-    final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var androidNotificationChannel = AndroidNotificationChannel(
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    AndroidNotificationChannel androidNotificationChannel = AndroidNotificationChannel(
       id,
       name,
     );
@@ -210,6 +218,7 @@ class NotificationsFCM {
 
   void showNotification(
       String title, String message, Map<String, dynamic> payLoad) async {
+    debugPrint('FCM showNotification title $title');
     debugPrint('FCM showNotification message $message');
     debugPrint('FCM showNotification payLoad $payLoad');
     AndroidNotificationDetails androidPlatformChannelSpecifics = const AndroidNotificationDetails(

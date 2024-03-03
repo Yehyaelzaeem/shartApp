@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
   final Widget widget;
   @override
   Widget build(BuildContext context) {
-    NotificationsFCM();
     return MultiBlocProvider(
         providers: <SingleChildWidget>[
         BlocProvider<AuthCubit>(create: (BuildContext context) => AuthCubit()),
@@ -44,6 +43,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
         BlocProvider<MerchantsCubit>(create: (BuildContext context) => MerchantsCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
+        // BlocProvider<BeerCubit>(create: (BuildContext context) => BeerCubit()),
         BlocProvider<ProviderOrdersCubit>(create: (BuildContext context) => ProviderOrdersCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),
        ],
@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
         designSize: const Size(375, 812),
         useInheritedMediaQuery: true,
         builder: (BuildContext context, Widget? child) {
+          NotificationsFCM(context);
           return BlocConsumer<AuthCubit ,AuthState>(
               builder: (BuildContext context ,AuthState state){
                 return  MaterialApp(

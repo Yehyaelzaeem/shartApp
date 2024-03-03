@@ -41,7 +41,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
 
  void getToken(BuildContext context)async{
     token = await CacheHelper.getDate(key: 'providerToken');
-    NotificationCubit.get(context).getNotification('provider',context);
+    // NotificationCubit.get(context).getNotification('provider',context);
     ProviderProfileCubit.get(context).getProviderProfile('${token}', context);
     ProviderProfileCubit.get(context).getAddressListProvider(token, context);
     WorkProductsCubit.get(context).getWorks(context);

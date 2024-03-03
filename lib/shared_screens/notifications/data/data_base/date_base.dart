@@ -11,37 +11,34 @@ import '../models/notificationModel.dart';
 import '../models/single_order_model.dart';
 
 class RemoteNotificationDataSource{
-  Future<NotificationModel?> getNotification(String type ,String token, BuildContext context) async{
-    NotificationCubit cubit =NotificationCubit.get(context);
+  Future<NotificationModel?> getNotification(int limit ,String type ,String token, BuildContext context) async{
+    print('type : ${type}');
+    print('type : ${limit}');
+   NotificationCubit cubit =NotificationCubit.get(context);
     cubit.loading = true;
     cubit.changeState();
-    Response<dynamic> res = await DioHelper.getData(url:
-    type=='user'?
-    AppApis.getUserNotification(cubit.page):
-    AppApis.getProviderNotification(cubit.page),
-        language: AuthCubit.get(context).localeLanguage==Locale('en')?'en':'ar',
-        token: token);
-
-    if (NotificationModel.fromJson(res.data).success == false) {
-      // showToast(text: '${NotificationModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-    }
-    else{
-      if (res.statusCode == 200) {
-        cubit.page++;
-        print(cubit.page);
-        cubit.hasMore = true; // يمكنك تعديل هذا حسب رد الاستجابة من الخادم
-        cubit.status = NotificationStatus.success;
-        cubit.changeState();
-
-        return NotificationModel.fromJson(res.data);
-      }
-      else {
-        cubit.status = NotificationStatus.failure;
-        cubit.changeState();
-
+    try{
+      Response<dynamic> res = await DioHelper.getData(url:
+      type=='user'?
+      AppApis.getUserNotification(limit):
+      AppApis.getProviderNotification(limit),
+          language: AuthCubit.get(context).localeLanguage==Locale('en')?'en':'ar',
+          token: token);
+      if (NotificationModel.fromJson(res.data).success == false) {
         // showToast(text: '${NotificationModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-        throw 'Error';
       }
+      else{
+        if (res.statusCode == 200) {
+          return NotificationModel.fromJson(res.data);
+        }
+        else {
+          // showToast(text: '${NotificationModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+          throw 'Error';
+        }
+      }
+    }catch(e){
+      cubit.loading = false;
+      cubit.changeState();
     }
     cubit.loading = false;
     cubit.changeState();

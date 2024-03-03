@@ -15,7 +15,7 @@ class AppApis{
   static const String deleteAccount='${baseUrl}user/delete-account';
   static const String changePasswordUser='${baseUrl}user/change-password';
   //?per_page/$page
-  static  String getUserNotification(int page)=>'${baseUrl}user/my-notifications';
+  static  String getUserNotification(int limit)=>'${baseUrl}user/my-notifications?per_page=$limit';
   // static  String getSingleOrder(int id)=>'${baseUrl}user/get-order/$id';
 
   //Address
@@ -70,7 +70,7 @@ class AppApis{
   static const String addAddressProvider='${baseUrl}provider/addresses/add';
   static const String changePasswordProvider='${baseUrl}provider/change-password';
   //?per_page=$page
-  static  String getProviderNotification(int page)=>'${baseUrl}provider/my-notifications';
+  static  String getProviderNotification(int limit)=>'${baseUrl}provider/my-notifications?per_page=$limit';
 
   static  String editAddressProvider (int id)=>'${baseUrl}provider/addresses/edit/$id';
   static  String deleteAddressProvider (int id)=>'${baseUrl}provider/addresses/delete/$id';

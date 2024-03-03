@@ -50,7 +50,7 @@ Future<void> main() async {
           // ),
     ),
   );
-  //حعسا ىثص push new apk
+  //push 3/3/2024
   // runApp(
   //   EasyLocalization(
   //     supportedLocales: const <Locale>[Locale('ar'), Locale('en')],

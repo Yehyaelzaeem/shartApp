@@ -81,7 +81,6 @@ class CartCubit extends Cubit<CartState> {
     );
     cartRemoteDataSource.sendOrder(cartItems, context);
     emit(SendOrderState());
-
   }
   void reStartAddressFields(){
     addressController.text='';
