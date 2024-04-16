@@ -116,7 +116,7 @@ class CartScreen extends StatelessWidget {
                       left: 16.w,
                       bottom: 20.h,
                       child:
-                      cubit.isLoading?
+                      cubit.isLoadingCart?
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Center(child: CircularProgressIndicator(),),

@@ -146,6 +146,16 @@ class CustomBodyMore extends StatelessWidget {
 
             },
             text:  getLang(context,'packages')),
+
+        type!='user'?
+        buildProfileItemWidget(
+            iconData: Icons.account_balance_wallet_outlined,
+            function: () {
+              ProviderProfileCubit.get(context).getWallet(context);
+              NavigationManager.push(Routes.walletScreen);
+            },
+            text:  getLang(context,'my_wallet')):
+        SizedBox.shrink(),
         type=='user'?
         buildProfileItemWidget(
             iconPath: IconsManager.mer,

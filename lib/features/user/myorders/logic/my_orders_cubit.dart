@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
+import '../../../../shared_screens/web_view/custom_web_view_screen.dart';
 import '../data/data_base/data_base.dart';
 import '../data/model/check_car_model.dart';
 import '../data/model/myorder_model.dart';
@@ -33,6 +35,21 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       getCheckCarsModel =value!;
       emit(GetMyOrderState());
     });
+  }
+  String? urlPayment;
+  Future<dynamic> payment({required int id,required String methodPayment,required BuildContext context})async{
+    emit(PaymentLoadingState());
+    myOrderRemoteDataSource.payment(id,methodPayment,context).then((String value) {
+      urlPayment=value;
+      emit(PaymentSuccessState());
+      if(value.isNotEmpty){
+        Navigator.push(context, MaterialPageRoute(builder:
+            (BuildContext context)=> CustomWebView( title: 'Shart Payment', selectedUrl: value,)));
+      }
+       });
+  }
+  void changeState(){
+    emit(PaymentErrorState());
   }
   ProductDataSource? productDataSource;
   List<Product> products = <Product>[];

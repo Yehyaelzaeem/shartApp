@@ -43,7 +43,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    myOrdersModelData.status !='cancelled'&&myOrdersModelData.status !='delivered' && myOrdersModelData.status !='rejected'?
+                    myOrdersModelData.status !='cancelled'&&myOrdersModelData.status !='delivered' && myOrdersModelData.status !='rejected' && myOrdersModelData.paymentStatus!='paid'?
                     CustomMaterialButton(text: '${getLang(context, 'cancel')}', onPressed: (){
                       CustomDialogs.showAlertDialog(
                         type: DialogType.warning,
@@ -200,7 +200,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
               ),
               SizedBox(height: 20.h,),
-              myOrdersModelData.status=='accepted'?
+              myOrdersModelData.status=='accepted'&&myOrdersModelData.paymentStatus=='un_paid'?
               BlocConsumer<CartCubit, CartState>(
                 listener: (BuildContext context,CartState state) {},
                 builder: (BuildContext context, CartState state) {

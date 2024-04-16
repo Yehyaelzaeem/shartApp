@@ -19,6 +19,7 @@ import '../model/address_model.dart';
 import '../model/complete_model.dart';
 import '../model/delete_account_model.dart';
 import '../model/user_profile_model.dart';
+import '../model/wallet_model.dart';
 
 abstract class BaseProviderProfileRemoteDataSource{
   Future<ProviderGetProfileModel?> getProviderProfile(String token ,BuildContext context);
@@ -34,6 +35,7 @@ abstract class BaseProviderProfileRemoteDataSource{
   Future<AboutCompanyModel?> getPrivacyProvider(BuildContext context);
   Future<dynamic>  sendCompleteProfile(bool? isUpdate,String token ,CompleteProfileModel completeProfileModel ,BuildContext context);
   Future<dynamic> sendFCMToken(String token, String fcmToken);
+  Future<WalletModel?> getWallet(BuildContext context);
 }
 
 class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSource {
@@ -447,6 +449,37 @@ class ProviderProfileRemoteDataSource implements BaseProviderProfileRemoteDataSo
       showToast(text: response.data['message'], state: ToastStates.error, context: context);
     }
     cubit.changeAddLoading(false);
+  }
+
+  @override
+  Future<WalletModel?> getWallet(BuildContext context) async{
+    AuthCubit cubit =AuthCubit.get(context);
+    AuthProviderCubit authProviderCubit =AuthProviderCubit.get(context);
+    print('cubit.token ${authProviderCubit.token}');
+    print('cubit.getWallet ${AppApis.getWallet}');
+    print('cubit.cubit.localeLanguage.toString() ${cubit.localeLanguage.toString()}');
+
+    try{
+      Response<dynamic> response = await DioHelper.getData(
+        token: authProviderCubit.token,
+        url: AppApis.getWallet,
+        language:  cubit.localeLanguage.toString());
+      if (response.statusCode == 200) {
+        return  WalletModel.fromJson(response.data);
+      }
+    }catch (e){
+      if (e is DioError) {
+        if (e.response != null) {
+          showToast(text: e.response!.statusMessage.toString(), state: ToastStates.error, context: context);
+          print('DioError: ${e.response!.statusCode} - ${e.response!.statusMessage}');
+        } else {
+          print('DioError: ${e.message}');
+        }
+      } else {
+        print('Error: $e');
+      }
+      return null;
+    }
   }
 
 }

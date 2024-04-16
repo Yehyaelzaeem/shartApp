@@ -45,7 +45,8 @@ class SparePartItemWidget extends StatelessWidget {
       child: BlocConsumer<CartCubit, CartState>(
   listener: (context, CartState state) {},
   builder: (context, CartState state) {
-    return Column(
+    return
+      Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           image.isNotEmpty?

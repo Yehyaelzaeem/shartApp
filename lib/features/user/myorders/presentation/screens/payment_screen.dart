@@ -2,14 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
+import '../../../../../shared_screens/web_view/custom_web_view_screen.dart';
 import '../../../../../widgets/custom_button.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../cart/logic/cart_cubit.dart';
 import '../../../cart/presentation/widgets/custom_steo3_body.dart';
 import '../../data/model/myorder_model.dart';
+import '../../logic/my_orders_cubit.dart';
 
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen({super.key, required this.myOrdersModelData});
@@ -294,15 +298,19 @@ class PaymentScreen extends StatelessWidget {
               );
             }),
             SizedBox(height: 70.h,),
-            BlocConsumer<CartCubit, CartState>(
-              listener: (BuildContext context,CartState state) {},
-              builder: (BuildContext context, CartState state) {
+
+
+
+            BlocConsumer<MyOrdersCubit, MyOrdersState>(
+              listener: (BuildContext context,MyOrdersState state) {},
+              builder: (BuildContext context, MyOrdersState state) {
                 CartCubit cubit =CartCubit.get(context);
                 return
-                  cubit.isAddOrderLoading?Center(child: CircularProgressIndicator(),) :
-                  CustomElevatedButton(onTap: (){
-                    // cubit.addAddressUser(AuthCubit.get(context).token, context);
-                    // _showDialog(context);
+                  CustomElevatedButton(
+                      isLoading: state is PaymentLoadingState,
+                      onTap: (){
+                     MyOrdersCubit.get(context).payment(id: myOrdersModelData.id!, methodPayment: 'card', context: context);
+
                   },
                       buttonText: getLang(context, 'confirm_payment'));
               },

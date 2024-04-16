@@ -5,6 +5,7 @@ class Routes {
   static const String chooseUserScreen = '/choose-user-screen';
   static const String login = '/login';
   static const String register = '/register';
+  static const String walletScreen = '/walletScreen';
   static const String otpScreen = '/otp_screen';
 
   ///USER

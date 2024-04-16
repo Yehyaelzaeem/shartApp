@@ -9,6 +9,7 @@ const Color errorColor = Color(0xffc52828);
 
 const Color primaryColor = Color(0xffFFDF58);
 const Color secondaryColor = Color(0xff7EBA4C);
+const Color orangeColor = Color(0xFF8901);
 const Color packagesColor = Color(0xffF9F7EE);
 const Color blueColor = Color(0xff136B79);
 

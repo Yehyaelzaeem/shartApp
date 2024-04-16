@@ -24,6 +24,7 @@ class NotificationsFCM {
   void registerNotification(BuildContext context) async {
     debugPrint('FCM registerNotification');
     await firebaseMessaging.requestPermission();
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       message.data.forEach((String key, value) {
         debugPrint('fcm message $key -> $value');
@@ -201,10 +202,13 @@ class NotificationsFCM {
       id,
       name,
     );
+    debugPrint('create channdddkkkkkkkkkkkkkkkkkkkk=========dddddddddddddddddel');
+
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(androidNotificationChannel);
+
   }
 
   void _handleMessage(RemoteMessage message) async {

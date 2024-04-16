@@ -12,7 +12,9 @@ Widget buildProfileItemWidget(
     bool? hasArrowButton,
     bool? lang,
       context,
-    required String text}) {
+      IconData? iconData,
+
+      required String text}) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 5.h),
     child: InkWell(
@@ -21,7 +23,10 @@ Widget buildProfileItemWidget(
       },
       child: Row(
         children: <Widget>[
-          iconPath !=null? SvgPicture.asset(iconPath):Image.asset('assets/images/privacy.png'),
+          if(iconData!=null)
+            Icon(iconData,color: Colors.grey.shade600.withOpacity(0.8),)
+          else
+            iconPath !=null? SvgPicture.asset(iconPath):Image.asset('assets/images/privacy.png'),
           SizedBox(width: 8.w),
           Expanded(
             child: Text(

@@ -11,6 +11,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double? fontSize;
   final Color? backgroundColor;
   final Color? borderColor;
+  final bool? isLoading;
 
   const CustomElevatedButton({
     super.key,
@@ -20,7 +21,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.fontColor,
     this.fontSize,
     this.borderColor,
-    this.backgroundColor,
+    this.backgroundColor, this.isLoading,
   });
 
   @override
@@ -38,7 +39,10 @@ class CustomElevatedButton extends StatelessWidget {
           side: BorderSide(color: borderColor ?? Colors.transparent),
         ),
       ),
-      child: Text(
+      child:
+      isLoading==true?
+          Center(child: CircularProgressIndicator(color: Colors.white,),):
+      Text(
         buttonText,
         style: TextStyle(
           color: fontColor ?? blackColor,

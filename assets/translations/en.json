@@ -274,5 +274,12 @@
   "prep_mes": "Are you sure you want to prepare the order?",
   "del_title": "Deliver Order",
   "del_mes": "Are you sure you want to deliver the order?",
-  "search2": "Search for a place"
+  "search2": "Search for a place",
+  "payment_successful": "Payment Successful",
+  "payment_failure": "Payment Failure",
+  "my_wallet": "My Wallet",
+  "un_paid": "Un Paid",
+  "paid": "Paid",
+
+  "order_no": "Order No"
 }

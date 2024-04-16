@@ -1,5 +1,6 @@
 class AppApis{
-  static const String baseUrl='https://shart.dev01.matrix-clouds.com/api/';
+  // static const String baseUrl='https://shart.dev01.matrix-clouds.com/api/';
+  static const String baseUrl='https://dev02.matrix-clouds.com/shart/public/api/';
 //User
   //Auth
   static const String loginUser='${baseUrl}user/login';
@@ -48,7 +49,8 @@ class AppApis{
   static  String cancelOrderUser(int id)=>'${baseUrl}user/order/cancel/${id}';
 
 
-
+//Payment
+  static const String payment='${baseUrl}user/pay-order';
 
 
 
@@ -76,6 +78,8 @@ class AppApis{
   static  String deleteAddressProvider (int id)=>'${baseUrl}provider/addresses/delete/$id';
   //Complete Profile
   static const String completeProfile='${baseUrl}provider/complete-profile';
+  //Wallet
+  static const String getWallet='${baseUrl}provider/get-my-wallets';
 
   //Pages
   static const String termsAndConditionProvider='${baseUrl}provider/pages/terms_and_conditions_provider_app';

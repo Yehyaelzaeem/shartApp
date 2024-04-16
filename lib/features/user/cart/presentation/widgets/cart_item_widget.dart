@@ -22,7 +22,6 @@ class CardItem extends StatelessWidget {
     return InkWell(
       onTap: (){
         List<String> list = [product.image.toString()];
-
         Navigator.push(context, MaterialPageRoute(builder:
             (BuildContext context)=>ProductDetailsScreen(
               id: product.id!,

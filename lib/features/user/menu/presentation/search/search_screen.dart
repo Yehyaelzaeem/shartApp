@@ -32,7 +32,8 @@ class SearchScreen extends StatelessWidget {
           child: CustomAppBar(title: getLang(context,'search'),hasBackButton: true,),
         ),
 
-        body: BlocConsumer<MenuCubit, MenuState>(
+        body:
+        BlocConsumer<MenuCubit, MenuState>(
           listener: (BuildContext context,MenuState state) {},
           builder: (BuildContext context,MenuState state) {
             return SingleChildScrollView(

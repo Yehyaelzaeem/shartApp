@@ -26,6 +26,7 @@ import '../../features/provider/auth/presentation/screens/register_provider_scre
 import '../../features/provider/profile/presentation/address/screens/provider_add_address.dart';
 import '../../features/provider/profile/presentation/address/screens/provider_addresses.dart';
 import '../../features/provider/profile/presentation/edit_profile/screen/edit_profile_screen.dart';
+import '../../features/provider/profile/presentation/wallet/wallet_screen.dart';
 import '../../features/provider/work_and_products/presentation/screens/add_new_product.dart';
 import '../../features/provider/work_and_products/presentation/screens/product_details_screen.dart';
 import '../../features/provider/work_and_products/presentation/screens/work_and_products_screen.dart';
@@ -72,6 +73,9 @@ class RouteGenerator {
     }
     if (settings.name == Routes.register) {
       return platformPageRoute(const RegisterScreen());
+    }
+    if (settings.name == Routes.walletScreen) {
+      return platformPageRoute(const WalletScreen());
     }
     // if (settings.name == Routes.otpScreen) {
     //   return platformPageRoute(const VerifyAccountScreen());

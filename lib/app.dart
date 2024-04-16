@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProviderOrdersCubit>(create: (BuildContext context) => ProviderOrdersCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),
        ],
-      child: ScreenUtilInit(
+      child:
+      ScreenUtilInit(
         designSize: const Size(375, 812),
         useInheritedMediaQuery: true,
         builder: (BuildContext context, Widget? child) {

@@ -60,7 +60,8 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
     print('order address is = ${cartItems.userAddressId}');
     AuthCubit cubit =AuthCubit.get(context);
      CartCubit cartCubit =CartCubit.get(context);
-    // cartCubit.changeLoading(true);
+    cartCubit.changeAddOrderLoading(true);
+
     Map<String, String> headers = <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -72,71 +73,74 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
     try{
       Dio dio = Dio();
       Response<dynamic> response = await dio.request(
-        'https://shart.dev01.matrix-clouds.com/api/user/make-order',
+        '${AppApis.baseUrl}user/make-order',
         options: Options(
           method: 'POST',
           headers: headers,
         ),
         data: cartItems.toJson(),
       );
-
       if (response.statusCode == 200) {
-        MyOrdersCubit.get(context).getMyOrder(context);
-        cartCubit.changeAddOrderLoading(false);
-        cartCubit.addressLocationModel=null;
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              content: Container(
-                height: 530.h,
-                width: 343,
-                child:
-                Column(
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional.topEnd,
-                      child: IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        },
-                      ),),
-                    SizedBox(height: 70.h,),
-                    Expanded(child: Image.asset('assets/images/true.png')),
-                    SizedBox(height: 30.h,),
-                    Text(
-                      getLang(context, 'order_done'),
-                      style:   TextStyle(
-                          fontFamily: FontConstants.Tajawal,
-                          fontSize: 20,
-                          color: blackTextColor,
-                          fontWeight: FontWeight.w400
+        if(response.data['success']==true){
+          MyOrdersCubit.get(context).getMyOrder(context);
+          cartCubit.changeAddOrderLoading(false);
+          cartCubit.addressLocationModel=null;
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Container(
+                  height: 530.h,
+                  width: 343,
+                  child:
+                  Column(
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional.topEnd,
+                        child: IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          },
+                        ),),
+                      SizedBox(height: 70.h,),
+                      Expanded(child: Image.asset('assets/images/true.png')),
+                      SizedBox(height: 30.h,),
+                      Text(
+                        getLang(context, 'order_done'),
+                        style:   TextStyle(
+                            fontFamily: FontConstants.Tajawal,
+                            fontSize: 20,
+                            color: blackTextColor,
+                            fontWeight: FontWeight.w400
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 60.h,),
-                    CustomElevatedButton(
-                        onTap: (){
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  UserBottomNavScreen(
-                                    checkPage: '2',
-                                  )));
-                          cartCubit.reStartAddressFields();
-                          cartCubit.removeAll();
-                        },
-                        buttonText: getLang(context, 'ok'))
-                  ],
-                )
-                ,
-              ),
+                      SizedBox(height: 60.h,),
+                      CustomElevatedButton(
+                          onTap: (){
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    UserBottomNavScreen(
+                                      checkPage: '2',
+                                    )));
+                            cartCubit.reStartAddressFields();
+                            cartCubit.removeAll();
+                          },
+                          buttonText: getLang(context, 'ok'))
+                    ],
+                  )
+                  ,
+                ),
 
-            );
-          },
+              );
+            },
 
-        );
-        // showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.success, context: context);
+          );
+        }
+        else{
+          showToast(text: '${json.encode(response.data['message'])}', state: ToastStates.error, context: context);
+        }
         // cartCubit.changeLoading(false);
 
       }
@@ -150,6 +154,21 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
       // cartCubit.changeLoading(false);
     }catch(e){
       cartCubit.changeAddOrderLoading(false);
+      if (e is DioError) {
+        // Handle DioError here
+        if (e.response != null) {
+          // DioError with response
+          showToast(text: e.response!.statusMessage.toString(), state: ToastStates.error, context: context);
+          print('DioError: ${e.response!.statusCode} - ${e.response!.statusMessage}');
+        } else {
+          // DioError without response
+          print('DioError: ${e.message}');
+        }
+      } else {
+        // Handle other types of exceptions
+        print('Error: $e');
+      }
+
     }
   }
 

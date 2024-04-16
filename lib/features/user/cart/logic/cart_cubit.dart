@@ -90,6 +90,7 @@ class CartCubit extends Cubit<CartState> {
     long=0.0;
     lat=0.0;
   }
+
  Future<dynamic> addProduct(Cart product) async {
     if (products.where((Cart element) => element.id == product.id).toList().length == 0) products.add(product);
     products.where((Cart element) => element.id == product.id).first.count = 1;
@@ -124,9 +125,14 @@ class CartCubit extends Cubit<CartState> {
     products.clear();
   }
 
+  bool isLoadingCart=false;
   bool isLoading=false;
   bool isAddOrderLoading=false;
   bool isAddingAddress=false;
+  void changeLoadingCartLoading(bool x){
+    isLoadingCart=x;
+    emit(ChangeLoadingState());
+  }
   void changeLoading(bool x){
     isLoading=x;
     emit(ChangeLoadingState());

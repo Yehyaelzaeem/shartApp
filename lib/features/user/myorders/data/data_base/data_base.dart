@@ -15,6 +15,7 @@ abstract class BaseMyOrderRemoteDataSource {
   Future<MyOrdersModel?> getMyOrder(String token ,BuildContext context);
   Future<GetCheckCarsModel?> getMyCheckCars(BuildContext context);
   Future<dynamic> cancelOrderUser(int id ,BuildContext context);
+  Future<String> payment(int id ,String methodPayment,BuildContext context);
 
 }
 class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
@@ -23,17 +24,13 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
     Response<dynamic> response = await DioHelper.getData(
         url: AppApis.getMyOrder, token: token,);
     if (response.statusCode == 200) {
-      print(json.encode(response.data));
     }
     else {
-      print(response.statusMessage);
     }
     if (MyOrdersModel.fromJson(response.data).success == false) {
-     // showToast(text: '${AddressListModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
     }
     else{
       if (response.statusCode == 200) {
-        // showToast(text: '${AddressListModel.fromJson(res.data).data}', state: ToastStates.success, context: context);
         return MyOrdersModel.fromJson(response.data);
       }
       else {
@@ -85,5 +82,57 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
       }
     }
     return null;
+  }
+
+  @override
+  Future<String> payment(int id, String methodPayment ,BuildContext context)async {
+    AuthCubit cubit =AuthCubit.get(context);
+    MyOrdersCubit myOrdersCubit=MyOrdersCubit.get(context);
+    Map<String, String> headers = <String, String>{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'x-api-key': 'SIv5q09xLI689LNoALEh2D4Af/TsFkoypEMd/2XdtvGPfKHmU6HENZuuBgaBQKXM',
+      'Accept-Language': cubit.localeLanguage.toString(),
+      'Authorization': 'Bearer ${cubit.token}'
+    };
+    String data = json.encode(<String, Object>{
+      'order_id': id,
+      'payment_method': methodPayment
+    });
+   try{
+     Dio dio = Dio();
+     Response<dynamic> response = await dio.request(
+       AppApis.payment,
+       options: Options(
+         method: 'POST',
+         headers: headers,
+       ),
+       data: data,
+     );
+
+     if (response.statusCode == 200) {
+       return response.data;
+     }
+     else {
+       return response.data;
+     }
+   }catch (e){
+     if (e is DioError) {
+       // Handle DioError here
+       if (e.response != null) {
+         // DioError with response
+         showToast(text: e.response!.statusMessage.toString(), state: ToastStates.error, context: context);
+         print('DioError: ${e.response!.statusCode} - ${e.response!.statusMessage}');
+       } else {
+         // DioError without response
+         print('DioError: ${e.message}');
+       }
+     } else {
+       // Handle other types of exceptions
+       print('Error: $e');
+     }
+     myOrdersCubit.changeState();
+     return '';
+   }
   }
   }

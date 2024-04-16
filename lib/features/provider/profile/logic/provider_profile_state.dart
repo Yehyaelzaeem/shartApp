@@ -11,6 +11,10 @@ class GetProviderProfileState extends ProviderProfileState {
   final ProviderGetProfileModel providerGetProfileModel;
   GetProviderProfileState(this.providerGetProfileModel);
 }
+
+class GetMyWalletSuccessState extends ProviderProfileState {
+}
+class GetMyWalletLoadingState extends ProviderProfileState {}
 class GetAddressListState extends ProviderProfileState {}
 class AddAddressState extends ProviderProfileState {}
 class EditAddressState extends ProviderProfileState {}

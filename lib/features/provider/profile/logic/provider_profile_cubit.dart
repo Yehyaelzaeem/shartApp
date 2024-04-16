@@ -17,6 +17,7 @@ import '../data/model/address_model.dart';
 import '../data/model/complete_model.dart';
 import '../data/model/delete_account_model.dart';
 import '../data/model/user_profile_model.dart';
+import '../data/model/wallet_model.dart';
 import '../data/remote_data_base/provider_profile_data_base.dart';
 part 'provider_profile_state.dart';
 
@@ -365,4 +366,15 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     passwordConfirmVisibility =x;
     emit(ChangePasswordVisibility());
   }
+  WalletModel? walletModel;
+  //Wallet
+  Future<WalletModelData?> getWallet (BuildContext context)async{
+    emit(GetMyWalletLoadingState());
+    providerProfileRemoteDataSource.getWallet(context).then((  value) {
+      walletModel=value!;
+      emit(GetMyWalletSuccessState());
+    });
+    return null;
+  }
+
 }

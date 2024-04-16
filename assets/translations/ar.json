@@ -274,8 +274,12 @@
   "complete_mes": "يرجى إكمال معلومات المتجر أولاً",
   "notification_no_data": "لا توجد اشعارات حاليا",
   "notifications": "الإشعارات",
-  "go": "ذهاب"
-
-
+  "go": "ذهاب",
+  "payment_successful": "تم عملية الدفع بنجاح",
+  "payment_failure": "فشل الدفع",
+  "my_wallet": "محفظتي",
+  "un_paid": "غير مدفوع",
+  "paid": "مدفوع",
+  "order_no": "رقم الطلب"
 
 }

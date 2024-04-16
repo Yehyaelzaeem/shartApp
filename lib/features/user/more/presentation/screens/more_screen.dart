@@ -14,7 +14,7 @@ class UserMoreScreen extends StatelessWidget {
         canPop: false,
         onPopInvoked: (_) async {
            Navigator.of(context).pushReplacement(MaterialPageRoute(
-               builder: (context) => UserBottomNavScreen(
+               builder: (BuildContext context) => UserBottomNavScreen(
                  checkPage: '0',
                )));
         },
