@@ -50,7 +50,7 @@ Future<void> main() async {
           // ),
     ),
   );
-  //push 3/3/2024
+  //push 21/4/2024
   // runApp(
   //   EasyLocalization(
   //     supportedLocales: const <Locale>[Locale('ar'), Locale('en')],
