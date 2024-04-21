@@ -2,11 +2,14 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:shart/features/user/myorders/presentation/screens/payment_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_material_button.dart';
 import '../../../../../core/localization/appLocale.dart';
+import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
+import '../../../../../core/resources/font_manager.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../../cart/logic/cart_cubit.dart';
@@ -35,7 +38,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 padding:   EdgeInsets.only(top: 16.h,right: 16.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Text(
                       getLang(context, 'order_details'),
                       style: TextStyle(
@@ -64,10 +67,10 @@ class OrderDetailsScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:   EdgeInsets.only(top: 0.h,right: 16.w),
+                padding:EdgeInsets.only(top: 0.h,right: 16.w),
                 child:
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'order_id')} :',
                       style: TextStyle(
@@ -91,7 +94,7 @@ class OrderDetailsScreen extends StatelessWidget {
               Padding(
                 padding:   EdgeInsets.only(top: 0.h,right: 16.w),
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'the_shop')} :',
                       style: TextStyle(
@@ -115,7 +118,7 @@ class OrderDetailsScreen extends StatelessWidget {
               Padding(
                 padding:   EdgeInsets.only(top: 0.h,right: 16.w),
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'order_status')} :',
                       style: TextStyle(
@@ -139,7 +142,7 @@ class OrderDetailsScreen extends StatelessWidget {
               Padding(
                 padding:   EdgeInsets.only(top: 0.h,right: 16.w),
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'total-price')} :',
                       style: TextStyle(
@@ -164,7 +167,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 padding:   EdgeInsets.only(right: 16.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'the_address')} :',
                       style: TextStyle(
@@ -211,13 +214,48 @@ class OrderDetailsScreen extends StatelessWidget {
                           MaterialPageRoute(builder:
                               (BuildContext context)=>
                                   PaymentScreen(myOrdersModelData: myOrdersModelData,)));
-                      // CartCubit.get(context).addAddressUser(AuthCubit.get(context).token, context);
-                      // _showDialog(context);
                     },
                         buttonText: getLang(context, 'pay'));
                 },
               ):SizedBox.shrink(),
+              if(myOrdersModelData.status=='accepted'&&myOrdersModelData.paymentStatus=='paid')
+                 Container(
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    borderRadius: BorderRadius.circular(12)
+                ),
+                child:
+                Center(
+                  child: Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 100.w,vertical: 8.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        if(myOrdersModelData.paymentMethod=='cash')
+                           // Icon(Icons.money,size: 28,)
+                           Image.asset(ImagesManager.pay)
+                        else if(myOrdersModelData.paymentMethod=='card')
+                           Image.asset(ImagesManager.visa)
+                          // Icon(LineAwesome.cc_visa,size: 28,)
+                        else
+                          Icon(LineAwesome.cc_mastercard,size: 28,),
+                        SizedBox(width: 8.w,),
+                        Text(
+                          '${getLang(context, 'paid')}',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontFamily: FontConstants.lateefFont,
+                            fontWeight: FontWeightManager.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
 
+              )
+              else
+                 SizedBox.shrink(),
             ],
           ),
         ),

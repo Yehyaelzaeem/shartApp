@@ -212,11 +212,9 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 30.h),
                               child: CustomElevatedButton(onTap: () {
                                 if(AuthCubit.get(context).token.isNotEmpty){
-
                                   if(packageId.isNotEmpty&&cubit.brandSelectedId.isNotEmpty &&
                                       cubit.brandModelSelectedId.isNotEmpty && cubit.colorSelectedId.isNotEmpty&&
-                                      cubit.yearSelectedValue.text.isNotEmpty&&cubit.chassisController.text.isNotEmpty&&
-                                      cubit. descriptionController.text.isNotEmpty)
+                                      cubit.yearSelectedValue.text.isNotEmpty&&cubit.chassisController.text.isNotEmpty)
                                   {
                                     CheckCarModel checkCarModel =CheckCarModel(
                                       packageId:packageId ,

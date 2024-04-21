@@ -24,7 +24,6 @@ class UserOrdersScreen extends StatefulWidget {
   @override
   State<UserOrdersScreen> createState() => _UserOrdersScreenState();
 }
-//CustomStep3BodyWidget
 class _UserOrdersScreenState extends State<UserOrdersScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
@@ -42,7 +41,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
       canPop: false,
       onPopInvoked: (_) async {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => UserBottomNavScreen(
+            builder: (BuildContext context) => UserBottomNavScreen(
               checkPage: '0',
             )));
       },
@@ -64,9 +63,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                 child: TabBar(
                   controller: tabController,
                   onTap: (int val) {
-                    setState(() {
-                      // print(val);
-                    });
+                    setState(() {});
                   },
                   tabs: <Widget>[
                     CustomTitleTabBarWidget(title: '${getLang(context, 'spare_parts')}',),
@@ -132,12 +129,15 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                                   else if(e.status=='delivered'){
                                     return buildOrderWithInvoice(e.items!,e,e.status!,context);
 
-                                  }else{
+                                  }
+                                  else if(e.status=='preparing'){
+                                    return buildCurrentOrder(e.items!,e,e.status!,context);
+
+                                  }
+                                  else{
                                     return buildCancelledOrder(e.items!,e,e.status!,context);
                                   }
                                 }).toList(),
-
-
                                 // ...myOrdersCubit.myOrdersModel!.data![index].items!.map((e) {
                                 //       if(myOrdersCubit.myOrdersModel!.data![index].status=='pending'){
                                 //         return buildCurrentOrder(e,myOrdersCubit.myOrdersModel!.data![index],myOrdersCubit.myOrdersModel!.data![index].status!,context);

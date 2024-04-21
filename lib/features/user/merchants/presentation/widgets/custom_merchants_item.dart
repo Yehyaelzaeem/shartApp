@@ -43,11 +43,19 @@ class CustomMerchantsItem extends StatelessWidget {
               ),
               child: Stack(
                 children: <Widget>[
-                  Image.network(merchantsModelData.logo!,
+                  Image.network(merchantsModelData.logo!=null?merchantsModelData.logo!:'',
                     errorBuilder: (BuildContext context,Object error,StackTrace? v){
-                    return Container(
-                        height: 150.h,
-                        child: Center(child: CircularProgressIndicator(),));
+                    return
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(10.sp),
+                          topLeft: Radius.circular(10.sp),
+                        ),
+                        child: Container(
+                          height: 150.h,
+                          child: Image.asset(ImagesManager.holder, fit: BoxFit.fitWidth,width: double.infinity,)
+                        ),
+                      );
                     },
                     height: 150.h, fit: BoxFit.fitHeight,width: double.infinity,),
                   Positioned(

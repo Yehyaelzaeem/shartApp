@@ -1,27 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import '../../../../../core/localization/appLocale.dart';
+import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
-import '../../../../../shared_screens/web_view/custom_web_view_screen.dart';
 import '../../../../../widgets/custom_button.dart';
-import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
-import '../../../cart/logic/cart_cubit.dart';
-import '../../../cart/presentation/widgets/custom_steo3_body.dart';
 import '../../data/model/myorder_model.dart';
 import '../../logic/my_orders_cubit.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key, required this.myOrdersModelData});
+   PaymentScreen({super.key, required this.myOrdersModelData});
   final MyOrdersModelData myOrdersModelData;
+  int paymentMethod =0;
   @override
   Widget build(BuildContext context) {
-    int x =0;
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -30,7 +23,7 @@ class PaymentScreen extends StatelessWidget {
             SizedBox(height: 50.h,),
             Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               getLang(context, 'order_summary'),
               style:
@@ -79,7 +72,7 @@ class PaymentScreen extends StatelessWidget {
             ),
             SizedBox(height: 5.h,),
             Row(
-              children: [
+              children: <Widget>[
                 Text(
                   getLang(context, 'order_value'),
                   style:
@@ -147,7 +140,7 @@ class PaymentScreen extends StatelessWidget {
             SizedBox(height: 5.h,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   getLang(context, 'delivery_address'),
                   style:
@@ -233,15 +226,15 @@ class PaymentScreen extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             SizedBox(height: 10.h,),
-            StatefulBuilder(builder: (context,setState){
+            StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
               return Column(
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Image.asset('assets/images/pay.png'),
+                          Image.asset(ImagesManager.pay),
                           SizedBox(width: 5.w,),
                           Text(getLang(context, 'cash'),
                             style:   TextStyle(
@@ -254,12 +247,12 @@ class PaymentScreen extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      Radio(
+                      Radio<int>(
                         value: 0,
-                        groupValue:x,
+                        groupValue:paymentMethod,
                         onChanged: (int? value) {
                           setState(() {
-                            x = value as int;
+                            paymentMethod = value!;
                           });
                         },
                       ),
@@ -267,10 +260,10 @@ class PaymentScreen extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       Row(
-                        children: [
-                          Image.asset('assets/images/visa.png'),
+                        children: <Widget>[
+                          Image.asset(ImagesManager.visa),
                           SizedBox(width: 5.w,),
                           Text(getLang(context, 'visa'),
                             style:   TextStyle(
@@ -283,12 +276,41 @@ class PaymentScreen extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      Radio(
+                      Radio<int>(
                         value: 1,
-                        groupValue: x,
+                        groupValue: paymentMethod,
                         onChanged: (int? value) {
                           setState(() {
-                            x = value as int;
+                            paymentMethod = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Image.asset(ImagesManager.card2),
+                          SizedBox(width: 5.w,),
+                          Text(getLang(context, 'master_card'),
+                            style:   TextStyle(
+                                fontFamily: FontConstants.Tajawal,
+                                fontSize: 14,
+                                color: blackTextColor,
+                                fontWeight: FontWeight.w400
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Radio<int>(
+                        value: 2,
+                        groupValue: paymentMethod,
+                        onChanged: (int? value) {
+                          setState(() {
+                            paymentMethod = value!;
                           });
                         },
                       ),
@@ -304,13 +326,18 @@ class PaymentScreen extends StatelessWidget {
             BlocConsumer<MyOrdersCubit, MyOrdersState>(
               listener: (BuildContext context,MyOrdersState state) {},
               builder: (BuildContext context, MyOrdersState state) {
-                CartCubit cubit =CartCubit.get(context);
                 return
                   CustomElevatedButton(
                       isLoading: state is PaymentLoadingState,
                       onTap: (){
-                     MyOrdersCubit.get(context).payment(id: myOrdersModelData.id!, methodPayment: 'card', context: context);
-
+                        MyOrdersCubit myOrdersCubit= MyOrdersCubit.get(context);
+                        if(paymentMethod==0){
+                          myOrdersCubit.payment(id: myOrdersModelData.id!, methodPayment: 'cash', context: context);
+                        }else if (paymentMethod==1){
+                          myOrdersCubit.payment(id: myOrdersModelData.id!, methodPayment: 'card', context: context);
+                        }else{
+                          myOrdersCubit.payment(id: myOrdersModelData.id!, methodPayment: 'card', context: context);
+                        }
                   },
                       buttonText: getLang(context, 'confirm_payment'));
               },

@@ -279,7 +279,17 @@
   "payment_failure": "فشل الدفع",
   "my_wallet": "محفظتي",
   "un_paid": "غير مدفوع",
-  "paid": "مدفوع",
-  "order_no": "رقم الطلب"
+  "paid": "تم الدفع",
+  "order_no": "رقم الطلب",
+  "master_card": "ماستر كارد",
+  "shart": "شَرْط",
+  "ago": "المدة",
+  "from": "من",
+  "package_name": "اسم الباقة",
+  "month": "شهر"
+
+
+
+
 
 }

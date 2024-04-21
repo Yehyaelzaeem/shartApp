@@ -36,8 +36,10 @@ class GetCheckCarsModelData {
   Package? package;
   String? description;
   String? status;
+  String? createdAt;
+  String? file;
 
-  GetCheckCarsModelData({this.id, this.car, this.package, this.description, this.status});
+  GetCheckCarsModelData({this.id, this.car, this.package, this.description, this.status ,this.file});
 
   GetCheckCarsModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -46,6 +48,8 @@ class GetCheckCarsModelData {
     json['package'] != null ? new Package.fromJson(json['package']) : null;
     description = json['description'];
     status = json['status'];
+    file = json['file'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +63,7 @@ class GetCheckCarsModelData {
     }
     data['description'] = this.description;
     data['status'] = this.status;
+    data['file'] = this.file;
     return data;
   }
 }

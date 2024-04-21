@@ -41,6 +41,8 @@ class ProviderOrderModelData {
   String? userNote;
   String? adminNote;
   String? providerNote;
+  String? paymentStatus;
+  String? paymentMethod;
   List<ItemsProvider>? items;
   UserAddress? userAddress;
 
@@ -56,7 +58,11 @@ class ProviderOrderModelData {
         this.adminNote,
         this.providerNote,
         this.items,
-        this.userAddress});
+        this.userAddress,
+        this.paymentStatus,
+        this.paymentMethod,
+
+      });
 
   ProviderOrderModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -71,6 +77,8 @@ class ProviderOrderModelData {
     userNote = json['user_note'];
     adminNote = json['admin_note'];
     providerNote = json['provider_note'];
+    paymentMethod = json['payment_method'];
+    paymentStatus = json['payment_status'];
     if (json['items'] != null) {
       items = <ItemsProvider>[];
       json['items'].forEach((v) {

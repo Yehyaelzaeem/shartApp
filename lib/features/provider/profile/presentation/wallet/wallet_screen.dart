@@ -72,12 +72,17 @@ class WalletScreen extends StatelessWidget {
                           Center(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                SizedBox(width: 5.w,),
-                                Icon(Icons.paid,color: whiteColor,size: 50,),
+                                SizedBox(width: 10.w,),
+                                Container(
+                                    height: 50.w,
+                                    width: 50.w,
+                                    child: Image.asset(ImagesManager.rs,color: whiteColor,)),
+                                SizedBox(width: 10.w,),
                                 Expanded(
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(getLang(context, 'un_paid'),
@@ -87,16 +92,18 @@ class WalletScreen extends StatelessWidget {
                                             color: whiteColor
                                         ),
                                       ),
-                                      SizedBox(height: 5.h,),
+                                      SizedBox(height: 15.h,),
                                       FittedBox(
-                                        child: Text('${double.parse(data.unpaidWallets.toString()).toStringAsFixed(1)} ${getLang(context, 'rs')}',
+                                        child: Text('${double.parse(data.unpaidWallets.toString()).toStringAsFixed(1)}\n ${getLang(context, 'rs')}',
                                           style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
                                               fontSize: 30.sp,
                                               color: blackColor,
-                                              height: 1
+                                              height: 0.45,
                                           ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
+                                      SizedBox(height: 10.h,),
                                     ],
                                   ),
                                 ),
@@ -116,31 +123,39 @@ class WalletScreen extends StatelessWidget {
                           child: Center(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                SizedBox(width: 5.w,),
-                                Icon(Icons.paid,color: whiteColor,size: 50,),
+                                SizedBox(width: 10.w,),
+                                Container(
+                                    height: 50.w,
+                                    width: 50.w,
+                                    child: Image.asset(ImagesManager.rs,color: whiteColor,)),
+                                SizedBox(width: 10.w,),
                                 Expanded(
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
+                                      SizedBox(width: 10.w,),
                                       Text(getLang(context, 'paid'),
                                         style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
                                             fontSize: 25.sp,
                                             color: whiteColor,
-                                            height: 1
+                                            height: 0.45
                                         ),
                                       ),
-                                      SizedBox(height: 5.h,),
+                                      SizedBox(height: 15.h,),
                                       FittedBox(
-                                        child: Text('${double.parse(data.paidWallets.toString()).toStringAsFixed(1)} ${getLang(context, 'rs')}',
+                                        child: Text('${double.parse(data.paidWallets.toString()).toStringAsFixed(1)} \n ${getLang(context, 'rs')}',
                                           style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
                                               fontSize: 30.sp,
                                               color: blackColor,
-                                              height: 1
+                                              height: 0.45
                                           ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
+                                      SizedBox(height: 10.h,),
                                     ],
                                   ),
                                 ),

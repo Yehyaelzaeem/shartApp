@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
-import 'package:shart/core/routing/navigation_services.dart';
 import 'package:shart/features/provider/myorders/data/models/provider_order_model.dart';
 import 'package:shart/features/provider/myorders/logic/provider_orders_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
-import '../../../../../core/routing/routes.dart';
-import '../../../../../widgets/custom_product_widget.dart';
-import '../../../../user/myorders/presentation/screens/order_details.dart';
-import '../../../auth/logic/auth_provider_cubit.dart';
 import '../../../bottom_nav/presentation/screens/bottom_nav.dart';
 import '../widgets/custom_myorders_widget.dart';
 import 'order_details_provider.dart';
@@ -22,15 +17,12 @@ class ProviderOrdersScreen extends StatelessWidget {
   final bool? isNotNotification;
   @override
   Widget build(BuildContext context) {
-    isNotNotification!=true?
-    ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context):null;
-    isNotNotification!=true?
-    ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context):null;
-    isNotNotification!=true?
-    ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context):null;
-
-
     ProviderOrdersCubit cubit =ProviderOrdersCubit.get(context);
+    if(isNotNotification!=true){
+      cubit.getMyOrdersCurrentProvider(context);
+      cubit.getMyOrdersPreviousProvider(context);
+      cubit.getMyOrdersCancelledProvider(context);
+    }
     return RefreshIndicator(child:
     PopScope(
       canPop: false,
@@ -75,7 +67,7 @@ class ProviderOrdersScreen extends StatelessWidget {
                     ),
                   );
                 }else{
-                  List<ProviderOrderModelData> data =(cubit.myOrdersCurrent!.data!);
+                  List<ProviderOrderModelData> data =cubit.myOrdersCurrent!.data!;
                   return ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {

@@ -4,24 +4,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/core/resources/color.dart';
+import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/user/myorders/logic/my_orders_cubit.dart';
+import 'package:shart/features/user/profile/logic/user_profile_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import '../../data/model/check_car_model.dart';
 import '../../data/model/myorder_model.dart';
-class InvoiceScreen extends StatefulWidget {
-  final MyOrdersModelData myOrdersModelData ;
-  const InvoiceScreen({Key? key, required this.myOrdersModelData}) : super(key: key);
+class InvoiceCheckCarScreen extends StatefulWidget {
+  final GetCheckCarsModelData getCheckCarsModelData ;
+  const InvoiceCheckCarScreen({Key? key, required this.getCheckCarsModelData}) : super(key: key);
 
   @override
-  State<InvoiceScreen> createState() => _InvoiceScreenState();
+  State<InvoiceCheckCarScreen> createState() => _InvoiceCheckCarScreenState();
 }
 
-class _InvoiceScreenState extends State<InvoiceScreen> {
+class _InvoiceCheckCarScreenState extends State<InvoiceCheckCarScreen> {
   @override
   void initState() {
     MyOrdersCubit cubit =MyOrdersCubit.get(context);
-    cubit.getProductData(widget.myOrdersModelData);
-    cubit.getInvoice(widget.myOrdersModelData);
+    cubit.getCheckCarData(widget.getCheckCarsModelData,context);
+    cubit.getInvoiceCheckCar(widget.getCheckCarsModelData);
     super.initState();
   }
   @override
@@ -42,7 +45,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Text('#${widget.myOrdersModelData.id}',
+                            child: Text('#${widget.getCheckCarsModelData.id}',
                                 style:
                                     TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500)),
                           ),
@@ -69,13 +72,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                               fontSize: 16.sp, fontWeight: FontWeight.bold)),
                                       Padding(
                                         padding: EdgeInsets.only(top: 14.h, bottom: 8.h),
-                                        child: Text('${widget.myOrdersModelData.provider!.name}',
+                                        child: Text(getLang(context, 'shart'),
                                             style: TextStyle(
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w400,
                                                 color: Color(0xff6E6D71))),
                                       ),
-                                      Text('${widget.myOrdersModelData.provider!.mainAddress}',
+                                      Text('',
                                           style: TextStyle(
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.w400,
@@ -97,13 +100,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                               fontSize: 16.sp, fontWeight: FontWeight.bold)),
                                       Padding(
                                         padding: EdgeInsets.only(top: 14.h, bottom: 8.h),
-                                        child: Text('${widget.myOrdersModelData.user!.name}',
+                                        child: Text('${UserProfileCubit.get(context).userProfileModel!.data!.name!}',
                                             style: TextStyle(
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w400,
                                                 color: Color(0xff6E6D71))),
                                       ),
-                                      Text('${widget.myOrdersModelData.userAddress!.address}',
+                                      Text('',
                                           style: TextStyle(
                                               fontSize: 14.sp,
                                               fontWeight: FontWeight.w400,
@@ -125,7 +128,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       ElevatedButton(
                                         onPressed: () {},
                                         child: Text(
-                                          '${widget.myOrdersModelData.totalPrice} ${getLang(context, 'rs')}',
+                                          '${widget.getCheckCarsModelData.package!.price} ${getLang(context, 'rs')}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16.sp,
@@ -155,44 +158,44 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             child: SfDataGrid(
                               verticalScrollPhysics: NeverScrollableScrollPhysics(),
                               horizontalScrollPhysics: BouncingScrollPhysics(),
-                              source:cubit.productDataSource!,
+                              source:cubit.productCarCheckDataSource!,
                               shrinkWrapRows: true,
                               columnWidthMode: ColumnWidthMode.fill,
                               rowHeight: 80.h,
                               columns: <GridColumn>[
                                 GridColumn(
+                                    columnName: 'ago',
+                                    label: Container(
+                                        color: primaryColor,
+                                        alignment: Alignment.center,
+                                        child: Text(getLang(context, 'ago'), style: TextStyle(fontFamily: 'Tajawal'),))),
+                                GridColumn(
+                                    columnName: 'from time',
+                                    label: Container(
+                                        color: primaryColor,
+                                        alignment: Alignment.center,
+                                        child: Text(getLang(context, 'from'),
+                                            style: TextStyle(fontFamily: 'Tajawal')))),
+                                GridColumn(
+                                    columnName: 'to time',
+                                    label: Container(
+                                        color: primaryColor,
+                                        alignment: Alignment.center,
+                                        child: Text(getLang(context, 'to'),
+                                            style: TextStyle(fontFamily: 'Tajawal')))),
+                                GridColumn(
                                     columnName: 'name',
                                     label: Container(
                                         color: primaryColor,
                                         alignment: Alignment.center,
-                                        child: Text(getLang(context, 'element'), style: TextStyle(fontFamily: 'Tajawal'),))),
-                                GridColumn(
-                                    columnName: 'description',
-                                    label: Container(
-                                        color: primaryColor,
-                                        alignment: Alignment.center,
-                                        child: Text(getLang(context, 'des'),
+                                        child: Text(getLang(context, 'package_name'),
                                             style: TextStyle(fontFamily: 'Tajawal')))),
                                 GridColumn(
                                     columnName: 'price',
                                     label: Container(
-                                        color: primaryColor,
-                                        alignment: Alignment.center,
-                                        child: Text(getLang(context, 'the_cost'),
-                                            style: TextStyle(fontFamily: 'Tajawal')))),
-                                GridColumn(
-                                    columnName: 'quantity',
-                                    label: Container(
-                                        color: primaryColor,
-                                        alignment: Alignment.center,
-                                        child: Text(getLang(context, 'qty2'),
-                                            style: TextStyle(fontFamily: 'Tajawal')))),
-                                GridColumn(
-                                    columnName: 'total',
-                                    label: Container(
                                       color: primaryColor,
                                       alignment: Alignment.center,
-                                      child: Text(getLang(context, 'total_price'),
+                                      child: Text(getLang(context, 'price'),
                                           style: TextStyle(fontFamily: 'Tajawal')),
                                     )),
                               ],
@@ -205,7 +208,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               children: <Widget>[
                                 Text('${getLang(context, 'total')}\n${getLang(context, 'required')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
                                 SizedBox(width: 16.w),
-                                Text('${widget.myOrdersModelData.totalPrice}\n ${getLang(context, 'rs')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
+                                Text('${widget.getCheckCarsModelData.package!.price!}\n ${getLang(context, 'rs')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
                               ],
                             ),
                           ),

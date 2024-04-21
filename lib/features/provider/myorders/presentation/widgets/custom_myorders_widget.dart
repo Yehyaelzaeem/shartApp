@@ -51,8 +51,9 @@ class CustomProductMyOrderWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Row(
-                  children: [
-                    Text('رقم الطلب : ',
+                  children: <Widget>[
+
+                    Text('${getLang(context, 'order_number')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -74,8 +75,8 @@ class CustomProductMyOrderWidget extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [
-                    Text('اسم العميل : ',
+                  children: <Widget>[
+                    Text('${getLang(context, 'user_name')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -97,8 +98,8 @@ class CustomProductMyOrderWidget extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [
-                    Text('الحالة : ',
+                  children: <Widget>[
+                    Text('${getLang(context, 'status')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -121,7 +122,7 @@ class CustomProductMyOrderWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('الاجمالي : ',
+                    Text('${getLang(context, 'total_price')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -147,20 +148,44 @@ class CustomProductMyOrderWidget extends StatelessWidget {
           ),
           isHome==true?
           SizedBox.shrink():
+          (providerOrderModelData!.status=='accepted' && providerOrderModelData!.paymentStatus=='paid')?
           Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
+            padding:EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 7.h),
+              decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child:
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 15.w),
+                child: Text(
+                  '${getLang(context, 'paid')}',
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontFamily: FontConstants.lateefFont,
+                    fontWeight: FontWeightManager.bold,
+                  ),
+                ),
+              ),
+            ),
+          )
+              :
+            Padding(
+              padding:EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 1.h),
               margin: EdgeInsets.zero,
               decoration: BoxDecoration(
                   color: Color(0xff136B79),
-                  borderRadius: BorderRadius.all(Radius.circular(30.r))
+                  borderRadius: BorderRadius.all(Radius.circular(15.r))
               ),
               child: Text(
                 '${getLang(context, '${providerOrderModelData!.status!}')}',
                 style: TextStyle(
                   color: whiteColor,
-                  fontSize: 12.sp,
+                  fontSize: 15.sp,
+                  fontFamily: FontConstants.lateefFont,
                   fontWeight: FontWeightManager.bold,
                 ),
               ),

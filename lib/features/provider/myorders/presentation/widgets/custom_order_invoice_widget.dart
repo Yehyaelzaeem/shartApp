@@ -8,9 +8,11 @@ import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 import '../../../../../core/routing/navigation_services.dart';
 import '../../../../../core/routing/routes.dart';
+import '../../../../../widgets/custom_show_pdf.dart';
 import '../../../../user/auth/logic/auth_cubit.dart';
 import '../../../../user/myorders/data/model/check_car_model.dart';
 import '../../../../user/myorders/data/model/myorder_model.dart';
+import '../../../../user/myorders/presentation/screens/invoice_check_car_screen.dart';
 import '../../../../user/myorders/presentation/screens/invoice_screen.dart';
 import '../../../../user/myorders/presentation/screens/report_screen.dart';
 
@@ -21,7 +23,6 @@ class CustomOrderWithInvoiceAndReportWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      // height: 135.h,
       margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
       decoration: BoxDecoration(
         border: Border.all(color: greyColor),
@@ -85,7 +86,7 @@ class CustomOrderWithInvoiceAndReportWidget extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
-                        ReportScreen(getCheckCarsModelData: getCheckCarsModelData,)));
+                        InvoiceCheckCarScreen(getCheckCarsModelData: getCheckCarsModelData,)));
                     // NavigationManager.push(Routes.report);
                   },
                   child: Row(
@@ -109,10 +110,12 @@ class CustomOrderWithInvoiceAndReportWidget extends StatelessWidget {
 
                 InkWell(
                   onTap: () {
-                    // NavigationManager.push(Routes.invoice);
-
-                    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
-                    //     InvoiceScreen( myOrdersModelData: data,)));
+                    Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (BuildContext context) => PDFViewerPage(pdfUrl:getCheckCarsModelData.file.toString()),
+                        fullscreenDialog: true, // Open the PDF screen in full screen
+                      ),
+                    );
                   },
                   child: Row(
                     children: <Widget>[

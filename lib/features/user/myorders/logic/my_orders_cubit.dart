@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
-
 import '../../../../shared_screens/web_view/custom_web_view_screen.dart';
 import '../data/data_base/data_base.dart';
 import '../data/model/check_car_model.dart';
@@ -23,7 +22,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
   Future<dynamic> getMyOrder(BuildContext context)async{
     myOrdersModel=null;
     emit(GetMyOrderState());
-    myOrderRemoteDataSource.getMyOrder(AuthCubit.get(context).token, context).then((value) {
+    myOrderRemoteDataSource.getMyOrder(AuthCubit.get(context).token, context).then((MyOrdersModel? value) {
       myOrdersModel =value!;
       emit(GetMyOrderState());
     });
@@ -42,9 +41,11 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     myOrderRemoteDataSource.payment(id,methodPayment,context).then((String value) {
       urlPayment=value;
       emit(PaymentSuccessState());
-      if(value.isNotEmpty){
-        Navigator.push(context, MaterialPageRoute(builder:
-            (BuildContext context)=> CustomWebView( title: 'Shart Payment', selectedUrl: value,)));
+      if(methodPayment=='card'){
+        if(value.isNotEmpty){
+          Navigator.push(context, MaterialPageRoute(builder:
+              (BuildContext context)=> CustomWebView( title:getLang(context, 'shart'), selectedUrl: value,)));
+        }
       }
        });
   }
@@ -52,10 +53,16 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     emit(PaymentErrorState());
   }
   ProductDataSource? productDataSource;
+  ProductCarCheckDataSource? productCarCheckDataSource;
   List<Product> products = <Product>[];
+  List<CheckCar> checkCars = <CheckCar>[];
 
   void getInvoice(MyOrdersModelData myOrdersModelData){
     productDataSource= ProductDataSource(productData: products);
+       emit(GetMyOrderState());
+  }
+  void getInvoiceCheckCar(GetCheckCarsModelData getCheckCarsModelData){
+    productCarCheckDataSource= ProductCarCheckDataSource(checkCar: checkCars);
        emit(GetMyOrderState());
   }
   void cancelOrderUser(int id ,BuildContext context){
@@ -63,6 +70,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     emit(GetMyOrderState());
   }
   void getProductData(MyOrdersModelData myOrdersModelData) {
+    products.clear();
     for(Items a in myOrdersModelData.items!){
       products.add(Product(name: a.providerProduct!.title!, description: a.providerProduct!.description!,
           price: a.providerProduct!.price!.toString(), quantity: a.qty!.toString(),
@@ -70,4 +78,22 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     }
     emit(GetMyOrderState());
    }
+   void getCheckCarData(GetCheckCarsModelData getCheckCarsModelData,BuildContext context) {
+     checkCars.clear();
+     DateTime originalDate = DateTime.parse(getCheckCarsModelData.createdAt!);
+
+     DateTime futureDate = originalDate.add(Duration(days: 30));
+
+     final String fromDate =formatDate(originalDate,context);
+     final String toDate =formatDate(futureDate,context);
+     String ago =AuthCubit.get(context).localeLanguage==Locale('en')?'Month':'شهر';
+
+     checkCars.add(CheckCar(ago: ago, fromTime: fromDate, toTime: toDate, name: getCheckCarsModelData.package!.title!,
+         price: getCheckCarsModelData.package!.price!.toString()),);
+    emit(GetMyOrderState());
+   }
+  String formatDate(DateTime date,BuildContext context) {
+    DateFormat formatter = DateFormat('dd MMMM yyyy', AuthCubit.get(context).localeLanguage.toString());
+    return formatter.format(date);
+  }
 }

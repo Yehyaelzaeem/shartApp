@@ -43,10 +43,13 @@ class CustomProductsListViewWidget extends StatelessWidget {
                               topRight: Radius.circular(5)
                           ),
                           child: Image.network(
-                              cubit.productsModel!.data![index].images![0].image!,
+                              cubit.productsModel!.data![index].images!.isNotEmpty&&cubit.productsModel!.data![index].images!=null?cubit.productsModel!.data![index].images![0].image!:'',
                                 fit: BoxFit.cover,
                                 errorBuilder: (BuildContext context ,Object error,StackTrace? v){
-                                  return Center( child: CircularProgressIndicator(),);
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.asset(ImagesManager.holder,fit: BoxFit.cover,width: double.infinity,),
+                                  );
                                 },
                               ),
                         ),

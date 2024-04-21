@@ -50,10 +50,13 @@ class CustomTopMerchantsDetails extends StatelessWidget {
                         width: 100.w,
                         decoration: BoxDecoration(color: packagesColor),
                         child: Image.network(
-                          merchantsModelData.logo!,
+                          merchantsModelData.logo!=null?merchantsModelData.logo!:'',
                           fit: BoxFit.cover,
                           errorBuilder: (BuildContext context,Object error,StackTrace? v){
-                            return Center(child: CircularProgressIndicator(),);
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset(ImagesManager.holder,fit: BoxFit.cover,),
+                            );
                           },
                         ),
                       ),

@@ -280,6 +280,12 @@
   "my_wallet": "My Wallet",
   "un_paid": "Un Paid",
   "paid": "Paid",
+  "master_card": "Master Card",
 
-  "order_no": "Order No"
+  "order_no": "Order No",
+  "shart": "Shart",
+  "ago": "Duration",
+  "from": "From",
+  "package_name": "Package Name",
+  "month": "Month"
 }

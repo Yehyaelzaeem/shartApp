@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/features/user/menu/data/model/product_model.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
@@ -41,10 +42,13 @@ class CustomMerProductWidget extends StatelessWidget {
                       topRight: Radius.circular(10.r),
                       topLeft: Radius.circular(10.r)),
                   child: Image.network(
-                    productModelData.images![0].image!,
+                    productModelData.images!=null?productModelData.images!.isNotEmpty?productModelData.images![0].image!:'':'',
                     fit: BoxFit.cover,
                     errorBuilder: (BuildContext context,Object error,StackTrace? v){
-                      return Center(child: CircularProgressIndicator(),);
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(ImagesManager.holder,fit: BoxFit.cover,width: double.infinity,),
+                      );
                     },
                     width: double.infinity,),
                 ),

@@ -24,7 +24,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,
-        children: [
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: 16.0,right: 16),
             child:
@@ -42,7 +42,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                   ),
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'order_id')} :',
                       style: TextStyle(
@@ -92,7 +92,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'user_email')} :',
                       style: TextStyle(
@@ -118,7 +118,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text(
                       '${getLang(context, 'user_phone')} :',
                       style: TextStyle(
@@ -224,6 +224,36 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                providerOrderModelData.paymentStatus=='paid'?
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '${getLang(context, 'payment_method')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    SizedBox(width: 5.w,),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        '${providerOrderModelData.paymentMethod!}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ):SizedBox.shrink(),
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
@@ -244,6 +274,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    providerOrderModelData.paymentStatus!='paid'?
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -304,8 +335,9 @@ class OrderDetailsProviderScreen extends StatelessWidget {
 
                         },):SizedBox.shrink(),
                       ],
-                    ),
+                    ):SizedBox.shrink(),
                     SizedBox(height: 10,),
+                    providerOrderModelData.paymentStatus=='paid'?
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -346,7 +378,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
 
                         },):SizedBox.shrink(),
                       ],
-                    ),
+                    ):SizedBox.shrink()
                   ],
                 ),
               )):SizedBox.shrink(),

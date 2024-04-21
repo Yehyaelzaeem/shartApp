@@ -13,7 +13,6 @@ import '../../../../../widgets/show_toast_widget.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../../../cart/data/model/cart_model.dart';
 import '../../../cart/logic/cart_cubit.dart';
-import '../../../favorite/data/model/favorite_model.dart';
 import '../../../menu/logic/menu_cubit.dart';
 import '../../../merchants/presentation/widgets/custom_row deyatils.dart';
 import '../widgets/custom_image_slider.dart';

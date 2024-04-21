@@ -39,3 +39,39 @@ class ProductDataSource extends DataGridSource {
         }).toList());
   }
 }
+
+class ProductCarCheckDataSource extends DataGridSource {
+  ProductCarCheckDataSource({required List<CheckCar> checkCar}) {
+    _productCheckCarData = checkCar
+        .map<DataGridRow>((CheckCar e) => DataGridRow(cells: <DataGridCell>[
+      DataGridCell<String>(columnName: 'ago', value: e.ago),
+      DataGridCell<String>(
+          columnName: 'fromTime', value: e.fromTime),
+      DataGridCell<String>(columnName: 'toTime', value: e.toTime),
+      DataGridCell<String>(columnName: 'name', value: e.name),
+      DataGridCell<String>(columnName: 'price', value: e.price),
+    ]))
+        .toList();
+  }
+
+  List<DataGridRow> _productCheckCarData = <DataGridRow>[];
+
+  @override
+  List<DataGridRow> get rows => _productCheckCarData;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(
+        cells: row.getCells().map<Widget>((DataGridCell e) {
+          return Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(8),
+            child: Text('${e.value}',
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    color: Color(0xff6E6D71),
+                    fontFamily: 'Tajawal')),
+          );
+        }).toList());
+  }
+}

@@ -43,7 +43,7 @@ class CustomProductDetails extends StatelessWidget {
                 child:
                 Stack(
                   children: <Widget>[
-                    CustomImageSliderWidget(listImage: productModelData.images!.map((Images e) => e.image).toList(),),
+                    CustomImageSliderWidget(listImage: productModelData.images!=null&&productModelData.images!.isNotEmpty?productModelData.images!.map((Images e) => e.image).toList():<String?>[''],),
                     Positioned(
                       top: 8.h,
                       right: 10.w,
@@ -182,7 +182,7 @@ class CustomProductDetails extends StatelessWidget {
                           productName: productModelData.title,
                           productPrice: productModelData.price,
                           description: productModelData.description,
-                          image: productModelData.images![0].image,
+                          image: productModelData.images!=null&&productModelData.images!.isNotEmpty?productModelData.images![0].image:"",
                           type: productModelData.type,
                           productState: productModelData.productStatus,
                           providerId: productModelData.provider!=null?productModelData.provider!.id!.toString():'',

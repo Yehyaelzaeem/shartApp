@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shart/core/extensions/context_extension.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
-
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
-import '../../../../../core/routing/navigation_services.dart';
-import '../../../../../core/routing/routes.dart';
 import '../../data/model/myorder_model.dart';
 import '../screens/invoice_screen.dart';
 import '../screens/order_details.dart';
@@ -17,7 +13,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
+          builder: (BuildContext context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
       // NavigationManager.push(Routes.orderDetails);
     },
     child: Container(
@@ -29,23 +25,22 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
       child: Row(
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10.r),
-                bottomRight: Radius.circular(10.r)),
+            borderRadius: BorderRadius.all(Radius.circular(10),),
             child: Container(
-              padding: const EdgeInsets.all(0.0),
-              width: 134.w,
-              height: 115.h,
-              decoration: BoxDecoration(color: packagesColor),
-              child:
-              item[0].providerProduct!=null?
-              Image.network(
-                item[0].providerProduct!.images![0].image!.toString(),
-                fit: BoxFit.cover,
-                errorBuilder: (BuildContext context,Object error ,StackTrace? v){
-                  return Center(child: CircularProgressIndicator(),);
-                },
-              ):SizedBox(),
+                padding: const EdgeInsets.all(8.0),
+                width: 134.w,
+                height: 115.h,
+                decoration: BoxDecoration(color: packagesColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10),),
+                ),
+                child: Image.network(myOrdersModelData.items![0].providerProduct!.images![0].image!=null?
+                myOrdersModelData.items![0].providerProduct!.images![0].image!:'',
+                  errorBuilder: (BuildContext context,Object error ,StackTrace? v){
+                    return ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10),),
+                        child: Image.asset(ImagesManager.holder));
+                  },
+                )
             ),
           ),
           SizedBox(width: 10.w),
@@ -57,7 +52,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
               children: <Widget>[
                 SizedBox(height: 5.h,),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text('${getLang(context, 'order_number')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
@@ -80,7 +75,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text('${getLang(context, 'store_name')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
@@ -103,7 +98,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text('${getLang(context, 'status')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
@@ -126,7 +121,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                   ],
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     Text('${getLang(context, 'total_price')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
@@ -148,59 +143,65 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                     ),
                   ],
                 ),
-                Padding(
-                  padding:EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Container(
-                    alignment: Alignment.bottomLeft,
-                    child: AuthCubit.get(context).localeLanguage==Locale('en')?
-                    InkWell(
-                      onTap: (){
-                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
-                        // NavigationManager.push(Routes.invoice);
-                      },
-                      child: Card(
-                        margin: EdgeInsets.zero,
-                        color: primaryColor,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.r)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                          child: Text(
-                            '${getLang(context, '${status}')}',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeightManager.bold,
+                if(status=='accepted'&&myOrdersModelData.paymentStatus=='paid')
+                  Row(
+                    children: <Widget>[
+                      Spacer(),
+                      Padding(
+                        padding:EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue.shade100,
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+                          child:
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              '${getLang(context, 'paid')}',
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontFamily: FontConstants.lateefFont,
+                                fontWeight: FontWeightManager.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ):
-                    InkWell(
-                      onTap: (){
-                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
-                        // NavigationManager.push(Routes.invoice);
-                      },
-                      child: Card(
-                        margin: EdgeInsets.zero,
-                        color: primaryColor,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.r)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                          child: Text(
-                            '${getLang(context, '${status}')}',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeightManager.bold,
+                    ],
+                  )
+                else
+                  Padding(
+                    padding:EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Container(
+                        alignment: AuthCubit.get(context).localeLanguage==Locale('en')?Alignment.bottomRight:Alignment.bottomLeft,
+                        child:
+                        InkWell(
+                          onTap: (){
+
+                          },
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            color: primaryColor,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8,right: 8,top: 0,bottom: 0),
+                              child: Text(
+                                '${getLang(context, '${status}')}',
+                                style: TextStyle(
+                                  fontFamily: FontConstants.lateefFont,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeightManager.bold,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
+                        )
+
                     ),
                   ),
-                ),
                 SizedBox(height: 5.h,),
               ],
             ),
@@ -211,12 +212,11 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
   );
 }
 
-InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelData,String status,context) {
+InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelData,String status,BuildContext context) {
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
-      // NavigationManager.push(Routes.orderDetails);
+          builder: (BuildContext context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
     },
     child: Container(
       margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
@@ -229,18 +229,22 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
           Row(
             children: <Widget>[
               ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10.r),
-                    bottomRight: Radius.circular(10.r)),
+                borderRadius: BorderRadius.all(Radius.circular(10),),
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
                   width: 134.w,
                   height: 115.h,
-                  decoration: BoxDecoration(color: packagesColor),
-                  child: Image.asset(
-                    ImagesManager.fixCar1,
-                    fit: BoxFit.fill,
+                  decoration: BoxDecoration(color: packagesColor,
+                    borderRadius: BorderRadius.all(Radius.circular(10),),
                   ),
+                  child: Image.network(myOrdersModelData.items![0].providerProduct!.images![0].image!=null?
+                  myOrdersModelData.items![0].providerProduct!.images![0].image!:'',
+                    errorBuilder: (BuildContext context,Object error ,StackTrace? v){
+                    return ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10),),
+                        child: Image.asset(ImagesManager.holder));
+                    },
+                  )
                 ),
               ),
               SizedBox(width: 5.w),
@@ -251,8 +255,8 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Row(
-                      children: [
-                        Text('رقم الطلب : ',
+                      children: <Widget>[
+                        Text('${getLang(context, 'order_number')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -274,8 +278,8 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
                       ],
                     ),
                     Row(
-                      children: [
-                        Text('اسم المتجر : ',
+                      children: <Widget>[
+                        Text('${getLang(context, 'store_name')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -297,8 +301,8 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
                       ],
                     ),
                     Row(
-                      children: [
-                        Text('الحالة : ',
+                      children: <Widget>[
+                        Text('${getLang(context, 'status')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -320,8 +324,8 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
                       ],
                     ),
                     Row(
-                      children: [
-                        Text('الاجمالي : ',
+                      children: <Widget>[
+                        Text('${getLang(context, 'total_price')} : ',
                           style: TextStyle(
                             fontWeight: FontWeightManager.light,
                             fontSize: 12.sp,
@@ -404,7 +408,7 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
                     // NavigationManager.push(Routes.invoice);
                   },
                   child: Text('${getLang(context, 'view_invoice')}',
@@ -446,7 +450,7 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
               children: <Widget>[
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>InvoiceScreen(myOrdersModelData: myOrdersModelData,)));
 
                     // NavigationManager.push(Routes.invoice);
                   },
@@ -529,11 +533,11 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
   );
 }
 
-InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData,String status,context) {
+InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData,String status,BuildContext context) {
   return InkWell(
     onTap: () {
       Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
+          builder: (BuildContext context)=>OrderDetailsScreen(myOrdersModelData: myOrdersModelData,)));
       // NavigationManager.push(Routes.orderDetails);
     },
     child: Container(
@@ -545,20 +549,25 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
       child: Row(
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10.r),
-                bottomRight: Radius.circular(10.r)),
+            borderRadius: BorderRadius.all(Radius.circular(10),),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
-              width: 134.w,
-              height: 115.h,
-              decoration: BoxDecoration(color: packagesColor),
-              child: Image.asset(
-                ImagesManager.fixCar1,
-                fit: BoxFit.fill,
-              ),
+                padding: const EdgeInsets.all(8.0),
+                width: 134.w,
+                height: 115.h,
+                decoration: BoxDecoration(color: packagesColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10),),
+                ),
+                child: Image.network(myOrdersModelData.items![0].providerProduct!.images![0].image!=null?
+                myOrdersModelData.items![0].providerProduct!.images![0].image!:'',
+                  errorBuilder: (BuildContext context,Object error ,StackTrace? v){
+                    return ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10),),
+                        child: Image.asset(ImagesManager.holder));
+                  },
+                )
             ),
           ),
+
           SizedBox(width: 5.w),
           Flexible(
             child: Column(
@@ -567,8 +576,8 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Row(
-                  children: [
-                    Text('رقم الطلب : ',
+                  children: <Widget>[
+                    Text('${getLang(context, 'order_number')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -590,8 +599,8 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
                   ],
                 ),
                 Row(
-                  children: [
-                    Text('اسم المتجر : ',
+                  children: <Widget>[
+                    Text('${getLang(context, 'store_name')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -613,8 +622,8 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
                   ],
                 ),
                 Row(
-                  children: [
-                    Text('الحالة : ',
+                  children: <Widget>[
+                    Text('${getLang(context, 'status')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -636,8 +645,8 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
                   ],
                 ),
                 Row(
-                  children: [
-                    Text('الاجمالي : ',
+                  children: <Widget>[
+                    Text('${getLang(context, 'total')} : ',
                       style: TextStyle(
                         fontWeight: FontWeightManager.light,
                         fontSize: 12.sp,
@@ -661,9 +670,8 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
                Padding(
                  padding:EdgeInsets.symmetric(horizontal: 10.0),
                  child: Container(
-                   alignment: Alignment.bottomLeft,
+                   alignment: AuthCubit.get(context).localeLanguage==Locale('en')?Alignment.bottomRight:Alignment.bottomLeft,
                    child:
-                   AuthCubit.get(context).localeLanguage==Locale('en')?
                    Card(
                      margin: EdgeInsets.zero,
                      color: Color(0xffFF0000),
@@ -671,35 +679,18 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
                      shape: RoundedRectangleBorder(
                          borderRadius: BorderRadius.circular(50.r)),
                      child: Padding(
-                       padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
+                       padding: const EdgeInsets.only(left: 8,right: 8,top: 0,bottom: 0),
                        child: Text(
                          '${getLang(context, '${status}')}',
                          style: TextStyle(
                            color: whiteColor,
-                           fontSize: 12.sp,
+                           fontFamily: FontConstants.lateefFont,
+                           fontSize: 15.sp,
                            fontWeight: FontWeightManager.bold,
                          ),
                        ),
                      ),
-                   ):
-                   Card(
-                     margin: EdgeInsets.zero,
-                     color: Color(0xffFF0000),
-                     elevation: 0,
-                     shape: RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(50.r)),
-                     child: Padding(
-                       padding: const EdgeInsets.only(left: 8,right: 8,top: 5,bottom: 5),
-                       child: Text(
-                         '${getLang(context, '${status}')}',
-                         style: TextStyle(
-                           color: whiteColor,
-                           fontSize: 12.sp,
-                           fontWeight: FontWeightManager.bold,
-                         ),
-                       ),
-                     ),
-                   ),
+                   )
                  ),
                )
               ],

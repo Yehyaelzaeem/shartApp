@@ -1,12 +1,13 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
+import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../../core/shared_preference/shared_preference.dart';
 import '../../../../../widgets/show_toast_widget.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../logic/my_orders_cubit.dart';
 import '../model/check_car_model.dart';
 import '../model/myorder_model.dart';
@@ -111,25 +112,37 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
      );
 
      if (response.statusCode == 200) {
-       return response.data;
+       if(methodPayment=='card'){
+         return response.data;
+       }
+       if(response.data['success']==true){
+         if(methodPayment=='card'){
+           return response.data;
+         }
+         else{
+           showToast(text: getLang(context,'payment_successful'), state: ToastStates.success, context: context);
+           Navigator.pushAndRemoveUntil(context,
+             MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',)),
+                 (Route<dynamic> route) => false,);
+           return '';
+         }
+       }
+       else{
+         showToast(text:response.data['message'], state: ToastStates.error, context: context);
+         return '';
+       }
      }
      else {
-       return response.data;
+       showToast(text: response.data['message'].toString(), state: ToastStates.error, context: context);
+     return '';
      }
    }catch (e){
      if (e is DioError) {
-       // Handle DioError here
        if (e.response != null) {
-         // DioError with response
          showToast(text: e.response!.statusMessage.toString(), state: ToastStates.error, context: context);
-         print('DioError: ${e.response!.statusCode} - ${e.response!.statusMessage}');
        } else {
-         // DioError without response
-         print('DioError: ${e.message}');
        }
      } else {
-       // Handle other types of exceptions
-       print('Error: $e');
      }
      myOrdersCubit.changeState();
      return '';

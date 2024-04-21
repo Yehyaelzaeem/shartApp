@@ -8,6 +8,7 @@ import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../auth/logic/auth_cubit.dart';
+import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../myorders/logic/my_orders_cubit.dart';
 import '../model/brand_color_model.dart';
 import '../model/brand_model.dart';
@@ -126,9 +127,18 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
     {
       if (response.statusCode == 200) {
         cubit2.changeLoading(false);
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
+        // Navigator.of(context).pop();
+        // Navigator.of(context).pop();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => UserBottomNavScreen(
+              checkPage: '2',
+            ),
+          ),
+              (Route route) => false,
+        );
         MyOrdersCubit.get(context).getMyCheckCars(context);
         showToast(text: '${json.encode(response.data['message'])}',
             state: ToastStates.success,

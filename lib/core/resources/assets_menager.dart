@@ -28,6 +28,11 @@ class ImagesManager {
   static String cart33 = '$_imagesPath/cart33.png';
   static String favorite = '$_imagesPath/favorite.png';
   static String logo = '$_imagesPath/logo.png';
+  static String pay = '$_imagesPath/pay.png';
+  static String visa = '$_imagesPath/visa.png';
+  static String card = '$_imagesPath/card.png';
+  static String card2 = '$_imagesPath/card2.png';
+  static String rs = '$_imagesPath/rs.png';
   static String testLogo = 'https://firebasestorage.googleapis.com/v0/b/superjet-52b56.appspot.com/o/intro2.png?alt=media&token=8d3d7c10-7948-439f-87ad-a74ba2e4e5bd';
 
 }

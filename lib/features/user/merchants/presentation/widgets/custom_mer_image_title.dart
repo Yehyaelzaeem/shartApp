@@ -18,9 +18,12 @@ class CustomMerImageTitleWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.network(
-              merchantsModelData.logo!,
+              merchantsModelData.logo!=null?merchantsModelData.logo!:'',
               errorBuilder: (BuildContext context,Object error,StackTrace? v){
-                return Center(child: CircularProgressIndicator(),);
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(ImagesManager.holder,fit: BoxFit.cover,width: 150.w,),
+                );
               },
               fit: BoxFit.cover,
               width: 120.w,
