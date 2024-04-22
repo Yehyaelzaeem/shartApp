@@ -16,3 +16,4 @@ class RemoveState extends MenuState {}
 class ChangeLoadingState extends MenuState {}
 class GetBannersState2 extends MenuState {}
 class GetProductsState extends MenuState {}
+class GetPaymentVisibilityState extends MenuState {}

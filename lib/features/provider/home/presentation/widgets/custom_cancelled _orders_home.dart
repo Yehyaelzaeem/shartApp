@@ -46,7 +46,7 @@ class CustomCancelledOrderHomeWidget extends StatelessWidget {
                  return InkWell(
                    onTap: () {
                      Navigator.push(context, MaterialPageRoute(builder:
-                         (BuildContext context)=>OrderDetailsProviderScreen(providerOrderModelData: cubit.myOrdersCancelled!.data![index],)));
+                         (BuildContext context)=>OrderDetailsProviderScreen(providerOrderModelData: cubit.myOrdersCancelled!.data![index],isAccess: true,)));
                    },
                    child: CustomProductMyOrderWidget(
                      isHome: true,

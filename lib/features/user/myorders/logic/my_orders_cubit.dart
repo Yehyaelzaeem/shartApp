@@ -44,7 +44,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       if(methodPayment=='card'){
         if(value.isNotEmpty){
           Navigator.push(context, MaterialPageRoute(builder:
-              (BuildContext context)=> CustomWebView( title:getLang(context, 'shart'), selectedUrl: value,)));
+              (BuildContext context)=> CustomWebView( title:getLang(context, 'shart'), selectedUrl: value, type: 'car',)));
         }
       }
        });

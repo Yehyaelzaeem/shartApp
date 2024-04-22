@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shart/features/user/book_package_service/logic/book_package_cubit.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
+import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
+import '../../../../../shared_screens/web_view/custom_web_view_screen.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../myorders/logic/my_orders_cubit.dart';
@@ -105,61 +108,94 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
     AuthCubit cubit =AuthCubit.get(context);
     BookPackageCubit cubit2 =BookPackageCubit.get(context);
     cubit2.changeLoading(true);
-    Response<dynamic> response = await DioHelper.postData(
-      data: <String,dynamic>{
-        'package_id':checkCarModel.packageId,
-        'brand_id':checkCarModel.brandId,
-        'modal_id':checkCarModel.modelId,
-        'color_id':checkCarModel.colorId,
-        'year':checkCarModel.year,
-        'chassis_no':checkCarModel.chassis_no,
-        'description':checkCarModel.description,
-      },
-        token: cubit.token,
-        url: AppApis.sendCheckCars,language: cubit.localeLanguage==Locale('en')?'en':'ar');
-    if (response.data['success']== false) {
-      cubit2.changeLoading(false);
-      showToast(text: '${response.data['message']}',
-          state: ToastStates.error,
-          context: context);
-    }
-    else
-    {
-      if (response.statusCode == 200) {
-        cubit2.changeLoading(false);
-        // Navigator.of(context).pop();
-        // Navigator.of(context).pop();
-        // Navigator.of(context).pop();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => UserBottomNavScreen(
-              checkPage: '2',
-            ),
-          ),
-              (Route route) => false,
-        );
-        MyOrdersCubit.get(context).getMyCheckCars(context);
-        showToast(text: '${json.encode(response.data['message'])}',
-            state: ToastStates.success,
-            context: context);
-        cubit2.brandSelectedValue ='';
-        cubit2. brandSelectedId ='';
-        cubit2.yearSelectedValue.text ='';
-        cubit2.brandModelSelectedValue='';
-        cubit2. brandModelSelectedId ='';
-        cubit2.colorSelectedValue ='';
-        cubit2. colorSelectedId ='';
-        cubit2. descriptionController.text ='';
-        cubit2. chassisController.text ='';
-      }
-      else {
-        cubit2.changeLoading(false);
-        showToast(text: '${json.encode(response.data['message'])}',
-            state: ToastStates.error,
-            context: context);
-      }
-    }
+   try{
+     Map<String, String> headers = <String, String>{
+       'Content-Type': 'application/json',
+       'Accept': 'application/json',
+       'x-api-key': 'SIv5q09xLI689LNoALEh2D4Af/TsFkoypEMd/2XdtvGPfKHmU6HENZuuBgaBQKXM',
+       'Accept-Language': cubit.localeLanguage.toString(),
+       'Authorization': 'Bearer ${cubit.token}'
+     };
+     String data = json.encode(<String, dynamic>{
+       'package_id':checkCarModel.packageId,
+       'brand_id':checkCarModel.brandId,
+       'modal_id':checkCarModel.modelId,
+       'color_id':checkCarModel.colorId,
+       'year':checkCarModel.year,
+       'chassis_no':checkCarModel.chassis_no,
+       'description':checkCarModel.description,
+       'payment_method':'card',
+     });
+     Dio dio = Dio();
+     Response<dynamic> response = await dio.request(
+       AppApis.sendCheckCars,
+       options: Options(
+         method: 'POST',
+         headers: headers,
+       ),
+       data: data,
+     );
+
+
+     if (response.statusCode == 200) {
+
+
+       cubit2.changeLoading(false);
+       try{
+
+         String url=response.data!;
+         if(url.isNotEmpty){
+           Navigator.push(context, MaterialPageRoute(builder:
+               (BuildContext context)=> CustomWebView( title:getLang(context, 'shart'), selectedUrl: response.data!, type: 'product',)));
+           cubit2.brandSelectedValue ='';
+           cubit2. brandSelectedId ='';
+           cubit2.yearSelectedValue.text ='';
+           cubit2.brandModelSelectedValue='';
+           cubit2. brandModelSelectedId ='';
+           cubit2.colorSelectedValue ='';
+           cubit2. colorSelectedId ='';
+           cubit2. descriptionController.text ='';
+           cubit2. chassisController.text ='';
+         }
+       }catch (e){
+         if(response.data['success']==false){
+           showToast(text: '${response.data['message']}',
+               state: ToastStates.error,
+               context: context);
+         }
+       }
+
+
+      // Navigator.pushAndRemoveUntil(
+       //   context,
+       //   MaterialPageRoute(
+       //     builder: (BuildContext context) => UserBottomNavScreen(
+       //       checkPage: '2',
+       //     ),
+       //   ),
+       //       (Route route) => false,
+       // );
+    //    MyOrdersCubit.get(context).getMyCheckCars(context);
+    //        showToast(text: '${json.encode(response.data['message'])}',
+    // state: ToastStates.success,
+    // context: context);
+
+     }
+     else {
+       cubit2.changeLoading(false);
+       showToast(text: '${response.statusMessage!}',
+           state: ToastStates.error,
+           context: context);
+     }
+
+   }catch(e){
+     if (e is DioError) {
+       if (e.response != null) {
+         showToast(text: e.response!.statusMessage.toString(), state: ToastStates.error, context: context);
+       }
+     }
+     return '';
+   }
     cubit2.changeLoading(false);
 
   }

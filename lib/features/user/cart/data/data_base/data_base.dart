@@ -94,7 +94,7 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
                   width: 343,
                   child:
                   Column(
-                    children: [
+                    children: <Widget>[
                       Align(
                         alignment: AlignmentDirectional.topEnd,
                         child: IconButton(

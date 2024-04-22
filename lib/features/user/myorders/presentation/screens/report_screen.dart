@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shart/core/localization/appLocale.dart';
+import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../core/resources/color.dart';
@@ -15,6 +17,8 @@ class ReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthCubit cubit= AuthCubit.get(context);
     bool x =cubit.localeLanguage==Locale('en');
+    DateTime originalDate = DateTime.parse(getCheckCarsModelData.createdAt!);
+    String date= formatDate(originalDate, context);
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: getLang(context, 'package_details'), hasBackButton: true),
@@ -47,13 +51,11 @@ class ReportScreen extends StatelessWidget {
                     ),
                     child: Container(
                       // padding: const EdgeInsets.all(8.0),
-                      width: 134.w,
-                      height: 85.h,
                       decoration: BoxDecoration(color: packagesColor),
                       child: Image.network(
                         getCheckCarsModelData.package!.image!,
-                        height: 50.h,
-                        width: 80.w,
+                        height: double.infinity,
+                        width: 120.w,
                         fit: BoxFit.cover,
                         errorBuilder: (BuildContext context,Object error,StackTrace? r){
                           return Center(child: Text('waiting....'));
@@ -63,27 +65,39 @@ class ReportScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 11.w),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        getCheckCarsModelData.package!.title!,
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.bold,
-                          fontSize: 16.sp,
-                        ),
+                  Padding(
+                    padding:  EdgeInsets.symmetric(vertical: 5.h),
+                    child: FittedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            getCheckCarsModelData.package!.title!,
+                            style: TextStyle(
+                              fontWeight: FontWeightManager.bold,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                          Text(
+                            '${getCheckCarsModelData.package!.price!} ${getLang(context, 'rs')}',
+                            style: TextStyle(
+                              fontWeight: FontWeightManager.regular,
+                              fontSize: 16.sp,
+                              color: Color(0xffDB3022),
+                            ),
+                          ) ,
+                          Text(
+                            '${date}',
+                            style: TextStyle(
+                              fontWeight: FontWeightManager.regular,
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                            ),
+                          )
+                        ],
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        '${getCheckCarsModelData.package!.price!} ${getLang(context, 'rs')}',
-                        style: TextStyle(
-                          fontWeight: FontWeightManager.regular,
-                          fontSize: 16.sp,
-                          color: Color(0xffDB3022),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -125,10 +139,12 @@ class ReportScreen extends StatelessWidget {
                   ),
                   SizedBox(width: 20.w),
                   SvgPicture.asset('assets/icons/mastercard.svg'),
+                  SizedBox(width: 10.w),
+                  Image.asset(ImagesManager.visa),
                   SizedBox(width: 15.w),
-                  Text('3947 **** **** **** ',
-                      style: TextStyle(
-                          fontSize: 14.sp, fontWeight: FontWeight.w400))
+                  // Text('${getCheckCarsModelData.paymentMethod}',
+                  //     style: TextStyle(
+                  //         fontSize: 14.sp, fontWeight: FontWeight.w400))
                 ],
               ),
             ),
@@ -153,13 +169,13 @@ class ReportScreen extends StatelessWidget {
             SizedBox(height: 16.h),
             Row(
               children: <Widget>[
-                Text(getLang(context, 'total_required'),
+                Text(getLang(context, 'total_price'),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 14.sp)),
+                        fontWeight: FontWeight.bold, fontSize: 16.sp)),
                 SizedBox(width: 27.w),
                 Text(
                   '${getCheckCarsModelData.package!.price!} ${getLang(context, 'rs')}',
-                  style: TextStyle(fontSize: 14.sp, color: Color(0xffDB3022)),
+                  style: TextStyle(fontSize: 16.sp, color: Color(0xffDB3022)),
                 )
               ],
             )
@@ -167,5 +183,10 @@ class ReportScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatDate(DateTime date,BuildContext context) {
+    DateFormat formatter = DateFormat('dd MMMM yyyy', AuthCubit.get(context).localeLanguage.toString());
+    return formatter.format(date);
   }
 }

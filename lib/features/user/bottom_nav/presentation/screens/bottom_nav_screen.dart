@@ -45,6 +45,7 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
   ];
 @override
   void initState() {
+  MenuCubit.get(context).getPaymentVisibility();
   WorkProductsCubit workProductsCubit = WorkProductsCubit.get(context);
   workProductsCubit.getSize(context);
   workProductsCubit.getWidth(context);

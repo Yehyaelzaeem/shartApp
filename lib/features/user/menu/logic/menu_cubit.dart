@@ -2,6 +2,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shart/features/user/menu/data/model/pay_vis_model.dart';
 import '../data/model/banners_model.dart';
 import '../data/model/check_model.dart';
 import '../data/model/product_model.dart';
@@ -52,6 +53,14 @@ class MenuCubit extends Cubit<MenuState> {
         listBanners.add(a.image!);
       }
       emit(GetBannersState(value));
+    });
+  }
+  PaymentVisibilityModel? paymentVisibilityModel;
+  Future<dynamic> getPaymentVisibility()async{
+    emit(GetPaymentVisibilityState());
+    menuRemoteDataSource.getPaymentVisibility().then(( PaymentVisibilityModel? value) {
+      paymentVisibilityModel =value;
+      emit(GetPaymentVisibilityState());
     });
   }
   UserProductModel? productModel;

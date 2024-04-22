@@ -109,6 +109,8 @@ class AppApis{
 
 //Send Contact us message
   static const String complaintMessage='${baseUrl}send-contact-message';
+  //Payment
+  static const String getPaymentVisibility='${baseUrl}get-payment-visibility';
  //Get Packages
   static const String getPackages='${baseUrl}provider/subscriptions';
   static const String subscribePackages='${baseUrl}provider/update-subscription';

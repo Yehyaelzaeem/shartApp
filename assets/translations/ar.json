@@ -286,10 +286,10 @@
   "ago": "المدة",
   "from": "من",
   "package_name": "اسم الباقة",
-  "month": "شهر"
+  "month": "شهر",
+  "sure_booking": "هل أنت متأكد من أنك تريد الحجز ؟",
+  "booking": "الحجز",
+  "payment_status": "حالة الدفع",
 
-
-
-
-
+  "no_inspection": "لا يوجد اي تقرير حاليا"
 }

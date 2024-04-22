@@ -104,7 +104,8 @@ class CustomCarCancelledOrderWidget extends StatelessWidget {
                   child: Text(
                     '${getLang(context, 'canceled')}',
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontSize: 15.sp,
+                      fontFamily: FontConstants.lateefFont,
                       color: whiteColor,
                       fontWeight: FontWeightManager.bold,
                     ),

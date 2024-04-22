@@ -7,11 +7,13 @@ import '../../../../../widgets/show_toast_widget.dart';
 import '../../../auth/logic/auth_cubit.dart';
 import '../model/banners_model.dart';
 import '../model/check_model.dart';
+import '../model/pay_vis_model.dart';
 import '../model/product_model.dart';
 
 abstract class BaseMenuRemoteDataSource{
   Future<PackageCheckModel?> getPackage(BuildContext context);
   Future<BannersModel?> getBanners(String type ,BuildContext context);
+  Future<PaymentVisibilityModel?> getPaymentVisibility();
   Future<UserProductModel?> getProducts(  {String? type ,String? providerId,
     String? brandId,
     String? modelId,
@@ -161,5 +163,15 @@ class MenuRemoteDataSource implements BaseMenuRemoteDataSource {
      return null;
   }
 
-
+  @override
+  Future<PaymentVisibilityModel?> getPaymentVisibility()async {
+   try{
+     Response<dynamic> res = await DioHelper.getData(
+         url: AppApis.getPaymentVisibility);
+     if (res.statusCode == 200) {
+       return PaymentVisibilityModel.fromJson(res.data);
+     }
+   }catch(e){}
+   return null;
+  }
 }

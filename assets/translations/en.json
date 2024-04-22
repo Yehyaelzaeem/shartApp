@@ -167,6 +167,7 @@
   "street_name": "Street name",
   "building_number": "House number",
   "payment_method": "Payment method",
+  "payment_status": "Payment status",
   "special_marque": "Special marque",
   "order_summary": "Order summary",
   "order_value": "Order value",
@@ -287,5 +288,8 @@
   "ago": "Duration",
   "from": "From",
   "package_name": "Package Name",
-  "month": "Month"
+  "month": "Month",
+  "sure_booking": "Are you sure you want to book?",
+  "booking": "Booking",
+  "no_inspection": "There is no inspection report currently"
 }

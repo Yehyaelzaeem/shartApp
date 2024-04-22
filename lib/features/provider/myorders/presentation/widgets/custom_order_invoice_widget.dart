@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
+import 'package:shart/widgets/show_toast_widget.dart';
 
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
@@ -83,46 +84,62 @@ class CustomOrderWithInvoiceAndReportWidget extends StatelessWidget {
             margin: EdgeInsets.only(top: 10.h,bottom: 10.h),
             child: Column(
               children: <Widget>[
+                getCheckCarsModelData.file!=null && getCheckCarsModelData.file!.isNotEmpty?
+                Column(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        if(getCheckCarsModelData.file!=null && getCheckCarsModelData.file!.isNotEmpty){
+                          Navigator.push(
+                            context, MaterialPageRoute(
+                            builder: (BuildContext context) => PDFViewerPage(pdfUrl:getCheckCarsModelData.file.toString()),
+                            fullscreenDialog: true, // Open the PDF screen in full screen
+                          ),
+                          );
+                        }else{
+                          showToast(text: getLang(context, 'no_inspection'), state: ToastStates.error, context: context);
+                        }
+
+                        // NavigationManager.push(Routes.report);
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.info_outline,
+                              size: 15, color: Colors.grey.shade400),
+                          SizedBox(width: 2),
+                          FittedBox(
+                            child: Text('${getLang(context, 'view_inspection')}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 13,
+                                  height: 1,
+                                  fontFamily: FontConstants.lateefFont,
+
+                                )),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                        width: 80.w,
+                        height: 1,
+                        color: Colors.black,
+                        margin: EdgeInsets.only(top: 0, bottom: 5)),
+                  ],
+                ):SizedBox.shrink(),
+
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
                         InvoiceCheckCarScreen(getCheckCarsModelData: getCheckCarsModelData,)));
-                    // NavigationManager.push(Routes.report);
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.info_outline,
-                          size: 15, color: Colors.grey.shade400),
-                      SizedBox(width: 2),
-                      FittedBox(
-                        child: Text('${getLang(context, 'view_inspection')}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 10)),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                    width: 80.w,
-                    height: 1,
-                    color: Colors.black,
-                    margin: EdgeInsets.only(top: 0, bottom: 5)),
-
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context, MaterialPageRoute(
-                        builder: (BuildContext context) => PDFViewerPage(pdfUrl:getCheckCarsModelData.file.toString()),
-                        fullscreenDialog: true, // Open the PDF screen in full screen
-                      ),
-                    );
                   },
                   child: Row(
                     children: <Widget>[
                       Icon(Icons.remove_red_eye_rounded,
                           size: 15, color: Colors.grey.shade400),
-                      SizedBox(width: 1),
-                      Text('${getLang(context, 'view_invoice')}', style: TextStyle(fontSize: 9)),
+                      SizedBox(width: 3.w),
+                      Text('${getLang(context, 'view_invoice')}', style: TextStyle(fontSize: 13,
+                        fontFamily: FontConstants.lateefFont,
+                      )),
                     ],
                   ),
                 ),                  Container(
@@ -143,7 +160,8 @@ class CustomOrderWithInvoiceAndReportWidget extends StatelessWidget {
                       '${getLang(context, 'checked')}',
                       style: TextStyle(
                         color: whiteColor,
-                        fontSize: 12.sp,
+                        fontFamily: FontConstants.lateefFont,
+                        fontSize: 15.sp,
                         fontWeight: FontWeightManager.bold,
                       ),
                     ),

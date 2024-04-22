@@ -80,7 +80,30 @@ final GetCheckCarsModelData getCheckCarsModelData;
                       fontSize: 16.sp,
                       color: Color(0xffDB3022),
                     ),
-                  )
+                  ),
+                  getCheckCarsModelData.paymentStatus=='paid'?
+                  Padding(
+                    padding:EdgeInsets.symmetric(horizontal: 0.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          // color: Colors.blue.shade100,
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      child:
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          '${getLang(context, 'paid')}',
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            color: Colors.blue.shade800,
+                            fontFamily: FontConstants.lateefFont,
+                            fontWeight: FontWeightManager.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ):SizedBox.shrink(),
                 ],
               ),
             ),
@@ -102,7 +125,8 @@ final GetCheckCarsModelData getCheckCarsModelData;
                       '${getLang(context, 'accepted2')}':
                       '${getLang(context, '${getCheckCarsModelData.status}')}',
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontFamily: FontConstants.lateefFont,
+                        fontSize: 15.sp,
                         fontWeight: FontWeightManager.bold,
                       ),
                     ),
@@ -110,6 +134,7 @@ final GetCheckCarsModelData getCheckCarsModelData;
                 ),
               ),
             ),
+            SizedBox(height: 10.h,),
           ],
         ),
       ),

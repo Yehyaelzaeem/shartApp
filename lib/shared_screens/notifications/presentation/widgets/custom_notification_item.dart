@@ -6,7 +6,9 @@ import '../../../../../core/resources/color.dart';
 import '../../../../core/localization/appLocale.dart';
 import '../../../../core/routing/navigation_services.dart';
 import '../../../../core/routing/routes.dart';
+import '../../../../features/user/bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../../features/user/menu/logic/menu_cubit.dart';
+import '../../../../features/user/myorders/logic/my_orders_cubit.dart';
 import '../../../../widgets/custom_alert_dialog.dart';
 import '../../data/models/notificationModel.dart';
 import '../../logic/notification_cubit.dart';
@@ -39,10 +41,11 @@ class CustomNotificationItem extends StatelessWidget {
             ctx: context,
             type: DialogType.info,
             btnOkOnPress: () {
-              MenuCubit.get(context).getPackageCheck(context);
-              NavigationManager.push(Routes.checkingPackages);
-              // print(AuthCubit.get(context).token2);
-            },
+              MyOrdersCubit.get(context).getMyCheckCars(context);
+              Navigator.pushAndRemoveUntil(context,
+                MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',)),
+                    (Route<dynamic> route) => false,);
+              },
             btnCancelOnPress: () {
             },
             title: '${notifications.title}',

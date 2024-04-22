@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,19 +13,25 @@ import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/custom_text_field.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 
+import '../../../../../core/resources/assets_menager.dart';
+import '../../../../../core/resources/color.dart';
+import '../../../../../core/resources/font_manager.dart';
 import '../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart';
+import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../auth/logic/auth_cubit.dart';
+import '../../../menu/logic/menu_cubit.dart';
 import '../../data/model/check_car_model.dart';
 import '../widgets/cutom_text_booking_widget.dart';
 
 class UserBookPackageServiceScreen extends StatelessWidget {
   final String packageId;
-  const UserBookPackageServiceScreen({Key? key, required this.packageId}) : super(key: key);
+   UserBookPackageServiceScreen({Key? key, required this.packageId}) : super(key: key);
 
-
+  int paymentMethod =0;
   @override
   Widget build(BuildContext context) {
     BookPackageCubit cubit =BookPackageCubit.get(context);
+    MenuCubit menuCubit =MenuCubit.get(context);
     cubit.getBrands( context: context);
     return Scaffold(
       appBar: PreferredSize(
@@ -204,30 +211,145 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                 controller: cubit.descriptionController,
                                 hintColor: Colors.black),
                             SizedBox(height: 50.h,),
+                            menuCubit.paymentVisibilityModel!=null?
+                            menuCubit.paymentVisibilityModel!.data!.visibility==1?
                            cubit.isLoading?Padding(
                              padding: EdgeInsets.symmetric(vertical: 30.h),
                              child: Center(child: CircularProgressIndicator(),),
                            ):
                            Padding(
                               padding: EdgeInsets.symmetric(vertical: 30.h),
-                              child: CustomElevatedButton(onTap: () {
+                              child: CustomElevatedButton(
+                                  onTap: () {
                                 if(AuthCubit.get(context).token.isNotEmpty){
                                   if(packageId.isNotEmpty&&cubit.brandSelectedId.isNotEmpty &&
                                       cubit.brandModelSelectedId.isNotEmpty && cubit.colorSelectedId.isNotEmpty&&
                                       cubit.yearSelectedValue.text.isNotEmpty&&cubit.chassisController.text.isNotEmpty)
                                   {
-                                    CheckCarModel checkCarModel =CheckCarModel(
-                                      packageId:packageId ,
-                                      brandId: cubit.brandSelectedId,
-                                      modelId: cubit.brandModelSelectedId,
-                                      colorId: cubit.colorSelectedId,
-                                      year:cubit.yearSelectedValue.text,
-                                      chassis_no:cubit.chassisController.text ,
-                                      description:cubit.descriptionController.text ,
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          content: Container(
+                                            height: 300.h,
+                                            width: 343.w,
+                                            child:
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                Align(
+                                                  alignment: AlignmentDirectional.topEnd,
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.clear),
+                                                    onPressed: (){
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),),
+                                                Text(
+                                                  getLang(context, 'payment_method'),
+                                                  style:
+                                                  TextStyle(
+                                                      fontFamily: FontConstants.lateefFont,
+                                                      fontSize: 30.sp,
+                                                      color: blackTextColor,
+                                                      fontWeight: FontWeight.w500
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                                StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState)
+                                                {
+                                                  return Column(
+                                                    children: <Widget>[
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Row(
+                                                            children: <Widget>[
+                                                              Image.asset(ImagesManager.visa),
+                                                              SizedBox(width: 5.w,),
+                                                              Text(getLang(context, 'visa'),
+                                                                style:   TextStyle(
+                                                                    fontFamily: FontConstants.lateefFont,
+                                                                    fontSize: 20,
+                                                                    color: blackTextColor,
+                                                                    fontWeight: FontWeight.w400
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Spacer(),
+                                                          Radio<int>(
+                                                            value: 0,
+                                                            groupValue: paymentMethod,
+                                                            onChanged: (int? value) {
+                                                              setState(() {
+                                                                paymentMethod = value!;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Row(
+                                                            children: <Widget>[
+                                                              Image.asset(ImagesManager.card2),
+                                                              SizedBox(width: 5.w,),
+                                                              Text(getLang(context, 'master_card'),
+                                                                style:   TextStyle(
+                                                                    fontFamily: FontConstants.lateefFont,
+                                                                    fontSize: 20,
+                                                                    color: blackTextColor,
+                                                                    fontWeight: FontWeight.w400
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Spacer(),
+                                                          Radio<int>(
+                                                            value: 1,
+                                                            groupValue: paymentMethod,
+                                                            onChanged: (int? value) {
+                                                              setState(() {
+                                                                paymentMethod = value!;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  );
+                                                }),
+                                                CustomElevatedButton(
+                                                    onTap: (){
+                                                      CheckCarModel checkCarModel =CheckCarModel(
+                                                        packageId:packageId ,
+                                                        brandId: cubit.brandSelectedId,
+                                                        modelId: cubit.brandModelSelectedId,
+                                                        colorId: cubit.colorSelectedId,
+                                                        year:cubit.yearSelectedValue.text,
+                                                        chassis_no:cubit.chassisController.text ,
+                                                        description:cubit.descriptionController.text ,
+                                                      );
+                                                      BookPackageCubit.get(context).sendCheckCar(checkCarModel, context);
+                                                    },
+                                                    buttonText: getLang(context, 'ok'))
+                                              ],
+                                            )
+                                            ,
+                                          ),
+
+                                        );
+                                      },
+
                                     );
-                                    BookPackageCubit.get(context).sendCheckCar(checkCarModel, context);
-                                  }else{
-                                    showToast(text: 'complete data', state: ToastStates.error, context: context);
+
+                                    }
+                                  else{
+                                    showToast(text: getLang(context, 'complete_data'), state: ToastStates.error, context: context);
                                   }
                                 }else{
                                   visitorDialog(context);
@@ -238,7 +360,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
 
 
                               }, buttonText:  getLang(context, 'sure')),
-                            ),
+                            ):SizedBox.shrink():SizedBox.shrink(),
                             SizedBox(height: 40.h,),
 
                           ],

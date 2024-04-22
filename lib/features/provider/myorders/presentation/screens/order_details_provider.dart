@@ -229,6 +229,36 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
+                      '${getLang(context, 'payment_status')} :',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: geryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    SizedBox(width: 5.w,),
+                    Container(
+                      width: MediaQuery.of(context).size.width*0.6,
+                      child: Text(
+                        '${getLang(context, '${providerOrderModelData.paymentStatus!}')}',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: blackTextColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ):SizedBox.shrink(),
+                providerOrderModelData.paymentStatus=='paid'?
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
                       '${getLang(context, 'payment_method')} :',
                       style: TextStyle(
                         fontSize: 14.sp,
@@ -316,7 +346,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
 
                         },):SizedBox.shrink(),
                         SizedBox(width: 16,),
-                        providerOrderModelData.status!='canceled'?
+                        providerOrderModelData.status!='cancelled'?
                         CustomMaterialButton(
                           color: Colors.grey,
                           text: '${getLang(context, 'cancel')}', onPressed: () {

@@ -13,6 +13,7 @@ import '../../../../../core/resources/font_manager.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../../cart/logic/cart_cubit.dart';
+import '../../../menu/logic/menu_cubit.dart';
 import '../../data/model/myorder_model.dart';
 import '../../logic/my_orders_cubit.dart';
 import '../widgets/custom_item_widget.dart';
@@ -22,7 +23,7 @@ class OrderDetailsScreen extends StatelessWidget {
  final MyOrdersModelData myOrdersModelData;
   @override
   Widget build(BuildContext context) {
-
+    MenuCubit menuCubit=MenuCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true),
@@ -47,9 +48,12 @@ class OrderDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     myOrdersModelData.status !='cancelled'&&myOrdersModelData.status !='delivered' && myOrdersModelData.status !='rejected' && myOrdersModelData.paymentStatus!='paid'?
-                    CustomMaterialButton(text: '${getLang(context, 'cancel')}', onPressed: (){
+                    CustomMaterialButton(
+                        color: Colors.red,
+                        text: '${getLang(context, 'cancel')}',
+                        onPressed: (){
                       CustomDialogs.showAlertDialog(
-                        type: DialogType.warning,
+                        type: DialogType.error,
                         btnOkOnPress: () {
                           MyOrdersCubit.get(context).cancelOrderUser(myOrdersModelData.id!, context);
                         },
@@ -204,6 +208,8 @@ class OrderDetailsScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h,),
               myOrdersModelData.status=='accepted'&&myOrdersModelData.paymentStatus=='un_paid'?
+              menuCubit.paymentVisibilityModel!=null?
+              menuCubit.paymentVisibilityModel!.data!.visibility==1?
               BlocConsumer<CartCubit, CartState>(
                 listener: (BuildContext context,CartState state) {},
                 builder: (BuildContext context, CartState state) {
@@ -217,15 +223,14 @@ class OrderDetailsScreen extends StatelessWidget {
                     },
                         buttonText: getLang(context, 'pay'));
                 },
-              ):SizedBox.shrink(),
+              ):SizedBox.shrink():SizedBox.shrink()
+                  :SizedBox.shrink(),
               if(myOrdersModelData.status=='accepted'&&myOrdersModelData.paymentStatus=='paid')
                  Container(
-                decoration: BoxDecoration(
+                   decoration: BoxDecoration(
                     color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.circular(12)
-                ),
-                child:
-                Center(
+                    borderRadius: BorderRadius.circular(12)),
+                   child: Center(
                   child: Padding(
                     padding:  EdgeInsets.symmetric(horizontal: 100.w,vertical: 8.h),
                     child: Row(
@@ -251,9 +256,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-
-              )
+                ),)
               else
                  SizedBox.shrink(),
             ],
