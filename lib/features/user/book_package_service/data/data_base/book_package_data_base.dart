@@ -108,8 +108,8 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
     AuthCubit cubit =AuthCubit.get(context);
     BookPackageCubit cubit2 =BookPackageCubit.get(context);
     cubit2.changeLoading(true);
-   try{
-     Map<String, String> headers = <String, String>{
+    try{
+      Map<String, String> headers = <String, String>{
        'Content-Type': 'application/json',
        'Accept': 'application/json',
        'x-api-key': 'SIv5q09xLI689LNoALEh2D4Af/TsFkoypEMd/2XdtvGPfKHmU6HENZuuBgaBQKXM',
@@ -126,7 +126,7 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
        'description':checkCarModel.description,
        'payment_method':'card',
      });
-     Dio dio = Dio();
+      Dio dio = Dio();
      Response<dynamic> response = await dio.request(
        AppApis.sendCheckCars,
        options: Options(
@@ -137,16 +137,17 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
      );
 
 
-     if (response.statusCode == 200) {
+
+      if (response.statusCode == 200) {
 
 
-       cubit2.changeLoading(false);
+        cubit2.changeLoading(false);
        try{
 
          String url=response.data!;
          if(url.isNotEmpty){
            Navigator.push(context, MaterialPageRoute(builder:
-               (BuildContext context)=> CustomWebView( title:getLang(context, 'shart'), selectedUrl: response.data!, type: 'product',)));
+               (BuildContext context)=> CustomWebView( title:getLang(context, 'shart'), selectedUrl: response.data!, type: 'car',)));
            cubit2.brandSelectedValue ='';
            cubit2. brandSelectedId ='';
            cubit2.yearSelectedValue.text ='';

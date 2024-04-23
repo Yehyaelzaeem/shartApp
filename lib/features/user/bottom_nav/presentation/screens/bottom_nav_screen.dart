@@ -23,9 +23,10 @@ import '../../../profile/logic/user_profile_cubit.dart';
 import 'package:badges/badges.dart' as badges;
 
 class UserBottomNavScreen extends StatefulWidget {
-   UserBottomNavScreen({Key? key, this.checkPage, this.isVisitor}) : super(key: key);
+   UserBottomNavScreen({Key? key, this.checkPage, this.isVisitor, this.initialIndex}) : super(key: key);
    final String? checkPage;
    final bool? isVisitor;
+   final int? initialIndex;
   @override
   State<UserBottomNavScreen> createState() => _UserBottomNavScreenState();
 }
@@ -35,16 +36,14 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
   final Color iconColor = primaryColor;
   final Color unSelectedIconColor = blackColor;
 
-  List<Widget> pages = <Widget>[
-    UserMenuScreen(),
-    UserFavoriteScreen(),
-    UserOrdersScreen(isNotNotification: true,),
-    CartBottomNavScreen(),
-    // UserMessagesScreen(),
-    UserMoreScreen(),
-  ];
+  List<Widget> pages = <Widget>[];
 @override
   void initState() {
+  pages=<Widget>[ UserMenuScreen(),
+    UserFavoriteScreen(),
+    UserOrdersScreen(isNotNotification: true,initialIndex: widget.initialIndex,),
+    CartBottomNavScreen(),
+    UserMoreScreen(),];
   MenuCubit.get(context).getPaymentVisibility();
   WorkProductsCubit workProductsCubit = WorkProductsCubit.get(context);
   workProductsCubit.getSize(context);

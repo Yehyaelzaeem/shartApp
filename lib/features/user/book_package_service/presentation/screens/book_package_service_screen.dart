@@ -213,10 +213,10 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                             SizedBox(height: 50.h,),
                             menuCubit.paymentVisibilityModel!=null?
                             menuCubit.paymentVisibilityModel!.data!.visibility==1?
-                           cubit.isLoading?Padding(
-                             padding: EdgeInsets.symmetric(vertical: 30.h),
-                             child: Center(child: CircularProgressIndicator(),),
-                           ):
+                           // cubit.isLoading?Padding(
+                           //   padding: EdgeInsets.symmetric(vertical: 30.h),
+                           //   child: Center(child: CircularProgressIndicator(),),
+                           // ):
                            Padding(
                               padding: EdgeInsets.symmetric(vertical: 30.h),
                               child: CustomElevatedButton(
@@ -320,23 +320,39 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                                           ),
                                                         ],
                                                       ),
+                                                      BlocConsumer<BookPackageCubit, BookPackageState>(
+                                                                      listener: (BuildContext context, BookPackageState state) {},
+                                                                      builder: (BuildContext context, BookPackageState state)
+                                                                      {
+                                                                        return Column(
+                                                                              children: <Widget>[
+                                                                                cubit.isLoading?Padding(
+                                                                                  padding: EdgeInsets.symmetric(vertical: 30.h),
+                                                                                  child: Center(child: CircularProgressIndicator(),),
+                                                                                ):
+                                                                                CustomElevatedButton(
+                                                                                    onTap: (){
+                                                                                      // Navigator.pop(context);
+                                                                                      CheckCarModel checkCarModel =CheckCarModel(
+                                                                                        packageId:packageId ,
+                                                                                        brandId: cubit.brandSelectedId,
+                                                                                        modelId: cubit.brandModelSelectedId,
+                                                                                        colorId: cubit.colorSelectedId,
+                                                                                        year:cubit.yearSelectedValue.text,
+                                                                                        chassis_no:cubit.chassisController.text ,
+                                                                                        description:cubit.descriptionController.text ,
+                                                                                      );
+                                                                                      BookPackageCubit.get(context).sendCheckCar(checkCarModel, context).then((value) {});
+                                                                                    },
+                                                                                    buttonText: getLang(context, 'ok'))
+                                                                              ],
+                                                                            );
+                                                                      },
+                                                                    )
                                                     ],
                                                   );
                                                 }),
-                                                CustomElevatedButton(
-                                                    onTap: (){
-                                                      CheckCarModel checkCarModel =CheckCarModel(
-                                                        packageId:packageId ,
-                                                        brandId: cubit.brandSelectedId,
-                                                        modelId: cubit.brandModelSelectedId,
-                                                        colorId: cubit.colorSelectedId,
-                                                        year:cubit.yearSelectedValue.text,
-                                                        chassis_no:cubit.chassisController.text ,
-                                                        description:cubit.descriptionController.text ,
-                                                      );
-                                                      BookPackageCubit.get(context).sendCheckCar(checkCarModel, context);
-                                                    },
-                                                    buttonText: getLang(context, 'ok'))
+
                                               ],
                                             )
                                             ,

@@ -47,7 +47,7 @@ class _CustomWebViewState extends State<CustomWebView> {
                showToast(text:getLang(context,'payment_successful'), state: ToastStates.success, context: context);
              }
            }
-           else if (widget.type=='car'){
+           else {
              Map<String, String> responseParams = Uri.parse(url).queryParameters;
              if (responseParams.toString().contains('Successful')) {
                MyOrdersCubit.get(context).getMyCheckCars(context);
@@ -62,7 +62,7 @@ class _CustomWebViewState extends State<CustomWebView> {
                cubit2. descriptionController.text ='';
                cubit2. chassisController.text ='';
                Navigator.pushAndRemoveUntil(context,
-                 MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',)), (Route route) => false,);
+                 MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',initialIndex: 1,)), (Route route) => false,);
                showToast(text:getLang(context,'payment_successful'), state: ToastStates.success, context: context);
 
              }

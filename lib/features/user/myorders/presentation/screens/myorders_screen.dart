@@ -18,8 +18,9 @@ import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../widgets/order_widgets.dart';
 
 class UserOrdersScreen extends StatefulWidget {
-  const UserOrdersScreen({Key? key, this.isNotNotification}) : super(key: key);
+  const UserOrdersScreen({Key? key, this.isNotNotification, this.initialIndex}) : super(key: key);
   final bool? isNotNotification;
+  final int? initialIndex;
 
   @override
   State<UserOrdersScreen> createState() => _UserOrdersScreenState();
@@ -30,7 +31,11 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 2, vsync: this);
+    if(widget.initialIndex!=null){
+      tabController = TabController(length: 2, vsync: this,initialIndex: widget.initialIndex!);
+    }else{
+      tabController = TabController(length: 2, vsync: this);
+    }
   }
   @override
   Widget build(BuildContext context) {

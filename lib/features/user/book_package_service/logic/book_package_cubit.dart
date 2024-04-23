@@ -46,8 +46,8 @@ class BookPackageCubit extends Cubit<BookPackageState> {
       emit(GetBrandsState());
     });
   }
-  void sendCheckCar(CheckCarModel checkCarModel ,BuildContext context){
-     bookPackageDataSource.checkCar(checkCarModel ,context);
+  Future sendCheckCar(CheckCarModel checkCarModel ,BuildContext context)async{
+    await bookPackageDataSource.checkCar(checkCarModel ,context);
      // Navigator.of(context).pop();
      emit(GetBrandsState());
   }

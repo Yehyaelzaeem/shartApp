@@ -43,7 +43,8 @@ class CustomNotificationItem extends StatelessWidget {
             btnOkOnPress: () {
               MyOrdersCubit.get(context).getMyCheckCars(context);
               Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',)),
+                MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(
+                  checkPage: '2',initialIndex: 1,)),
                     (Route<dynamic> route) => false,);
               },
             btnCancelOnPress: () {
