@@ -13,7 +13,7 @@ import '../model/check_car_model.dart';
 import '../model/myorder_model.dart';
 
 abstract class BaseMyOrderRemoteDataSource {
-  Future<MyOrdersModel?> getMyOrder(String token ,BuildContext context);
+  Future<MyOrdersModel?> getMyOrder(int limit,String token ,BuildContext context);
   Future<GetCheckCarsModel?> getMyCheckCars(BuildContext context);
   Future<dynamic> cancelOrderUser(int id ,BuildContext context);
   Future<String> payment(int id ,String methodPayment,BuildContext context);
@@ -21,9 +21,9 @@ abstract class BaseMyOrderRemoteDataSource {
 }
 class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
   @override
-  Future<MyOrdersModel?> getMyOrder(String token, BuildContext context) async{
+  Future<MyOrdersModel?> getMyOrder(int limit,String token, BuildContext context) async{
     Response<dynamic> response = await DioHelper.getData(
-        url: AppApis.getMyOrder, token: token,);
+        url: AppApis.getMyOrderTest, token: token,);
     if (response.statusCode == 200) {
     }
     else {
@@ -74,7 +74,7 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
       showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
     }else{
       if (res.statusCode == 200) {
-        MyOrdersCubit.get(context).getMyOrder(context);
+        MyOrdersCubit.get(context).fetchOrders(context,10);
         Navigator.pop(context);
         showToast(text: '${res.data['message']}', state: ToastStates.success, context: context);
       }

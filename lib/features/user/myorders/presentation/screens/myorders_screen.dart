@@ -9,6 +9,7 @@ import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../shared_screens/visitor_screen/visitor_screen.dart';
+import '../../../../../widgets/custom_loading2_widget.dart';
 import '../../../../../widgets/custom_title_tab_bar.dart';
 import '../../../../provider/myorders/presentation/widgets/custom_car_cancelled_order_widget.dart';
 import '../../../../provider/myorders/presentation/widgets/custom_car_current_order_widget.dart';
@@ -40,7 +41,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
   @override
   Widget build(BuildContext context) {
     widget.isNotNotification!=true?
-    MyOrdersCubit.get(context).getMyOrder(context):null;
+    MyOrdersCubit.get(context).fetchOrders(context,10):null;
     MyOrdersCubit myOrdersCubit =MyOrdersCubit.get(context);
     return PopScope(
       canPop: false,
@@ -96,8 +97,8 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                   BlocConsumer<MyOrdersCubit, MyOrdersState>(
                     listener: (BuildContext context,MyOrdersState state) {},
                     builder: (BuildContext context,MyOrdersState state) {
-                      if(myOrdersCubit.myOrdersModel!=null){
-                        if(myOrdersCubit.myOrdersModel!.data!.length==0){
+                      if(myOrdersCubit.myOrderList!=null){
+                        if(myOrdersCubit.myOrderList!.length==0){
                           return
                             Padding(
                               padding: const EdgeInsets.all(40.0),
@@ -121,68 +122,47 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                             );
                         }
                         else{
-                          return SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                ...myOrdersCubit.myOrdersModel!.data!.map((MyOrdersModelData e) {
-                                  if(e.status=='pending'){
-                                    return buildCurrentOrder(e.items!,e,e.status!,context);
-                                  }
-                                  else if(e.status=='accepted'){
-                                    return buildCurrentOrder(e.items!,e,e.status!,context);
-                                  }
-                                  else if(e.status=='delivered'){
-                                    return buildOrderWithInvoice(e.items!,e,e.status!,context);
+                          List<MyOrdersModelData> data =myOrdersCubit.myOrderList!;
+                          return ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              MyOrdersModelData e =data[index];
+                              if(index < data.length){
+                                if(e.status=='pending'){
+                                  return buildCurrentOrder(e.items!,e,e.status!,context);
+                                }
+                                else if(e.status=='accepted'){
+                                  return buildCurrentOrder(e.items!,e,e.status!,context);
+                                }
+                                else if(e.status=='delivered'){
+                                  return buildOrderWithInvoice(e.items!,e,e.status!,context);
 
-                                  }
-                                  else if(e.status=='preparing'){
-                                    return buildCurrentOrder(e.items!,e,e.status!,context);
+                                }
+                                else if(e.status=='preparing'){
+                                  return buildCurrentOrder(e.items!,e,e.status!,context);
 
+                                }
+                                else{
+                                  return buildCancelledOrder(e.items!,e,e.status!,context);
+                                }
+                              }else{
+                                if (index == data.length) {
+                                  if(myOrdersCubit.loading==true){
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: CustomLoading2Widget(color: primaryColor,),
+                                    );
+                                  }else{
+                                    return SizedBox();
                                   }
-                                  else{
-                                    return buildCancelledOrder(e.items!,e,e.status!,context);
-                                  }
-                                }).toList(),
-                                // ...myOrdersCubit.myOrdersModel!.data![index].items!.map((e) {
-                                //       if(myOrdersCubit.myOrdersModel!.data![index].status=='pending'){
-                                //         return buildCurrentOrder(e,myOrdersCubit.myOrdersModel!.data![index],myOrdersCubit.myOrdersModel!.data![index].status!,context);
-                                //       }
-                                //       else if(myOrdersCubit.myOrdersModel!.data![index].status=='accepted'){
-                                //         return buildCurrentOrder(e,myOrdersCubit.myOrdersModel!.data![index],myOrdersCubit.myOrdersModel!.data![index].status!,context);
-                                //       }
-                                //       else if(myOrdersCubit.myOrdersModel!.data![index].status=='delivered'){
-                                //         return buildOrderWithInvoice(e,myOrdersCubit.myOrdersModel!.data![index],myOrdersCubit.myOrdersModel!.data![index].status!,context);
-                                //
-                                //       }else{
-                                //         return buildCancelledOrder(e,myOrdersCubit.myOrdersModel!.data![index],myOrdersCubit.myOrdersModel!.data![index].status!,context);
-                                //       }
-                                // }).toList(),
-                              ],
-                            ),
+                                } else {
+                                  return Container(); }
+                              }
+                            },
+                            itemCount: data.length,
+                            shrinkWrap: true,
                           );
                         }
-
-                        //   ListView.builder(
-                        //   physics: BouncingScrollPhysics(),
-                        //   itemBuilder: (BuildContext context, int index) {
-                        //     if(myOrdersCubit.myOrdersModel!.data![index].status=='pending'){
-                        //       return buildCurrentOrder(myOrdersCubit.myOrdersModel!.data![index],context);
-                        //     }else if(myOrdersCubit.myOrdersModel!.data![index].status=='accepted'){
-                        //       return buildCurrentOrder(myOrdersCubit.myOrdersModel!.data![index],context);
-                        //     }else if(myOrdersCubit.myOrdersModel!.data![index].status=='delivered'){
-                        //       return buildOrderWithInvoice(context);
-                        //
-                        //     }else{
-                        //       return buildCancelledOrder(context);
-                        //
-                        //     }
-                        //     // if (index == 0) return buildCurrentOrder(context);
-                        //     // if (index == 1) return buildCancelledOrder(context);
-                        //     // return buildOrderWithInvoice(context);
-                        //   },
-                        //   itemCount: myOrdersCubit.myOrdersModel!.data!.length,
-                        //   shrinkWrap: true,
-                        // );
                       }else{
                         return Padding(
                           padding: const EdgeInsets.only(top: 100.0),
@@ -192,7 +172,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                   ),
                       onRefresh: ()async{
                         await Future.delayed(Duration(seconds: 1));
-                        myOrdersCubit.getMyOrder(context);
+                        myOrdersCubit.fetchOrders(context,10);
                       })
                 )
               else

@@ -57,94 +57,103 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
         );
         // NavigationManager.pushReplacement(Routes.login);
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: whiteColor,
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            // physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 30.h,),
-                CustomTopRowLogo(type: 'provider',),
-                CustomWelcomeMessage(),
-                CustomSliderWidget(),
-                // CustomSubscribeWidget(),
-                Center(
-                  child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
-                      listener: (BuildContext context,ProviderProfileState state) {},
-                      builder: (BuildContext context,ProviderProfileState state) {
-                        if(ProviderProfileCubit.get(context).providerProfileModel!=null){
-                          if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false) {
-                            return CustomCompleteWidgetRow();
+      child:  NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+            cubit.limit=cubit.limit+10;
+            cubit.fetchOrdersCurrentProvider(context,cubit.limit);
+          }
+          return false;
+        },
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: whiteColor,
+            body: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              // physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 30.h,),
+                  CustomTopRowLogo(type: 'provider',),
+                  CustomWelcomeMessage(),
+                  CustomSliderWidget(),
+                  // CustomSubscribeWidget(),
+                  Center(
+                    child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
+                        listener: (BuildContext context,ProviderProfileState state) {},
+                        builder: (BuildContext context,ProviderProfileState state) {
+                          if(ProviderProfileCubit.get(context).providerProfileModel!=null){
+                            if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false) {
+                              return CustomCompleteWidgetRow();
+                            }
+                            else{
+                              return SizedBox.shrink();
+                            }
                           }
+                          // if(ProviderProfileCubit.get(context).providerProfileModel!=null){
+                          //   // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
+                          //   //   return CustomSubscribeWidgetRow();
+                          //   // }
+                          //   if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
+                          //       && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
+                          //   ){
+                          //     // return CustomSubscribeWidgetRow();
+                          //     return  Row(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //       children: <Widget>[
+                          //         CustomCompletePaperWidget(),
+                          //         CustomSubscribeWidget(),
+                          //       ],
+                          //     );
+                          //   }else if(
+                          //   ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
+                          //       ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
+                          //   {
+                          //     return CustomCompleteWidgetRow();
+                          //   }else if(
+                          //   ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
+                          //       ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
+                          //   {
+                          //     return CustomSubscribeWidgetRow();
+                          //   }
+                          //   else{
+                          //     return SizedBox.shrink();
+                          //   }
+                          // }
                           else{
                             return SizedBox.shrink();
                           }
                         }
-                        // if(ProviderProfileCubit.get(context).providerProfileModel!=null){
-                        //   // if(ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null){
-                        //   //   return CustomSubscribeWidgetRow();
-                        //   // }
-                        //   if(ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false
-                        //       && ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null
-                        //   ){
-                        //     // return CustomSubscribeWidgetRow();
-                        //     return  Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        //       children: <Widget>[
-                        //         CustomCompletePaperWidget(),
-                        //         CustomSubscribeWidget(),
-                        //       ],
-                        //     );
-                        //   }else if(
-                        //   ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==false &&
-                        //       ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription!=null)
-                        //   {
-                        //     return CustomCompleteWidgetRow();
-                        //   }else if(
-                        //   ProviderProfileCubit.get(context).providerProfileModel!.data!.profileCompleted==true &&
-                        //       ProviderProfileCubit.get(context).providerProfileModel!.data!.currentSubscription==null)
-                        //   {
-                        //     return CustomSubscribeWidgetRow();
-                        //   }
-                        //   else{
-                        //     return SizedBox.shrink();
-                        //   }
-                        // }
-                        else{
-                          return SizedBox.shrink();
-                        }
-                      }
+                    ),
                   ),
-                ),
-                TabBar(
-                  controller: controller,
-                  onTap: (int val) {
-                    setState(() {
-                    });
-                  },
-                  tabs: <Widget>[
-                    CustomTitleTabBarWidget(title: '${getLang(context, 'current_orders')}',),
-                    CustomTitleTabBarWidget(title: '${getLang(context, 'previous_orders')}',),
-                    CustomTitleTabBarWidget(title: '${getLang(context, 'canceled_orders')}',),
-                  ],
-                  labelColor: Color(0xff136B79),
-                  unselectedLabelColor: Colors.black,
-                  indicatorColor: Color(0xff136B79),
+                  TabBar(
+                    controller: controller,
+                    onTap: (int val) {
+                      setState(() {
+                      });
+                    },
+                    tabs: <Widget>[
+                      CustomTitleTabBarWidget(title: '${getLang(context, 'current_orders')}',),
+                      CustomTitleTabBarWidget(title: '${getLang(context, 'previous_orders')}',),
+                      CustomTitleTabBarWidget(title: '${getLang(context, 'canceled_orders')}',),
+                    ],
+                    labelColor: Color(0xff136B79),
+                    unselectedLabelColor: Colors.black,
+                    indicatorColor: Color(0xff136B79),
 
-                  labelStyle: TextStyle(fontSize: 16.sp, fontFamily: 'Lateef'),
-                  // indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
-                ),
-                if(controller.index==0)
-                  CustomCurrentOrderHomeWidget(),
-                if(controller.index==1)
-                  CustomPreviousOrderHomeWidget(),
-                if(controller.index==2)
-                  CustomCancelledOrderHomeWidget(),
-                SizedBox(height: 40.h),
-              ],
+                    labelStyle: TextStyle(fontSize: 16.sp, fontFamily: 'Lateef'),
+                    // indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
+                  ),
+                  if(controller.index==0)
+                    CustomCurrentOrderHomeWidget(),
+                  if(controller.index==1)
+                    CustomPreviousOrderHomeWidget(),
+                  if(controller.index==2)
+                    CustomCancelledOrderHomeWidget(),
+                  SizedBox(height: 0.h),
+                ],
+              ),
             ),
           ),
         ),
@@ -154,7 +163,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
           await Future.delayed(Duration(seconds: 1));
           cubit.putNull();
           MenuCubit.get(context).getBanners('provider',context);
-         cubit.getMyOrdersCurrentProvider(context);
+         cubit.fetchOrdersCurrentProvider(context,10);
          cubit.getMyOrdersPreviousProvider(context);
          cubit.getMyOrdersCancelledProvider(context);
         });

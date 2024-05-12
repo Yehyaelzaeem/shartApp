@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/font_manager.dart';
 
+import 'custom_loading2_widget.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   final String buttonText;
   final Function onTap;
@@ -41,7 +43,7 @@ class CustomElevatedButton extends StatelessWidget {
       ),
       child:
       isLoading==true?
-          Center(child: CircularProgressIndicator(color: Colors.white,),):
+      CustomLoading2Widget():
       Text(
         buttonText,
         style: TextStyle(

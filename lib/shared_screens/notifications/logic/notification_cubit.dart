@@ -24,6 +24,11 @@ class NotificationCubit extends Cubit<NotificationState> {
 
 
   int limit =10;
+  void _showNotification() {
+    loading=false;
+    emit(GetNotificationTestState());
+    print('All beers loaded!');
+  }
   void fetchBeersNotification(int limit ,String type ,BuildContext context) async {
     try {
       final List<Notifications> beers = await getNotification(limit,type,context);
@@ -47,11 +52,7 @@ class NotificationCubit extends Cubit<NotificationState> {
    notificationModelData!.data!.notifications!:
    notificationModelProviderData!.data!.notifications!;
  }
-  void _showNotification() {
-    loading=false;
-    emit(GetNotificationTestState());
-    print('All beers loaded!');
-  }
+
 
  Future<dynamic> getSingleOrder(int id,String type ,BuildContext context)async{
    await remoteNotificationDataSource.getSingleOrder(type,id,
@@ -64,53 +65,3 @@ class NotificationCubit extends Cubit<NotificationState> {
  }
 
 }
-
-// class BeerState extends Equatable {
-//
-//
-//   const BeerState({required this.beers});
-//
-//   @override
-//   List<Object?> get props => [beers];
-// }
-//
-// class BeerCubit extends Cubit<BeerState> {
-//   BeerCubit() : super(BeerState(beers: <Notifications>[]));
-//   NotificationModel? notificationModelData;
-//   int limit =10;
-//   NotificationModel? notificationModelProviderData;
-//   void fetchBeers(int limit ,context) async {
-//     try {
-//       final beers = await getNotification(limit,'privider',context);
-//       emit(BeerState(beers: beers));
-//       _showNotification();
-//     } catch (_) {
-//       // Handle error
-//     }
-//   }
-//   RemoteNotificationDataSource remoteNotificationDataSource =RemoteNotificationDataSource();
-//
-//   Future<List<Notifications>> getNotification(int limit ,String type ,BuildContext context)async{
-//     print('=========================');
-//     await Future.delayed(Duration(seconds: 1)); // Simulate delay
-//     await remoteNotificationDataSource.getNotification(limit,type,
-//         type=='user'?AuthCubit.get(context).token:AuthProviderCubit.get(context).token, context).then((NotificationModel? value) {
-//       type=='user'?
-//       notificationModelData=value!:
-//       notificationModelProviderData=value!;
-//       print('================${notificationModelProviderData!.toJson()}=========');
-//
-//     });
-//
-//     return
-//       type=='user'?
-//       notificationModelData!.data!.notifications!:
-//       notificationModelProviderData!.data!.notifications!;
-//   }
-//
-//
-//   void _showNotification() {
-//     // Implement your notification logic here
-//     print('All beers loaded!');
-//   }
-// }

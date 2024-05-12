@@ -5,6 +5,9 @@ abstract class AuthProviderState {}
 
 class AuthProviderInitial extends AuthProviderState {}
 class ProviderLoginState extends AuthProviderState {}
+class PutCodeStates extends AuthProviderState {}
+class ProviderUserRegisterLoadingState extends AuthProviderState {}
+class ProviderLoginLoadingState extends AuthProviderState {}
 class GetTokenState extends AuthProviderState {}
 class ProviderRegisterState extends AuthProviderState {}
 class ProviderVerifyAccountState extends AuthProviderState {}

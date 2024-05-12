@@ -19,12 +19,39 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
   MyOrderRemoteDataSource myOrderRemoteDataSource =MyOrderRemoteDataSource();
   GetCheckCarsModel? getCheckCarsModel;
   MyOrdersModel? myOrdersModel;
-  Future<dynamic> getMyOrder(BuildContext context)async{
+
+
+  int limit =10;
+  bool loading = false;
+  void _showOrders() {
+    loading=false;
+    emit(GetMyOrdersState());
+  }
+  void changeState2(){
+    loading=true;
+    emit(GetMyOrdersState());
+  }
+  List<MyOrdersModelData>? myOrderList;
+  void fetchOrders(BuildContext context,int limit ) async {
+    try {
+      changeState2();
+      final List<MyOrdersModelData> ordersList = await getMyOrder(context,limit);
+      myOrderList=ordersList;
+      emit(GetMyOrdersState());
+      _showOrders();
+    } catch (_) {
+      // Handle error
+    }
+  }
+
+
+  Future<List<MyOrdersModelData>> getMyOrder(BuildContext context,int limit)async{
     myOrdersModel=null;
     emit(GetMyOrderState());
-    myOrderRemoteDataSource.getMyOrder(AuthCubit.get(context).token, context).then((MyOrdersModel? value) {
+    return myOrderRemoteDataSource.getMyOrder(limit,AuthCubit.get(context).token, context).then((MyOrdersModel? value) {
       myOrdersModel =value!;
       emit(GetMyOrderState());
+      return value.data!;
     });
   }
   Future<dynamic> getMyCheckCars(BuildContext context)async{

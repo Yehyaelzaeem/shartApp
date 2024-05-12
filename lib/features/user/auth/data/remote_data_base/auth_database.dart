@@ -37,7 +37,7 @@ class AuthDataSource implements BaseAuthDataSource {
   @override
   Future<LoginModel?> userLogin(String phone, String phone_country,
       String password, BuildContext context) async {
-    AuthCubit.get(context).loginLoadingStates(true);
+    // AuthCubit.get(context).loginLoadingStates(true);
     Response<dynamic> res = await DioHelper.postData(
       url: AppApis.loginUser, data: <String, dynamic>{
       'phone': phone,
@@ -85,7 +85,7 @@ class AuthDataSource implements BaseAuthDataSource {
   Future<RegisterModel?> userRegister(RegisterData registerData,
       String password, BuildContext context) async {
     AuthCubit cubit = AuthCubit.get(context);
-    AuthCubit.get(context).loginRegLoadingStates(true);
+    // AuthCubit.get(context).loginRegLoadingStates(true);
     Response<dynamic> res = await DioHelper.postData(
       url: AppApis.registerUser, data: <String, dynamic>{
       'name': registerData.name,
@@ -97,6 +97,7 @@ class AuthDataSource implements BaseAuthDataSource {
       'password': password,
       'gender': registerData.gender,
       'birth_date': registerData.birth_date,
+      'terms_approved': registerData.terms_approved,
     },);
 
     if (RegisterModel.fromJson(res.data).success == false) {

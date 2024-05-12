@@ -14,6 +14,7 @@ class ProviderMyOrdersRemoteDataSource {
 
   Future<ProviderOrderModel?> getProviderOrders(int limit ,String status,String token, BuildContext context) async{
     dynamic t = await CacheHelper.getDate(key: 'token');
+    print('uuuuuuuuuuuuu${limit}');
     Response<dynamic> res = await DioHelper.getData(url: AppApis.getMyOrdersProvider(limit,status),
         token: token.isNotEmpty?token:t);
 
@@ -42,7 +43,7 @@ class ProviderMyOrdersRemoteDataSource {
        showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
        }else{
          if (res.statusCode == 200) {
-           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context);
+           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context,10);
            ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
            ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
            Navigator.pop(context);
@@ -64,7 +65,7 @@ class ProviderMyOrdersRemoteDataSource {
        showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
        }else{
          if (res.statusCode == 200) {
-           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context);
+           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context,10);
            ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
            ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
            Navigator.pop(context);
@@ -86,7 +87,7 @@ class ProviderMyOrdersRemoteDataSource {
        showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
        }else{
          if (res.statusCode == 200) {
-           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context);
+           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context,10);
            ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
            ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
            Navigator.pop(context);
@@ -108,7 +109,7 @@ class ProviderMyOrdersRemoteDataSource {
        showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
        }else{
          if (res.statusCode == 200) {
-           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context);
+           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context,10);
            ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
            ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
            Navigator.pop(context);
@@ -130,7 +131,7 @@ class ProviderMyOrdersRemoteDataSource {
        showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
        }else{
          if (res.statusCode == 200) {
-           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context);
+           ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context,10);
            ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
            ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
            Navigator.pop(context);

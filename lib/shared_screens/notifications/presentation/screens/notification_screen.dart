@@ -54,7 +54,8 @@ class NotificationScreen extends StatelessWidget {
                   ),
                 ],
               );
-            } else {
+            }
+            else {
               return RefreshIndicator(
                   child: ListView.builder(
                 itemBuilder: (BuildContext context, int index) {

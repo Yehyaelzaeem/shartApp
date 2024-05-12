@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/routing/navigation_services.dart';
+import 'package:shart/features/provider/work_and_products/data/model/get_products_list_model.dart';
 import 'package:shart/widgets/custom_text_field.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../../core/resources/color.dart';
@@ -21,7 +22,7 @@ class ProductsScreen extends StatelessWidget {
       listener: (BuildContext context, WorkProductsState state) {},
       builder: (BuildContext context, WorkProductsState state) {
         if (cubit.getProductsModel !=null) {
-          var data = cubit.getProductsModel!.data!;
+          List<GetProductsModelData> data = cubit.getProductsModel!.data!;
           return Padding(
             padding: const EdgeInsets.only(bottom: 45.0),
             child: Column(

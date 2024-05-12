@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import '../../data/model/get_products_list_model.dart';
 import '../../logic/work_products_cubit.dart';
 import '../screens/edit_product_screen.dart';
@@ -81,7 +82,7 @@ class CustomProductsDisplayWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(
                   top: 16.h, bottom: 5, right: 10, left: 10),
-              child: Text('${getProductsModelData.type}',
+              child: Text('${getLang(context, '${getProductsModelData.type}')}',
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 12.sp,

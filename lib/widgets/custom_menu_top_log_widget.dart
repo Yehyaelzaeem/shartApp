@@ -21,7 +21,7 @@ class CustomTopRowLogo extends StatelessWidget {
         builder: (BuildContext context, AuthState state) {
           return Row(
             children: <Widget>[
-              SizedBox(width: 155.w,),
+              SizedBox(width: MediaQuery.of(context).size.width*0.3,),
              Image.asset(
                 ImagesManager.logoCircle,
               ),
@@ -58,7 +58,6 @@ class CustomTopRowLogo extends StatelessWidget {
 
                 ),
               ),
-              SizedBox(width: 10.w,),
 
             ],
           );

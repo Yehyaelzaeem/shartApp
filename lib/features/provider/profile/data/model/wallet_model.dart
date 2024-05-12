@@ -50,9 +50,9 @@ class WalletModelData {
     data['total_wallets'] = this.totalWallets;
     data['unpaid_wallets'] = this.unpaidWallets;
     data['paid_wallets'] = this.paidWallets;
-    if (this.wallets != null) {
-      data['wallets'] = this.wallets!.map((v) => v.toJson()).toList();
-    }
+    // if (this.wallets != null) {
+    //   data['wallets'] = this.wallets!.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 }
@@ -61,35 +61,41 @@ class Wallets {
   int? id;
   int? orderId;
   int? percent;
-  dynamic amount;
+  dynamic providerAmount;
+  dynamic shartAmount;
   String? status;
   String? date;
+  String? type;
 
   Wallets(
       {this.id,
         this.orderId,
         this.percent,
-        this.amount,
+        this.providerAmount,
+        this.shartAmount,
         this.status,
+        this.type,
         this.date});
 
   Wallets.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     orderId = json['order_id'];
     percent = json['percent'];
-    amount = json['amount'];
+    providerAmount = json['provider_amount'];
+    shartAmount = json['shart_amount'];
     status = json['status'];
     date = json['date'];
+    type = json['type'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['order_id'] = this.orderId;
-    data['percent'] = this.percent;
-    data['amount'] = this.amount;
-    data['status'] = this.status;
-    data['date'] = this.date;
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['id'] = this.id;
+  //   data['order_id'] = this.orderId;
+  //   data['percent'] = this.percent;
+  //   data['amount'] = this.amount;
+  //   data['status'] = this.status;
+  //   data['date'] = this.date;
+  //   return data;
+  // }
 }

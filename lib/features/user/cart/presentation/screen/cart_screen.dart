@@ -5,6 +5,7 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/core/resources/assets_menager.dart';
 import 'package:shart/core/resources/font_manager.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
+import 'package:shart/features/user/cart/data/model/cart_model.dart';
 import 'package:shart/widgets/custom_button.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../../core/resources/color.dart';
@@ -58,7 +59,7 @@ class CartScreen extends StatelessWidget {
                          mainAxisAlignment: MainAxisAlignment.start,
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: <Widget>[
-                           ...cubit.products.map((e) {
+                           ...cubit.products.map((Cart e) {
                              return Padding(
                                padding:  EdgeInsets.only(top: 12.h),
                                child: CardItem(e),

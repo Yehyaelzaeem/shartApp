@@ -1,6 +1,6 @@
 name: shart
 description: A new Flutter project.
-version: 1.0.0+13
+version: 1.0.1+14
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -59,6 +59,7 @@ dependencies:
   image_picker: ^1.0.4
   dropdown_button2: ^2.3.9
 
+
 dev_dependencies:
 
 
@@ -66,7 +67,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/new_logo.png"
   background_color_ios: "#ffffff"
 
   flutter_test:

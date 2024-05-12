@@ -3,6 +3,8 @@ class Routes {
   static const String splash = '/';
   static const String onBoarding = '/on_boarding';
   static const String chooseUserScreen = '/choose-user-screen';
+  static const String authProviderScreen = '/authProviderScreen';
+  static const String authScreen = '/authScreen';
   static const String login = '/login';
   static const String register = '/register';
   static const String walletScreen = '/walletScreen';

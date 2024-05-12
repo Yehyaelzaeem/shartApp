@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shart/core/resources/color.dart';
 import 'package:shart/features/user/auth/data/models/register_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../core/localization/appLocale.dart';
@@ -40,10 +42,26 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController registerConfirmPasswordController = TextEditingController();
  String otpCode='';
  String textFieldOtp='';
+  int type=0;
+ void changeType(int x ){
+   type=x;
+   emit(PutCodeStates());
+ }
  void putCode(String x ){
    controllerOtpTest.text=x;
-   emit(UserLoginState());
+   emit(PutCodeStates());
  }
+  Color color=highGreyColor;
+  Color color2=Colors.blue;
+  void changeColor(Color x){
+    color=x;
+    emit(PutCodeStates());
+  }
+  bool isChecked=false;
+  void changeCheck(bool x){
+    isChecked=x;
+    emit(PutCodeStates());
+  }
   Future<dynamic> getPermission()async{
     bool service;
     LocationPermission permission;
@@ -64,15 +82,17 @@ class AuthCubit extends Cubit<AuthState> {
     return permission;
   }
   void userLogin (BuildContext context){
+    emit(UserLoginLoadingState());
     if(formKey.currentState!.validate()){
       authDataSource.userLogin(phoneController.text.trim(), '3', passwordController.text.trim(), context);
     }
-    emit(UserLoginState());
   }
 
 
   void userRegister (BuildContext context){
+
     if(registerFormKey.currentState!.validate() ){
+      emit(UserRegisterLoadingState());
       if(registerPasswordController.text !=registerConfirmPasswordController.text){
         showToast(text: 'كلمة المرور والتاكد من كلمة المرور ليس متطابقان', state: ToastStates.warning, context: context);
       }
@@ -86,12 +106,13 @@ class AuthCubit extends Cubit<AuthState> {
           countryDataRegisterModel: CountryDataRegisterModel(id: 1),
           cityDataRegisterModel: CityDataRegisterModel(id: 1),
           gender: 'male',
-          birth_date: '1990-01-01'
+          birth_date: '1990-01-01',
+          terms_approved: isChecked==true?'1':'0',
         );
         authDataSource.userRegister(registerData, registerConfirmPasswordController.text.trim(), context);
       }
     }
-    emit(UserRegisterState());
+
   }
 
 
@@ -152,7 +173,7 @@ class AuthCubit extends Cubit<AuthState> {
      UserProfileCubit.get(context).getUserProfile(token, context);
      FavoriteCubit.get(context).getFavoriteProducts(token, context);
      FavoriteCubit.get(context).getFavoriteMerProducts(context);
-     MyOrdersCubit.get(context).getMyOrder(context);
+     MyOrdersCubit.get(context).fetchOrders(context,10);
      MyOrdersCubit.get(context).getMyCheckCars(context);
    }catch(e){
      print('error token $e');

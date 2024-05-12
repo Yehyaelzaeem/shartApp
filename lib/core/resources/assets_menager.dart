@@ -19,7 +19,7 @@ class ImagesManager {
   static String complain = '$_imagesPath/complain.png';
   static String oil = '$_imagesPath/oil.png';
   static String oil2 = '$_imagesPath/oil2.png';
-  static const String logoCircle = '$_imagesPath/logoCircle.png';
+  static const String logoCircle = '$_imagesPath/logo5.png';
   static String otp = '$_imagesPath/svg/otp.svg';
   static String tire1 = '$_imagesPath/tire1.png';
   static String tire2 = '$_imagesPath/tire2.png';
@@ -27,12 +27,14 @@ class ImagesManager {
   static String aetar = '$_imagesPath/aetar.png';
   static String cart33 = '$_imagesPath/cart33.png';
   static String favorite = '$_imagesPath/favorite.png';
-  static String logo = '$_imagesPath/logo.png';
+  static String logo = '$_imagesPath/new_logo.png';
   static String pay = '$_imagesPath/pay.png';
   static String visa = '$_imagesPath/visa.png';
   static String card = '$_imagesPath/card.png';
   static String card2 = '$_imagesPath/card2.png';
   static String rs = '$_imagesPath/rs.png';
+  static String newLogo = '$_imagesPath/new_logo.png';
+  static String logo5 = '$_imagesPath/logo5.png';
   static String testLogo = 'https://firebasestorage.googleapis.com/v0/b/superjet-52b56.appspot.com/o/intro2.png?alt=media&token=8d3d7c10-7948-439f-87ad-a74ba2e4e5bd';
 
 }

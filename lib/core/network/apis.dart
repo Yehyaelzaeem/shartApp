@@ -34,7 +34,8 @@ class AppApis{
   static const String addFavoriteUser='${baseUrl}user/add-remove-product-to-favorite';
   //Cart
   static const String sendOrder='${baseUrl}user/make-order';
-  static const String getMyOrder='${baseUrl}user/get-my-orders';
+  static  String getMyOrder(int limit)=>'${baseUrl}user/get-my-orders?limit=$limit';
+  static  String getMyOrderTest='${baseUrl}user/get-my-orders';
   static  String getSingleOrder(int id)=>'${baseUrl}user/get-order/$id';
   //CheckCar
   static const String sendCheckCars='${baseUrl}user/check-car';
@@ -123,7 +124,7 @@ class AppApis{
 
 
   //Get Provider orders
-  static  String getMyOrdersProvider(int limit , String status)=>'${baseUrl}provider/get-my-orders?&status=$status';
+  static  String getMyOrdersProvider(int limit , String status)=>'${baseUrl}provider/get-my-orders?limit=$limit&&status=$status';
   static  String acceptOrder(int id)=>'${baseUrl}provider/order/accept/${id}';
   static  String rejectOrder(int id)=>'${baseUrl}provider/order/reject/${id}';
   static  String cancelOrder(int id)=>'${baseUrl}provider/order/cancel/${id}';

@@ -32,6 +32,7 @@ class ProviderRegisterData {
   String? phone;
   PhoneCountry? phoneCountry;
   String? image;
+  String? terms_approved;
   int? degree;
   String? experienceYears;
   String? gender;
@@ -70,6 +71,7 @@ class ProviderRegisterData {
         this.phone,
         this.phoneCountry,
         this.image,
+        this.terms_approved,
         this.degree,
         this.experienceYears,
         this.gender,
@@ -152,6 +154,7 @@ class ProviderRegisterData {
       data['phone_country'] = this.phoneCountry!.toJson();
     }
     data['image'] = this.image;
+    data['terms_approved'] = this.terms_approved;
     data['degree'] = this.degree;
     data['experience_years'] = this.experienceYears;
     data['gender'] = this.gender;

@@ -6,6 +6,8 @@ import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
+import '../../../../../widgets/custom_loading2_widget.dart';
+import '../../../myorders/data/models/provider_order_model.dart';
 import '../../../myorders/presentation/screens/order_details_provider.dart';
 import '../../../myorders/presentation/widgets/custom_myorders_widget.dart';
 
@@ -18,8 +20,8 @@ class CustomCurrentOrderHomeWidget extends StatelessWidget {
     return BlocConsumer<ProviderOrdersCubit, ProviderOrdersState>(
       listener: (BuildContext context,ProviderOrdersState state) {},
       builder: (BuildContext context,ProviderOrdersState state) {
-         if(cubit.myOrdersCurrent!=null){
-           if(cubit.myOrdersCurrent!.data!.length==0){
+         if(cubit.myOrdersCurrentList!=null){
+           if(cubit.myOrdersCurrentList!.length==0){
              return Padding(
                padding: const EdgeInsets.all(40.0),
                child: Column(
@@ -43,21 +45,37 @@ class CustomCurrentOrderHomeWidget extends StatelessWidget {
            }else{
              return ListView.builder(
                itemBuilder: (BuildContext context, int index) {
-                 return InkWell(
-                   onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder:
-                         (BuildContext context)=>OrderDetailsProviderScreen(
-                           providerOrderModelData: cubit.myOrdersCurrent!.data![index],isAccess: true,)));
-                   },
-                   child: CustomProductMyOrderWidget(
-                     isHome: true,
-                     providerOrderModelData: cubit.myOrdersCurrent!.data![index],
-                   ),
-                 );
+                 List<ProviderOrderModelData> data =cubit.myOrdersCurrentList!;
+                 if(index < data.length){
+                   return InkWell(
+                     onTap: () {
+                       Navigator.push(context, MaterialPageRoute(builder:
+                           (BuildContext context)=>OrderDetailsProviderScreen(
+                         providerOrderModelData: cubit.myOrdersCurrent!.data![index],isAccess: true,)));
+                     },
+                     child: CustomProductMyOrderWidget(
+                       isHome: true,
+                       providerOrderModelData: cubit.myOrdersCurrent!.data![index],
+                     ),
+                   );
+                 }else{
+                   if (index == data.length) {
+                     if(cubit.loading==true){
+                       return Padding(
+                         padding: const EdgeInsets.all(8),
+                         child: CustomLoading2Widget(color: primaryColor,),
+                       );
+                     }else{
+                       return SizedBox();
+                     }
+                   } else {
+                     return Container(); }
+                 }
+
                },
                shrinkWrap: true,
                physics: NeverScrollableScrollPhysics(),
-               itemCount: cubit.myOrdersCurrent!.data!.length,
+               itemCount: cubit.myOrdersCurrentList!.length+1,
              );
            }
          }else{

@@ -41,7 +41,7 @@ class _CustomWebViewState extends State<CustomWebView> {
            if(widget.type=='product'){
              Map<String, String> responseParams = Uri.parse(url).queryParameters;
              if (responseParams.toString().contains('Successful')) {
-               MyOrdersCubit.get(context).getMyOrder(context);
+               MyOrdersCubit.get(context).fetchOrders(context,10);
                Navigator.pushAndRemoveUntil(context,
                  MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',)), (Route route) => false,);
                showToast(text:getLang(context,'payment_successful'), state: ToastStates.success, context: context);

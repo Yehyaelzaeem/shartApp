@@ -36,7 +36,7 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
   Future<LoginProviderModel?> providerLogin(String phone, String phone_country,
       String password, BuildContext context) async {
     AuthProviderCubit cubit =AuthProviderCubit.get(context);
-    cubit.loginLoadingStates(true);
+    // cubit.loginLoadingStates(true);
     Response<dynamic> res = await DioHelper.postData(
       url: AppApis.loginProvider, data: <String, dynamic>{
       'phone': phone,
@@ -83,7 +83,7 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
   Future<RegisterProviderModel?> providerRegister(ProviderRegisterData registerData,
       String password, BuildContext context) async {
     AuthProviderCubit cubit =AuthProviderCubit.get(context);
-    cubit.loginRegLoadingStates(true);
+    // cubit.loginRegLoadingStates(true);
     Response<dynamic> response = await DioHelper.postData(
       url: AppApis.registerProvider, data: <String, dynamic>{
       'name': registerData.name,
@@ -91,6 +91,7 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
       'phone': registerData.phone,
       'phone_country_id': registerData.phoneCountry!.id ?? '3',
       'password': password,
+      'terms_approved': registerData.terms_approved,
         },);
     if(response.data['success']==false){
       cubit.loginRegLoadingStates(false);

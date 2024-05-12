@@ -12,11 +12,37 @@ class ProviderOrdersCubit extends Cubit<ProviderOrdersState> {
   ProviderOrderModel? myOrdersCurrent;
   ProviderOrderModel? myOrdersPrevious;
   ProviderOrderModel? myOrdersCancelled;
-  Future<dynamic> getMyOrdersCurrentProvider(BuildContext context)async{
-    // myOrdersCurrent=null;
-    await providerMyOrdersRemoteDataSource.getProviderOrders(10, 'current', AuthProviderCubit.get(context).token, context).then((value){
-      myOrdersCurrent =value!;
+
+  int limit =10;
+  bool loading = false;
+  void _showOrders() {
+    loading=false;
+    emit(GetMyOrdersState());
+  }
+  void changeState(){
+    loading=true;
+    emit(GetMyOrdersState());
+  }
+  void fetchOrdersCurrentProvider(BuildContext context,int limit ) async {
+    try {
+      changeState();
+      final List<ProviderOrderModelData> ordersList = await getMyOrdersCurrentProvider(context,limit);
+      myOrdersCurrentList=ordersList;
       emit(GetMyOrdersState());
+      _showOrders();
+    } catch (_) {
+      // Handle error
+    }
+  }
+  List<ProviderOrderModelData>? myOrdersCurrentList;
+  Future<List<ProviderOrderModelData>> getMyOrdersCurrentProvider(BuildContext context, int limit)async{
+    // myOrdersCurrent=null;
+
+   return await providerMyOrdersRemoteDataSource.getProviderOrders(limit, 'current', AuthProviderCubit.get(context).token, context).then((value){
+      myOrdersCurrent =value!;
+      List<ProviderOrderModelData>? data =value.data!;
+      emit(GetMyOrdersState());
+      return data;
     });
   }
   Future<dynamic> getMyOrdersPreviousProvider(BuildContext context)async{

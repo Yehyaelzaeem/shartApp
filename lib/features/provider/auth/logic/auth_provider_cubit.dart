@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shart/features/provider/auth/data/models/register_provider_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import '../../../../core/localization/appLocale.dart';
+import '../../../../core/resources/color.dart';
 import '../../../../core/shared_preference/shared_preference.dart';
 import '../../../../shared_screens/notifications/logic/notification_cubit.dart';
 import '../../myorders/logic/provider_orders_cubit.dart';
@@ -46,7 +47,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
     ProviderProfileCubit.get(context).getAddressListProvider(token, context);
     WorkProductsCubit.get(context).getWorks(context);
     WorkProductsCubit.get(context).getAllProducts(context);
-    ProviderOrdersCubit.get(context).getMyOrdersCurrentProvider(context);
+    ProviderOrdersCubit.get(context).fetchOrdersCurrentProvider(context,10);
     ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
     ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
     emit(GetTokenState());
@@ -55,14 +56,25 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
 
   void providerLogin (BuildContext context){
     if(formKeyProvider.currentState!.validate()){
+      emit(ProviderLoginLoadingState());
       authProviderDataSource.providerLogin(phoneControllerProvider.text.trim(), '3', passwordControllerProvider.text.trim(), context);
     }
-    emit(ProviderLoginState());
   }
 
-
+  Color color=highGreyColor;
+  Color color2=blueColor;
+  void changeColor(Color x){
+    color=x;
+    emit(PutCodeStates());
+  }
+  bool isChecked=false;
+  void changeCheckProvider(bool x){
+    isChecked=x;
+    emit(PutCodeStates());
+  }
   void providerRegister (BuildContext context){
     if(registerFormKeyProvider.currentState!.validate() ){
+      emit(ProviderUserRegisterLoadingState());
       if(registerPasswordControllerProvider.text !=registerConfirmPasswordControllerProvider.text){
         showToast(text: 'كلمة المرور والتاكد من كلمة المرور ليس متطابقان', state: ToastStates.warning, context: context);
       }
@@ -73,14 +85,20 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
           email: registerEmailControllerProvider.text.trim(),
           phone: registerPhoneControllerProvider.text.trim(),
           phoneCountry: PhoneCountry(id: 3),
+          terms_approved: isChecked==true?'1':'0',
+
+
         );
         authProviderDataSource.providerRegister(registerData, registerConfirmPasswordControllerProvider.text.trim(), context);
       }
 
     }
-    emit(ProviderRegisterState());
   }
-
+  int type=0;
+  void changeType(int x ){
+    type=x;
+    emit(PutCodeStates());
+  }
 
   Future<dynamic> forgetPassword(BuildContext context,)async{
     if(phoneController2.text.isNotEmpty){

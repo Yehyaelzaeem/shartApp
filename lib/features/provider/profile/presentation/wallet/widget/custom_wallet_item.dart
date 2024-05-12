@@ -30,40 +30,78 @@ class CustomWalletItem extends StatelessWidget {
                 backgroundImage: AssetImage(ImagesManager.logo),
               ),
               SizedBox(width: 10.w,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text('${getLang(context, 'order_no')} #${wallets.id}',
-                    style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
-                        fontSize: 20.sp,
-                        height: 1,
-                        color: blackColor
-                    ),
-                  ),
-                  Text(wallets.date.toString(),
-                    style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
-                        fontSize: 20.sp,
-                        height: 1,
-                        color: Colors.grey.shade500
-                    ),
-                  ),
-                  Text(wallets.status.toString(),
-                    style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
-                        fontSize: 20.sp,
-                        height: 1,
-                        color: blackColor
-                    ),
-                  ),
-                ],
-              ),
-              Spacer(),
-              Text('${wallets.amount.toString()} ${getLang(context, 'rs')}',
-                style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.bold,
-                    height: 1,
-                    color: redColor.withOpacity(0.8)
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Column(children: [
+                      wallets.orderId!=null?
+                      Text('${getLang(context, 'order_no')} #${wallets.orderId}',
+                        style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                            fontSize: 20.sp,
+                            height: 1,
+                            color: blackColor
+                        ),
+                      ):
+                      Text('${getLang(context, 'transfer_number')} #${wallets.id}',
+                        style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                            fontSize: 20.sp,
+                            height: 1,
+                            color: blackColor
+                        ),
+                      ),
+                      Text(wallets.date.toString(),
+                        style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                            fontSize: 20.sp,
+                            height: 1,
+                            color: Colors.grey.shade500
+                        ),
+                      ),
+                    ],),
+                    wallets.shartAmount!=null?
+                    Row(
+                      children: <Widget>[
+                        Text('${getLang(context,'shart')} : ',
+                          style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                              fontSize: 20.sp,
+                              height: 1,
+                              color: Colors.grey.shade500
+                          ),
+                        ),
+                        Text('${wallets.shartAmount.toString()} ${getLang(context, 'rs')}',
+                          style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                              height: 1,
+                              color: redColor.withOpacity(0.8)
+                          ),
+                        ),
+                      ],
+                    )
+                        :SizedBox.shrink(),
+                  ],
                 ),
+              ),
+              Column(
+                children: <Widget>[
+                  Text('${wallets.providerAmount.toString()} ${getLang(context, 'rs')}',
+                    style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                        fontSize: 25.sp,
+                        fontWeight: FontWeight.bold,
+                        height: 1,
+                        color: redColor.withOpacity(0.8)
+                    ),
+                  ),
+                  // SizedBox(height: 5.h,),
+                  // Text(wallets.status.toString(),
+                  //   style: TextStyles.font16GeryColor400WeightLateefFont.copyWith(
+                  //       fontSize: 20.sp,
+                  //       height: 1,
+                  //       color: Colors.grey.shade500
+                  //   ),
+                  // ),
+                ],
               ),
             ],
           ),

@@ -8,3 +8,4 @@ class GetMyOrderState extends MyOrdersState {}
 class PaymentLoadingState extends MyOrdersState {}
 class PaymentSuccessState extends MyOrdersState {}
 class PaymentErrorState extends MyOrdersState {}
+class GetMyOrdersState extends MyOrdersState {}

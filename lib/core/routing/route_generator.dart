@@ -4,24 +4,17 @@ import 'package:shart/features/provider/bottom_nav/presentation/screens/bottom_n
 import 'package:shart/features/provider/profile/presentation/complete_profile/complete_renter_data_screen.dart';
 import 'package:shart/features/provider/favorite/presentation/screens/favorite_screen.dart';
 import 'package:shart/features/provider/home/presentation/screens/home_screen.dart';
-import 'package:shart/features/provider/messages/presentation/screens/messages_screen.dart';
 import 'package:shart/features/provider/more/presentation/screens/more_screen.dart';
 import 'package:shart/features/provider/myorders/presentation/screens/my_orders_screen.dart';
 import 'package:shart/features/provider/home/presentation/screens/packages/packages_screen.dart';
-import 'package:shart/features/user/auth/ui/screens/verify_account_screen.dart';
-import 'package:shart/features/user/myorders/presentation/screens/invoice_screen.dart';
-import 'package:shart/features/user/myorders/presentation/screens/order_details.dart';
-import 'package:shart/features/user/products/presentation/screens/product_details_screen.dart';
-import 'package:shart/features/user/myorders/presentation/screens/report_screen.dart';
 import 'package:shart/features/user/store/presentation/screens/store_products.dart';
 import 'package:shart/features/user/store/presentation/screens/store_screen.dart';
-
 import '../../features/common/intro/presentation/screens/choose_user_type_screen.dart';
 import '../../features/common/intro/presentation/screens/onboarding_screen.dart';
 import '../../features/common/splash/presentation/screens/splash_screen.dart';
+import '../../features/provider/auth/presentation/screens/auth_screen.dart';
 import '../../features/provider/auth/presentation/screens/forgot_password_screen.dart';
 import '../../features/provider/auth/presentation/screens/login_provider_screen.dart';
-import '../../features/provider/auth/presentation/screens/otp_provider_screen.dart';
 import '../../features/provider/auth/presentation/screens/register_provider_screen.dart';
 import '../../features/provider/profile/presentation/address/screens/provider_add_address.dart';
 import '../../features/provider/profile/presentation/address/screens/provider_addresses.dart';
@@ -30,6 +23,7 @@ import '../../features/provider/profile/presentation/wallet/wallet_screen.dart';
 import '../../features/provider/work_and_products/presentation/screens/add_new_product.dart';
 import '../../features/provider/work_and_products/presentation/screens/product_details_screen.dart';
 import '../../features/provider/work_and_products/presentation/screens/work_and_products_screen.dart';
+import '../../features/user/auth/ui/screens/auth_screen.dart';
 import '../../features/user/auth/ui/screens/forgot_password_screen.dart';
 import '../../features/user/auth/ui/screens/login_screen.dart';
 import '../../features/user/auth/ui/screens/register_screen.dart';
@@ -67,6 +61,11 @@ class RouteGenerator {
     }
     if (settings.name == Routes.chooseUserScreen) {
       return platformPageRoute(const ChooseUserTypeScreen());
+    }
+    if (settings.name == Routes.authProviderScreen) {
+      return platformPageRoute( AuthProviderScreen());
+    } if (settings.name == Routes.authScreen) {
+      return platformPageRoute( AuthScreen());
     }
     if (settings.name == Routes.login) {
       return platformPageRoute(const UserLoginScreen());

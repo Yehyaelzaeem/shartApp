@@ -51,8 +51,11 @@
   "Log_in_first": "Log in first",
   "sign_up": "Sign up",
   "exit": "Exit",
+  "transfer_number": "Transfer Number",
   "sure_exit": "Are you sure you want to go out?",
   "yes": "Yes",
+  "all_data": "There is no other data",
+
   "no": "No",
   "complete_message": "To complete account activation the rest \n of the papers must be uploaded",
   "complete": "Complete",
@@ -291,5 +294,12 @@
   "month": "Month",
   "sure_booking": "Are you sure you want to book?",
   "booking": "Booking",
-  "no_inspection": "There is no inspection report currently"
+  "no_inspection": "There is no inspection report currently",
+  "entry": "Entry",
+  "register": "Register",
+  "welcome_back": "Welcome Back!",
+  "welcome_log": "Please log in to your account.",
+  "welcome": "Welcome!",
+  "agree": "I agree to",
+  "agree2": "Agree"
 }

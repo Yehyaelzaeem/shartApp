@@ -149,7 +149,6 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   SizeModel? listHeight;
   SizeModel? listWidth;
   void getSize(BuildContext context){
-    print('sdsadsadsad');
     productsAndWorksRemoteDataSource.getSharedSize(context).then((SizeModel? value) {
       listSize=value!;
       emit(GetSizeState());
@@ -266,8 +265,6 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
             .get(context)
             .token, productPushDataModel, context);
       } else {
-        print(json.encode(productPushDataModel.toJson()));
-
         showToast(text: 'check your complete data',
             state: ToastStates.error,
             context: context);
@@ -327,13 +324,12 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     }     else{
                    type = 'spare_parts';
     }
-    print(type);
     ProductPushDataModel productPushDataModel = ProductPushDataModel(
       title: productNameSelectedValue.text,
       type: type,
       brandId: brandSelectedId,
       modelId: brandModelSelectedId,
-      state: stateSelectedValue == 'جديد' ? 'new' : 'used',
+      state: stateSelectedValue == 'جديد' ? 'new' :stateSelectedValue == 'new'?'new': 'used',
       description: desController.text,
       price: priceController.text,
       width: widthSelectedValue == 'العرض' ? '' : widthSelectedId,
@@ -345,9 +341,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
         stateSelectedValue.isNotEmpty && desController.text.isNotEmpty &&
         priceController.text.isNotEmpty
     ) {
-      productsAndWorksRemoteDataSource.editProduct(AuthProviderCubit
-          .get(context)
-          .token, productPushDataModel, id, context);
+      productsAndWorksRemoteDataSource.editProduct(AuthProviderCubit.get(context).token, productPushDataModel, id, context);
     } else {
       showToast(text: 'check your complete data',
           state: ToastStates.error,
@@ -355,9 +349,9 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
     }
     emit(EditProductState());
   }
-  var desControllerHitText='';
-  var priceControllerHitText='';
-  var nameControllerHitText='';
+  String desControllerHitText='';
+  String priceControllerHitText='';
+  String nameControllerHitText='';
   void displayTitle(BuildContext context){
     typeSelectedValue = '${getLang(context, 'type')}';
     brandSelectedValue = '${getLang(context, 'brand')}';

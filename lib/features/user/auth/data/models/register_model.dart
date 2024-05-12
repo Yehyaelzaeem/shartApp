@@ -37,6 +37,7 @@ class RegisterData{
   final String?type;
   final String? health_state;
   final String? health_report;
+  final String? terms_approved;
   RegisterData(
   {
      this.id,
@@ -55,7 +56,8 @@ class RegisterData{
      this.password_otp,
      this.type,
      this.health_state,
-     this.health_report
+     this.health_report,
+     this.terms_approved
   });
 
   factory RegisterData.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,7 @@ class RegisterData{
       type: json['type'],
       health_state: json['health_state'],
       health_report: json['health_report'],
+      terms_approved: json['terms_approved'],
     );
   }
 

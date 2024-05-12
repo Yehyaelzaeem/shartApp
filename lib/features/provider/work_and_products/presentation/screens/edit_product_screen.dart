@@ -34,16 +34,6 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
     super.initState();
   }
   bool x=false;
-  // final MultiImagePickerController controller = MultiImagePickerController(
-  //     maxImages: 300,
-  //     picker: (bool allowMultiple) async {
-  //       return await pickImagesUsingImagePicker(allowMultiple);
-  //     });
-  // @override
-  // void dispose() {
-  //   controller.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -347,7 +337,6 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                           });
                         },
                         buttonStyleData: ButtonStyleData(
-
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     color: Colors.grey.withOpacity(0.5)),
@@ -451,6 +440,11 @@ class _ProviderAddNewProductState extends State<ProviderEditProductScreen> {
                             WorkProductsCubit.get(context).editProduct(widget.getProductsModelData.id.toString(), context);
                           }, buttonText:  '${getLang(context, 'my_business_save')}'),
                     ),
+                    InkWell(
+                        onTap: (){
+                          print('rr ${controllerCubit.stateSelectedValue}');
+                        },
+                        child: Text('data')),
                     SizedBox(height: 30.h,),
 
                   ],

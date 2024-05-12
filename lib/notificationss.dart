@@ -232,7 +232,7 @@ class NotificationsFCM {
         enableVibration: true,
         importance: Importance.max,
         priority: Priority.high,
-        icon: 'logo2',
+        icon: 'new_logo',
       // actions: [
       //   AndroidNotificationAction(
       //       "click_action", "FLUTTER_NOTIFICATION_CLICK")

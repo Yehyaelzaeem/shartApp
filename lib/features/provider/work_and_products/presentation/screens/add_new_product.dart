@@ -1,5 +1,4 @@
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +6,6 @@ import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
-import 'package:video_player/video_player.dart';
 import '../../../../../widgets/custom_button.dart';
 import '../../../../../widgets/custom_text_field.dart';
 import '../../../../../widgets/show_toast_widget.dart';
@@ -99,7 +97,7 @@ class ProviderAddNewProduct extends StatelessWidget {
                         listener: (BuildContext context,BookPackageState state) {},
                         builder: (BuildContext context,BookPackageState state) {
                           return Column(
-                            children: [
+                            children: <Widget>[
                               StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
                                 return  CustomDropdownWidget(
                                   text: '${controllerCubit.brandSelectedValue}',

@@ -28,8 +28,6 @@ class CartCubit extends Cubit<CartState> {
   double? long;
   Position? p ;
   Future<void> getLocation(context)async{
-
-
     p =await Geolocator.getCurrentPosition().then((Position value) {
       lat=value.latitude;
       long=value.longitude;
@@ -63,8 +61,6 @@ class CartCubit extends Cubit<CartState> {
     emit(ChangeStepState());
   }
   Future<dynamic> sendOrder(int? userAddressId ,BuildContext context) async {
-    print('cuibt id : $userAddressId');
-
     items.clear();
     for(Cart a in products){
       print(a.providerId);
@@ -82,6 +78,7 @@ class CartCubit extends Cubit<CartState> {
     cartRemoteDataSource.sendOrder(cartItems, context);
     emit(SendOrderState());
   }
+
   void reStartAddressFields(){
     addressController.text='';
     addressStreetController.text='';
@@ -159,7 +156,6 @@ class CartCubit extends Cubit<CartState> {
       }
     }else{
       showToast(text: getLang(context, 'complete_address_data'), state: ToastStates.error, context: context);
-
     }
 
   }

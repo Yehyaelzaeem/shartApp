@@ -1,19 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../core/localization/appLocale.dart';
-import '../../../../../core/resources/color.dart';
-import '../../../../../core/resources/font_manager.dart';
 import '../../../../../widgets/custom_app_bar.dart';
-import '../../../../../widgets/custom_button.dart';
 import '../../logic/cart_cubit.dart';
-
-import '../widgets/custom_cart_items_colum.dart';
-import '../widgets/custom_steo3_body.dart';
 import '../widgets/custom_step1_body.dart';
-import '../widgets/custom_step2_body.dart';
 
 class CompleteOrder extends StatelessWidget {
   const CompleteOrder({super.key});
@@ -22,7 +13,7 @@ class CompleteOrder extends StatelessWidget {
   Widget build(BuildContext context) {
       CartCubit cubit =CartCubit.get(context);
        cubit.getLocation(context);
-     return BlocConsumer<CartCubit,CartState>(builder: (context,state){
+     return BlocConsumer<CartCubit,CartState>(builder: (BuildContext context,CartState state){
        if(cubit.products.isNotEmpty){
          return
            Scaffold(

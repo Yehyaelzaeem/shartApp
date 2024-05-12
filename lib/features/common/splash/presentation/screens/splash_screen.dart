@@ -25,7 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
     timer = Timer(Duration(seconds: 3), () {
       NavigationManager.pushReplacement(Routes.onBoarding);
     });

@@ -49,75 +49,71 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
           // NavigationManager.pushReplacement(Routes.login);
         },
       child: Scaffold(
-        body: Stack(
+        body: Column(
           children: <Widget>[
+            SizedBox(height: 280.h,),
             Image.asset(
-              ImagesManager.splashImg,
+              ImagesManager.newLogo,
               fit: BoxFit.fill,
-              height: double.infinity,
-              width: double.infinity,
+              height: 220.h,
+              width:220.h,
             ),
-            // Positioned(
-            //     top: 47.h,
-            //     left: 20,
-            //     child: Card(child: Text('اللغة'),)),
-            Positioned.fill(
-                bottom: 30.h,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        '${getLang(context, 'entry_as')}',
-                        style: TextStyle(
-                          fontSize: 32.sp,
-                          fontFamily: FontConstants.lateefFont,
-                          fontWeight: FontWeightManager.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15.h, bottom: 16.h),
-                        child: CustomElevatedButton(
-                            onTap: () {
-                              CacheHelper.saveDate(key: 'type', value: 'user');
-                              NavigationManager.push(Routes.login);
-                            },
-                            buttonText: '${getLang(context, 'client')}',
-                            fontColor: blackColor),
-                      ),
-                      CustomElevatedButton(
-                          onTap: () {
-                            CacheHelper.saveDate(key: 'type', value: 'provider');
-                            NavigationManager.push(Routes.providerLogin);
-                          },
-                          buttonText: '${getLang(context, 'provider2')}',
-                          fontColor: blackColor),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16.h),
-                        child: InkWell(
-                          onTap: () {
-                            AuthCubit.get(context).token='';
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(isVisitor: true,)));
-                          },
-                          child: Text(
-                            '${getLang(context, 'visitor')}',
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeightManager.regular,
-                              fontFamily: FontConstants.lateefFont,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 2,
-                        width: 24.w,
-                        color: primaryColor,
-                      )
-                    ],
+            SizedBox(height: 30.h,),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    '${getLang(context, 'entry_as')}',
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      fontFamily: FontConstants.lateefFont,
+                      fontWeight: FontWeightManager.bold,
+                    ),
                   ),
-                ))
+                  Padding(
+                    padding: EdgeInsets.only(top: 15.h, bottom: 16.h),
+                    child: CustomElevatedButton(
+                        onTap: () {
+                          CacheHelper.saveDate(key: 'type', value: 'user');
+                          NavigationManager.push(Routes.authScreen);
+                        },
+                        buttonText: '${getLang(context, 'client')}',
+                        fontColor: blackColor),
+                  ),
+                  CustomElevatedButton(
+                      onTap: () {
+                        CacheHelper.saveDate(key: 'type', value: 'provider');
+                        NavigationManager.push(Routes.authProviderScreen);
+                      },
+                      buttonText: '${getLang(context, 'provider2')}',
+                      fontColor: blackColor),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: InkWell(
+                      onTap: () {
+                        AuthCubit.get(context).token='';
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(isVisitor: true,)));
+                      },
+                      child: Text(
+                        '${getLang(context, 'visitor')}',
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeightManager.regular,
+                          fontFamily: FontConstants.lateefFont,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 2,
+                    width: 24.w,
+                    color: primaryColor,
+                  )
+                ],
+              ),
+            )
           ],
         ),
       )
