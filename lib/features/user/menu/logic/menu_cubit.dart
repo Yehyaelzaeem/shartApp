@@ -57,6 +57,7 @@ class MenuCubit extends Cubit<MenuState> {
   }
   PaymentVisibilityModel? paymentVisibilityModel;
   Future<dynamic> getPaymentVisibility()async{
+    paymentVisibilityModel=null;
     emit(GetPaymentVisibilityState());
     menuRemoteDataSource.getPaymentVisibility().then(( PaymentVisibilityModel? value) {
       paymentVisibilityModel =value;

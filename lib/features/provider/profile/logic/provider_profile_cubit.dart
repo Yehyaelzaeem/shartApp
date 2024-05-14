@@ -80,6 +80,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
     emit(UpdateUserProfile());
   }
   Future<ProviderGetProfileModel?> getProviderProfile (String token ,BuildContext context)async{
+    providerProfileModel=null;
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
         providerProfileModel=value;
@@ -137,6 +138,7 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
 
   //Address
   Future<AddressListModel?> getAddressListProvider(String token ,BuildContext context)async{
+    addressList=null;
     if(token.isNotEmpty){
       providerProfileRemoteDataSource.getAddressListProvider(token, context).then((AddressListModel? value) {
         addressList= value;
@@ -284,11 +286,11 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
    }
   void displayDataOfScreen(){
     ProviderGetProfileModelData data =providerProfileModel!.data!;
-    titleCompleteProfileController.text=data.storeName!;
-    numberCommercialCompleteProfileController.text=data.commercialRegistrationNo!;
-    iPanCompleteProfileController.text=data.ipan!;
-    addressCompleteProfileController.text=data.mainAddress!;
-    dateCompleteProfileController.text=data.commercialEndDate!;
+    titleCompleteProfileController.text=data.storeName??'';
+    numberCommercialCompleteProfileController.text=data.commercialRegistrationNo??'';
+    iPanCompleteProfileController.text=data.ipan??'';
+    addressCompleteProfileController.text=data.mainAddress??'';
+    dateCompleteProfileController.text=data.commercialEndDate??'';
   }
 
   File? profileImageProviderFile;

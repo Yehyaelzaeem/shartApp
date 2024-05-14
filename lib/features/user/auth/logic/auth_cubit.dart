@@ -140,7 +140,6 @@ class AuthCubit extends Cubit<AuthState> {
     emit(VerifyAccountState());
   }
   Future<dynamic> sendFCMToken (String token ,String FcmToken )async{
-    print('----------------------------------------');
      await  authDataSource.sendFCMToken(token, FcmToken);
     emit(FCMTokenState());
   }
@@ -167,8 +166,6 @@ class AuthCubit extends Cubit<AuthState> {
   void getToken(BuildContext context)async{
    try{
      token = await CacheHelper.getDate(key: 'token');
-     print(token);
-
      // NotificationCubit.get(context).getNotification('user',context);
      UserProfileCubit.get(context).getUserProfile(token, context);
      FavoriteCubit.get(context).getFavoriteProducts(token, context);

@@ -70,6 +70,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   bool isUpdateLoading =false;
   //User Profile
   Future<UserProfileModel?> getUserProfile (String token ,BuildContext context)async{
+    userProfileModel=null;
     userProfileRemoteDataSource.getUserProfile(token, context).then((UserProfileModel? value) {
       userProfileModel=value;
       nameController.text=userProfileModel!.data!.name.toString();

@@ -33,6 +33,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
   }
   List<MyOrdersModelData>? myOrderList;
   void fetchOrders(BuildContext context,int limit ) async {
+    myOrderList=null;
     try {
       changeState2();
       final List<MyOrdersModelData> ordersList = await getMyOrder(context,limit);

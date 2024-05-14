@@ -13,7 +13,7 @@ class CustomCompleteProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProviderProfileCubit cubit = ProviderProfileCubit.get(context);
-     // cubit.displayDataOfScreen();
+     cubit.displayDataOfScreen();
     return SingleChildScrollView(
       child: BlocConsumer<ProviderProfileCubit, ProviderProfileState>(
         listener: (BuildContext context,ProviderProfileState state) {},
