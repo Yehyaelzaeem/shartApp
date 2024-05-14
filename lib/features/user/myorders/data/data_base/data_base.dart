@@ -75,7 +75,7 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
       showToast(text: '${res.data['message']}', state: ToastStates.error, context: context);
     }else{
       if (res.statusCode == 200) {
-        MyOrdersCubit.get(context).fetchOrders(context,10);
+        MyOrdersCubit.get(context).fetchOrders(context,10,true);
         Navigator.pop(context);
         showToast(text: '${res.data['message']}', state: ToastStates.success, context: context);
       }

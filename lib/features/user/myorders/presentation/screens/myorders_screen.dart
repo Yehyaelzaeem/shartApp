@@ -41,7 +41,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
   @override
   Widget build(BuildContext context) {
     widget.isNotNotification!=true?
-    MyOrdersCubit.get(context).fetchOrders(context,10):null;
+    MyOrdersCubit.get(context).fetchOrders(context,10,false):null;
     MyOrdersCubit myOrdersCubit =MyOrdersCubit.get(context);
     return PopScope(
       canPop: false,
@@ -98,7 +98,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                       if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                         if(myOrdersCubit.loading!=true){
                           myOrdersCubit.limit=myOrdersCubit.limit+10;
-                          myOrdersCubit.fetchOrders(context,myOrdersCubit.limit);
+                          myOrdersCubit.fetchOrders(context,myOrdersCubit.limit,true);
                         }
                       }
                       return false;
@@ -182,7 +182,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                     ),
                         onRefresh: ()async{
                           await Future.delayed(Duration(seconds: 1));
-                          myOrdersCubit.fetchOrders(context,10);
+                          myOrdersCubit.fetchOrders(context,10,true);
                         }),
                   )
                 )

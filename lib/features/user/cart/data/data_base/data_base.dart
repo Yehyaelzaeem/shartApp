@@ -82,7 +82,7 @@ class CartRemoteDataSource implements BaseCartRemoteDataSource{
       );
       if (response.statusCode == 200) {
         if(response.data['success']==true){
-          MyOrdersCubit.get(context).fetchOrders(context,10);
+          MyOrdersCubit.get(context).fetchOrders(context,10,true);
           cartCubit.changeAddOrderLoading(false);
           cartCubit.addressLocationModel=null;
           showDialog(

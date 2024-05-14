@@ -25,7 +25,7 @@ class ProviderOrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ProviderOrdersCubit cubit =ProviderOrdersCubit.get(context);
     if(isNotNotification!=true){
-      cubit.fetchOrdersCurrentProvider( context,cubit.limit);
+      cubit.fetchOrdersCurrentProvider( context,cubit.limit,false);
       cubit.getMyOrdersPreviousProvider(context);
       cubit.getMyOrdersCancelledProvider(context);
     }
@@ -44,7 +44,7 @@ class ProviderOrdersScreen extends StatelessWidget {
           if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
             if(cubit.loading!=true){
               cubit.limit=cubit.limit+10;
-              cubit.fetchOrdersCurrentProvider(context,cubit.limit);
+              cubit.fetchOrdersCurrentProvider(context,cubit.limit,true);
             }
           }
           return false;

@@ -32,7 +32,8 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     emit(GetMyOrdersState());
   }
   List<MyOrdersModelData>? myOrderList;
-  void fetchOrders(BuildContext context,int limit ) async {
+  void fetchOrders(BuildContext context,int limit,bool hasNotNull ) async {
+    hasNotNull==true?null:
     myOrderList=null;
     try {
       changeState2();
@@ -47,7 +48,6 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
 
 
   Future<List<MyOrdersModelData>> getMyOrder(BuildContext context,int limit)async{
-    myOrdersModel=null;
     emit(GetMyOrderState());
     return myOrderRemoteDataSource.getMyOrder(limit,AuthCubit.get(context).token, context).then((MyOrdersModel? value) {
       myOrdersModel =value!;
@@ -56,7 +56,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     });
   }
 
-  Future<dynamic> getMyCheckCars(BuildContext context)async{
+  Future<dynamic> getMyCheckCars(BuildContext context,)async{
     getCheckCarsModel=null;
     emit(GetMyOrderState());
     myOrderRemoteDataSource.getMyCheckCars(context).then((GetCheckCarsModel? value) {

@@ -47,7 +47,7 @@ class AuthProviderCubit extends Cubit<AuthProviderState> {
     ProviderProfileCubit.get(context).getAddressListProvider(token, context);
     WorkProductsCubit.get(context).getWorks(context);
     WorkProductsCubit.get(context).getAllProducts(context);
-    ProviderOrdersCubit.get(context).fetchOrdersCurrentProvider(context,10);
+    ProviderOrdersCubit.get(context).fetchOrdersCurrentProvider(context,10,false);
     ProviderOrdersCubit.get(context).getMyOrdersPreviousProvider(context);
     ProviderOrdersCubit.get(context).getMyOrdersCancelledProvider(context);
     emit(GetTokenState());

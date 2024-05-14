@@ -58,7 +58,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
         onNotification: (ScrollNotification scrollInfo) {
           if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
             cubit.limit=cubit.limit+10;
-            cubit.fetchOrdersCurrentProvider(context,cubit.limit);
+            cubit.fetchOrdersCurrentProvider(context,cubit.limit,true);
           }
           return false;
         },
@@ -160,7 +160,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen>
           await Future.delayed(Duration(seconds: 1));
           cubit.putNull();
           MenuCubit.get(context).getBanners('provider',context);
-         cubit.fetchOrdersCurrentProvider(context,10);
+         cubit.fetchOrdersCurrentProvider(context,10,true);
          cubit.getMyOrdersPreviousProvider(context);
          cubit.getMyOrdersCancelledProvider(context);
         });
