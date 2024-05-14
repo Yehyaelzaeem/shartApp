@@ -108,7 +108,7 @@ class CustomProductMyOrderWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        '${providerOrderModelData!.status!}',
+                        '${getLang(context, '${providerOrderModelData!.status!}')}',
                         style: TextStyle(
                           fontWeight: FontWeightManager.bold,
                           fontSize: 12.sp,

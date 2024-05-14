@@ -22,8 +22,9 @@ abstract class BaseMyOrderRemoteDataSource {
 class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
   @override
   Future<MyOrdersModel?> getMyOrder(int limit,String token, BuildContext context) async{
+    print('yehhhhhhj ${limit}');
     Response<dynamic> response = await DioHelper.getData(
-        url: AppApis.getMyOrderTest, token: token,);
+        url: AppApis.getMyOrder(limit), token: token,);
     if (response.statusCode == 200) {
     }
     else {

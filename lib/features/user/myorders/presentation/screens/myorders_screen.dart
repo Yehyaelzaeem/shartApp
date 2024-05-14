@@ -93,60 +93,70 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
               if (tabController.index == 0)
                 Expanded(
                   child:
-                  RefreshIndicator(child:
-                  BlocConsumer<MyOrdersCubit, MyOrdersState>(
-                    listener: (BuildContext context,MyOrdersState state) {},
-                    builder: (BuildContext context,MyOrdersState state) {
-                      if(myOrdersCubit.myOrderList!=null){
-                        if(myOrdersCubit.myOrderList!.length==0){
-                          return
-                            Padding(
-                              padding: const EdgeInsets.all(40.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Center(child: Image.asset(ImagesManager.cart33)),
-                                  SizedBox(height: 16.h,),
-                                  Text(
-                                    getLang(context, 'no_order_now'),
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: blackTextColor,
-                                        fontFamily: FontConstants.lateefFont,
-                                        fontWeight: FontWeight.w400
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                  NotificationListener<ScrollNotification>(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                        if(myOrdersCubit.loading!=true){
+                          myOrdersCubit.limit=myOrdersCubit.limit+10;
+                          myOrdersCubit.fetchOrders(context,myOrdersCubit.limit);
                         }
-                        else{
-                          List<MyOrdersModelData> data =myOrdersCubit.myOrderList!;
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              MyOrdersModelData e =data[index];
-                              if(index < data.length){
-                                if(e.status=='pending'){
-                                  return buildCurrentOrder(e.items!,e,e.status!,context);
-                                }
-                                else if(e.status=='accepted'){
-                                  return buildCurrentOrder(e.items!,e,e.status!,context);
-                                }
-                                else if(e.status=='delivered'){
-                                  return buildOrderWithInvoice(e.items!,e,e.status!,context);
+                      }
+                      return false;
+                    },
+                    child: RefreshIndicator(child:
+                    BlocConsumer<MyOrdersCubit, MyOrdersState>(
+                      listener: (BuildContext context,MyOrdersState state) {},
+                      builder: (BuildContext context,MyOrdersState state) {
+                        if(myOrdersCubit.myOrderList!=null){
+                          if(myOrdersCubit.myOrderList!.length==0){
+                            return
+                              Padding(
+                                padding: const EdgeInsets.all(40.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Center(child: Image.asset(ImagesManager.cart33)),
+                                    SizedBox(height: 16.h,),
+                                    Text(
+                                      getLang(context, 'no_order_now'),
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: blackTextColor,
+                                          fontFamily: FontConstants.lateefFont,
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                          }
+                          else{
+                            List<MyOrdersModelData> data =myOrdersCubit.myOrderList!;
+                            return ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                if(index < data.length){
+                                  MyOrdersModelData e =data[index];
 
-                                }
-                                else if(e.status=='preparing'){
-                                  return buildCurrentOrder(e.items!,e,e.status!,context);
+                                  if(e.status=='pending'){
+                                    return buildCurrentOrder(e.items!,e,e.status!,context);
+                                  }
+                                  else if(e.status=='accepted'){
+                                    return buildCurrentOrder(e.items!,e,e.status!,context);
+                                  }
+                                  else if(e.status=='delivered'){
+                                    return buildOrderWithInvoice(e.items!,e,e.status!,context);
 
-                                }
-                                else{
-                                  return buildCancelledOrder(e.items!,e,e.status!,context);
-                                }
-                              }else{
-                                if (index == data.length) {
+                                  }
+                                  else if(e.status=='preparing'){
+                                    return buildCurrentOrder(e.items!,e,e.status!,context);
+
+                                  }
+                                  else{
+                                    return buildCancelledOrder(e.items!,e,e.status!,context);
+                                  }
+                                }else if(index == data.length){
                                   if(myOrdersCubit.loading==true){
                                     return Padding(
                                       padding: const EdgeInsets.all(8),
@@ -155,26 +165,28 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                                   }else{
                                     return SizedBox();
                                   }
-                                } else {
-                                  return Container(); }
-                              }
-                            },
-                            itemCount: data.length,
-                            shrinkWrap: true,
-                          );
-                        }
-                      }else{
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 100.0),
-                          child: Center(child: CircularProgressIndicator(),),
-                        );}
-                    },
-                  ),
-                      onRefresh: ()async{
-                        await Future.delayed(Duration(seconds: 1));
-                        myOrdersCubit.fetchOrders(context,10);
-                      })
+                                }else{
+                                  return SizedBox();
+                                }
+                              },
+                              itemCount: data.length+1,
+                              shrinkWrap: true,
+                            );
+                          }
+                        }else{
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 100.0),
+                            child: Center(child: CircularProgressIndicator(),),
+                          );}
+                      },
+                    ),
+                        onRefresh: ()async{
+                          await Future.delayed(Duration(seconds: 1));
+                          myOrdersCubit.fetchOrders(context,10);
+                        }),
+                  )
                 )
+
               else
                 Expanded(
                   child: RefreshIndicator(child:

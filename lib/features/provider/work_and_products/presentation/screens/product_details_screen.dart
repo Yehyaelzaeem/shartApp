@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import '../../../../../core/resources/assets_menager.dart';
 import '../../data/model/get_products_list_model.dart';
@@ -13,7 +14,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 70.h),
         child: CustomAppBar(
-          title: 'تفاصيل المنتج',
+          title: '${getLang(context, 'product_details')}',
           hasBackButton: true,
         ),
       ),
@@ -29,7 +30,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'النوع',
+              '${getLang(context, 'type')}',
               style: TextStyle(
                   fontSize: 14.sp,
                   fontFamily: 'Lateef',
@@ -37,10 +38,11 @@ class ProviderProductDetailsScreen extends StatelessWidget {
             ),
             TextField(
                 decoration:
-                    InputDecoration(hintText: '${getProductsModelData.type}', enabled: false)),
+                    InputDecoration(hintText: '${
+                        getLang(context, '${getProductsModelData.type}')}', enabled: false)),
             SizedBox(height: 25.h),
             Text(
-              'اسم المنتج',
+              '${getLang(context, 'product_name')}',
               style: TextStyle(
                   fontSize: 14.sp,
                   fontFamily: 'Lateef',
@@ -54,7 +56,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'الماركة',
+                  '${getLang(context, 'brand')}',
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontFamily: 'Lateef',
@@ -70,7 +72,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
                Text(
-                 'العرض',
+                 '${getLang(context, 'width')}',
                  style: TextStyle(
                      fontSize: 14.sp,
                      fontFamily: 'Lateef',
@@ -80,7 +82,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                    decoration: InputDecoration(hintText: '${getProductsModelData.width!.name}', enabled: false)),
                SizedBox(height: 25.h),
                Text(
-                 'الإرتفاع',
+                 '${getLang(context, 'height')}',
                  style: TextStyle(
                      fontSize: 14.sp,
                      fontFamily: 'Lateef',
@@ -90,7 +92,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
                    decoration: InputDecoration(hintText: '${getProductsModelData.height!.name}', enabled: false)),
                SizedBox(height: 25.h),
                Text(
-                 'المقاس',
+                 '${getLang(context, 'size')}',
                  style: TextStyle(
                      fontSize: 14.sp,
                      fontFamily: 'Lateef',
@@ -103,7 +105,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
            ):SizedBox.shrink(),
             SizedBox(height: 25.h),
             Text(
-              'الحالة',
+              '${getLang(context, 'status')}',
               style: TextStyle(
                   fontSize: 14.sp,
                   fontFamily: 'Lateef',
@@ -115,7 +117,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 25.h, bottom: 10.h),
               child: Text(
-                'الوصف',
+                '${getLang(context, 'des')}',
                 style: TextStyle(
                     fontSize: 14.sp,
                     fontFamily: 'Lateef',
@@ -131,7 +133,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
             ),
             SizedBox(height: 25.h),
             Text(
-              'صور الجنط',
+              '${getLang(context, 'rim_image')}',
               style: TextStyle(
                   fontSize: 14.sp,
                   fontFamily: 'Lateef',
@@ -167,7 +169,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 25.h, bottom: 10.h),
               child: Text(
-                'سعر الجنط',
+                '${getLang(context, 'rim_price')}',
                 style: TextStyle(
                     fontSize: 14.sp,
                     fontFamily: 'Lateef',
@@ -175,7 +177,7 @@ class ProviderProductDetailsScreen extends StatelessWidget {
               ),
             ),
             Text(
-              '${getProductsModelData.price}  ر.س',
+              '${getProductsModelData.price} ${getLang(context, 'rs')}',
               style: TextStyle(fontSize: 16.sp),
             ),
             SizedBox(height: 50,)

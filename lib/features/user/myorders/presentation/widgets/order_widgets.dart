@@ -108,7 +108,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                     ),
                     Expanded(
                       child: Text(
-                        '${myOrdersModelData.status!}',
+                        '${getLang(context, '${myOrdersModelData.status!}')}',
                         style: TextStyle(
                           fontWeight: FontWeightManager.bold,
                           fontSize: 12.sp,
@@ -311,7 +311,7 @@ InkWell buildOrderWithInvoice(List<Items> item,MyOrdersModelData myOrdersModelDa
                         ),
                         Expanded(
                           child: Text(
-                            '${myOrdersModelData.status!}',
+                            '${getLang(context, '${myOrdersModelData.status!}')}',
                             style: TextStyle(
                               fontWeight: FontWeightManager.bold,
                               fontSize: 12.sp,
@@ -632,7 +632,7 @@ InkWell buildCancelledOrder(List<Items> item,MyOrdersModelData myOrdersModelData
                     ),
                     Expanded(
                       child: Text(
-                        '${myOrdersModelData.status!}',
+                        '${getLang(context, '${myOrdersModelData.status!}')}',
                         style: TextStyle(
                           fontWeight: FontWeightManager.bold,
                           fontSize: 12.sp,

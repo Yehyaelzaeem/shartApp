@@ -35,7 +35,6 @@ class AppApis{
   //Cart
   static const String sendOrder='${baseUrl}user/make-order';
   static  String getMyOrder(int limit)=>'${baseUrl}user/get-my-orders?limit=$limit';
-  static  String getMyOrderTest='${baseUrl}user/get-my-orders';
   static  String getSingleOrder(int id)=>'${baseUrl}user/get-order/$id';
   //CheckCar
   static const String sendCheckCars='${baseUrl}user/check-car';

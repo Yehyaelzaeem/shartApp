@@ -10,6 +10,7 @@ import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/provider/work_and_products/data/model/size_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 import 'package:video_player/video_player.dart';
+import '../../../../core/routing/navigation_services.dart';
 import '../../../../widgets/multi_image/multi_image_picker_view.dart';
 import '../data/data_base/data_base.dart';
 import '../data/model/get_products_list_model.dart';
@@ -86,7 +87,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
 
   }
   void reStarting( GetProductsModelData getProductsModelData){
-    typeSelectedValue='${getProductsModelData.type}';
+    typeSelectedValue='${getLang(NavigationManager.navigationKey.currentContext!, '${getProductsModelData.type}')}';
 
     if(getProductsModelData.type=='spare_parts'){
       changeTypeAdd(false);
