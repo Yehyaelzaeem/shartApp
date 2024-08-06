@@ -43,7 +43,7 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
           'lat':'${addressModelData.lat}',
           'lng':'${addressModelData.lng}',
           'phone':'${addressModelData.phone}',
-          'note':'',
+          'note':'${addressModelData.note}',
         }
     );
     if (response.statusCode == 200) {
@@ -53,6 +53,7 @@ class UserProfileRemoteDataSource implements BaseUserProfileRemoteDataSource {
       cubit.addressAddNameController.text='';
       cubit.addressAddController.text='';
       cubit.addressAddPhoneController.text='';
+      cubit.addressNoteController.text='';
       cubit.long =0.0;
       cubit.lat =0.0;
       cubit.addressLocationModel=null;

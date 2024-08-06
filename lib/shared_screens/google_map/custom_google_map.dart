@@ -16,15 +16,19 @@ import '../../features/provider/profile/presentation/address/screens/provider_ad
 import '../../features/user/cart/presentation/widgets/custom_address-user_widget.dart';
 import '../../features/user/profile/logic/user_profile_cubit.dart';
 import '../../features/user/profile/presentation/address/screens/user_add_address.dart';
+import '../../features/user/profile/presentation/address/screens/user_addresses.dart';
 import '../../widgets/custom_text_field.dart';
 import 'address_location_model.dart';
-
+typedef OnMap =void Function (AddressLocationModel addressLocationModel);
 class CustomGoogleMapScreen extends StatefulWidget {
   final double lat;
   final double long;
   final String type;
   final int? id;
-  const CustomGoogleMapScreen({super.key, required this.lat, required this.long, required this.type, this.id});
+  final OnMap? onMap;
+
+  const CustomGoogleMapScreen({super.key, required this.lat, required this.long,
+    required this.type, this.id, this.onMap});
 
   @override
   State<CustomGoogleMapScreen> createState() => _MapScreenState();
@@ -35,7 +39,16 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
   LatLng? markerPosition; // Initial position (San Francisco)
   @override
   void initState() {
-    markerPosition =LatLng(widget.lat, widget.long);
+    try{
+     final LatLng latLng= LatLng(widget.lat, widget.long);
+     markerPosition =latLng;
+     getAddressPosition(latLng);
+    }catch(e){
+      UserProfileCubit cubit =UserProfileCubit.get(context);
+      markerPosition =LatLng(cubit.lat!, cubit.long!);
+      getAddressPosition(LatLng(cubit.lat!, cubit.long!));
+    }
+
     super.initState();
   }
   TextEditingController searchController = TextEditingController();
@@ -50,6 +63,7 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('${getLang(context, 'c_location')}',
@@ -81,8 +95,6 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
                 });
               },
               onTap: (LatLng position) {
-                print('s  lat : ${position.latitude}');
-                print('s  long : ${position.longitude}');
                 _updateMarker(position);
                 getAddressPosition(position);
               },
@@ -107,12 +119,7 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
             padding: EdgeInsets.symmetric(horizontal: 25.w ,vertical: 10.h),
             child: CustomElevatedButton(
                 onTap: (){
-                  if(getCountry.isEmpty){
-                    LatLng latng=LatLng(widget.lat, widget.long);
-                    setState(() {
-                      getAddressPosition(latng);
-                    });
-                  }
+
                   AddressLocationModel addressModel =AddressLocationModel(
                     id: widget.id!=null? widget.id!:null,
                     lat: getLat.isEmpty?widget.lat.toString():getLat ,
@@ -130,8 +137,18 @@ class _MapScreenState extends State<CustomGoogleMapScreen> {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CompleteOrder()));
                       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserAddAddressScreen()));
 
+                  }else if (widget.type=='userAddress'){
+                     UserProfileCubit.get(context).addressLocationModel =addressModel;
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserAddAddressScreen()));
 
-                  }else{
+                    }else if (widget.type=='userAddressUpdate'){
+
+                     UserProfileCubit.get(context).addressLocationModelUpdate =addressModel;
+                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>UserAddressesScreen()));
+                     widget.onMap!(addressModel);
+                      Navigator.pop(context);
+                    }
+                    else{
                       if(widget.type=='providerAddress'){
                         ProviderProfileCubit.get(context).putDataOfLocationEditor(addressModel);
                         Navigator.of(context).pop();

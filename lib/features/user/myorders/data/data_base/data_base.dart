@@ -25,10 +25,7 @@ class MyOrderRemoteDataSource implements BaseMyOrderRemoteDataSource{
     print('yehhhhhhj ${limit}');
     Response<dynamic> response = await DioHelper.getData(
         url: AppApis.getMyOrder(limit), token: token,);
-    if (response.statusCode == 200) {
-    }
-    else {
-    }
+
     if (MyOrdersModel.fromJson(response.data).success == false) {
     }
     else{

@@ -16,7 +16,6 @@ class UserAddAddressScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    print("building....sss..");
     UserProfileCubit.get(context).getLocation(context);
     UserProfileCubit cubit =UserProfileCubit.get(context);
     return Scaffold(
@@ -44,47 +43,10 @@ class UserAddAddressScreen extends StatelessWidget{
                 AddressLocationModel? x =UserProfileCubit.get(context).addressLocationModel;
                 return     Column(
                   children: <Widget>[
-                    CustomRadioAddAddressWidget(),
-                    if (cubit.addressType == 1)
-                      StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
-                        return Padding(
-                          padding: EdgeInsets.only(top: 25.h),
-                          child: DropdownButton2<String>(
-                            isExpanded: true,
-                            underline: const SizedBox.shrink(),
-                            hint: Text(
-                              '${cubit.selectValue}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                              ),
-                            ),
-                            items: <String>['عنوان1', 'عنوان2', 'عنوان3']
-                                .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ))
-                                .toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                cubit.selectValue = value!;
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                                decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: Colors.grey.withOpacity(0.5)),
-                                    borderRadius: BorderRadius.circular(8.r))),
-                          ),
-                        );
-                      }),
-                    Padding(
+                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child: CustomTextField(
-                          hintText: getLang(context, 'branch_name'),
+                          hintText: getLang(context, 'street_name'),
                           hintColor: Colors.black,
                           controller: cubit.addressAddNameController),
                     ),
@@ -103,7 +65,7 @@ class UserAddAddressScreen extends StatelessWidget{
                       onPressed: ()async{
                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>CustomGoogleMapScreen(
                          lat: cubit.lat!,
-                         long: cubit.long!, type: 'user',
+                         long: cubit.long!, type: 'userAddress',
                        )));
                       }, child: Row(
                         children: [
@@ -144,11 +106,18 @@ class UserAddAddressScreen extends StatelessWidget{
                         hintColor: Colors.black,
                         textInputType: TextInputType.phone,
                         controller: cubit.addressAddPhoneController),
-
-                    cubit.isAddLoading?Padding(
+                    SizedBox(height: 24.h,),
+                    CustomTextField(
+                        hintText:  getLang(context, 'special_marque'),
+                        hintColor: Colors.black,
+                        textInputType: TextInputType.phone,
+                        controller: cubit.addressNoteController),
+                    cubit.isAddLoading?
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child: Center(child: CircularProgressIndicator(),),
-                    ):Padding(
+                    ):
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.h),
                       child:
                       CustomElevatedButton(onTap: () {

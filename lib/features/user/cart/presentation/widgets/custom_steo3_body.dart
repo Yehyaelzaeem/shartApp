@@ -318,7 +318,7 @@ class CustomStep3BodyWidget extends StatelessWidget {
               return
                 cubit.isAddOrderLoading?Center(child: CircularProgressIndicator(),) :
                 CustomElevatedButton(onTap: (){
-                     cubit.addAddressUser(AuthCubit.get(context).token, context);
+                     // cubit.addAddressUser(AuthCubit.get(context).token, context);
                       // _showDialog(context);
                     },
                         buttonText: getLang(context, 'confirm_payment'));

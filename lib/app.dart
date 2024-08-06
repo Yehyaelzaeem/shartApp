@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
   final Widget widget;
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return
+      MultiBlocProvider(
         providers: <SingleChildWidget>[
         BlocProvider<AuthCubit>(create: (BuildContext context) => AuthCubit()),
         BlocProvider<UserProfileCubit>(create: (BuildContext context) => UserProfileCubit()),

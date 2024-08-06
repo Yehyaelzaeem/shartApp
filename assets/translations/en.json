@@ -8,6 +8,8 @@
   "change_language": "Change the language",
   "sign_out": "Sign Out",
   "go": "Go",
+  "there_no_addresses": "There are no addresses currently",
+
   "sign": "Login",
   "back": "Back",
   "notification_no_data": "There are no notifications currently",

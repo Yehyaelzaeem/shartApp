@@ -2,7 +2,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shart/features/provider/home/logic/provider_home_cubit.dart';
-import 'package:shart/features/user/profile/presentation/address/screens/user_addresses.dart';
 import '../../../core/localization/appLocale.dart';
 import '../../../core/resources/assets_menager.dart';
 import '../../../core/resources/font_manager.dart';
@@ -13,21 +12,18 @@ import '../../../features/provider/auth/logic/auth_provider_cubit.dart';
 import '../../../features/provider/home/presentation/screens/packages/packages_screen.dart';
 import '../../../features/provider/profile/data/model/user_profile_model.dart';
 import '../../../features/provider/profile/logic/provider_profile_cubit.dart';
-import '../../../features/provider/work_and_products/logic/work_products_cubit.dart';
 import '../../../features/user/auth/logic/auth_cubit.dart';
-import '../../../features/user/book_package_service/logic/book_package_cubit.dart';
 import '../../../features/user/menu/logic/menu_cubit.dart';
 import '../../../features/user/merchants/logic/merchants_cubit.dart';
 import '../../../features/user/merchants/presentation/screens/merchants_screen.dart';
 import '../../../features/user/profile/presentation/about_company/about_company_screen.dart';
+import '../../../features/user/profile/presentation/address/screens/user_addresses.dart';
 import '../../../features/user/profile/presentation/complains/complains_screen.dart';
 import '../../../features/user/profile/presentation/conditions_terms/conditions_screen.dart';
 import '../../../features/user/profile/data/model/user_profile_model.dart';
 import '../../../features/user/profile/logic/user_profile_cubit.dart';
 import '../../../features/user/profile/presentation/widgets/profile_item_widget.dart';
-import '../../../features/user/store/presentation/screens/store_screen.dart';
 import '../../../widgets/custom_alert_dialog.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class CustomBodyMore extends StatelessWidget {
   const CustomBodyMore({super.key,  this.userProfileModel,  this.providerGetProfileModel, required this.type});
@@ -104,20 +100,20 @@ class CustomBodyMore extends StatelessWidget {
             NavigationManager.push(Routes.providerEditProfile);
           },
           text: getLang(context,'edite_profile'),),
-          type!='user'?buildProfileItemWidget(
+          buildProfileItemWidget(
             iconPath: IconsManager.myAddress,
             function: () {
               if( type=='user'){
 
-                // UserProfileCubit.get(context).getAddressListUser(AuthCubit.get(context).token, context);
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>UserAddressesScreen()));
+                UserProfileCubit.get(context).getAddressListUser(AuthCubit.get(context).token, context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>UserAddressesScreen()));
 
               }else{
                 ProviderProfileCubit.get(context).getAddressListProvider(AuthProviderCubit.get(context).token, context);
                 NavigationManager.push(Routes.providerAddresses);
               }
             },
-            text: getLang(context,'my_addresses')):SizedBox.shrink(),
+            text: getLang(context,'my_addresses')),
 
         // type!='user'?
         // buildProfileItemWidget(

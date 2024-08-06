@@ -39,6 +39,7 @@ class CartCubit extends Cubit<CartState> {
 
   }
   AddressLocationModel? addressLocationModel;
+  AddressModelData? orderAddressModelData;
   int addressType = 0;
   int currentStep =0;
   int radioValue =0;
@@ -63,7 +64,6 @@ class CartCubit extends Cubit<CartState> {
   Future<dynamic> sendOrder(int? userAddressId ,BuildContext context) async {
     items.clear();
     for(Cart a in products){
-      print(a.providerId);
       items.add(Items(
         providerId:int.parse(a.providerId!) ,
         providerProductId:int.parse(a.productId!),
@@ -88,7 +88,7 @@ class CartCubit extends Cubit<CartState> {
     lat=0.0;
   }
 
- Future<dynamic> addProduct(Cart product) async {
+  Future<dynamic> addProduct(Cart product) async {
     if (products.where((Cart element) => element.id == product.id).toList().length == 0) products.add(product);
     products.where((Cart element) => element.id == product.id).first.count = 1;
     emit(GetCartDataState());
@@ -105,11 +105,9 @@ class CartCubit extends Cubit<CartState> {
     else
       products.where((Cart element) => element.id == product.id).first.count = product.count;
     emit(GetCartDataState());  }
-
-  Future<dynamic>  removeProduct(Cart product) async {
+  Future<dynamic> removeProduct(Cart product) async {
     products.removeWhere((Cart element) => element.id == product.id);
     emit(GetCartDataState());  }
-
   double totalPrice() {
     double total = 0;
     products.forEach((Cart element) {
@@ -117,7 +115,6 @@ class CartCubit extends Cubit<CartState> {
     });
     return total;
   }
-
   void removeAll() {
     products.clear();
   }
@@ -140,25 +137,25 @@ class CartCubit extends Cubit<CartState> {
   }
   int addressId=0;
 
-  Future<dynamic> addAddressUser(String token ,BuildContext context)async{
-    if(addressLocationModel !=null){
-      AddressModelData addressModelData= AddressModelData(
-        name: '${addressController.text}',
-        address: '${addressStreetController.text}/${addressNuHouseController.text}/${addressMarkController.text}',
-        phone: UserProfileCubit.get(context).userProfileModel!=null?UserProfileCubit.get(context).userProfileModel!.data!.phone:'123456789',
-        lng: long!.toString(),
-        lat: lat!.toString(),
-        note: '${addressLocationModel!.country}/${addressLocationModel!.bigCity}/${addressLocationModel!.city}/${addressLocationModel!.locality}/${addressLocationModel!.street}'
-      );
-      if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
-        cartRemoteDataSource.addAddressUser(addressModelData ,token, context);
-        emit(ChangeLoadingState());
-      }
-    }else{
-      showToast(text: getLang(context, 'complete_address_data'), state: ToastStates.error, context: context);
-    }
-
-  }
+  // Future<dynamic> addAddressUser(String token ,BuildContext context)async{
+  //   if(addressLocationModel !=null){
+  //     AddressModelData addressModelData= AddressModelData(
+  //       name: '${addressController.text}',
+  //       address: '${addressStreetController.text}/${addressNuHouseController.text}/${addressMarkController.text}',
+  //       phone: UserProfileCubit.get(context).userProfileModel!=null?UserProfileCubit.get(context).userProfileModel!.data!.phone:'123456789',
+  //       lng: long!.toString(),
+  //       lat: lat!.toString(),
+  //       note: '${addressLocationModel!.country}/${addressLocationModel!.bigCity}/${addressLocationModel!.city}/${addressLocationModel!.locality}/${addressLocationModel!.street}'
+  //     );
+  //     if(token.isNotEmpty&&addressModelData.name!=null&&addressModelData.address!=null&&addressModelData.phone!=null&&addressModelData.lng!=null&&addressModelData.lat!=null){
+  //       cartRemoteDataSource.addAddressUser(addressModelData ,token, context);
+  //       emit(ChangeLoadingState());
+  //     }
+  //   }else{
+  //     showToast(text: getLang(context, 'complete_address_data'), state: ToastStates.error, context: context);
+  //   }
+  //
+  // }
 
   void changeAddingAddress(bool x){
     isAddingAddress=x;

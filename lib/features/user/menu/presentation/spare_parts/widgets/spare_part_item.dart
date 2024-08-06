@@ -49,7 +49,6 @@ class SparePartItemWidget extends StatelessWidget {
       Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          image.isNotEmpty?
           Container(
             width: 167.w,
             height: 131.h,
@@ -61,10 +60,19 @@ class SparePartItemWidget extends StatelessWidget {
             ),
             child: Image.network(image,
               errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                return Image.asset(ImagesManager.holder);
+                return ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10.r),
+                      topLeft: Radius.circular(10.r)),
+                  child: Image.asset(ImagesManager.holder,
+                  fit: BoxFit.cover,
+                    width: 167.w,
+                    height: 131.h,
+                  ),
+                );
               },
             )
-          ):SizedBox.shrink(),
+          ),
          FittedBox(
            child: Column(
              children: [

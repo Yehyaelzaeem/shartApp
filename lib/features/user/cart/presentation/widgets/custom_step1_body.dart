@@ -150,13 +150,14 @@ class CustomStepBody1Widget extends StatelessWidget {
             ),
             SizedBox(height: 16.h,),
             CustomAddressUserWidget(),
+            SizedBox(height: 16.h,),
             BlocConsumer<CartCubit, CartState>(
               listener: (BuildContext context,CartState state) {},
               builder: (BuildContext context, CartState state) {
                 return
                   cubit.isAddOrderLoading?Center(child: CircularProgressIndicator(),) :
                   CustomElevatedButton(onTap: (){
-                    cubit.addAddressUser(AuthCubit.get(context).token, context);
+                    cubit.sendOrder(cubit.orderAddressModelData!.id, context);
                   },
                       buttonText: getLang(context, 'sure'));
               },

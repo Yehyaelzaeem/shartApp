@@ -34,6 +34,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   TextEditingController addressAddNameController = TextEditingController();
   TextEditingController addressAddController = TextEditingController();
   TextEditingController addressAddPhoneController = TextEditingController();
+  TextEditingController addressNoteController = TextEditingController();
   final GlobalKey<FormState> formKeyEdit = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
@@ -66,6 +67,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   int addressType = 0;
 
   AddressLocationModel? addressLocationModel;
+  AddressLocationModel? addressLocationModelUpdate;
   bool isGetLoading =false;
   bool isUpdateLoading =false;
   //User Profile
@@ -165,7 +167,6 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       });
     }
     else{
-      print('token is empty getProviderProfile');
     }
     return null;
   }
@@ -174,6 +175,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       name: addressAddNameController.text,
       address: addressAddController.text,
       phone: addressAddPhoneController.text,
+      note: addressNoteController.text,
       lng: long!.toString(),
       lat: lat!.toString(),
     );
@@ -185,10 +187,10 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     }
     return null;
   }
-  Future<dynamic> editAddressUser(AddressModelData addressData,int id,String token ,BuildContext context)async{
+  Future<dynamic> editAddressUser(AddressModelData addressData,AddressModelData newAddressModelData,String token ,BuildContext context)async{
 
     AddressModelData addressModelData= AddressModelData(
-      id: id,
+      id: int.parse('${addressData.id}'),
       name: addressNameController.text.isEmpty?addressData.name:addressNameController.text,
       address: addressController.text.isEmpty?addressData.address:addressController.text,
       phone: addressPhoneController.text.isEmpty?addressData.phone:addressPhoneController.text,
@@ -197,7 +199,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     );
 
     if(token.isNotEmpty){
-      userProfileRemoteDataSource.editAddressUser(addressModelData ,token, context);
+      userProfileRemoteDataSource.editAddressUser(newAddressModelData ,token, context);
       // getAddressListProvider(token,context);
     }
     else{

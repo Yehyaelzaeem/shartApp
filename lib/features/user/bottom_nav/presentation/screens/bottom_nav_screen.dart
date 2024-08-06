@@ -44,6 +44,7 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
     UserOrdersScreen(isNotNotification: true,initialIndex: widget.initialIndex,),
     CartBottomNavScreen(),
     UserMoreScreen(),];
+  UserProfileCubit.get(context).getLocation(context);
   MenuCubit.get(context).getPaymentVisibility();
   WorkProductsCubit workProductsCubit = WorkProductsCubit.get(context);
   workProductsCubit.getSize(context);

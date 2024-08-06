@@ -13,6 +13,7 @@ import '../../../../../shared_screens/visitor_screen/widget/visitor_dailog.dart'
 import '../../../../../widgets/custom_app_bar.dart';
 import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../../../menu/presentation/spare_parts/screens/spare_parts_screen.dart';
+import '../../../profile/logic/user_profile_cubit.dart';
 import '../../logic/cart_cubit.dart';
 import '../widgets/cart_item_widget.dart';
 import 'complete_order.dart';
@@ -126,6 +127,8 @@ class CartScreen extends StatelessWidget {
                           onTap: (){
                             if(AuthCubit.get(context).token.isNotEmpty){
                               CartCubit.get(context).changeStep(0);
+                              UserProfileCubit.get(context).getAddressListUser(AuthCubit.get(context).token, context);
+
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (BuildContext context)=>CompleteOrder()));
                             }else{

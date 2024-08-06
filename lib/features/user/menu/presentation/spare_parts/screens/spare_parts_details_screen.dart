@@ -131,7 +131,8 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                           productName: data2.title,
                                           productPrice: data2.price,
                                           description: data2.description,
-                                          image: data2.images![0].image,
+                                          image: data2.images!=null&&data2.images!.isNotEmpty?
+                                          data2.images![0].image:'',
                                           type: data2.type,
                                           productState: data2.productStatus,
                                           providerId: data2.provider!=null?data2.provider!.id!.toString():'',
@@ -144,7 +145,8 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                 // NavigationManager.push(Routes.productDetails);
                               },
                               child: SparePartItemWidget(brandName: '${cubit.productModel!.data![index].brand!=null?cubit.productModel!.data![index].brand!.name:''}',
-                                image: '${cubit.productModel!.data![index].images![0].image}',
+                                image: '${cubit.productModel!.data![index].images!=null &&cubit.productModel!.data![index].images!.isNotEmpty?
+                                (cubit.productModel!.data![index].images![0].image??''):''}',
                                 price: cubit.productModel!.data![index].price.toString(),
                                 productName: '${cubit.productModel!.data![index].title}',
                                 id: '${cubit.productModel!.data![index].id}',
@@ -155,7 +157,8 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                     productName: data2.title,
                                     productPrice: data2.price,
                                     description: data2.description,
-                                    image: data2.images![0].image,
+                                    image:  data2.images!=null&& data2.images!.isNotEmpty?
+                                    data2.images![0].image:'',
                                     type: data2.type,
                                     productState: data2.productStatus,
                                     providerId: data2.provider!=null?data2.provider!.id!.toString():'',

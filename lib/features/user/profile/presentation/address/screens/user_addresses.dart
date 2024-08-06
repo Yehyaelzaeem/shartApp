@@ -30,7 +30,8 @@ class UserAddressesScreen extends StatelessWidget {
             border: Border.all(color: Colors.grey)),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: BlocConsumer<UserProfileCubit,UserProfileState>(
+          child:
+          BlocConsumer<UserProfileCubit,UserProfileState>(
             builder: (BuildContext context ,UserProfileState state){
               if( cubit.addressList !=null){
                 return  Column(
@@ -41,7 +42,7 @@ class UserAddressesScreen extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return
                           // Center(child: Text('${cubit.addressList!.data![index].name}'),);
-                          CustomExpansionTileUserWidget(index: index,);
+                          CustomExpansionTileUserWidget(addressModelData: cubit.addressList!.data![index],);
                       },
                       itemCount: cubit.addressList!.data!.length,
                       shrinkWrap: true,
@@ -49,7 +50,10 @@ class UserAddressesScreen extends StatelessWidget {
                   ],
                 );
               }
-              return Center(child: CircularProgressIndicator(),);
+              return Padding(
+                padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.5),
+                child: Center(child: CircularProgressIndicator(),),
+              );
             },
             listener: (BuildContext context ,UserProfileState state){},
           )
