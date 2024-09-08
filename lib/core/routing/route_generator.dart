@@ -36,6 +36,7 @@ import '../../features/user/menu/presentation/packages/packages_screen.dart';
 import '../../features/user/menu/presentation/spare_parts/filter/screens/widget/filter_tires_and_rims_screen.dart';
 import '../../features/user/menu/presentation/spare_parts/screens/spare_parts_screen.dart';
 import '../../features/user/menu/presentation/spare_parts/screens/tires_types.dart';
+import '../../features/user/menu/presentation/supplies/supplies_screen.dart';
 import '../../features/user/messages/presentation/screens/messages_screen.dart';
 import '../../features/user/profile/presentation/about_company/about_company_screen.dart';
 import '../../features/user/profile/presentation/conditions_terms/conditions_screen.dart';
@@ -69,6 +70,8 @@ class RouteGenerator {
     }
     if (settings.name == Routes.login) {
       return platformPageRoute(const UserLoginScreen());
+    }  if (settings.name == Routes.suppliesPackagesScreen) {
+      return platformPageRoute(const SuppliesPackagesScreen());
     }
     if (settings.name == Routes.register) {
       return platformPageRoute(const RegisterScreen());
@@ -214,7 +217,7 @@ class RouteGenerator {
     //   return platformPageRoute(const ProviderProductDetailsScreen());
     // }
     if (settings.name == Routes.providerAddAddress) {
-      return platformPageRoute(const ProviderAddAddressScreen());
+      return platformPageRoute( ProviderAddAddressScreen());
     }
     if (settings.name == Routes.providerAddresses) {
       return platformPageRoute(const ProviderAddressesScreen());

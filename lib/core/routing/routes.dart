@@ -64,4 +64,5 @@ class Routes {
   static const String providerProductDetails = '/provider-product-details';
   static const String providerAddAddress = '/provider-add-address';
   static const String providerAddresses = '/provider-addresses';
+  static const String suppliesPackagesScreen = '/suppliesPackagesScreen';
 }

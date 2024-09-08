@@ -45,8 +45,8 @@ class NotificationCubit extends Cubit<NotificationState> {
    await remoteNotificationDataSource.getNotification(limit,type,
        type=='user'?AuthCubit.get(context).token:AuthProviderCubit.get(context).token, context).then((NotificationModel? value) {
          type=='user'?
-         notificationModelData=value!:
-         notificationModelProviderData=value!;
+         notificationModelData=value??NotificationModel():
+         notificationModelProviderData=value??NotificationModel();
    });
   return type=='user'?
    notificationModelData!.data!.notifications!:

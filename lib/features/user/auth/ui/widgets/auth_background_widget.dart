@@ -31,8 +31,10 @@ class AuthBackGroundWidget extends StatelessWidget {
               child:
               Center(
                 child: Image.asset(
+
                   ImagesManager.logo5,
                   fit: BoxFit.cover,
+
                 ),
               )),
           Positioned(

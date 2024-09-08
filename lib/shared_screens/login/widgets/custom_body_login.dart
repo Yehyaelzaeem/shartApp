@@ -27,8 +27,11 @@ class CustomBodyLogin extends StatelessWidget {
           textInputType: TextInputType.phone,
 
           validationFunc: (String? val) {
-            if (val!.length!=11) {
-              return '${getLang(context, 'sign_in_ver')}';
+            // if (val!.length!=11) {
+            //   return '${getLang(context, 'this_field_required')}';
+            // }
+            if(val!.isEmpty){
+              return '${getLang(context, 'this_field_required')}';
             }
             return null;
           },
@@ -67,7 +70,9 @@ class CustomBodyLogin extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: InkWell(
-              onTap: () =>type=='user'?  NavigationManager.push(Routes.forgotPassword):NavigationManager.push(Routes.providerForgetPassword), child:  Text('${getLang(context, 'pass2')}')),
+              onTap: () =>type=='user'?  NavigationManager.push(Routes.forgotPassword):
+              NavigationManager.push(Routes.providerForgetPassword),
+              child:  Text('${getLang(context, 'pass2')}')),
         ),
         (type=='user'? userCubit.isLoading:providerCubit.isLoading)==false?
         Padding(

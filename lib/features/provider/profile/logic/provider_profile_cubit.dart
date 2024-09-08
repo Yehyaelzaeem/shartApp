@@ -9,8 +9,11 @@ import 'package:shart/core/localization/appLocale.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 
+import '../../../../core/notification/device_token.dart';
 import '../../../../shared_screens/google_map/address_location_model.dart';
 import '../../../../widgets/show_toast_widget.dart';
+import '../../../chats/data/models/chat_user.dart';
+import '../../../chats/logic/chat_cubit.dart';
 import '../data/model/about_compay_model.dart';
 import '../data/model/address_list_model.dart';
 import '../data/model/address_model.dart';
@@ -54,16 +57,18 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
 
 
   Position? p ;
-  Future<void> getLocation(context)async{
+  Future<LatLng> getLocation(context)async{
     selectValue=getLang(context, 'main_address3');
     emit(TestState());
 
-    p =await Geolocator.getCurrentPosition().then((Position value) {
+     return await Geolocator.getCurrentPosition().then((Position value) {
       lat=value.latitude;
       long=value.longitude;
       print('lat : => $lat');
       print('long : => $long');
+      p=value;
       emit(TestState());
+      return LatLng(value.latitude, value.longitude);
     });
 
   }
@@ -82,11 +87,23 @@ class ProviderProfileCubit extends Cubit<ProviderProfileState> {
   Future<ProviderGetProfileModel?> getProviderProfile (String token ,BuildContext context)async{
     providerProfileModel=null;
     if(token.isNotEmpty){
-      providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value) {
+      providerProfileRemoteDataSource.getProviderProfile(token, context).then((ProviderGetProfileModel? value)async {
         providerProfileModel=value;
         nameControllerProvider.text=providerProfileModel!.data!.name!;
         emailControllerProvider.text=providerProfileModel!.data!.email!;
         phoneControllerProvider.text=providerProfileModel!.data!.phone!;
+        ChatCubit cubit =ChatCubit.get();
+        ChatUser user=ChatUser(
+            image: value?.data?.image??'',
+            about: '',
+            name: value?.data?.name??'',
+            createdAt: '',
+            isOnline: true,
+            id: value?.data?.id.toString()??'0',
+            lastActive: '',
+            phone: value?.data?.phone??'',
+            pushToken:await getDeviceToken());
+        cubit.getSelfInfo(user);
         emit(GetProviderProfileState(value!));
 
       });

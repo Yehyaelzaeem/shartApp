@@ -12,6 +12,8 @@ class UserAddressesScreen extends StatelessWidget {
   const UserAddressesScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    UserProfileCubit.get(context).getLocation(context);
+
     UserProfileCubit cubit =UserProfileCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(

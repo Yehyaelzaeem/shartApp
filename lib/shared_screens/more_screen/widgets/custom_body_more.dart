@@ -8,6 +8,8 @@ import '../../../core/resources/font_manager.dart';
 import '../../../core/routing/navigation_services.dart';
 import '../../../core/routing/routes.dart';
 import '../../../core/shared_preference/shared_preference.dart';
+import '../../../features/chats/data/models/chat_user.dart';
+import '../../../features/chats/logic/chat_cubit.dart';
 import '../../../features/provider/auth/logic/auth_provider_cubit.dart';
 import '../../../features/provider/home/presentation/screens/packages/packages_screen.dart';
 import '../../../features/provider/profile/data/model/user_profile_model.dart';
@@ -100,6 +102,7 @@ class CustomBodyMore extends StatelessWidget {
             NavigationManager.push(Routes.providerEditProfile);
           },
           text: getLang(context,'edite_profile'),),
+
           buildProfileItemWidget(
             iconPath: IconsManager.myAddress,
             function: () {
@@ -237,15 +240,42 @@ class CustomBodyMore extends StatelessWidget {
             function: () {
               CustomDialogs.showAlertDialog(
                 type: DialogType.info,
-                btnOkOnPress: () {
+                btnOkOnPress: ()async{
+                  ChatCubit chatCubit =ChatCubit.get();
+
                   if(type=='user'){
+                  final UserProfileModel? profile=  UserProfileCubit.get(context).userProfileModel!;
+                    ChatUser user=ChatUser(
+                        image: profile?.data?.image??'',
+                        about: '',
+                        name: profile?.data?.name??'',
+                        createdAt: '',
+                        isOnline: false,
+                        id: profile?.data?.id.toString()??'0',
+                        lastActive: '',
+                        phone: profile?.data?.phone??'',
+                        pushToken: 'null');
+                  chatCubit.getSelfInfo(user);
                     CacheHelper.removeData(key: 'isLog');
                     CacheHelper.removeData(key: 'token');
                     NavigationManager.pushReplacement(Routes.chooseUserScreen);
+
                   }
                   else{
+                    final ProviderGetProfileModel? profile=  ProviderProfileCubit.get(context).providerProfileModel!;
+                    ChatUser user=ChatUser(
+                        image: profile?.data?.image??'',
+                        about: '',
+                        name: profile?.data?.name??'',
+                        createdAt: '',
+                        isOnline: false,
+                        id: profile?.data?.id.toString()??'0',
+                        lastActive: '',
+                        phone: profile?.data?.phone??'',
+                        pushToken: 'null');
+                   chatCubit.getSelfInfo(user);
                     CacheHelper.removeData(key: 'isLog');
-                    CacheHelper.removeData(key: 'token');
+                    CacheHelper.removeData(key: 'providerToken');
                     NavigationManager.pushReplacement(Routes.chooseUserScreen);
                     cubit.nameController.text='';
                     cubit.emailController.text='';
@@ -269,14 +299,40 @@ class CustomBodyMore extends StatelessWidget {
                 ctx: context,
                 type: DialogType.error,
                 btnOkOnPress: () {
+                  ChatCubit chatCubit =ChatCubit.get();
+
                   // print(AuthCubit.get(context).token2);
                   if(type=='user'){
+                    final UserProfileModel? profile=  UserProfileCubit.get(context).userProfileModel!;
+                    ChatUser user=ChatUser(
+                        image: profile?.data?.image??'',
+                        about: '',
+                        name: profile?.data?.name??'',
+                        createdAt: '',
+                        isOnline: false,
+                        id: profile?.data?.id.toString()??'0',
+                        lastActive: '',
+                        phone: profile?.data?.phone??'',
+                        pushToken: 'null');
+                    chatCubit.getSelfInfo(user);
                     CacheHelper.removeData(key: 'isLog');
                     CacheHelper.removeData(key: 'token');
                     cubit.deleteAccount(AuthCubit.get(context).token, context);
                   }else{
+                    final ProviderGetProfileModel? profile=  ProviderProfileCubit.get(context).providerProfileModel!;
+                    ChatUser user=ChatUser(
+                        image: profile?.data?.image??'',
+                        about: '',
+                        name: profile?.data?.name??'',
+                        createdAt: '',
+                        isOnline: false,
+                        id: profile?.data?.id.toString()??'0',
+                        lastActive: '',
+                        phone: profile?.data?.phone??'',
+                        pushToken: 'null');
+                     chatCubit.getSelfInfo(user);
                     CacheHelper.removeData(key: 'isLog');
-                    CacheHelper.removeData(key: 'token');
+                    CacheHelper.removeData(key: 'providerToken');
                     ProviderProfileCubit.get(context).deleteAccountProvider(AuthProviderCubit.get(context).token, context);
                   }
                 },

@@ -56,7 +56,7 @@ class NotificationOrderDetails extends StatelessWidget {
                     type: e.providerProduct!.brand!.type,
                   ),
                   brandId: e.providerProduct!.brandId,
-                  modal: Model(
+                  modal: Modal(
                     id: e.providerProduct!.modal!.id,
                     name: e.providerProduct!.modal!.name,
                   ),

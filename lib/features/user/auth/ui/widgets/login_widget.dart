@@ -48,8 +48,11 @@ class LoginWidget extends StatelessWidget {
               controller:  cubit.phoneController,
               textInputType: TextInputType.phone,
               validationFunc: (String? val) {
-                if (val!.length!=11) {
-                  return '${getLang(context, 'sign_in_ver')}';
+                // if (val!.length!=11) {
+                //   return '${getLang(context, 'sign_in_ver')}';
+                // }
+                if (val!.isEmpty) {
+                  return '${getLang(context, 'this_field_required')}';
                 }
                 return null;
               },
@@ -109,7 +112,7 @@ class LoginWidget extends StatelessWidget {
               ),
               )),
             ),
-            SizedBox(height: 100.h,),
+            SizedBox(height: 200.h,),
 
           ],
         ),

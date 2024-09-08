@@ -33,7 +33,7 @@ InkWell buildCurrentOrder(List<Items> item,MyOrdersModelData myOrdersModelData ,
                 decoration: BoxDecoration(color: packagesColor,
                   borderRadius: BorderRadius.all(Radius.circular(10),),
                 ),
-                child: Image.network(myOrdersModelData.items![0].providerProduct!.images![0].image!=null?
+                child: Image.network(myOrdersModelData.items?[0].providerProduct?.images!=null&&myOrdersModelData.items?[0].providerProduct?.images!.length !=0 && myOrdersModelData.items?[0].providerProduct?.images![0].image!=null?
                 myOrdersModelData.items![0].providerProduct!.images![0].image!:'',
                   errorBuilder: (BuildContext context,Object error ,StackTrace? v){
                     return ClipRRect(

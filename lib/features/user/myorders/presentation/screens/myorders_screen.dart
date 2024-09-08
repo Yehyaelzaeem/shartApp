@@ -17,6 +17,7 @@ import '../../../../provider/myorders/presentation/widgets/custom_order_invoice_
 import '../../../auth/logic/auth_cubit.dart';
 import '../../../bottom_nav/presentation/screens/bottom_nav_screen.dart';
 import '../widgets/order_widgets.dart';
+import '../widgets/supplies_item_widget.dart';
 
 class UserOrdersScreen extends StatefulWidget {
   const UserOrdersScreen({Key? key, this.isNotNotification, this.initialIndex}) : super(key: key);
@@ -32,10 +33,11 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
   @override
   void initState() {
     super.initState();
+
     if(widget.initialIndex!=null){
-      tabController = TabController(length: 2, vsync: this,initialIndex: widget.initialIndex!);
+      tabController = TabController(length: 3, vsync: this,initialIndex: widget.initialIndex!);
     }else{
-      tabController = TabController(length: 2, vsync: this);
+      tabController = TabController(length: 3, vsync: this);
     }
 
   }
@@ -56,7 +58,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
       AuthCubit.get(context).token.isEmpty?
       CustomVisitorScreen():
       DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, 70.h),
@@ -75,6 +77,7 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                   tabs: <Widget>[
                     CustomTitleTabBarWidget(title: '${getLang(context, 'spare_parts')}',),
                     CustomTitleTabBarWidget(title: '${getLang(context, 'check_cars')}',),
+                    CustomTitleTabBarWidget(title: '${getLang(context, 'accessories')}',),
                   ],
                   // padding: AuthCubit.get(context).localeLanguage==Locale('ar')?EdgeInsets.only(left: 170.w):EdgeInsets.only(right: 120.w),
                   labelStyle: TextStyle(
@@ -187,77 +190,161 @@ class _UserOrdersScreenState extends State<UserOrdersScreen>
                         }),
                   )
                 )
+              else if (tabController.index == 1)
+                Expanded(
+                    child: RefreshIndicator(child:
+                    BlocConsumer<MyOrdersCubit, MyOrdersState>(
+                      listener: (BuildContext context, MyOrdersState state) {},
+                      builder: (BuildContext context, MyOrdersState state) {
+                        if(myOrdersCubit.getCheckCarsModel!=null){
+                          if(myOrdersCubit.getCheckCarsModel!.data!.length==0){
+                            return
+                              Padding(
+                                padding: const EdgeInsets.all(40.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Center(child: Image.asset(ImagesManager.cart33)),
+                                    SizedBox(height: 16.h,),
+                                    Text(
+                                      getLang(context, 'no_check_car_now'),
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          color: blackTextColor,
+                                          fontFamily: FontConstants.lateefFont,
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
 
+                          }else{
+                            return ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                // return CustomCarCurrentOrderWidget();
+                                if(myOrdersCubit.getCheckCarsModel!.data![index].status=='review'){
+                                  return CustomCarCurrentOrderWidget(
+                                    getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
+                                }
+                                else if(myOrdersCubit.getCheckCarsModel!.data![index].status=='accepted'){
+                                  return CustomCarCurrentOrderWidget(
+                                    getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
+                                }
+                                else if(myOrdersCubit.getCheckCarsModel!.data![index].status=='finished'){
+                                  return CustomOrderWithInvoiceAndReportWidget(
+                                    getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
+                                }
+                                else{
+                                  return CustomCarCancelledOrderWidget(
+                                    getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
+                                }
+                                // if (index == 0) return CustomCarCurrentOrderWidget();
+                                // if (index == 1) return CustomCarCancelledOrderWidget();
+                                // return CustomOrderWithInvoiceAndReportWidget();
+                              },
+                              itemCount: myOrdersCubit.getCheckCarsModel!.data!.length,
+                              shrinkWrap: true,
+                            );
+                          }
+                        }else{
+                          return Center(child: CircularProgressIndicator(),);
+                        }
+                      },
+                    ),
+                        onRefresh: ()async{
+                          await Future.delayed(Duration(seconds: 1));
+                          myOrdersCubit.getMyCheckCars(context);
+                        })
+
+                )
               else
                 Expanded(
-                  child: RefreshIndicator(child:
-                  BlocConsumer<MyOrdersCubit, MyOrdersState>(
-                    listener: (BuildContext context, MyOrdersState state) {},
-                    builder: (BuildContext context, MyOrdersState state) {
-                      if(myOrdersCubit.getCheckCarsModel!=null){
-                        if(myOrdersCubit.getCheckCarsModel!.data!.length==0){
-                          return
-                            Padding(
-                              padding: const EdgeInsets.all(40.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Center(child: Image.asset(ImagesManager.cart33)),
-                                  SizedBox(height: 16.h,),
-                                  Text(
-                                    getLang(context, 'no_check_car_now'),
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: blackTextColor,
-                                        fontFamily: FontConstants.lateefFont,
-                                        fontWeight: FontWeight.w400
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-
-                        }else{
-                          return ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              // return CustomCarCurrentOrderWidget();
-                              if(myOrdersCubit.getCheckCarsModel!.data![index].status=='review'){
-                                return CustomCarCurrentOrderWidget(
-                                  getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
-                              }
-                              else if(myOrdersCubit.getCheckCarsModel!.data![index].status=='accepted'){
-                                return CustomCarCurrentOrderWidget(
-                                  getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
-                              }
-                              else if(myOrdersCubit.getCheckCarsModel!.data![index].status=='finished'){
-                                return CustomOrderWithInvoiceAndReportWidget(
-                                  getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
-                              }
-                              else{
-                                return CustomCarCancelledOrderWidget(
-                                  getCheckCarsModelData: myOrdersCubit.getCheckCarsModel!.data![index],);
-                              }
-                              // if (index == 0) return CustomCarCurrentOrderWidget();
-                              // if (index == 1) return CustomCarCancelledOrderWidget();
-                              // return CustomOrderWithInvoiceAndReportWidget();
-                            },
-                            itemCount: myOrdersCubit.getCheckCarsModel!.data!.length,
-                            shrinkWrap: true,
-                          );
+                    child:
+                    NotificationListener<ScrollNotification>(
+                      onNotification: (ScrollNotification scrollInfo) {
+                        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                          print(myOrdersCubit.suppliesLoading!=true);
+                          if(myOrdersCubit.suppliesLoading !=true){
+                            myOrdersCubit.suppliesLimit=myOrdersCubit.suppliesLimit+10;
+                            myOrdersCubit.fetchSupplies(context,myOrdersCubit.suppliesLimit,true);
+                            // Future.delayed(Duration(seconds: 10)).then((value) {
+                            //   myOrdersCubit.showSupplies();
+                            // });
+                          }
                         }
-                      }else{
-                        return Center(child: CircularProgressIndicator(),);
-                      }
-                    },
-                  ),
-                      onRefresh: ()async{
-                        await Future.delayed(Duration(seconds: 1));
-                        myOrdersCubit.getMyCheckCars(context);
-                      })
-                 
+                        return false;
+                      },
+                      child:
+                        RefreshIndicator(child:
+                         BlocConsumer<MyOrdersCubit, MyOrdersState>(
+                        listener: (BuildContext context, MyOrdersState state) {},
+                        builder: (BuildContext context, MyOrdersState state) {
+                          if(myOrdersCubit.mySuppliesModelList!=null){
+                            if(myOrdersCubit.mySuppliesModelList!.length==0){
+                              return
+                                Padding(
+                                  padding: const EdgeInsets.all(40.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Center(child: Image.asset(ImagesManager.cart33)),
+                                      SizedBox(height: 16.h,),
+                                      Text(
+                                        getLang(context, 'no_order_now'),
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: blackTextColor,
+                                            fontFamily: FontConstants.lateefFont,
+                                            fontWeight: FontWeight.w400
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                            }else{
+
+                              return ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  if(index < myOrdersCubit.mySuppliesModelList!.length){
+                                    return SuppliesItemWidget(mySuppliesModelData: myOrdersCubit.mySuppliesModelList![index],);
+
+                                  }else if(index == myOrdersCubit.mySuppliesModelList!.length){
+                                    if(myOrdersCubit.suppliesLoading==true){
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: CustomLoading2Widget(color: primaryColor,),
+                                      );
+                                    }else{
+                                      return SizedBox();
+                                    }
+                                  }else{
+                                    return SizedBox();
+                                  }
+
+                                },
+                                itemCount: myOrdersCubit.mySuppliesModelList!.length+1,
+                                shrinkWrap: true,
+                              );
+                            }
+                          }else{
+                            return Center(child: CircularProgressIndicator(),);
+                          }
+                        },
+                      ),
+                          onRefresh: ()async{
+                            await Future.delayed(Duration(seconds: 1));
+                            myOrdersCubit.fetchSupplies(context,10,true);
+                          })
+
+                    )
                 )
+
             ],
           ),
         ),

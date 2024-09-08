@@ -6,6 +6,7 @@ import 'package:shart/features/user/menu/data/model/pay_vis_model.dart';
 import '../data/model/banners_model.dart';
 import '../data/model/check_model.dart';
 import '../data/model/product_model.dart';
+import '../data/model/supplies_model.dart';
 import '../data/remote_data_base/menu_data_base.dart';
 part 'menu_state.dart';
 
@@ -31,6 +32,7 @@ class MenuCubit extends Cubit<MenuState> {
   String size = '';
  TextEditingController searchControllerHome =TextEditingController();
    PackageCheckModel? packageCheckModel;
+  SuppliesModel? suppliesModel;
   TextEditingController searchController = TextEditingController();
  List<ProductModelProvider> providerList=<ProductModelProvider>[];
  List<ProductModelProvider> providerListTest=<ProductModelProvider>[];
@@ -40,6 +42,14 @@ class MenuCubit extends Cubit<MenuState> {
     menuRemoteDataSource.getPackage(context).then((PackageCheckModel? value){
       packageCheckModel=value!;
       emit(GetPackageCheckState(value));
+    });
+  }
+  Future<dynamic> getSuppliesPackage(BuildContext context)async{
+    suppliesModel=null;
+    emit(GetBannersState2());
+    menuRemoteDataSource.getSuppliesPackage(context).then((SuppliesModel? value){
+      suppliesModel=value!;
+      emit(GetSuppliesState());
     });
   }
   List<String> listBanners =<String>[];
@@ -99,7 +109,14 @@ class MenuCubit extends Cubit<MenuState> {
       emit(GetProductsState());
     });
   }
-
+  Future<dynamic> storeSupplies(int id,BuildContext context)async{
+    isLoading=true;
+    emit(StoreSuppliesLoadingState());
+    menuRemoteDataSource.storeSupplies(id,context).then((value) {
+      isLoading=false;
+      emit(StoreSuppliesSuccessState());
+    });
+  }
   void restartData(){
     productModel=null;
   }
@@ -141,6 +158,10 @@ class MenuCubit extends Cubit<MenuState> {
   void changeSearchStart(bool x){
     isSearchStart=x;
     emit(ChangeLoadingState());
+  }
+  void changeState(){
+    emit(StoreSuppliesSuccessState());
+
   }
 
 }

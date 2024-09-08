@@ -93,7 +93,6 @@ class CustomBodyRegister extends StatelessWidget {
         CustomTextField(
           validationFunc: (String? value){
             if(value!.isEmpty){
-
               return '${getLang(context, 'pass2_empty')}';
             }
             return null;

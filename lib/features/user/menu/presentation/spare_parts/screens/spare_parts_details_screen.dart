@@ -144,8 +144,10 @@ class SparePartsDetailsScreen extends StatelessWidget {
                                  )));
                                 // NavigationManager.push(Routes.productDetails);
                               },
-                              child: SparePartItemWidget(brandName: '${cubit.productModel!.data![index].brand!=null?cubit.productModel!.data![index].brand!.name:''}',
-                                image: '${cubit.productModel!.data![index].images!=null &&cubit.productModel!.data![index].images!.isNotEmpty?
+                              child: SparePartItemWidget(
+                                brandName: '${cubit.productModel!.data![index].brand!=null?
+                                cubit.productModel!.data![index].brand!.name:''}',
+                                image: '${cubit.productModel!.data![index].images!=null && cubit.productModel!.data![index].images!.isNotEmpty?
                                 (cubit.productModel!.data![index].images![0].image??''):''}',
                                 price: cubit.productModel!.data![index].price.toString(),
                                 productName: '${cubit.productModel!.data![index].title}',

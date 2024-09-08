@@ -12,6 +12,8 @@ import 'package:shart/features/user/more/presentation/screens/more_screen.dart';
 import 'package:shart/features/user/myorders/presentation/screens/myorders_screen.dart';
 import '../../../../../core/localization/appLocale.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
+import '../../../../chats/data/models/chat_user.dart';
+import '../../../../chats/logic/chat_cubit.dart';
 import '../../../../provider/work_and_products/logic/work_products_cubit.dart';
 import '../../../cart/logic/cart_cubit.dart';
 import '../../../cart/presentation/screen/cart_bottom_nav_screen.dart';
@@ -19,6 +21,7 @@ import '../../../cart/presentation/screen/cart_screen.dart';
 import '../../../favorite/logic/favorite_cubit.dart';
 import '../../../menu/presentation/menu/menu_screen.dart';
 import '../../../myorders/logic/my_orders_cubit.dart';
+import '../../../profile/data/model/user_profile_model.dart';
 import '../../../profile/logic/user_profile_cubit.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -37,8 +40,10 @@ class _UserBottomNavScreenState extends State<UserBottomNavScreen> {
   final Color unSelectedIconColor = blackColor;
 
   List<Widget> pages = <Widget>[];
-@override
+
+  @override
   void initState() {
+
   pages=<Widget>[ UserMenuScreen(),
     UserFavoriteScreen(),
     UserOrdersScreen(isNotNotification: true,initialIndex: widget.initialIndex,),

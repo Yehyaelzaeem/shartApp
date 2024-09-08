@@ -101,38 +101,42 @@ class SparePartsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // GestureDetector(
-            //   onTap: () => NavigationManager.push(Routes.carSupplies),
-            //   child: Container(
-            //     margin: EdgeInsets.all(16.w),
-            //     width: double.infinity,
-            //     height: 103.h,
-            //     decoration: BoxDecoration(
-            //       color: tireColor3,
-            //       borderRadius: BorderRadius.circular(10.r),
-            //     ),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: <Widget>[
-            //         Image.asset(
-            //           ImagesManager.oil2,
-            //           width: 95.w,
-            //           height: 75.h,
-            //         ),
-            //         SizedBox(width: 15.w),
-            //         Text(
-            //           getLang(context, 'accessories'),
-            //           style: TextStyle(
-            //             fontSize: 24.sp,
-            //             fontWeight: FontWeightManager.light,
-            //             fontFamily: FontConstants.lateefFont,
-            //           ),
-            //         ),
-            //         SizedBox(width: 15.w),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            GestureDetector(
+              onTap: () {
+                MenuCubit c =MenuCubit.get(context);
+                c.getSuppliesPackage(context);
+                NavigationManager.push(Routes.suppliesPackagesScreen);
+              },
+              child: Container(
+                margin: EdgeInsets.all(16.w),
+                width: double.infinity,
+                height: 103.h,
+                decoration: BoxDecoration(
+                  color: tireColor3,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      ImagesManager.oil2,
+                      width: 95.w,
+                      height: 75.h,
+                    ),
+                    SizedBox(width: 15.w),
+                    Text(
+                      getLang(context, 'accessories'),
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeightManager.light,
+                        fontFamily: FontConstants.lateefFont,
+                      ),
+                    ),
+                    SizedBox(width: 15.w),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

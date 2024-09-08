@@ -1,3 +1,4 @@
+import '../../../../features/provider/work_and_products/data/model/get_products_list_model.dart';
 import '../../../../features/user/myorders/data/model/myorder_model.dart';
 
 class SingleOrderModel {
@@ -408,9 +409,9 @@ class ProviderProduct2 {
   String? productStatus;
   String? description;
   int? price;
-  WidthModel? width;
-  HeightModel? height;
-  SizeModelProduct? size;
+  Modal? width;
+  Modal? height;
+  Modal? size;
   String? type;
   Brand2? brand;
   int? brandId;
@@ -455,9 +456,9 @@ class ProviderProduct2 {
         ? new Provider2.fromJson(json['provider'])
         : null;
     providerId = json['provider_id'];
-    width =json['width'] != null ? new WidthModel.fromJson(json['width']) : null;
-    height = json['height'] != null ? new HeightModel.fromJson(json['height']) : null;
-    size = json['size'] != null ? new SizeModelProduct.fromJson(json['size']) : null;
+    width =json['width'] != null ? new Modal.fromJson(json['width']) : null;
+    height = json['height'] != null ? new Modal.fromJson(json['height']) : null;
+    size = json['size'] != null ? new Modal.fromJson(json['size']) : null;
     if (json['images'] != null) {
       images = <Images2>[];
       json['images'].forEach((v) {
@@ -784,7 +785,7 @@ class Car {
   int? id;
   Brand2? brand;
   Modal2? modal;
-  Color? color;
+  ColorModel? color;
   String? chassisNo;
   String? year;
 
@@ -794,7 +795,7 @@ class Car {
     id = json['id'];
     brand = json['brand'] != null ? new Brand2.fromJson(json['brand']) : null;
     modal = json['modal'] != null ? new Modal2.fromJson(json['modal']) : null;
-    color = json['color'] != null ? new Color.fromJson(json['color']) : null;
+    color = json['color'] != null ? new ColorModel.fromJson(json['color']) : null;
     chassisNo = json['chassis_no'];
     year = json['year'];
   }
@@ -818,14 +819,14 @@ class Car {
 }
 
 
-class Color {
+class ColorModel {
   int? id;
   String? name;
   String? color;
 
-  Color({this.id, this.name, this.color});
+  ColorModel({this.id, this.name, this.color});
 
-  Color.fromJson(Map<String, dynamic> json) {
+  ColorModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     color = json['color'];

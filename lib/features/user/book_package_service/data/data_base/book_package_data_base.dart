@@ -118,9 +118,9 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
      };
      String data = json.encode(<String, dynamic>{
        'package_id':checkCarModel.packageId,
-       'brand_id':checkCarModel.brandId,
-       'modal_id':checkCarModel.modelId,
-       'color_id':checkCarModel.colorId,
+       'brand':checkCarModel.brandId,
+       'modal':checkCarModel.modelId,
+       'color':checkCarModel.colorId,
        'year':checkCarModel.year,
        'chassis_no':checkCarModel.chassis_no,
        'description':checkCarModel.description,
@@ -139,8 +139,6 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
 
 
       if (response.statusCode == 200) {
-
-
         cubit2.changeLoading(false);
        try{
 
@@ -155,6 +153,7 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
            cubit2. brandModelSelectedId ='';
            cubit2.colorSelectedValue ='';
            cubit2. colorSelectedId ='';
+           cubit2. colorController.text ='';
            cubit2. descriptionController.text ='';
            cubit2. chassisController.text ='';
          }
@@ -200,4 +199,6 @@ class BookPackageDataSource implements BaseBookPackageDataSource {
     cubit2.changeLoading(false);
 
   }
+
+
 }

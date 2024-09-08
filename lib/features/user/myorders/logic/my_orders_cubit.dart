@@ -6,6 +6,7 @@ import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import '../../../../shared_screens/web_view/custom_web_view_screen.dart';
 import '../data/data_base/data_base.dart';
 import '../data/model/check_car_model.dart';
+import '../data/model/my_supplies_model.dart';
 import '../data/model/myorder_model.dart';
 import '../data/model/product_invoice.dart';
 import '../presentation/widgets/data_source_data_grid.dart';
@@ -19,25 +20,40 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
   MyOrderRemoteDataSource myOrderRemoteDataSource =MyOrderRemoteDataSource();
   GetCheckCarsModel? getCheckCarsModel;
   MyOrdersModel? myOrdersModel;
-
+  MySuppliesModel? mySuppliesModel;
 
   int limit =10;
+  int suppliesLimit =10;
   bool loading = false;
+  bool suppliesLoading = false;
   void _showOrders() {
     loading=false;
+    emit(GetMyOrdersState());
+  }
+  void showSupplies() {
+    suppliesLoading=false;
     emit(GetMyOrdersState());
   }
   void changeState2(){
     loading=true;
     emit(GetMyOrdersState());
+  } void changeSuppliesState2(){
+    suppliesLoading=true;
+    emit(GetMyOrdersState());
   }
   List<MyOrdersModelData>? myOrderList;
+  List<MySuppliesModelData>? mySuppliesModelList;
   void fetchOrders(BuildContext context,int limit,bool hasNotNull ) async {
+    print('ddddddddddddd');
     hasNotNull==true?null:
     myOrderList=null;
     try {
       changeState2();
+      print('1111111111111111');
+
       final List<MyOrdersModelData> ordersList = await getMyOrder(context,limit);
+      print('222222222222222222');
+
       myOrderList=ordersList;
       emit(GetMyOrdersState());
       _showOrders();
@@ -45,12 +61,43 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       // Handle error
     }
   }
+  void fetchSupplies(BuildContext context,int limit,bool hasNotNull ) async {
+    hasNotNull==true?null:
+    mySuppliesModelList=null;
+    try {
+      changeSuppliesState2();
+      final List<MySuppliesModelData> mySupplies = await getMySupplies(limit,context);
+      mySuppliesModelList=mySupplies;
+      emit(GetMyOrdersState());
+      showSupplies();
+    } catch (_) {
+      // Handle error
+    }
+  }
+  Future<dynamic> paySuppliesOrder(int id,BuildContext context)async{
+    emit(PaymentLoadingState());
+     myOrderRemoteDataSource.paySuppliesOrder(id,context).then((value){
+       emit(PaymentSuccessState());
+     });
 
+  }
 
   Future<List<MyOrdersModelData>> getMyOrder(BuildContext context,int limit)async{
     emit(GetMyOrderState());
+    print('333333333333333333');
+
     return myOrderRemoteDataSource.getMyOrder(limit,AuthCubit.get(context).token, context).then((MyOrdersModel? value) {
+      print('4444444444444444444444');
+
       myOrdersModel =value!;
+      emit(GetMyOrderState());
+      return value.data!;
+    });
+  }
+  Future< List<MySuppliesModelData>> getMySupplies(int limit ,BuildContext context,)async{
+    emit(GetMyOrderState());
+    return myOrderRemoteDataSource.getMySupplies(limit,context).then((MySuppliesModel? value) {
+      mySuppliesModel =value!;
       emit(GetMyOrderState());
       return value.data!;
     });
@@ -64,6 +111,8 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       emit(GetMyOrderState());
     });
   }
+
+
   String? urlPayment;
   Future<dynamic> payment({required int id,required String methodPayment,required BuildContext context})async{
     emit(PaymentLoadingState());

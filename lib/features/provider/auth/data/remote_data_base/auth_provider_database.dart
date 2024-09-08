@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:shart/features/provider/auth/data/models/send_otp_provider_model
 import 'package:shart/features/provider/auth/data/models/verify_account_provider_model.dart';
 import 'package:shart/features/provider/auth/logic/auth_provider_cubit.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
+import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/network/apis.dart';
 import '../../../../../core/network/dio.dart';
 import '../../../../../core/routing/navigation_services.dart';
@@ -37,43 +39,58 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
       String password, BuildContext context) async {
     AuthProviderCubit cubit =AuthProviderCubit.get(context);
     // cubit.loginLoadingStates(true);
-    Response<dynamic> res = await DioHelper.postData(
-      url: AppApis.loginProvider, data: <String, dynamic>{
-      'phone': phone,
-      'phone_country_id': phone_country,
-      'password': password,
-    },);
 
-    if (LoginProviderModel.fromJson(res.data).success == false) {
-      cubit.loginLoadingStates(false);
-      showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-    }
-    else {
-      if (res.statusCode == 200) {
-        // showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
-        cubit.loginLoadingStates(false);
-        CacheHelper.saveDate(key: 'providerToken', value:  LoginProviderModel.fromJson(res.data).data!.accessToken);
-        CacheHelper.saveDate(key: 'isLog', value: true);
-        NavigationManager.pushNamedAndRemoveUntil(Routes.providerNavBar);
-        cubit.phoneControllerProvider.text='';
-        cubit.passwordControllerProvider.text='';
-          String? fcmToken;
-          FirebaseMessaging messaging = FirebaseMessaging.instance;
-          messaging.getToken().then((String? value)async {
-            await CacheHelper.saveDate(key: 'FcmToken', value: value);
-            fcmToken=value;
-            fcmToken!=null?
-            ProviderProfileCubit.get(context).sendFCMToken(LoginProviderModel.fromJson(res.data).data!.accessToken!.toString(),fcmToken!):null;
-          });
+   try{
+     Response<dynamic> res = await DioHelper.postData(
+       url: AppApis.loginProvider, data: <String, dynamic>{
+       'phone': phone,
+       'phone_country_id': phone_country,
+       'password': password,
+     },);
+     if (LoginProviderModel.fromJson(res.data).success == false) {
+       cubit.loginLoadingStates(false);
+       showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+     }
+     else {
+       if (res.statusCode == 200) {
+         // showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.success, context: context);
+         cubit.loginLoadingStates(false);
+         CacheHelper.saveDate(key: 'providerToken', value:  LoginProviderModel.fromJson(res.data).data!.accessToken);
+         CacheHelper.saveDate(key: 'isLog', value: true);
+         if(LoginProviderModel.fromJson(res.data).data?.isVerified! == false){
+           providerSendOTP(password,phone, phone_country, context);
+         }
+         else{
+           NavigationManager.pushNamedAndRemoveUntil(Routes.providerNavBar);
+         }
+         cubit.phoneControllerProvider.text='';
+         cubit.passwordControllerProvider.text='';
+         String? fcmToken;
+         FirebaseMessaging messaging = FirebaseMessaging.instance;
+         messaging.getToken().then((String? value)async {
+           await CacheHelper.saveDate(key: 'FcmToken', value: value);
+           fcmToken=value;
+           fcmToken!=null?
+           ProviderProfileCubit.get(context).sendFCMToken(LoginProviderModel.fromJson(res.data).data!.accessToken!.toString(),fcmToken!):null;
+         });
 
-        return LoginProviderModel.fromJson(res.data);
-      }
-      else {
-        showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
-        cubit.loginLoadingStates(false);
-        throw 'Error';
-      }
-    }
+         return LoginProviderModel.fromJson(res.data);
+       }
+       else {
+         showToast(text: '${LoginProviderModel.fromJson(res.data).message}', state: ToastStates.error, context: context);
+         cubit.loginLoadingStates(false);
+         throw 'Error';
+       }
+     }
+   } on DioError catch (e) {
+     if(e.response?.statusCode==403){
+       showToast(text: '${e.response?.data['message']}', state: ToastStates.error, context: context);
+     }
+     else{
+       showToast(text: '${getLang(context, 'error')}', state: ToastStates.error, context: context);
+     }
+     cubit.loginLoadingStates(false);
+   }
     cubit.changeOtpCompleted(false);
     return null;
   }
@@ -95,12 +112,17 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
         },);
     if(response.data['success']==false){
       cubit.loginRegLoadingStates(false);
-
       showToast(text: '${response.data['message']}', state: ToastStates.error, context: context);
     }else{
       if (response.statusCode == 200) {
-        providerSendOTP(password,registerData.phone!.trim(), '${registerData.phoneCountry!.id ?? '3'}', context);
-        showToast(text: 'Success registered , but you need verify your account with OTP code ', state: ToastStates.success, context: context);
+        // providerSendOTP(password,registerData.phone!.trim(), '${registerData.phoneCountry!.id ?? '3'}', context);
+        showToast(text: '${getLang(context, 'account_approval')}', state: ToastStates.success, context: context);
+        cubit.registerNameControllerProvider.text='';
+        cubit.registerEmailControllerProvider.text='';
+        cubit.registerPhoneControllerProvider.text='';
+        cubit.registerPasswordControllerProvider.text='';
+        cubit.registerConfirmPasswordControllerProvider.text='';
+        Navigator.pop(context);
       }
       else {
         cubit.loginRegLoadingStates(false);
@@ -164,9 +186,8 @@ class AuthProviderDataSource implements BaseAuthProviderDataSource {
     }else{
       if (response.statusCode == 200) {
         showToast(text: '${response.data['message']}', state: ToastStates.success, context: context);
-        providerLogin(cubit.registerPhoneControllerProvider.text,
-            '3', cubit.registerConfirmPasswordControllerProvider.text, context).then((value) {
-        });
+        NavigationManager.pushNamedAndRemoveUntil(Routes.providerNavBar);
+
         cubit.otpCode='';
         cubit.registerNameControllerProvider.text='';
         cubit.registerEmailControllerProvider.text='';

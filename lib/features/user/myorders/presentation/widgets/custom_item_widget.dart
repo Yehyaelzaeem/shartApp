@@ -29,7 +29,7 @@ class CustomWidgetOrder extends StatelessWidget {
           title: items.providerProduct!.title!,
           price: items.providerProduct!.price.toString() ,
           brandName:items.providerProduct!.brand!=null?items.providerProduct!.brand!.name:'',
-          width:'${items.providerProduct!.width!=null?items.providerProduct!.width!.name:''}',
+          width:'${items.providerProduct!.width!=null?items.providerProduct!.width['name']:''}',
           height:'${items.providerProduct!.height!=null?items.providerProduct!.height!.name:''}',
           images:list,
           modelName: items.providerProduct!.modal!=null?items.providerProduct!.modal!.name:'',
@@ -60,10 +60,11 @@ class CustomWidgetOrder extends StatelessWidget {
                   height: 115.h,
                   decoration: BoxDecoration(color: packagesColor),
                   child: Image.network(
-                    items.providerProduct!.images![0].image!,
+                    items.providerProduct?.images!=null&& items.providerProduct?.images!.length!=0&&
+                        items.providerProduct?.images?[0].image!=null?  (items.providerProduct?.images?[0].image??''):'',
                     fit: BoxFit.fill,
                     errorBuilder: (BuildContext context,Object error ,StackTrace? v){
-                      return Center(child: CircularProgressIndicator(),);
+                      return Center(child: Image.asset('assets/images/hol.png'),);
                     },
                   ),
                 ),

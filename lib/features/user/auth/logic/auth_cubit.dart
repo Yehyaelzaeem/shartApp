@@ -82,9 +82,12 @@ class AuthCubit extends Cubit<AuthState> {
     return permission;
   }
   void userLogin (BuildContext context){
-    emit(UserLoginLoadingState());
     if(formKey.currentState!.validate()){
-      authDataSource.userLogin(phoneController.text.trim(), '3', passwordController.text.trim(), context);
+      emit(UserLoginLoadingState());
+      authDataSource.userLogin(phoneController.text.trim(), '3', passwordController.text.trim(), context).then((value) {
+        emit(GetPermissionStates());
+
+      });
     }
   }
 
@@ -123,6 +126,7 @@ class AuthCubit extends Cubit<AuthState> {
    if(isUser ==true){
      MenuCubit.get(context).getPackageCheck(context);
      MyOrdersCubit.get(context).getMyCheckCars(context);
+     MyOrdersCubit.get(context).fetchSupplies(context,10,false);
      BookPackageCubit.get(context).getBrands( context: context);
      BookPackageCubit.get(context).getBrandModel(context);
      BookPackageCubit.get(context).getBrandColors(context);
@@ -163,7 +167,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(ChangeVisibilityIconState());
   }
 
-  void getToken(BuildContext context)async{
+  Future<void> getToken(BuildContext context)async{
    try{
      token = await CacheHelper.getDate(key: 'token');
      // NotificationCubit.get(context).getNotification('user',context);
@@ -171,6 +175,7 @@ class AuthCubit extends Cubit<AuthState> {
      FavoriteCubit.get(context).getFavoriteProducts(token, context);
      FavoriteCubit.get(context).getFavoriteMerProducts(context);
      MyOrdersCubit.get(context).fetchOrders(context,10,false);
+     MyOrdersCubit.get(context).fetchSupplies(context,10,false);
      MyOrdersCubit.get(context).getMyCheckCars(context);
    }catch(e){
      print('error token $e');

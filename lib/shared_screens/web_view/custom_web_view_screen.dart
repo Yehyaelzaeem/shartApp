@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../core/localization/appLocale.dart';
 import '../../features/user/book_package_service/logic/book_package_cubit.dart';
 import '../../features/user/bottom_nav/presentation/screens/bottom_nav_screen.dart';
+import '../../features/user/myorders/data/model/payment_model.dart';
 import '../../features/user/myorders/logic/my_orders_cubit.dart';
 
 class CustomWebView extends StatefulWidget {
@@ -24,7 +25,6 @@ class CustomWebView extends StatefulWidget {
 }
 
 class _CustomWebViewState extends State<CustomWebView> {
-  // Create a webview controller
   late WebViewController _controller;
  @override
   void initState() {
@@ -38,18 +38,24 @@ class _CustomWebViewState extends State<CustomWebView> {
          onPageStarted: (String url) {
          },
          onPageFinished: (String url)async {
-           if(widget.type=='product'){
-             Map<String, String> responseParams = Uri.parse(url).queryParameters;
-             if (responseParams.toString().contains('Successful')) {
+           Map<String, String> responseParams = Uri.parse(url).queryParameters;
+           PaymentModel paymentResponse = PaymentModel.fromJson(responseParams);
+           if (paymentResponse.result=='Successful'){
+             if(widget.type=='product'){
                MyOrdersCubit.get(context).fetchOrders(context,10,true);
                Navigator.pushAndRemoveUntil(context,
-                 MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',)), (Route route) => false,);
+                 MaterialPageRoute(builder: (BuildContext context)=>
+                     UserBottomNavScreen(checkPage: '2',)), (Route route) => false,);
                showToast(text:getLang(context,'payment_successful'), state: ToastStates.success, context: context);
              }
-           }
-           else {
-             Map<String, String> responseParams = Uri.parse(url).queryParameters;
-             if (responseParams.toString().contains('Successful')) {
+             else if (widget.type=='supplies'){
+               MyOrdersCubit.get(context).fetchSupplies(context,10,true);
+               Navigator.pushAndRemoveUntil(context,
+                 MaterialPageRoute(builder: (BuildContext context)=>UserBottomNavScreen(checkPage: '2',initialIndex: 2,)), (Route route) => false,);
+               showToast(text:getLang(context,'payment_successful'), state: ToastStates.success, context: context);
+
+             }
+             else {
                MyOrdersCubit.get(context).getMyCheckCars(context);
                BookPackageCubit cubit2 =BookPackageCubit.get(context);
                cubit2.brandSelectedValue ='';
@@ -67,6 +73,8 @@ class _CustomWebViewState extends State<CustomWebView> {
 
              }
            }
+
+
 
            },
          onWebResourceError: (WebResourceError error) {},

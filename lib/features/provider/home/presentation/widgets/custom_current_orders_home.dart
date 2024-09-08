@@ -43,7 +43,27 @@ class CustomCurrentOrderHomeWidget extends StatelessWidget {
                ),
              );
            }else{
-             return ListView.builder(
+             // return ListView.builder(
+             //   itemBuilder: (BuildContext context, int index) {
+             //     return InkWell(
+             //       onTap: () {
+             //         Navigator.push(context, MaterialPageRoute(builder:
+             //             (BuildContext context)=>OrderDetailsProviderScreen(
+             //           providerOrderModelData: cubit.myOrdersCurrent!.data![index],isAccess: true,)));
+             //       },
+             //       child: CustomProductMyOrderWidget(
+             //         isHome: true,
+             //         providerOrderModelData: cubit.myOrdersCurrent!.data![index],
+             //       ),
+             //     );
+             //
+             //   },
+             //   shrinkWrap: true,
+             //   physics: NeverScrollableScrollPhysics(),
+             //   itemCount: cubit.myOrdersCurrentList!.length,
+             // );
+             //
+                          return ListView.builder(
                itemBuilder: (BuildContext context, int index) {
                  List<ProviderOrderModelData> data =cubit.myOrdersCurrentList!;
                  if(index < data.length){
@@ -68,15 +88,18 @@ class CustomCurrentOrderHomeWidget extends StatelessWidget {
                      }else{
                        return SizedBox();
                      }
-                   } else {
+                   }
+                   else {
                      return Container(); }
                  }
 
                },
                shrinkWrap: true,
                physics: NeverScrollableScrollPhysics(),
-               itemCount: cubit.myOrdersCurrentList!.length+1,
+               itemCount: cubit.myOrdersCurrentList!.length,
              );
+
+
            }
          }else{
            return Padding(

@@ -27,6 +27,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validationFunc;
   void Function(String)? onFieldSubmitted;
   void Function(String)? onChanged;
+  final  void Function()? onTap;
   TextStyle? hintStyle;
   CustomTextField({
     Key? key,
@@ -53,7 +54,7 @@ class CustomTextField extends StatelessWidget {
     this.hintColor,
     this.suffixIcon,
     this.onFieldSubmitted,
-    this.onChanged,
+    this.onChanged, this.onTap,
   }) : super(key: key);
 
   @override
@@ -80,11 +81,12 @@ class CustomTextField extends StatelessWidget {
         hintColor: hintColor,
         fillColor: fillColor,
       ),
+
       validator: validationFunc,
       onSaved: (String? val) {
         controller.text = val!;
       },
-      onTap: () => GeneralFunctions.unFocusCursorRTL(controller),
+      onTap: onTap,
       cursorWidth: 1,
       onTapOutside: (_) => GeneralFunctions.hideKeyboard(),
       textInputAction: textInputAction ?? TextInputAction.next,

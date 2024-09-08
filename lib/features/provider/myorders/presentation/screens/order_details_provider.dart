@@ -6,6 +6,9 @@ import '../../../../../core/localization/appLocale.dart';
 import '../../../../../core/resources/color.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_material_button.dart';
+import '../../../../chats/data/models/chat_user.dart';
+import '../../../../chats/presentation/chat_screen.dart';
+import '../../../../user/auth/logic/auth_cubit.dart';
 import '../../data/models/provider_order_model.dart';
 import '../../logic/provider_orders_cubit.dart';
 import '../widgets/custom_product_widget.dart';
@@ -19,7 +22,30 @@ class OrderDetailsProviderScreen extends StatelessWidget {
     ProviderOrdersCubit cubit =ProviderOrdersCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true),
+        child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true,
+          actionWidget:Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w,)+EdgeInsets.only(top: 20.h),
+            child: InkWell(
+              onTap: (){
+                ChatUser receiver =ChatUser(
+                    image: providerOrderModelData.user?.image??'',
+                    about: '',
+                    name:  providerOrderModelData.user?.name??'',
+                    createdAt: '',
+                    isOnline: true,
+                    id:  providerOrderModelData.user?.id.toString()??'',
+                    lastActive: '',
+                    phone:  providerOrderModelData.user?.phone??'',
+                    pushToken: '');
+
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
+                    ChatScreen(receiverData: receiver,isUser: false,)));
+
+
+              },
+              child:  Icon(Icons.message_outlined,color: Colors.purple.shade900,),
+            ),
+          ),),
         preferredSize: Size(double.infinity, 70.h),
       ),
       body: Stack(
@@ -284,6 +310,8 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                     ),
                   ],
                 ):SizedBox.shrink(),
+                Text('data ${ providerOrderModelData.status??'sss'}'),
+
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
@@ -294,9 +322,11 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                   ),
                 ),
+
               ],
             ),
           ),
+          if( providerOrderModelData.status!='cancelled')
           isAccess ==true?Positioned(
               bottom: 0,
               child:  Padding(
@@ -371,7 +401,7 @@ class OrderDetailsProviderScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        providerOrderModelData.status!='preparing'?
+                        providerOrderModelData.status!='preparing' && providerOrderModelData.status!='delivered'?
                         CustomMaterialButton(
                           textColor:Colors.black54,
                           text: '${getLang(context, 'preparing2')}', onPressed: () {

@@ -74,7 +74,7 @@ class ProviderAddNewProduct extends StatelessWidget {
                               cubit.getBrands(type:'spare_parts',context: context);
                               controllerCubit.brandSelectedValue='${getLang(context, 'brand')}';
                             }
-                            else if(controllerCubit.typeSelectedValue == 'حافات' ||controllerCubit.typeSelectedValue == 'rims'){
+                            else if(controllerCubit.typeSelectedValue == 'جنوط' ||controllerCubit.typeSelectedValue == 'rims'){
                               cubit.getBrands(type:'rims',context: context);
                               controllerCubit.changeTypeAdd(true);
                               controllerCubit.addNamed('${getLang(context, 'rim_price')}');
@@ -355,42 +355,44 @@ class ProviderAddNewProduct extends StatelessWidget {
                     //       ),
                     //     )
                     // :SizedBox.shrink(),
-                controllerCubit.isLoading?Center(child: CircularProgressIndicator(),): Padding(
+                controllerCubit.isLoading==true?Center(child: CircularProgressIndicator(),): Padding(
                       padding: EdgeInsets.symmetric(vertical: 30.h),
                       child: CustomElevatedButton(
                           onTap: () {
-                            if(
-                            controllerCubit.typeSelectedValue != '${getLang(context, 'type')}'&&
-                            controllerCubit.productNameSelectedValue != '${getLang(context, 'product_name')}'&&
-                            controllerCubit.brandSelectedValue != '${getLang(context, 'brand')}'&&
-                            controllerCubit.brandModelSelectedValue != '${getLang(context, 'model')}'&&
-                            controllerCubit.stateSelectedValue != '${getLang(context, 'status')}'&&
-                            controllerCubit.multiImagePickerController.images.isNotEmpty
-                            ){
-                              print('dfs : ${controllerCubit.typeSelectedValue}');
-                              if(controllerCubit.typeSelectedValue != 'قطع غيار' && controllerCubit.typeSelectedValue != 'spare parts'){
-                                if( controllerCubit.widthSelectedValue != '${getLang(context, 'width')}'&&
-                                    controllerCubit.heightSelectedValue != '${getLang(context, 'height')}'&&
-                                    controllerCubit.sizeSelectedValue != '${getLang(context, 'size')}')
-                                {
-                                  controllerCubit.addProduct(context);
-                                }
-                                else{
-                                  showToast(text: 'check your complete data',
-                                      state: ToastStates.error,
-                                      context: context);
-                                }
-                            }
-                              else{
-                                controllerCubit.addProduct(context);
-                              }
-                            }
-                            else{
-                              showToast(text: 'check your complete data',
-                                  state: ToastStates.error,
-                                  context: context);
-                            }
-                            // print('path / ${controllerCubit.image!.path}');
+                         if(controllerCubit.isLoading!=true){
+                           if(
+                           controllerCubit.typeSelectedValue != '${getLang(context, 'type')}'&&
+                               controllerCubit.productNameSelectedValue != '${getLang(context, 'product_name')}'&&
+                               controllerCubit.brandSelectedValue != '${getLang(context, 'brand')}'&&
+                               controllerCubit.brandModelSelectedValue != '${getLang(context, 'model')}'&&
+                               controllerCubit.stateSelectedValue != '${getLang(context, 'status')}'&&
+                               controllerCubit.multiImagePickerController.images.isNotEmpty
+                           ){
+                             print('dfs : ${controllerCubit.typeSelectedValue}');
+                             if(controllerCubit.typeSelectedValue != 'قطع غيار' && controllerCubit.typeSelectedValue != 'spare parts'){
+                               if( controllerCubit.widthSelectedValue != '${getLang(context, 'width')}'&&
+                                   controllerCubit.heightSelectedValue != '${getLang(context, 'height')}'&&
+                                   controllerCubit.sizeSelectedValue != '${getLang(context, 'size')}')
+                               {
+                                 controllerCubit.addProduct(context);
+                               }
+                               else{
+                                 showToast(text: 'check your complete data',
+                                     state: ToastStates.error,
+                                     context: context);
+                               }
+                             }
+                             else{
+                               controllerCubit.addProduct(context);
+                             }
+                           }
+                           else{
+                             showToast(text: 'check your complete data',
+                                 state: ToastStates.error,
+                                 context: context);
+                           }
+                           // print('path / ${controllerCubit.image!.path}');
+                         }
                           }, buttonText: '${getLang(context, 'my_business_save')}'),
                     ),
                     SizedBox(height: 30.h,)

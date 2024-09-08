@@ -22,9 +22,9 @@ class CustomTopRowLogo extends StatelessWidget {
           return Row(
             children: <Widget>[
               SizedBox(width: MediaQuery.of(context).size.width*0.3,),
-             Image.asset(
-                ImagesManager.logoCircle,
-              ),
+             // Image.asset(
+             //    ImagesManager.logoCircle,
+             //  ),
               Spacer(),
               type=='user'?
               AuthCubit.get(context).token.isNotEmpty?

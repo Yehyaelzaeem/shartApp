@@ -203,12 +203,19 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
+
+                                Expanded(child:
+                                Text('${getLang(context, 'all_price')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
+                                ),
+                                SizedBox(width: 16.w),
+
                                 Text('${getLang(context, 'total')}\n${getLang(context, 'required')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
                                 SizedBox(width: 16.w),
-                                Text('${widget.myOrdersModelData.totalPrice}\n ${getLang(context, 'rs')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
+                                Text('${widget.myOrdersModelData!.totalPrice!}\n ${getLang(context, 'rs')}',style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.w400,color: Color(0xff6E6D71)),textAlign: TextAlign.center,),
                               ],
                             ),
                           ),
+
                           SizedBox(height: 35.h,),
                         ],
                       ),

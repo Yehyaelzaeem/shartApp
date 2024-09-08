@@ -28,6 +28,7 @@ class BookPackageCubit extends Cubit<BookPackageState> {
   var colorSelectedId ='';
   TextEditingController descriptionController=TextEditingController();
   TextEditingController chassisController=TextEditingController();
+  TextEditingController colorController=TextEditingController();
   TextEditingController yearSelectedValue=TextEditingController();
   void getBrands({String? type, required BuildContext context}){
     brands.clear();

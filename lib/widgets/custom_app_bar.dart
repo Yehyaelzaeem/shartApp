@@ -13,8 +13,9 @@ class CustomAppBar extends StatelessWidget {
   final String title;
   final bool? hasBackButton;
   final bool? hasCartButton;
+  final Widget? actionWidget;
   void Function()? onTap;
-  CustomAppBar({super.key, required this.title, this.hasBackButton,this.onTap, this.hasCartButton});
+  CustomAppBar({super.key, required this.title, this.hasBackButton,this.onTap, this.hasCartButton, this.actionWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +83,8 @@ class CustomAppBar extends StatelessWidget {
         const SizedBox(
           width: 20.0,
         ),
+        if(actionWidget!=null)
+          actionWidget!
       ],
     );
   }

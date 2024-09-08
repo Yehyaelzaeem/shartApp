@@ -38,7 +38,9 @@ class AppApis{
   static  String getSingleOrder(int id)=>'${baseUrl}user/get-order/$id';
   //CheckCar
   static const String sendCheckCars='${baseUrl}user/check-car';
+  static const String paySuppliesOrder='${baseUrl}user/pay-supplies-order';
   static const String getCheckCars='${baseUrl}user/get-checks';
+  static  String getMySupplies(int limit)=>'${baseUrl}user/get-my-supplies-package-orders?limit=$limit';
  // Merchants
   static const String getMerchants='${baseUrl}user/providers-search';
   static  String getWorksMerchant(int id)=>'${baseUrl}user/get-provider-works/$id';
@@ -101,11 +103,13 @@ class AppApis{
 
 //Package Check
   static const String checkCars='${baseUrl}packages';
+  static const String suppliesPackages='${baseUrl}user/get-supplies-packages';
   static  String brandsAll='${baseUrl}brands';
   static  String brands(String type)=>'${baseUrl}brands/$type';
   static String brandModel(int id)=> '${baseUrl}modals/$id';
   static String banners(String type)=> '${baseUrl}banners/$type';
   static const String brandColors='${baseUrl}colors';
+  static const String storeSupplies='${baseUrl}user/store-supplies-package-order';
 
 //Send Contact us message
   static const String complaintMessage='${baseUrl}send-contact-message';

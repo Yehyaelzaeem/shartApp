@@ -26,6 +26,7 @@ class ProviderOrdersCubit extends Cubit<ProviderOrdersState> {
   void fetchOrdersCurrentProvider(BuildContext context,int limit,bool hasNotNull ) async {
     hasNotNull==true?null:
     myOrdersCurrentList=null;
+    emit(GetMyOrdersState());
     try {
       changeState();
       final List<ProviderOrderModelData> ordersList = await getMyOrdersCurrentProvider(context,limit);

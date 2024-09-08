@@ -1,3 +1,5 @@
+import '../../../../user/auth/data/models/login_model.dart';
+
 class GetProductsModel {
   bool? success;
   int? code;
@@ -93,7 +95,7 @@ class GetProductsModelData {
   String? type;
   WidthModel? width;
   HeightModel? height;
-  SizeModelProduct? size;
+  Modal? size;
   Provider? provider;
   String? providerId;
   List<Images>? images;
@@ -134,7 +136,7 @@ class GetProductsModelData {
         ? new HeightModel.fromJson(json['height'])
         : null;
     size = json['size'] != null
-        ? new SizeModelProduct.fromJson(json['size'])
+        ? new Modal.fromJson(json['size'])
         : null;
     provider = json['provider'] != null
         ? new Provider.fromJson(json['provider'])

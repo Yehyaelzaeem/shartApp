@@ -51,14 +51,14 @@ class _ChooseUserTypeScreenState extends State<ChooseUserTypeScreen> {
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            SizedBox(height: 280.h,),
+            SizedBox(height: 243.h,),
             Image.asset(
               ImagesManager.newLogo,
               fit: BoxFit.fill,
               height: 220.h,
               width:220.h,
             ),
-            SizedBox(height: 30.h,),
+            SizedBox(height: 70.h,),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(

@@ -104,7 +104,7 @@ class CarCheckPackagesDetailsScreen extends StatelessWidget {
                                  }
                                  // NavigationManager.push(Routes.bookPackageService);
                                },
-                               buttonText: getLang(context, 'subscribe_now')),
+                               buttonText: getLang(context, 'book_now')),
                          ),
                          SizedBox(height: 80.h,)
                        ],

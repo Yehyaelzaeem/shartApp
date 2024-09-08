@@ -20,29 +20,13 @@ Future<void> main() async {
   );
   await CacheHelper.init();
 
-  var onBoarding = await CacheHelper.getDate(key: 'onBoarding');
-  var type = await CacheHelper.getDate(key: 'type');
-  var isLog = await CacheHelper.getDate(key: 'isLog');
-  Widget widget;
-  if (onBoarding != null) {
-    if (isLog != null) {
-      if(type == 'user'){
-        widget =  UserBottomNavScreen();
-      }
-      else{
-        widget =  ProviderBottomNavScreen();
-      }
-    }
-    else {
-      widget = ChooseUserTypeScreen();
-    }
-  } else {
-    widget = const OnBoardingScreen();
-  }
+
   runApp(DevicePreview(
       enabled: false,
-      builder:(BuildContext context)=>MyApp(widget: widget,),
+
+      builder:(BuildContext context)=>
+          MyApp(),
     ),
-    //999
+    //8/9hhdftetg
   );
 }

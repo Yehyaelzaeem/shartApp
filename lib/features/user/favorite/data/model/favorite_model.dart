@@ -227,7 +227,7 @@ class Provider {
   String? suspensionReason;
   bool? profileCompleted;
   bool? isVerified;
-  int? otp;
+  dynamic otp;
   String? passwordOtp;
   String? type;
   CurrentSubscription? currentSubscription;

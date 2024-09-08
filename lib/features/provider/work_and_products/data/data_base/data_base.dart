@@ -34,7 +34,7 @@ class ProviderProductsAndWorksRemoteDataSource implements BaseProviderProductsAn
   Future<dynamic> addProduct(String token, ProductPushDataModel productPushDataModel, BuildContext context)async {
     dynamic t = await CacheHelper.getDate(key: 'token');
     WorkProductsCubit cubit =WorkProductsCubit.get(context);
-    // cubit.changeUpdateLoading(true);
+    cubit.changeUpdateLoading(true);
     List<MultipartFile> list =<MultipartFile>[
       for(File a in cubit.imagesFile )
       await MultipartFile.fromFile(a.path, filename: 'upload'),

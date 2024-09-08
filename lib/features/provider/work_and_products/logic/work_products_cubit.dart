@@ -179,6 +179,7 @@ class WorkProductsCubit extends Cubit<WorkProductsState> {
   }
 
   void addProduct(BuildContext context) {
+    changeUpdateLoading(true);
     images = multiImagePickerController.images;
     imagesFile.clear();
     if (images != null) {

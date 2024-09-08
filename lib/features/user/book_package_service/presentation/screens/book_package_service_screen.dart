@@ -122,38 +122,50 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                               );
                             }),
 
-                            CustomTextTitleBookingWidget(text: '${getLang(context, 'color')} *',topPadding: 25,),
-                            StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
-                              return DropdownButton2<String>(
-                                isExpanded: true,
-                                underline: const SizedBox.shrink(),
-                                hint: Text('${cubit.colorSelectedValue}', style: TextStyle(fontSize: 14, color: Colors.black),),
-                                items: cubit.brandColorsList.map((BrandColorsData? e) =>
-                                    DropdownMenuItem<String>(
-                                      value: e!.name,
-                                      child: Text(
-                                        e.name!,
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                    )).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    cubit.colorSelectedValue = value!;
-                                    for(BrandColorsData? a in cubit.brandColorsList ){
-                                      if(cubit.colorSelectedValue==a!.name){
-                                        cubit.brandId=a.id!;
-                                        cubit.colorSelectedId =a.id!.toString();
-                                        break;
-                                      }
-                                    }
-                                  });
-                                },
-                                buttonStyleData: ButtonStyleData(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                                        borderRadius: BorderRadius.circular(8.r))),
-                              );
-                            }),
+                            CustomTextTitleBookingWidget(text: '${getLang(context, 'color')} *',
+                              topPadding: 25,),
+                            // StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
+                            //   return DropdownButton2<String>(
+                            //     isExpanded: true,
+                            //     underline: const SizedBox.shrink(),
+                            //     hint: Text('${cubit.colorSelectedValue}', style: TextStyle(fontSize: 14, color: Colors.black),),
+                            //     items: cubit.brandColorsList.map((BrandColorsData? e) =>
+                            //         DropdownMenuItem<String>(
+                            //           value: e!.name,
+                            //           child: Text(
+                            //             e.name!,
+                            //             style: const TextStyle(fontSize: 14),
+                            //           ),
+                            //         )).toList(),
+                            //     onChanged: (String? value) {
+                            //       setState(() {
+                            //         cubit.colorSelectedValue = value!;
+                            //         for(BrandColorsData? a in cubit.brandColorsList ){
+                            //           if(cubit.colorSelectedValue==a!.name){
+                            //             cubit.brandId=a.id!;
+                            //             cubit.colorSelectedId =a.id!.toString();
+                            //             break;
+                            //           }
+                            //         }
+                            //       });
+                            //     },
+                            //     buttonStyleData: ButtonStyleData(
+                            //         decoration: BoxDecoration(
+                            //             border: Border.all(color: Colors.grey.withOpacity(0.5)),
+                            //             borderRadius: BorderRadius.circular(8.r))),
+                            //   );
+                            // }),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 0.h),
+                              child: CustomTextField(
+                                // textInputType: TextInputType.number,
+                                  hintText: '',
+                                  onChanged: (String value){
+                                    cubit.colorSelectedId =value;
+                                  },
+                                  hintColor: Colors.black,
+                                  controller: cubit.colorController),
+                            ),
 
                             CustomTextTitleBookingWidget(text: '${getLang(context, 'manufacturing_year')} *',topPadding: 25,),
                             // StatefulBuilder(builder: (BuildContext context,void Function(void Function()) setState){
@@ -198,7 +210,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(bottom: 25.h),
                               child: CustomTextField(
-                                textInputType: TextInputType.number,
+                                // textInputType: TextInputType.number,
                                   hintText: '',
                                   hintColor: Colors.black,
                                   controller: cubit.chassisController),
@@ -291,6 +303,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                                           ),
                                                         ],
                                                       ),
+                                                      //payment
                                                       Row(
                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                         children: <Widget>[
@@ -337,7 +350,7 @@ class UserBookPackageServiceScreen extends StatelessWidget {
                                                                                         packageId:packageId ,
                                                                                         brandId: cubit.brandSelectedId,
                                                                                         modelId: cubit.brandModelSelectedId,
-                                                                                        colorId: cubit.colorSelectedId,
+                                                                                        colorId: cubit.colorController.text,
                                                                                         year:cubit.yearSelectedValue.text,
                                                                                         chassis_no:cubit.chassisController.text ,
                                                                                         description:cubit.descriptionController.text ,

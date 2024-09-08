@@ -18,10 +18,10 @@ class CheckCarModel{
 
   Map<String, dynamic> toJson() {
     return {
-      "packageId": this.packageId,
-      "brandId": this.brandId,
-      "modelId": this.modelId,
-      "colorId": this.colorId,
+      "package_id": this.packageId,
+      "brand": this.brandId,
+      "modal": this.modelId,
+      "color": this.colorId,
       "year": this.year,
       "chassis_no": this.chassis_no,
       "description": this.description,

@@ -1,13 +1,17 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shart/core/shared_preference/shared_preference.dart';
+import 'package:shart/features/chats/data/models/chat_user.dart';
+import 'package:shart/features/chats/presentation/chat_screen.dart';
 import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/shared_screens/notifications/logic/notification_cubit.dart';
 import 'package:shart/shared_screens/notifications/presentation/screens/notification_screen.dart';
 import 'core/routing/navigation_services.dart';
 import 'core/routing/routes.dart';
+import 'features/chats/logic/chat_cubit.dart';
 import 'features/services.dart';
 class NotificationsFCM {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
@@ -31,9 +35,12 @@ class NotificationsFCM {
       });
       RemoteNotification notification = message.notification!;
       Map<String, dynamic> data = message.data;
-       // AndroidNotification android = message.notification!.android!;
-      showNotification('${notification.title}', '${notification.body}', data,);
-      print('test = ${AuthCubit.get(context).token.isNotEmpty}');
+
+      print('testsdfsfd = ${ChatCubit.get().chatRoom??'null'}');
+      if(ChatCubit.get().chatRoom != message.notification!.title){
+        showNotification('${notification.title}', '${notification.body}', data,);
+      }
+
       AuthCubit.get(context).token.isNotEmpty?
           NotificationCubit.get(context).getNotification(10, 'user', context):
           NotificationCubit.get(context).getNotification(10, 'provider', context);
@@ -155,44 +162,46 @@ class NotificationsFCM {
     );
   }
 
-  void onDidReceiveNotificationResponse(
-      NotificationResponse notificationResponse) async {
+  Future<void> onDidReceiveNotificationResponse(NotificationResponse notificationResponse) async {
     final String? payload = notificationResponse.payload;
-    if (notificationResponse.payload != null) {
-      print('asd///${notificationResponse.payload.toString()}/////////');
+    if (payload != null && payload.isNotEmpty) {
+      print('Received payload: $payload');
       try {
-        final Map<String, dynamic> notificationInfo = json.decode(notificationResponse.payload!);
-        print('222222222${notificationInfo.toString()}22222222');
-        // استخدم البيانات المحوّلة بنجاح هنا
+        final Map<String, dynamic> notificationInfo = json.decode(payload);
+
+        // Safely retrieve the documentId and messageBody
+        final String? documentId = notificationInfo['documentId'];
+        final String? messageBody = notificationInfo['body'];
+
+        if (messageBody != null) {
+          print('Message Body: $messageBody');
+        } else {
+          print('No message body in payload');
+        }
+        var token = await CacheHelper.getDate(key: 'token');
+        if (documentId != null) {
+          BuildContext context =NavigationManager.navigationKey.currentContext!;
+          ChatUser chatUser =ChatUser(image: '', about: '', name: '', createdAt: '', isOnline: true, id: documentId, lastActive: '', phone: '', pushToken: '');
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ChatScreen(receiverData: chatUser, isUser: token!=null?true:false)));
+        } else {
+          print('No document ID in payload');
+
+          if (token != null) {
+            NavigationManager.push(Routes.orders);
+          } else {
+            NavigationManager.push(Routes.providerOrders);
+          }
+        }
       } catch (e) {
-        print('3333333');
-        // تعامل مع الخطأ هنا
+        print('Error parsing payload or fetching document: $e');
+        // Handle parsing or network error
       }
     } else {
-      print('4444444444444');
-      // قم بمعالجة الحالة التي تكون فيها قيمة payload فارغة
-    }
-    if (notificationResponse.payload != null) {
-      debugPrint(payload!);
-      debugPrint('test==id========${notificationResponse.id}');
-      debugPrint('test==id====56====${notificationResponse.actionId}');
-      final Map<String, dynamic> notificationInfo = json.decode(notificationResponse.payload!);
-      final dynamic propertyId = notificationInfo['order_id'];
-      print('id ===== : ${propertyId}');
-      var x =await CacheHelper.getDate(key: 'token');
-      x!=null?
-      NavigationManager.push(Routes.orders):
-      NavigationManager.push(Routes.providerOrders);
-
-      if (propertyId != null) {
-        // Handle the notification response with valid data
-      }
-      else {
-        // Handle the case where the payload is empty or null
-        debugPrint('Notification payload is empty or null');
-      }
+      print('Notification payload is null or empty');
+      // Handle the case where payload is null or empty
     }
   }
+
 
   Future<void> _createNotificationChannel(
       String id, String name, String description) async {

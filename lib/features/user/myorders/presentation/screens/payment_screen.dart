@@ -104,40 +104,40 @@ class PaymentScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 5.h,),
-            Row(
-              children: <Widget>[
-                Text(
-                  getLang(context, 'delivery_value'),
-                  style:
-                  TextStyle(
-                      fontFamily: FontConstants.Tajawal,
-                      fontSize: 14,
-                      color: geryTextColor,
-                      fontWeight: FontWeight.w400
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                ),
-                SizedBox(width: 50.w,),
-                Text(
-                  '${0.0} ${getLang(context, 'rs')}',
-                  style:
-                  TextStyle(
-                      fontFamily: FontConstants.Tajawal,
-                      fontSize: 14,
-                      color: blackTextColor,
-                      fontWeight: FontWeight.w400
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                ),
-
-
-              ],
-            ),
-            SizedBox(height: 5.h,),
+            // Row(
+            //   children: <Widget>[
+            //     Text(
+            //       getLang(context, 'delivery_value'),
+            //       style:
+            //       TextStyle(
+            //           fontFamily: FontConstants.Tajawal,
+            //           fontSize: 14,
+            //           color: geryTextColor,
+            //           fontWeight: FontWeight.w400
+            //       ),
+            //       maxLines: 1,
+            //       overflow: TextOverflow.ellipsis,
+            //       textAlign: TextAlign.start,
+            //     ),
+            //     SizedBox(width: 50.w,),
+            //     Text(
+            //       '${0.0} ${getLang(context, 'rs')}',
+            //       style:
+            //       TextStyle(
+            //           fontFamily: FontConstants.Tajawal,
+            //           fontSize: 14,
+            //           color: blackTextColor,
+            //           fontWeight: FontWeight.w400
+            //       ),
+            //       maxLines: 1,
+            //       overflow: TextOverflow.ellipsis,
+            //       textAlign: TextAlign.start,
+            //     ),
+            //
+            //
+            //   ],
+            // ),
+            // SizedBox(height: 5.h,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

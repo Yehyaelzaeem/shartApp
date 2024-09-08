@@ -10,7 +10,10 @@ import 'package:shart/features/user/profile/data/model/message_model.dart';
 import 'package:shart/widgets/show_toast_widget.dart';
 
 import '../../../../core/localization/appLocale.dart';
+import '../../../../core/notification/device_token.dart';
 import '../../../../shared_screens/google_map/address_location_model.dart';
+import '../../../chats/data/models/chat_user.dart';
+import '../../../chats/logic/chat_cubit.dart';
 import '../../../provider/profile/data/model/about_compay_model.dart';
 import '../../../provider/profile/data/model/address_list_model.dart';
 import '../../../provider/profile/logic/provider_profile_cubit.dart';
@@ -25,6 +28,8 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   UserProfileRemoteDataSource userProfileRemoteDataSource =UserProfileRemoteDataSource();
    // List<UserProfileModel> userProfileModelList=<UserProfileModel>[];
   UserProfileModel? userProfileModel;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -50,17 +55,16 @@ class UserProfileCubit extends Cubit<UserProfileState> {
 
 
   Position? p ;
-  Future<void> getLocation(context)async{
+  Future<LatLng> getLocation(context)async{
     selectValue=getLang(context, 'main_address3');
     emit(TestState());
-
-    p =await Geolocator.getCurrentPosition().then((Position value) {
+     return await Geolocator.getCurrentPosition().then((Position value) {
       lat=value.latitude;
       long=value.longitude;
-      print('lat : => $lat');
-      print('long : => $long');
+      p=value;
       emit(TestState());
-    });
+      return LatLng(value.latitude, value.longitude);
+     });
 
   }
   AddressListModel? addressList;
@@ -73,12 +77,25 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   //User Profile
   Future<UserProfileModel?> getUserProfile (String token ,BuildContext context)async{
     userProfileModel=null;
-    userProfileRemoteDataSource.getUserProfile(token, context).then((UserProfileModel? value) {
+    userProfileRemoteDataSource.getUserProfile(token, context).then((UserProfileModel? value)async {
       userProfileModel=value;
       nameController.text=userProfileModel!.data!.name.toString();
       emailController.text=userProfileModel!.data!.email.toString();
       phoneController.text=userProfileModel!.data!.phone.toString();
       // userProfileModelList.add(value!);
+
+      ChatCubit cubit =ChatCubit.get();
+      ChatUser user=ChatUser(
+          image: value?.data?.image??'',
+          about: '',
+          name: value?.data?.name??'',
+          createdAt: '',
+          isOnline: true,
+          id: value?.data?.id.toString()??'0',
+          lastActive: '',
+          phone: value?.data?.phone??'',
+          pushToken: await getDeviceToken());
+      cubit.getSelfInfo(user);
       emit(GetUserProfileState(value!));
     });
     // emit(GetUserProfileState());

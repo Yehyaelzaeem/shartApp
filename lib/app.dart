@@ -4,11 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nested/nested.dart';
 import 'package:shart/core/resources/color.dart';
 import 'package:shart/core/resources/themes/app_theme.dart';
+import 'package:shart/features/chats/data/models/chat_user.dart';
+import 'package:shart/features/chats/logic/chat_cubit.dart';
 import 'package:shart/notificationss.dart';
 import 'package:shart/shared_screens/notifications/logic/notification_cubit.dart';
 import 'core/localization/appLocale.dart';
+import 'core/notification/notification_service.dart';
 import 'core/routing/navigation_services.dart';
 import 'core/routing/route_generator.dart';
+import 'core/routing/routes.dart';
 import 'features/provider/auth/logic/auth_provider_cubit.dart';
 import 'features/provider/home/logic/provider_home_cubit.dart';
 import 'features/provider/myorders/logic/provider_orders_cubit.dart';
@@ -22,13 +26,15 @@ import 'features/user/menu/logic/menu_cubit.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'features/user/merchants/logic/merchants_cubit.dart';
 import 'features/user/myorders/logic/my_orders_cubit.dart';
+import 'features/user/myorders/presentation/screens/test.dart';
 import 'features/user/profile/logic/user_profile_cubit.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.widget}) : super(key: key);
-  final Widget widget;
+  const MyApp({Key? key,}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // NotificationService notificationService = NotificationService();
+    // notificationService.init();:
     return
       MultiBlocProvider(
         providers: <SingleChildWidget>[
@@ -44,6 +50,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<MyOrdersCubit>(create: (BuildContext context) => MyOrdersCubit()),
         BlocProvider<MerchantsCubit>(create: (BuildContext context) => MerchantsCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),
+        BlocProvider<ChatCubit>(create: (BuildContext context) => ChatCubit()),
         // BlocProvider<BeerCubit>(create: (BuildContext context) => BeerCubit()),
         BlocProvider<ProviderOrdersCubit>(create: (BuildContext context) => ProviderOrdersCubit()),
         BlocProvider<BookPackageCubit>(create: (BuildContext context) => BookPackageCubit()..getBrands(type:'spare_parts ', context: context)),
@@ -60,7 +67,7 @@ class MyApp extends StatelessWidget {
                   theme: AppThemes.whiteTheme,
                   color: whiteColor,
                   locale:  AuthCubit.get(context).localeLanguage,
-                  localizationsDelegates: const [
+                  localizationsDelegates: const <LocalizationsDelegate>[
                     AppLocale.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
@@ -76,8 +83,10 @@ class MyApp extends StatelessWidget {
                   title: 'شَرْط',
                   debugShowCheckedModeBanner: false,
                   navigatorKey: NavigationManager.navigationKey,
-                  // initialRoute: Routes.splash,
-                  home: widget,
+                  initialRoute: Routes.splash,
+                  // home: ChatScreen(receiver: ChatUser(
+                  //     image: 'https://dev02.matrix-clouds.com/shart/public/storage/users/default.jpg',
+                  //     about: '', name: 'test', createdAt: '', isOnline: true, id: '232', lastActive: '', phone: '132564', pushToken: ''), isUser: false,),
                   onGenerateRoute: RouteGenerator.generateBaseRoute,
                 );
               },

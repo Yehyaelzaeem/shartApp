@@ -37,7 +37,7 @@ class AuthScreen extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               height: 30.h,
-                              width: 232.w,
+                              width: 235.w,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(26),
                                   border: Border.all(color: Colors.black38)

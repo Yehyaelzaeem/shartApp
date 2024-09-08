@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:shart/features/chats/data/models/chat_user.dart';
+import 'package:shart/features/user/auth/logic/auth_cubit.dart';
 import 'package:shart/features/user/myorders/presentation/screens/payment_screen.dart';
 import 'package:shart/widgets/custom_app_bar.dart';
 import 'package:shart/widgets/custom_material_button.dart';
@@ -12,6 +14,7 @@ import '../../../../../core/resources/color.dart';
 import '../../../../../core/resources/font_manager.dart';
 import '../../../../../widgets/custom_alert_dialog.dart';
 import '../../../../../widgets/custom_button.dart';
+import '../../../../chats/presentation/chat_screen.dart';
 import '../../../cart/logic/cart_cubit.dart';
 import '../../../menu/logic/menu_cubit.dart';
 import '../../data/model/myorder_model.dart';
@@ -26,8 +29,36 @@ class OrderDetailsScreen extends StatelessWidget {
     MenuCubit menuCubit=MenuCubit.get(context);
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true),
+        child: CustomAppBar(title: '${getLang(context, 'my_requests')}',hasBackButton: true,
+        actionWidget:
+        myOrdersModelData.provider!=null?
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w,)+EdgeInsets.only(top: 20.h),
+          child: InkWell(
+            onTap: (){
+
+              ChatUser receiver =ChatUser(
+                  image: myOrdersModelData.provider?.image??'',
+                  about: '',
+                  name:  myOrdersModelData.provider?.name??'',
+                  createdAt: '',
+                  isOnline: true,
+                  id:  myOrdersModelData.provider?.id.toString()??'',
+                  lastActive: '',
+                  phone:  myOrdersModelData.provider?.phone??'',
+                  pushToken: '');
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
+                  ChatScreen(receiverData: receiver, isUser: true,)));
+
+
+            },
+            child:  Icon(Icons.message_outlined,color: Colors.purple.shade900,),
+          ),
+        ):
+          SizedBox.shrink(),
+        ),
         preferredSize: Size(double.infinity, 70.h),
+
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16.0,right: 16),
